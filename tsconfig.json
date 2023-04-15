@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "nodenext",
+        "rootDir": "src/ts",
+        "outDir": "public/js",
+        "allowSyntheticDefaultImports": true,
+        "types": ["node", "express"]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
