@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <link rel="shortcut icon" href="/static/assets/ico/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <title>ABTIS | Sign in</title>
+    <meta charset="UTF-8">
+
+</head>
+
+<body>
+
+    <div class="login">
+
+        <div class="login__modal">
+
+            <h1 class="login__header">
+                Automated Book Tracking and Inventory System
+            </h1>
+
+            <div class="login__error" style="display: none;"><p></p></div>
+
+            <form class="login__form" method="POST">
+
+                <div class="login__container">
+
+                    <div class="login__username">
+
+                        <label for="username">
+                            Username
+                        </label>
+                        <input type="username" name="username" required>
+    
+                    </div>
+    
+                    <div class="login__password">
+
+                        <label for="password">
+                            Password
+                        </label>
+                        <input type="password" name="password" required>
+                    
+                    </div>
+
+                    <input type="hidden" name="clientId" value="" required>
+
+                </div>
+
+                <div class="login__cta">
+                
+                    <button type="submit" class="login__button enabled">Sign in</button>
+                    <a href="/student-dashboard" class="login__student">Continue as Student</a>
+    
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="/static/js/clients/login.js"></script>
+
+</body>
+
+</html>
