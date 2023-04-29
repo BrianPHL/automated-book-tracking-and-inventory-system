@@ -3,12 +3,10 @@
         "module": "ESNext",
         "target": "ESNext",
         "moduleResolution": "nodenext",
-        "rootDir": "src/ts",
-        "outDir": "public/js",
+        "rootDir": "src/scripts",
+        "outDir": "public/scripts",
         "allowSyntheticDefaultImports": true,
         "types": ["node", "express"]
     },
-    "exclude": [
-        "node_modules"
-    ]
+    "exclude": ["node_modules"]
 }

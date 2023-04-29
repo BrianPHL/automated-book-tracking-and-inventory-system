@@ -1,33 +1,24 @@
 {
-  "name": "automated-book-tracking-and-inventory-system",
+  "name": "abtis-final",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Automated Book Tracking and Inventory System - Web App",
+  "main": "public/scripts/app.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon public/js/app.js"
+    "start": "nodemon public/scripts/app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BrianPHL/automated-book-tracking-and-inventory-system.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/BrianPHL/automated-book-tracking-and-inventory-system/issues"
-  },
-  "homepage": "https://github.com/BrianPHL/automated-book-tracking-and-inventory-system#readme",
+  "author": "brianph#0500",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mysql2": "^3.2.0"
+    "mysql2": "^3.2.4",
+    "nodemon": "^2.0.22",
+    "socket.io": "^4.6.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
-    "@types/node": "^18.15.11",
-    "material-icons": "^1.13.4",
-    "nodemon": "^2.0.22",
+    "@types/node": "^18.16.3",
     "typescript": "^5.0.4"
-  },
-  "type": "module"
+  }
 }
