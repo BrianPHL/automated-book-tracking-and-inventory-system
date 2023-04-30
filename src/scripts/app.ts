@@ -1,6 +1,5 @@
 // ? Dependencies
 import express from "express";
-import { Request, Response } from "express";
 import { Pool, createPool } from "mysql2";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -11,7 +10,6 @@ import loginRoute from "./routes/login.js";
 import studentRoute from "./routes/student.js";
 import staffRoute from "./routes/staff.js"
 import errorRoute from "./routes/error.js";
-import { error } from "console";
 
 dotenv.config()
 

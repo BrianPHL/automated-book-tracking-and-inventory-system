@@ -4,9 +4,10 @@
 
     <head>
 
+        <link rel="shortcut icon" href="/static/assets/ico/favicon.ico" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>ABTIS | Login to your account</title>
+        <title>ABTIS | Sign in to your account</title>
         <link rel="stylesheet" href="/static/styles/index.css">
         <meta charset="UTF-8">
 
@@ -14,7 +15,63 @@
 
     <body>
 
-        <h1>Welcome, you are in the login page!</h1>
+        <div class="login">
+
+            <div class="login-modal">
+
+                <h1 class="login-modal-header">
+                    Automated Book Tracking and Inventory System
+                </h1>
+
+                <div class="login-modal-error" style="display: none;"><p></p></div>
+
+                <form class="login-modal-form">
+
+                    <div class="login-modal-form-container">
+
+                        <div class="login-modal-form-username">
+
+                            <label for="username">
+                                Username
+                            </label>
+                            <input 
+                                type="username" 
+                                name="username" 
+                                placeholder="Username" 
+                                required
+                            >
+    
+                        </div>
+    
+                        <div class="login-modal-form-password">
+    
+                            <label for="password">Password</label>
+                            <input
+                                type="password" 
+                                name="password" 
+                                placeholder="Password"
+                                required
+                            >
+    
+                        </div>
+
+                    </div>
+
+                    <div class="login-modal-form-cta">
+
+                        <button type="submit" disabled>
+                            Sign in
+                        </button>
+
+                        <a href="/student">Continue as Student</a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
 
         <script type="module" src="/static/scripts/clients/login.js"></script>
 

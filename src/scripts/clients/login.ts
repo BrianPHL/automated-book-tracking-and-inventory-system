@@ -1,0 +1,101 @@
+import { error } from "console";
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const form: loginForm = {
+        button: document.querySelector(".login-modal-form-cta > button"),
+        username: {
+            label: document.querySelector(".login-modal-form-username > label"),
+            input: document.querySelector(".login-modal-form-username > input")
+        },
+        password: {
+            label: document.querySelector(".login-modal-form-password > label"),
+            input: document.querySelector(".login-modal-form-password > input")
+        },
+        error: document.querySelector(".login-modal-error"),
+        container: document.querySelector(".login-modal-form")
+    } 
+    
+    const areInputsFilled = () => {
+
+        if (form.username.input.value != '' && form.password.input.value != '') {
+            form.button.disabled = false;
+        } else {
+            form.button.disabled = true;
+        }
+
+    }
+
+    areInputsFilled()
+
+    const loginFormInputs = [
+        form.username.input, 
+        form.password.input
+    ]
+
+    loginFormInputs.forEach((event) => {
+        
+        event.addEventListener('focusin', () => {
+
+            const currentCategory = event.type
+
+            currentCategory == 'password'
+            ? form.password.label.style.color = "#347542"
+            : form.username.label.style.color = "#347542"
+
+        })
+
+        event.addEventListener('focusout', () => {
+        
+            const currentCategory = event.type
+
+            currentCategory == 'password'
+            ? form.password.label.style.color = "#0B3612"
+            : form.username.label.style.color = "#0B3612"
+
+        })
+
+    })
+
+    loginFormInputs.forEach((event) => {
+        event.addEventListener('input', areInputsFilled)
+    })
+
+    form.container.addEventListener('submit', async (event) => {
+
+        event.preventDefault()
+
+        const formData = new FormData(form.container)
+        const loginData = {
+            username: formData.get('username'),
+            password: formData.get('password')
+        }
+
+        try {
+
+            const response = await fetch("/", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            });
+
+            if (response.ok) {
+
+                window.location.href = "/staff"
+            } else {
+                
+                const errorData = {message: "Invalid username or password!"}
+                const queryString = new URLSearchParams(errorData).toString()
+                const newUrl = `${window.location.href}?${queryString}`
+
+                window.location.href = newUrl
+
+            }
+
+        } catch (err) { throw err }
+
+    })
+
+})

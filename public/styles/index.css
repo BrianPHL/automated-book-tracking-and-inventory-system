@@ -40,4 +40,109 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+button {
+  border-radius: 4px;
+  transition: 0.2s ease;
+  padding: 16px;
+  border: 0;
+  color: #F6F6F6;
+  width: 100%;
+}
+button:enabled {
+  background-color: #0B3612;
+}
+button:enabled:hover {
+  background-color: #347542;
+  cursor: pointer;
+}
+button:disabled {
+  background-color: rgba(11, 54, 18, 0.5);
+}
+button:disabled:hover {
+  cursor: not-allowed;
+}
+
+input {
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+input:focus {
+  outline: 1px solid #347542;
+}
+
+.login {
+  background-repeat: no-repeat;
+  background-image: url("/static/assets/images/login_background.webp");
+  background-size: cover;
+  place-items: center;
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+}
+.login-modal {
+  background-color: #F0F0F0;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 32px;
+  display: flex;
+  width: 300px;
+  gap: 32px;
+}
+.login-modal-header {
+  font-weight: 700;
+  text-align: center;
+  font-size: 16px;
+  color: #0B3612;
+}
+.login-modal-error {
+  background-color: #FFCBCB;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid #FF6B6B;
+}
+.login-modal-error p {
+  font-weight: 400;
+  font-size: 12px;
+}
+.login-modal-form {
+  flex-direction: column;
+  display: flex;
+  gap: 32px;
+}
+.login-modal-form-container {
+  flex-direction: column;
+  display: flex;
+  gap: 8px;
+}
+.login-modal-form-username, .login-modal-form-password {
+  flex-direction: column;
+  display: flex;
+  gap: 4px;
+}
+.login-modal-form-username > label, .login-modal-form-password > label {
+  font-weight: 400;
+  font-size: 12px;
+  color: #0B3612;
+}
+.login-modal-form-cta {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+.login-modal-form-cta > a {
+  text-decoration: none;
+  font-weight: 400;
+  transition: 0.2s ease;
+  font-size: 12px;
+  color: #0B3612;
+}
+.login-modal-form-cta > a:hover {
+  color: #347542;
 }/*# sourceMappingURL=index.css.map */
