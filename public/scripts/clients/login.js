@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
             label: document.querySelector(".login-modal-form-password > label"),
             input: document.querySelector(".login-modal-form-password > input")
         },
-        error: document.querySelector(".login-modal-error"),
+        error: {
+            container: document.querySelector(".login-modal-error"),
+            text: document.querySelector(".login-modal-error > p")
+        },
         container: document.querySelector(".login-modal-form")
     };
     const areInputsFilled = () => {
@@ -20,6 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
             form.button.disabled = true;
         }
     };
+    const manipulateURL = async (message) => {
+        const errorData = { message: message };
+        const queryString = new URLSearchParams(errorData).toString();
+        const newUrl = `${window.location.href}?${queryString}`;
+        history.pushState(errorData, '', newUrl);
+    };
+    const sanitizeURL = () => {
+        const href = window.location.href;
+        if (href.split("?").length > 1) {
+            const previousUrl = href.split("?")[0];
+            history.pushState({}, document.title, previousUrl);
+        }
+    };
+    sanitizeURL();
     areInputsFilled();
     const loginFormInputs = [
         form.username.input,
@@ -44,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     form.container.addEventListener('submit', async (event) => {
         event.preventDefault();
+        sanitizeURL();
         const formData = new FormData(form.container);
         const loginData = {
             username: formData.get('username'),
@@ -61,10 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = "/staff";
             }
             else {
-                const errorData = { message: "Invalid username or password!" };
-                const queryString = new URLSearchParams(errorData).toString();
-                const newUrl = `${window.location.href}?${queryString}`;
-                window.location.href = newUrl;
+                await manipulateURL('Invalid username or password!');
+                const urlParams = new URLSearchParams(window.location.search);
+                form.error.container.style.display = 'block';
+                form.error.text.textContent = urlParams.get('message');
             }
         }
         catch (err) {

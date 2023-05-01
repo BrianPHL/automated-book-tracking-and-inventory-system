@@ -8,6 +8,9 @@ interface loginForm {
         label: HTMLLabelElement
         input: HTMLInputElement
     }
-    error: HTMLDivElement,
+    error: {
+        container: HTMLDivElement,
+        text: HTMLParagraphElement
+    },
     container: HTMLFormElement
 }
