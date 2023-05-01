@@ -103,7 +103,7 @@ input:focus {
   background-color: #FFCBCB;
   border-radius: 4px;
   overflow: auto;
-  padding: 12px;
+  padding: 16px;
   border: 1px solid #FF6B6B;
 }
 .login-modal-error p {
