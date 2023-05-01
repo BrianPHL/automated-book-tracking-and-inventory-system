@@ -15,9 +15,65 @@
 
     <body>
 
-        <h1>Welcome, FEUR staff!</h1>
-        <h2>You are currently in the FEUR Library Staff Dashboard</h2>
-        <h3>Here you can browse, edit, and add books.</h3>
+        <div class="staff">
+
+            <div class="staff-sidebar">
+
+                <div class="staff-sidebar-header">
+
+                    <img src="/static/assets/images/feur_logo.svg" alt="">
+                    <h1>A.B.T.I.S.</h1>
+
+                </div>
+
+                <nav class="staff-sidebar-links">
+
+                    <div class="staff-sidebar-links-nav">
+
+                        <label for="staff-sidebar-links-nav">Navigation</label>
+
+                        <a class="staff-sidebar-links-nav-dashboard active" href="javascript:void(0)">
+                            <i class="material-icons">space_dashboard</i>
+                            Dashboard
+                        </a>
+                        <a class="staff-sidebar-links-nav-inventory" href="javascript:void(0)">
+                            <i class="material-icons">inventory</i>
+                            Inventory
+                        </a>
+
+                    </div>
+
+                    <div class="staff-sidebar-links-admin">
+
+                        <label for="staff-sidebar-links-admin">Administrative</label>
+
+                        <a class="staff-sidebar-links-admin-manage" href="javascript:void(0)">
+                            <i class="material-icons">admin_panel_settings</i>
+                            Manage
+                        </a>
+
+                    </div>
+
+                </nav>
+
+                <div class="staff-sidebar-spacer"></div>
+
+                <div class="staff-sidebar-footer">
+
+                    <a href="javascript:void(0)">
+                        <i class="material-icons">settings</i>
+                        Settings
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="staff-dashboard">
+
+            </div>
+
+        </div>
 
         <script type="module" src="/static/scripts/clients/staff.js"></script>
 
