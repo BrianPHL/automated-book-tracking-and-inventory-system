@@ -13,10 +13,10 @@
         background-color: $secondary-white;
         flex-direction: column;
         border-radius: 4px;
-        padding: 32px;
+        padding: 48px;
         display: flex;
-        width: 300px;
-        gap: 32px;
+        width: 360px;
+        gap: 48px;
 
         &-header {
 
@@ -49,13 +49,13 @@
 
             flex-direction: column;
             display: flex;
-            gap: 32px;
+            gap: 48px;
 
             &-container {
 
                 flex-direction: column;
                 display: flex;
-                gap: 8px;
+                gap: 16px;
 
             }
 
@@ -63,7 +63,7 @@
 
                 flex-direction: column;
                 display: flex;
-                gap: 4px;
+                gap: 8px;
 
                 & > label {
 

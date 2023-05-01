@@ -88,10 +88,10 @@ input:focus {
   background-color: #F0F0F0;
   flex-direction: column;
   border-radius: 4px;
-  padding: 32px;
+  padding: 48px;
   display: flex;
-  width: 300px;
-  gap: 32px;
+  width: 360px;
+  gap: 48px;
 }
 .login-modal-header {
   font-weight: 700;
@@ -113,17 +113,17 @@ input:focus {
 .login-modal-form {
   flex-direction: column;
   display: flex;
-  gap: 32px;
+  gap: 48px;
 }
 .login-modal-form-container {
   flex-direction: column;
   display: flex;
-  gap: 8px;
+  gap: 16px;
 }
 .login-modal-form-username, .login-modal-form-password {
   flex-direction: column;
   display: flex;
-  gap: 4px;
+  gap: 8px;
 }
 .login-modal-form-username > label, .login-modal-form-password > label {
   font-weight: 400;
