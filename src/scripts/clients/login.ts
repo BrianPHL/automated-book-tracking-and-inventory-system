@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorData = { message: message }
         const queryString = new URLSearchParams(errorData).toString()
         const newUrl = `${window.location.href}?${queryString}`
-        history.pushState(errorData, '', newUrl)
+        history.pushState(errorData, document.title, newUrl)
 
     }
 
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.addEventListener('input', areInputsFilled)
     })
 
-    form.container.addEventListener('submit', async (event) => {
+    form.container.addEventListener('submit', (event) => {
 
         event.preventDefault()
 
@@ -96,31 +96,41 @@ document.addEventListener('DOMContentLoaded', () => {
             password: formData.get('password')
         }
 
-        try {
+        form.button.textContent = 'Processing...'
+        form.button.disabled = true;
 
-            const response = await fetch("/", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(loginData)
-            });
+        setTimeout( async () => {
 
-            if (response.ok) {
+            form.button.textContent = 'Sign in'
+            form.button.disabled = false;
 
-                window.location.href = "/staff"
+            try {
 
-            } else {
-                
-                await manipulateURL('Invalid username or password!')
-                const urlParams = new URLSearchParams(window.location.search);
+                const response = await fetch("/", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                });
+    
+                if (response.ok) {
+    
+                    window.location.href = "/staff"
+    
+                } else {
+                    
+                    await manipulateURL('Invalid username or password!')
+                    const urlParams = new URLSearchParams(window.location.search);
+    
+                    form.error.container.style.display = 'block'
+                    form.error.text.textContent = urlParams.get('message')
+    
+                }
+    
+            } catch (err) { throw err }
 
-                form.error.container.style.display = 'block'
-                form.error.text.textContent = urlParams.get('message')
-
-            }
-
-        } catch (err) { throw err }
+        }, 1000)
 
     })
 
