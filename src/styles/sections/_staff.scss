@@ -1,6 +1,6 @@
 .staff {
 
-    grid-template-columns: 256px;
+    grid-template-columns: 256px auto;
     grid-template-rows: 100vh;
     background-color: $tertiary-white;
     display: grid;
@@ -62,6 +62,7 @@
                     font-weight: $font-400;
                     transition: 0.2s ease;
                     font-size: 16px;
+                    align-items: center;
                     display: flex;
                     padding: 16px;
                     color: $primary-green;
@@ -71,6 +72,12 @@
 
                         border-left: 4px solid $secondary-green;
                         color: $secondary-green;
+
+                    }
+
+                    & > i {
+
+                        font-size: 16px;
 
                     }
 
@@ -102,11 +109,158 @@
                 font-weight: $font-400;
                 transition: 0.2s ease;
                 font-size: 16px;
+                align-items: center;
                 display: flex;
                 color: $primary-green;
                 gap: 8px;
 
                 &:hover { color: $secondary-green; }
+
+            }
+
+        }
+
+    }
+
+    &-dashboard {
+
+        grid-template-columns: 100%;
+        grid-template-rows: 64px auto 64px;
+        display: grid;
+        padding: 24px;
+        gap: 24px;
+
+        &-header {
+
+            background-color: $secondary-white;
+            border-radius: 4px;
+            align-content: center;
+            grid-column: 1;
+            grid-row: 1;
+            display: grid;
+            padding: 24px;
+
+            &-left {
+
+                grid-column: 1;
+                align-items: center;
+                display: flex;
+
+                & > h2 {
+
+                    font-weight: $font-600;
+                    font-size: 16px;
+                    color: $primary-green;
+    
+                }
+
+            }
+
+            &-right {
+
+                justify-content: flex-end;
+                grid-column: 2;
+                align-items: center;
+                display: flex;
+                gap: 16px;
+
+                & > i {
+
+                    transition: 0.2s ease;
+                    font-size:16px;
+                    color: $secondary-black;
+
+                    &:last-child {
+
+                        font-size: 24px;
+
+                    }
+
+                    &:hover {
+
+                        cursor: pointer;
+                        color: $secondary-green;
+
+                    }
+                }
+
+            }
+
+        }
+
+        &-footer {
+
+            background-color: $secondary-white;
+            border-radius: 4px;
+            align-content: center;
+            grid-column: 1;
+            grid-row: 3;
+            padding: 24px;
+            display: grid;
+
+            &-left {
+
+                grid-column: 1;
+                align-items: center;
+                display: flex;
+
+                & > p {
+
+                    font-weight: $font-400;
+                    font-size: 12px;
+                    color: $secondary-black;
+
+                }
+
+            }
+
+            &-right {
+
+                justify-content: flex-end;
+                grid-column: 2;
+                align-items: center;
+                display: flex;
+
+                & > p {
+
+                    align-items: center;
+                    font-weight: $font-400;
+                    font-size: 12px;
+                    display: flex;
+                    color: $secondary-black;
+                    gap: 4px;
+
+                    & > .copyright {
+
+                        font-size: 16px;
+
+                    }
+
+                    & > a {
+
+                        align-items: baseline;
+                        transition: 0.2s ease;
+                        display: flex;
+                        color: $secondary-black;
+                        gap: 4px;
+
+                        & > i {
+
+                            font-size: 10px;
+
+                        }
+                        
+                        &:hover {
+
+                            color: $secondary-green;
+                            cursor: pointer;
+
+                        }
+
+
+                    }
+
+                }
 
             }
 
