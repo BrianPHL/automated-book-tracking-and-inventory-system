@@ -28,9 +28,9 @@
 
             & > h1 {
 
-                font-weight: $font-600;
+                font-weight: $font-700;
                 text-align: center;
-                font-size: 32px;
+                font-size: 24px;
                 color: $primary-green;
 
             }
@@ -127,8 +127,8 @@
         grid-template-columns: 100%;
         grid-template-rows: 64px auto 64px;
         display: grid;
-        padding: 24px;
-        gap: 24px;
+        padding: 48px;
+        gap: 16px;
 
         &-header {
 
@@ -182,6 +182,116 @@
                         color: $secondary-green;
 
                     }
+                }
+
+            }
+
+        }
+
+        &-container {
+
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 3fr;
+            display: grid;
+            gap: 16px;
+
+            & > .staff-dashboard-overview {
+
+                background-color: $secondary-white;
+                border-radius: 4px;
+                grid-column: 1/4;
+                grid-row: 1;
+
+                & > .staff-dashboard-overview-entries {
+
+                    grid-template-columns: auto auto auto auto;
+                    display: grid;
+                    height: 100%;
+                    gap: 8px;
+                    padding: 0px 16px 16px 16px;
+
+                    & > div {
+
+                        flex-direction: column;
+                        padding: 16px;
+                        border: 1px solid $tertiary-white;
+                        display: flex;
+
+                        & > label {
+
+                            font-size: 16px;
+
+                        }
+
+                        & > div {
+
+                            justify-content: flex-end;
+                            flex-direction: column;
+                            line-height: 16px;
+                            height: 100%;
+                            display: flex;
+                            gap: 4px;
+
+                            & > h2 {
+
+                                font-weight: $font-600;
+                                font-size: 24px;
+
+                            }
+
+                            & > h3 {
+
+                                font-weight: $font-400;
+                                font-size: 12px;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            & > .staff-dashboard-notifications {
+                
+                background-color: $secondary-white;
+                border-radius: 4px;
+                grid-column: 1/2;
+                grid-row: 2;
+
+            }
+
+            & > .staff-dashboard-availability {
+                
+                background-color: $secondary-white;
+                border-radius: 4px;
+                grid-column: 2/3;
+                grid-row: 2;
+
+            }
+
+            & > .staff-dashboard-borrowed {
+                
+                background-color: $secondary-white;
+                border-radius: 4px;
+                grid-column: 3/4;
+                grid-row: 2;
+
+            }
+
+            & > div {
+
+                flex-direction: column;
+                display: flex;
+
+                & > label {
+
+                    font-weight: $font-600;
+                    padding: 16px;
+                    color: $primary-green;
+
                 }
 
             }
