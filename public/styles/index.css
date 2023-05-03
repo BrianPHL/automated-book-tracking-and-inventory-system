@@ -320,6 +320,7 @@ a {
   grid-column: 4;
 }
 .staff .dashboard > .container > .overview > .container > .availability, .staff .dashboard > .container > .overview > .container > .borrowed, .staff .dashboard > .container > .overview > .container > .due, .staff .dashboard > .container > .overview > .container > .registered {
+  background-color: #F6F6F6;
   flex-direction: column;
   border-radius: 4px;
   flex-grow: 0;
