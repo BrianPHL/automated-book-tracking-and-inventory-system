@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const navigation = document.querySelectorAll(
-        '.staff-sidebar-links-nav > a,' +
-        '.staff-sidebar-links-admin > a'
+        '.sidebar-links-nav > a,' +
+        '.sidebar-links-librarian > a,' +
+        '.sidebar-links-admin > a'
         )
 
     navigation.forEach((element) => {

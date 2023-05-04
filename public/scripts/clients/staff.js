@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const navigation = document.querySelectorAll('.staff-sidebar-links-nav > a,' +
-        '.staff-sidebar-links-admin > a');
+    const navigation = document.querySelectorAll('.sidebar-links-nav > a,' +
+        '.sidebar-links-librarian > a,' +
+        '.sidebar-links-admin > a');
     navigation.forEach((element) => {
         element.addEventListener('click', (event) => {
             const clickedLink = event.currentTarget;
