@@ -64,12 +64,12 @@
 
                     border-left: 4px solid transparent;
                     font-weight: $font-400;
+                    align-items: center;
                     transition: 0.2s ease;
                     font-size: 16px;
-                    align-items: center;
                     display: flex;
                     padding: 16px;
-                    color: $primary-green;
+                    color: $secondary-black;
                     gap: 8px;
 
                     &:hover {
@@ -81,7 +81,7 @@
 
                     & > i {
 
-                        font-size: 16px;
+                        font-size: 20px;
 
                     }
 
@@ -115,7 +115,7 @@
                 font-size: 16px;
                 align-items: center;
                 display: flex;
-                color: $primary-green;
+                color: $secondary-black;
                 gap: 8px;
 
                 &:hover { color: $secondary-green; }
@@ -251,6 +251,7 @@
 
                     & > .availability, & > .borrowed, & > .due, & > .registered {
 
+                        background-color: $primary-white;
                         flex-direction: column;
                         border-radius: 4px;
                         flex-grow: 0;
@@ -300,7 +301,7 @@
 
             }
 
-            & > .notifications, & > .availability, & > .borrowed {
+            & > .notifications {
 
                 background-color: $secondary-white;
                 flex-direction: column;
@@ -329,9 +330,9 @@
                     & > .entry {
 
                         background-color: $primary-white;
+                        flex-shrink: 0;
                         padding: 16px;
                         border: 1px solid $tertiary-white;
-                        flex-shrink: 0;
                         height: 128px;
 
                     }
@@ -343,16 +344,80 @@
             & > .availability {
 
                 background-color: $secondary-white;
+                flex-direction: column;
+                border-radius: 4px;
                 grid-column: 2/3;
+                min-height: 0;
                 grid-row: 2;
+                display: flex;
+
+                & > label {
+
+                    font-weight: $font-600;
+                    padding: 16px;
+                    color: $primary-green;
+
+                }
+
+                & > .entries {
+
+                    flex-direction: column;
+                    overflow-y: auto;
+                    padding: 0 16px 16px 16px;
+                    display: flex;
+                    gap: 8px;
+
+                    & > .entry {
+
+                        background-color: $primary-white;
+                        flex-shrink: 0;
+                        padding: 16px;
+                        border: 1px solid $tertiary-white;
+                        height: 128px;
+
+                    }
+
+                }
 
             }
 
             & > .borrowed {
 
                 background-color: $secondary-white;
+                flex-direction: column;
+                border-radius: 4px;
                 grid-column: 3/4;
+                min-height: 0;
                 grid-row: 2;
+                display: flex;
+
+                & > label {
+
+                    font-weight: $font-600;
+                    padding: 16px;
+                    color: $primary-green;
+
+                }
+
+                & > .entries {
+
+                    flex-direction: column;
+                    overflow-y: auto;
+                    padding: 0 16px 16px 16px;
+                    display: flex;
+                    gap: 8px;
+
+                    & > .entry {
+
+                        background-color: $primary-white;
+                        flex-shrink: 0;
+                        padding: 16px;
+                        border: 1px solid $tertiary-white;
+                        height: 128px;
+
+                    }
+
+                }
 
             }
 

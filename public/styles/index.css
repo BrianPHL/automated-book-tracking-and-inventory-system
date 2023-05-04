@@ -201,12 +201,12 @@ a {
 .staff .sidebar-links > div > a {
   border-left: 4px solid transparent;
   font-weight: 400;
+  align-items: center;
   transition: 0.2s ease;
   font-size: 16px;
-  align-items: center;
   display: flex;
   padding: 16px;
-  color: #0B3612;
+  color: #131313;
   gap: 8px;
 }
 .staff .sidebar-links > div > a:hover {
@@ -214,7 +214,7 @@ a {
   color: #347542;
 }
 .staff .sidebar-links > div > a > i {
-  font-size: 16px;
+  font-size: 20px;
 }
 .staff .sidebar-links > div .active {
   border-left: 4px solid #0B3612;
@@ -232,7 +232,7 @@ a {
   font-size: 16px;
   align-items: center;
   display: flex;
-  color: #0B3612;
+  color: #131313;
   gap: 8px;
 }
 .staff .sidebar-footer > a:hover {
@@ -352,7 +352,7 @@ a {
   font-weight: 400;
   font-size: 12px;
 }
-.staff .dashboard > .container > .notifications, .staff .dashboard > .container > .availability, .staff .dashboard > .container > .borrowed {
+.staff .dashboard > .container > .notifications {
   background-color: #F0F0F0;
   flex-direction: column;
   border-radius: 4px;
@@ -361,34 +361,80 @@ a {
   grid-row: 2;
   display: flex;
 }
-.staff .dashboard > .container > .notifications > label, .staff .dashboard > .container > .availability > label, .staff .dashboard > .container > .borrowed > label {
+.staff .dashboard > .container > .notifications > label {
   font-weight: 600;
   padding: 16px;
   color: #0B3612;
 }
-.staff .dashboard > .container > .notifications > .entries, .staff .dashboard > .container > .availability > .entries, .staff .dashboard > .container > .borrowed > .entries {
+.staff .dashboard > .container > .notifications > .entries {
   flex-direction: column;
   overflow-y: auto;
   padding: 0 16px 16px 16px;
   display: flex;
   gap: 8px;
 }
-.staff .dashboard > .container > .notifications > .entries > .entry, .staff .dashboard > .container > .availability > .entries > .entry, .staff .dashboard > .container > .borrowed > .entries > .entry {
+.staff .dashboard > .container > .notifications > .entries > .entry {
   background-color: #F6F6F6;
+  flex-shrink: 0;
   padding: 16px;
   border: 1px solid #E0E0E0;
-  flex-shrink: 0;
   height: 128px;
 }
 .staff .dashboard > .container > .availability {
   background-color: #F0F0F0;
+  flex-direction: column;
+  border-radius: 4px;
   grid-column: 2/3;
+  min-height: 0;
   grid-row: 2;
+  display: flex;
+}
+.staff .dashboard > .container > .availability > label {
+  font-weight: 600;
+  padding: 16px;
+  color: #0B3612;
+}
+.staff .dashboard > .container > .availability > .entries {
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 16px 16px 16px;
+  display: flex;
+  gap: 8px;
+}
+.staff .dashboard > .container > .availability > .entries > .entry {
+  background-color: #F6F6F6;
+  flex-shrink: 0;
+  padding: 16px;
+  border: 1px solid #E0E0E0;
+  height: 128px;
 }
 .staff .dashboard > .container > .borrowed {
   background-color: #F0F0F0;
+  flex-direction: column;
+  border-radius: 4px;
   grid-column: 3/4;
+  min-height: 0;
   grid-row: 2;
+  display: flex;
+}
+.staff .dashboard > .container > .borrowed > label {
+  font-weight: 600;
+  padding: 16px;
+  color: #0B3612;
+}
+.staff .dashboard > .container > .borrowed > .entries {
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 16px 16px 16px;
+  display: flex;
+  gap: 8px;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry {
+  background-color: #F6F6F6;
+  flex-shrink: 0;
+  padding: 16px;
+  border: 1px solid #E0E0E0;
+  height: 128px;
 }
 .staff .dashboard > .footer {
   grid-template-columns: 50% 50%;
