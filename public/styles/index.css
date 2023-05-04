@@ -375,10 +375,23 @@ a {
 }
 .staff .dashboard > .container > .notifications > .entries > .entry {
   background-color: #F6F6F6;
+  flex-direction: column;
+  border-radius: 4px;
   flex-shrink: 0;
   padding: 16px;
+  display: flex;
   border: 1px solid #E0E0E0;
-  height: 128px;
+  gap: 16px;
+}
+.staff .dashboard > .container > .notifications > .entries > .entry > h3 {
+  font-weight: 400;
+  font-size: 16px;
+  color: #131313;
+}
+.staff .dashboard > .container > .notifications > .entries > .entry > time {
+  font-weight: 400;
+  font-size: 12px;
+  color: #161616;
 }
 .staff .dashboard > .container > .availability {
   background-color: #F0F0F0;
