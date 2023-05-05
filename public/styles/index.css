@@ -161,7 +161,7 @@ a {
   width: 100vw;
 }
 .staff .sidebar {
-  background-color: #F0F0F0;
+  background-color: #F6F6F6;
   flex-direction: column;
   grid-column: 1;
   grid-row: 1;
@@ -205,7 +205,7 @@ a {
   transition: 0.2s ease;
   font-size: 16px;
   display: flex;
-  padding: 16px;
+  padding: 12px;
   color: #131313;
   gap: 8px;
 }
@@ -214,7 +214,7 @@ a {
   color: #347542;
 }
 .staff .sidebar-links > div > a > i {
-  font-size: 20px;
+  font-size: 16px;
 }
 .staff .sidebar-links > div .active {
   border-left: 4px solid #0B3612;
@@ -255,10 +255,19 @@ a {
   padding: 16px;
   display: grid;
 }
-.staff .dashboard > .header > .breadcrumbs > h2 {
+.staff .dashboard > .header > .heading {
+  flex-direction: column;
+  display: flex;
+}
+.staff .dashboard > .header > .heading > h2 {
   font-weight: 700;
   font-size: 16px;
   color: #0B3612;
+}
+.staff .dashboard > .header > .heading > h3 {
+  font-weight: 400;
+  font-size: 12px;
+  color: #131313;
 }
 .staff .dashboard > .header > .actions {
   justify-content: flex-end;
@@ -457,8 +466,8 @@ a {
   background-color: transparent;
   font-weight: 600;
   font-size: 12px;
-  flex: 0;
   padding: 0;
+  flex: 0;
   color: #0B3612;
 }
 .staff .dashboard > .container > .availability > .entries > .entry > .actions > button:hover {
@@ -487,10 +496,63 @@ a {
 }
 .staff .dashboard > .container > .borrowed > .entries > .entry {
   background-color: #F6F6F6;
+  flex-direction: column;
   flex-shrink: 0;
   padding: 16px;
+  display: flex;
   border: 1px solid #E0E0E0;
-  height: 128px;
+  gap: 16px;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .header {
+  justify-content: space-between;
+  flex-direction: row;
+  display: flex;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .header > h3 {
+  font-weight: 600;
+  font-size: 16px;
+  color: #101010;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .header > button {
+  background-color: transparent;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 12px;
+  padding: 0;
+  flex: 0;
+  color: #0B3612;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .header > button:hover {
+  color: #347542;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .data {
+  flex-direction: column;
+  display: flex;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .data > h4 {
+  font-weight: 400;
+  font-size: 16px;
+  color: #101010;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .data > h5 {
+  font-weight: 600;
+  font-size: 12px;
+  color: #131313;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .action {
+  display: flex;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .action button {
+  background-color: transparent;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 12px;
+  padding: 0;
+  flex: 0;
+  color: #0B3612;
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .action button:hover {
+  color: #347542;
 }
 .staff .dashboard > .footer {
   grid-template-columns: 50% 50%;

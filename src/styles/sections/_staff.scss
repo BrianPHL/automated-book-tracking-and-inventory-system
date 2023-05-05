@@ -9,7 +9,7 @@
 
     .sidebar {
 
-        background-color: $secondary-white;
+        background-color: $primary-white;
         flex-direction: column;
         grid-column: 1;
         grid-row: 1;
@@ -68,7 +68,7 @@
                     transition: 0.2s ease;
                     font-size: 16px;
                     display: flex;
-                    padding: 16px;
+                    padding: 12px;
                     color: $secondary-black;
                     gap: 8px;
 
@@ -81,7 +81,7 @@
 
                     & > i {
 
-                        font-size: 20px;
+                        font-size: 16px;
 
                     }
 
@@ -145,7 +145,10 @@
             padding: 16px;
             display: grid;
 
-            & > .breadcrumbs {
+            & > .heading {
+
+                flex-direction: column;
+                display: flex;
 
                 & > h2 {
 
@@ -155,6 +158,14 @@
 
                 }
                 
+                & > h3 {
+
+                    font-weight: $font-400;
+                    font-size: 12px;
+                    color: $secondary-black;
+
+                }
+
             }
 
             & > .actions {
@@ -447,8 +458,8 @@
                                 background-color: transparent;
                                 font-weight: $font-600;
                                 font-size: 12px;
-                                flex: 0;
                                 padding: 0;
+                                flex: 0;
                                 color: $primary-green;
 
                                 &:hover {
@@ -496,10 +507,93 @@
                     & > .entry {
 
                         background-color: $primary-white;
+                        flex-direction: column;
                         flex-shrink: 0;
                         padding: 16px;
+                        display: flex;
                         border: 1px solid $tertiary-white;
-                        height: 128px;
+                        gap: 16px;
+
+                        & > .header {
+
+                            justify-content: space-between;
+                            flex-direction: row;
+                            display: flex;
+
+                            & > h3 {
+
+                                font-weight: $font-600;
+                                font-size: 16px;
+                                color: $primary-black;
+
+                            }
+
+                            & > button {
+
+                                background-color: transparent;
+                                font-weight: $font-600;
+                                white-space: nowrap;
+                                font-size: 12px;
+                                padding: 0;
+                                flex: 0;
+                                color: $primary-green;
+
+                                &:hover {
+
+                                    color: $secondary-green;
+
+                                }
+
+                            }
+
+                        }
+                        
+                        & > .data {
+
+                            flex-direction: column;
+                            display: flex;
+
+                            & > h4 {
+
+                                font-weight: $font-400;
+                                font-size: 16px;
+                                color: $primary-black;
+
+                            }
+
+                            & > h5 {
+
+                                font-weight: $font-600;
+                                font-size: 12px;
+                                color: $secondary-black;
+
+                            }
+                            
+                        }
+
+                        & > .action {
+
+                            display: flex;
+
+                            button {
+
+                                background-color: transparent;
+                                font-weight: $font-600;
+                                white-space: nowrap;
+                                font-size: 12px;
+                                padding: 0;
+                                flex: 0;
+                                color: $primary-green;
+
+                                &:hover {
+
+                                    color: $secondary-green;
+
+                                }
+
+                            }
+
+                        }
 
                     }
 

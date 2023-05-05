@@ -84,9 +84,10 @@
 
                 <div class="header">
 
-                    <div class="breadcrumbs">
+                    <div class="heading">
 
                         <h2>ABTIS / Dashboard</h2>
+                        <h3>Logged in as a Librarian</h3>
 
                     </div>
 
@@ -172,8 +173,8 @@
                             
                             <div class="entry">
 
-                                <h3 class="message">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque nam in cumque necessitatibus numquam a atque illum? Perspiciatis, est inventore.</h3>
-                                <time class="date">3 APR 2023</time>
+                                <h3 id="nf-data-message">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque nam in cumque necessitatibus numquam a atque illum? Perspiciatis, est inventore.</h3>
+                                <time class="nf-data-date">3 APR 2023</time>
 
                             </div>
 
@@ -215,12 +216,29 @@
 
                         <div class="entries">
                             
-                            <div class="entry"></div>
-                            <div class="entry"></div>
-                            <div class="entry"></div>
-                            <div class="entry"></div>
-                            <div class="entry"></div>
-                            <div class="entry"></div>
+                            <div class="entry">
+
+                                <div class="header">
+
+                                    <h3 id="br-header-title">Chemistry for Dummies</h3>
+                                    <button id="br-header-viewDetails">View details</button>
+
+                                </div>
+
+                                <div class="data">
+
+                                    <h4>Borrowed by <span id="br-data-borrower">John Doe</span></h4>
+                                    <h5>Due in <span id="br-data-due">7 days</span></h5>
+
+                                </div>
+
+                                <div class="action">
+
+                                    <button id="br-action-markAsReturned">Mark as returned</button>
+
+                                </div>
+                                
+                            </div>
 
                         </div>
 
