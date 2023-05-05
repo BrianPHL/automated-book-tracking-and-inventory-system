@@ -342,7 +342,7 @@
 
                             font-weight: $font-400;
                             font-size: 16px;
-                            color: $secondary-black;
+                            color: $primary-black;
 
                         }
 
@@ -350,7 +350,7 @@
 
                             font-weight: $font-400;
                             font-size: 12px;
-                            color: $tertiary-black;
+                            color: $secondary-black;
 
                         }
 
@@ -389,10 +389,77 @@
                     & > .entry {
 
                         background-color: $primary-white;
+                        flex-direction: column;
                         flex-shrink: 0;
                         padding: 16px;
+                        display: flex;
                         border: 1px solid $tertiary-white;
-                        height: 128px;
+                        gap: 16px;
+
+                        & > .data {
+
+                            flex-direction: column;
+                            display: flex;
+                            gap: 8px;
+
+                            & > h3 {
+
+                                font-weight: $font-600;
+                                font-size: 16px;
+                                color: $primary-black;
+    
+                            }
+    
+                            & > h4 {
+    
+                                font-weight: $font-400;
+                                font-size: 16px;
+                                color: $primary-black;
+    
+                            }
+    
+                            & > h5 {
+    
+                                font-weight: $font-600;
+                                font-size: 12px;
+                                color: $secondary-black;
+    
+                            }
+    
+                            & > time {
+    
+                                font-weight: $font-400;
+                                font-size: 12px;
+                                color: $secondary-black;
+    
+                            }
+
+                        }
+
+                        & > .actions {
+
+                            justify-content: space-between;
+                            flex-direction: row;
+                            display: flex;
+
+                            & > button {
+                                
+                                background-color: transparent;
+                                font-weight: $font-600;
+                                font-size: 12px;
+                                flex: 0;
+                                padding: 0;
+                                color: $primary-green;
+
+                                &:hover {
+
+                                    color: $secondary-green;
+
+                                }
+
+                            }
+
+                        }
 
                     }
 

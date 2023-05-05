@@ -386,12 +386,12 @@ a {
 .staff .dashboard > .container > .notifications > .entries > .entry > h3 {
   font-weight: 400;
   font-size: 16px;
-  color: #131313;
+  color: #101010;
 }
 .staff .dashboard > .container > .notifications > .entries > .entry > time {
   font-weight: 400;
   font-size: 12px;
-  color: #161616;
+  color: #131313;
 }
 .staff .dashboard > .container > .availability {
   background-color: #F0F0F0;
@@ -416,10 +416,53 @@ a {
 }
 .staff .dashboard > .container > .availability > .entries > .entry {
   background-color: #F6F6F6;
+  flex-direction: column;
   flex-shrink: 0;
   padding: 16px;
+  display: flex;
   border: 1px solid #E0E0E0;
-  height: 128px;
+  gap: 16px;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .data {
+  flex-direction: column;
+  display: flex;
+  gap: 8px;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .data > h3 {
+  font-weight: 600;
+  font-size: 16px;
+  color: #101010;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .data > h4 {
+  font-weight: 400;
+  font-size: 16px;
+  color: #101010;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .data > h5 {
+  font-weight: 600;
+  font-size: 12px;
+  color: #131313;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .data > time {
+  font-weight: 400;
+  font-size: 12px;
+  color: #131313;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .actions {
+  justify-content: space-between;
+  flex-direction: row;
+  display: flex;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .actions > button {
+  background-color: transparent;
+  font-weight: 600;
+  font-size: 12px;
+  flex: 0;
+  padding: 0;
+  color: #0B3612;
+}
+.staff .dashboard > .container > .availability > .entries > .entry > .actions > button:hover {
+  color: #347542;
 }
 .staff .dashboard > .container > .borrowed {
   background-color: #F0F0F0;
