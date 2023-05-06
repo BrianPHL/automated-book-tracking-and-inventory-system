@@ -539,10 +539,10 @@ a {
   font-size: 12px;
   color: #131313;
 }
-.staff .dashboard > .container > .borrowed > .entries > .entry > .action {
+.staff .dashboard > .container > .borrowed > .entries > .entry > .actions {
   display: flex;
 }
-.staff .dashboard > .container > .borrowed > .entries > .entry > .action button {
+.staff .dashboard > .container > .borrowed > .entries > .entry > .actions button {
   background-color: transparent;
   font-weight: 600;
   white-space: nowrap;
@@ -551,7 +551,7 @@ a {
   flex: 0;
   color: #0B3612;
 }
-.staff .dashboard > .container > .borrowed > .entries > .entry > .action button:hover {
+.staff .dashboard > .container > .borrowed > .entries > .entry > .actions button:hover {
   color: #347542;
 }
 .staff .dashboard > .footer {
