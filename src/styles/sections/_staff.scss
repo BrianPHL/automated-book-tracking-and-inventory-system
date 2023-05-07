@@ -2,15 +2,16 @@
 
     grid-template-columns: 256px 1fr;
     grid-template-rows: 100vh;
-    background-color: $tertiary-white;
+    background-color: var(--bg-tertiary);
     display: grid;
     height: 100vh;
     width: 100vw;
 
     .sidebar {
 
-        background-color: $primary-white;
+        background-color: var(--bg-primary);
         flex-direction: column;
+        border-right: 1px solid var(--er-outline);
         grid-column: 1;
         grid-row: 1;
         display: flex;
@@ -35,7 +36,7 @@
                 font-weight: $font-700;
                 text-align: center;
                 font-size: 24px;
-                color: $primary-green;
+                color: var(--gr-primary);
 
             }
 
@@ -56,7 +57,7 @@
 
                     font-weight: $font-400;
                     font-size: 12px;
-                    color: $secondary-green;
+                    color: var(--gr-secondary);
 
                 }
 
@@ -66,22 +67,22 @@
                     font-weight: $font-400;
                     align-items: center;
                     transition: 0.2s ease;
-                    font-size: 16px;
+                    font-size: 14px;
                     display: flex;
-                    padding: 12px;
-                    color: $secondary-black;
-                    gap: 8px;
+                    padding: 16px;
+                    color: var(--tg-secondary);
+                    gap: 16px;
 
                     &:hover {
 
-                        border-left: 4px solid $secondary-green;
-                        color: $secondary-green;
+                        border-left: 4px solid var(--gr-secondary);
+                        color: var(--gr-secondary);
 
                     }
 
                     & > i {
 
-                        font-size: 16px;
+                        font-size: 14px;
 
                     }
 
@@ -89,7 +90,7 @@
 
                 .active {
 
-                    border-left: 4px solid $primary-green;
+                    border-left: 4px solid var(--gr-primary);
 
                 }
 
@@ -115,10 +116,10 @@
                 font-size: 16px;
                 align-items: center;
                 display: flex;
-                color: $secondary-black;
+                color: var(--tg-secondary);
                 gap: 8px;
 
-                &:hover { color: $secondary-green; }
+                &:hover { color: var(--gr-secondary); }
 
             }
 
@@ -129,7 +130,7 @@
     .dashboard {
 
         grid-template-columns: 1fr;
-        grid-template-rows: 64px 1fr 64px;
+        grid-template-rows: 72px 1fr;
         padding: 24px;
         display: grid;
         gap: 24px;
@@ -137,13 +138,14 @@
         & > .header {
 
             grid-template-columns: 50% 50%;
-            background-color: $secondary-white;
+            background-color: var(--bg-secondary);
             border-radius: 4px;
             grid-column: 1/4;
             align-items: center;
             grid-row: 1;
             padding: 16px;
             display: grid;
+            border: 1px solid var(--er-outline);
 
             & > .heading {
 
@@ -154,7 +156,7 @@
 
                     font-weight: $font-700;
                     font-size: 16px;
-                    color: $primary-green;
+                    color: var(--gr-primary);
 
                 }
                 
@@ -162,7 +164,7 @@
 
                     font-weight: $font-400;
                     font-size: 12px;
-                    color: $secondary-black;
+                    color: var(--tg-secondary);
 
                 }
 
@@ -179,17 +181,13 @@
 
                     transition: 0.2s ease;
                     font-size: 16px;
-
-                    &:last-child {
-
-                        font-size: 32px;
-
-                    }
+                    color: var(--tg-primary);
 
                     &:hover {
 
                         cursor: pointer;
-                        color: $secondary-green;
+                        color: var(--gr-secondary);
+                        // color: var(--tg-secondary);
 
                     }
 
@@ -211,18 +209,19 @@
 
             & > .overview {
 
-                background-color: $secondary-white;
+                background-color: var(--bg-secondary);
                 flex-direction: column;
                 border-radius: 4px;
                 grid-column: 1/4;
                 grid-row: 1;
                 display: flex;
+                border: 1px solid var(--er-outline);
 
                 & > label {
 
                     font-weight: $font-600;
                     padding: 16px;
-                    color: $primary-green;
+                    color: var(--gr-primary);
 
                 }
 
@@ -247,7 +246,6 @@
 
                     }
 
-
                     & > .due {
 
                         grid-column: 3;
@@ -262,20 +260,20 @@
 
                     & > .availability, & > .borrowed, & > .due, & > .registered {
 
-                        background-color: $primary-white;
+                        background-color: var(--bg-primary);
                         flex-direction: column;
                         border-radius: 4px;
                         flex-grow: 0;
                         min-width: 0;
                         display: flex;
-                        border: 1px solid $tertiary-white;
+                        padding: 16px;
+                        border: 1px solid var(--er-outline);
 
                         & > label {
 
                             font-weight: $font-400;
                             font-size: 16px;
-                            padding: 16px;
-                            color: $secondary-black;
+                            color: var(--tg-primary);
 
                         }
 
@@ -284,7 +282,6 @@
                             justify-content: flex-end;
                             flex-direction: column;
                             display: flex;
-                            padding: 0px 16px 16px 16px;
                             height: 100%;
 
                             & > h3 {
@@ -294,6 +291,7 @@
                                 white-space: nowrap;
                                 font-size: 24px;
                                 overflow: hidden;
+                                color: var(--tg-primary);
 
                             }
     
@@ -301,6 +299,7 @@
     
                                 font-weight: $font-400;
                                 font-size: 12px;
+                                color: var(--tg-secondary);
     
                             }
 
@@ -314,19 +313,20 @@
 
             & > .notifications {
 
-                background-color: $secondary-white;
+                background-color: var(--bg-secondary);
                 flex-direction: column;
                 border-radius: 4px;
                 grid-column: 1;
                 min-height: 0;
                 grid-row: 2;
                 display: flex;
+                border: 1px solid var(--er-outline);
 
                 & > label {
 
                     font-weight: $font-600;
                     padding: 16px;
-                    color: $primary-green;
+                    color: var(--gr-primary);
 
                 }
 
@@ -340,20 +340,28 @@
 
                     & > .entry {
 
-                        background-color: $primary-white;
+                        background-color: var(--bg-primary);
                         flex-direction: column;
                         border-radius: 4px;
                         flex-shrink: 0;
                         padding: 16px;
                         display: flex;
-                        border: 1px solid $tertiary-white;
+                        border: 1px solid var(--er-outline);
                         gap: 16px;
 
                         & > h3 {
 
+                            font-weight: $font-600;
+                            font-size: 14px;
+                            color: var(--tg-primary);
+
+                        }
+
+                        & > h4 {
+
                             font-weight: $font-400;
-                            font-size: 16px;
-                            color: $primary-black;
+                            font-size: 14px;
+                            color: var(--tg-primary);
 
                         }
 
@@ -361,7 +369,7 @@
 
                             font-weight: $font-400;
                             font-size: 12px;
-                            color: $secondary-black;
+                            color: var(--tg-secondary);
 
                         }
 
@@ -373,19 +381,20 @@
 
             & > .availability {
 
-                background-color: $secondary-white;
+                background-color: var(--bg-secondary);
                 flex-direction: column;
                 border-radius: 4px;
                 grid-column: 2/3;
                 min-height: 0;
                 grid-row: 2;
                 display: flex;
+                border: 1px solid var(--er-outline);
 
                 & > label {
 
                     font-weight: $font-600;
                     padding: 16px;
-                    color: $primary-green;
+                    color: var(--gr-primary);
 
                 }
 
@@ -399,49 +408,46 @@
 
                     & > .entry {
 
-                        background-color: $primary-white;
+                        background-color: var(--bg-primary);
                         flex-direction: column;
+                        border-radius: 4px;
                         flex-shrink: 0;
                         padding: 16px;
                         display: flex;
-                        border: 1px solid $tertiary-white;
+                        border: 1px solid var(--er-outline);
                         gap: 16px;
 
                         & > .data {
 
                             flex-direction: column;
                             display: flex;
-                            gap: 8px;
+                            gap: 16px;
 
                             & > h3 {
 
                                 font-weight: $font-600;
-                                font-size: 16px;
-                                color: $primary-black;
+                                font-size: 14px;
+                                color: var(--tg-primary);
     
                             }
-    
-                            & > h4 {
-    
-                                font-weight: $font-400;
-                                font-size: 16px;
-                                color: $primary-black;
-    
-                            }
-    
-                            & > h5 {
-    
-                                font-weight: $font-600;
-                                font-size: 12px;
-                                color: $secondary-black;
-    
+
+                            & > .wrapper {
+                                
+                                & > h4 {
+                                                                
+                                    font-weight: $font-400;
+                                    font-size: 14px;
+                                    color: var(--tg-primary);
+                                                                
+                                }
+
                             }
     
                             & > time {
     
                                 font-weight: $font-400;
                                 font-size: 12px;
-                                color: $secondary-black;
+                                color: var(--tg-secondary);
     
                             }
 
@@ -460,11 +466,11 @@
                                 font-size: 12px;
                                 padding: 0;
                                 flex: 0;
-                                color: $primary-green;
+                                color: var(--gr-primary);
 
                                 &:hover {
 
-                                    color: $secondary-green;
+                                    color: var(--gr-secondary);
 
                                 }
 
@@ -480,19 +486,20 @@
 
             & > .borrowed {
 
-                background-color: $secondary-white;
+                background-color: var(--bg-secondary);
                 flex-direction: column;
                 border-radius: 4px;
                 grid-column: 3/4;
                 min-height: 0;
                 grid-row: 2;
                 display: flex;
+                border: 1px solid var(--er-outline);
 
                 & > label {
 
                     font-weight: $font-600;
                     padding: 16px;
-                    color: $primary-green;
+                    color: var(--gr-primary);
 
                 }
 
@@ -506,12 +513,13 @@
 
                     & > .entry {
 
-                        background-color: $primary-white;
+                        background-color: var(--bg-primary);
                         flex-direction: column;
+                        border-radius: 4px;
                         flex-shrink: 0;
                         padding: 16px;
                         display: flex;
-                        border: 1px solid $tertiary-white;
+                        border: 1px solid var(--er-outline);
                         gap: 16px;
 
                         & > .header {
@@ -523,9 +531,9 @@
                             & > h3 {
 
                                 font-weight: $font-600;
-                                font-size: 16px;
-                                color: $primary-black;
-
+                                font-size: 14px;
+                                color: var(--tg-primary);
+    
                             }
 
                             & > button {
@@ -536,11 +544,11 @@
                                 font-size: 12px;
                                 padding: 0;
                                 flex: 0;
-                                color: $primary-green;
+                                color: var(--gr-primary);
 
                                 &:hover {
 
-                                    color: $secondary-green;
+                                    color: var(--gr-secondary);
 
                                 }
 
@@ -552,21 +560,34 @@
 
                             flex-direction: column;
                             display: flex;
+                            gap: 16px;
 
-                            & > h4 {
+                            & > .wrapper {
 
-                                font-weight: $font-400;
-                                font-size: 16px;
-                                color: $primary-black;
+                                & > h4 {
+
+                                    font-weight: $font-400;
+                                    font-size: 14px;
+                                    color: var(--tg-primary);
+
+                                }
+
+                                & > h5 {
+
+                                    font-weight: $font-400;
+                                    font-size: 12px;
+                                    color: var(--tg-secondary);
+
+                                }
 
                             }
 
-                            & > h5 {
-
-                                font-weight: $font-600;
+                            & > time {
+    
+                                font-weight: $font-400;
                                 font-size: 12px;
-                                color: $secondary-black;
-
+                                color: var(--tg-secondary);
+    
                             }
                             
                         }
@@ -583,11 +604,11 @@
                                 font-size: 12px;
                                 padding: 0;
                                 flex: 0;
-                                color: $primary-green;
+                                color: var(--gr-primary);
 
                                 &:hover {
 
-                                    color: $secondary-green;
+                                    color: var(--gr-secondary);
 
                                 }
 
@@ -603,73 +624,6 @@
 
         }
 
-        & > .footer {
-
-            grid-template-columns: 50% 50%;
-            background-color: $secondary-white;
-            border-radius: 4px;
-            grid-column: 1/4;
-            align-items: center;
-            grid-row: 3;
-            padding: 16px;
-            display: grid;
-
-            & > .report {
-
-                & > a {
-
-                    background-color: $primary-green;
-                    border-radius: 4px;
-                    font-weight: $font-400;
-                    transition: 0.2s ease;
-                    font-size: 12px;
-                    padding: 8px 24px 8px 24px;
-                    color: $primary-white;
-
-                    &:hover {
-
-                        background-color: $secondary-green;
-
-                    }
-
-                }
-
-            }
-
-            & > .copyright {
-
-                justify-content: flex-end;
-                display: flex;
-
-                & > p {
-
-                    font-size: 12px;
-                    color: $primary-green;
-
-                    & > a {
-
-                        background-color: $primary-green;
-                        border-radius: 4px;
-                        font-weight: $font-400;
-                        transition: 0.2s ease;
-                        font-size: 12px;
-                        padding: 3px 6px 3px 6px;
-                        color: $primary-white;
-    
-                        &:hover {
-    
-                            background-color: $secondary-green;
-    
-                        } 
-
-                    }
-
-                }
-
-            }
-
-        }
-
     }
-
+    
 }
