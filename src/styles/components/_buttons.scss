@@ -4,16 +4,16 @@ button {
     transition: 0.2s ease;
     padding: 16px;
     border: 0;
-    color: $primary-white;
+    color: var(--bg-primary);
     width: 100%;
 
     &:enabled {
 
-        background-color: $primary-green;
+        background-color: var(--gr-primary);
 
         &:hover {
     
-            background-color: $secondary-green;
+            background-color: var(--gr-secondary);
             cursor: pointer;
     
         }
@@ -22,7 +22,7 @@ button {
 
     &:disabled {
 
-        background-color: rgba($color: $primary-green, $alpha: 0.5);
+        background-color: rgba($color: var(--gr-primary-rgb), $alpha: 0.5);
 
         &:hover {
     

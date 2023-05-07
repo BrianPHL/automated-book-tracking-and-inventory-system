@@ -4,13 +4,36 @@ $font-400: 400;
 $font-600: 600;
 $font-700: 700;
 
-$primary-black: #101010;
-$secondary-black: #131313;
-$tertiary-black: #161616;
+html {
 
-$primary-white: #F6F6F6;
-$secondary-white: #F0F0F0;
-$tertiary-white: #E0E0E0;
+    --bg-primary: #F6F6F6;
+    --bg-secondary: #F0F0F0;
+    --bg-tertiary: #E0E0E0;
 
-$primary-green: #0B3612;
-$secondary-green: #347542;
+    --tg-primary: #101010;
+    --tg-secondary: #131313;
+
+    --gr-primary: #0B3612;
+    --gr-primary-rgb: 11, 54, 18;
+    --gr-secondary: #347542;
+    --gr-secondary-rgb: 52, 117, 66;
+
+    --er-outline: #CECECE;
+
+    &[data-theme="dark"] {
+
+        --bg-primary: #161616;
+        --bg-secondary: #131313;
+        --bg-tertiary: #101010;
+
+        --tg-primary: #F0F0F0;
+        --tg-secondary: #CCCCCC;
+
+        --gr-primary: #347542;
+        --gr-secondary: #46A35A;
+
+        --er-outline: #202020;
+
+    }
+
+}

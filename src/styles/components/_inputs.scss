@@ -3,12 +3,12 @@ input {
     border-radius: 4px;
     font-size: 12px;
     padding: 8px;
-    border: 1px solid rgba($color: #000000, $alpha: 0.5);
+    border: 1px solid var(--er-outline);
     width: 100%;
 
     &:focus {
 
-        outline: 1px solid $secondary-green;
+        outline: 1px solid var(--gr-secondary);
 
     }
 
