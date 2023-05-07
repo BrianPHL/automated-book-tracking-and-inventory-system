@@ -52,10 +52,10 @@
 
                 flex-direction: column;
                 display: flex;
-
+                
                 & > label {
 
-                    font-weight: $font-400;
+                    font-weight: $font-600;
                     font-size: 12px;
                     color: var(--gr-secondary);
 
@@ -70,7 +70,7 @@
                     font-size: 16px;
                     display: flex;
                     padding: 16px;
-                    color: var(--tg-secondary);
+                    color: var(--tg-primary);
                     gap: 16px;
 
                     &:hover {
@@ -116,8 +116,8 @@
                 font-size: 16px;
                 align-items: center;
                 display: flex;
-                color: var(--tg-secondary);
-                gap: 8px;
+                color: var(--tg-primary);
+                gap: 16px;
 
                 &:hover { color: var(--gr-secondary); }
 
@@ -130,7 +130,7 @@
     .dashboard {
 
         grid-template-columns: 1fr;
-        grid-template-rows: 72px 1fr;
+        grid-template-rows: auto 1fr;
         padding: 24px;
         display: grid;
         gap: 24px;
@@ -164,7 +164,7 @@
 
                     font-weight: $font-400;
                     font-size: 12px;
-                    color: var(--tg-secondary);
+                    color: var(--tg-primary);
 
                 }
 
@@ -187,7 +187,6 @@
 
                         cursor: pointer;
                         color: var(--gr-secondary);
-                        // color: var(--tg-secondary);
 
                     }
 
