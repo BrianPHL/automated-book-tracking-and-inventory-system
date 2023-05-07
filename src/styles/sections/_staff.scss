@@ -67,7 +67,7 @@
                     font-weight: $font-400;
                     align-items: center;
                     transition: 0.2s ease;
-                    font-size: 14px;
+                    font-size: 16px;
                     display: flex;
                     padding: 16px;
                     color: var(--tg-secondary);
@@ -82,7 +82,7 @@
 
                     & > i {
 
-                        font-size: 14px;
+                        font-size: 16px;
 
                     }
 
@@ -279,28 +279,15 @@
 
                         & > .data {
 
-                            justify-content: flex-end;
-                            flex-direction: column;
-                            display: flex;
-                            height: 100%;
-
                             & > h3 {
 
                                 text-overflow: ellipsis;
-                                font-weight: $font-600;
                                 white-space: nowrap;
-                                font-size: 24px;
+                                font-weight: $font-600;
+                                font-size: 32px;
                                 overflow: hidden;
                                 color: var(--tg-primary);
 
-                            }
-    
-                            & > h4 {
-    
-                                font-weight: $font-400;
-                                font-size: 12px;
-                                color: var(--tg-secondary);
-    
                             }
 
                         }
@@ -352,7 +339,7 @@
                         & > h3 {
 
                             font-weight: $font-600;
-                            font-size: 14px;
+                            font-size: 16px;
                             color: var(--tg-primary);
 
                         }
@@ -360,7 +347,7 @@
                         & > h4 {
 
                             font-weight: $font-400;
-                            font-size: 14px;
+                            font-size: 16px;
                             color: var(--tg-primary);
 
                         }
@@ -426,7 +413,7 @@
                             & > h3 {
 
                                 font-weight: $font-600;
-                                font-size: 14px;
+                                font-size: 16px;
                                 color: var(--tg-primary);
     
                             }
@@ -436,7 +423,7 @@
                                 & > h4 {
                                                                 
                                     font-weight: $font-400;
-                                    font-size: 14px;
+                                    font-size: 16px;
                                     color: var(--tg-primary);
                                                                 
                                 }
@@ -531,7 +518,7 @@
                             & > h3 {
 
                                 font-weight: $font-600;
-                                font-size: 14px;
+                                font-size: 16px;
                                 color: var(--tg-primary);
     
                             }
@@ -567,7 +554,7 @@
                                 & > h4 {
 
                                     font-weight: $font-400;
-                                    font-size: 14px;
+                                    font-size: 16px;
                                     color: var(--tg-primary);
 
                                 }

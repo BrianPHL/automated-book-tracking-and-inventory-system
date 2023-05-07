@@ -228,7 +228,7 @@ a {
   font-weight: 400;
   align-items: center;
   transition: 0.2s ease;
-  font-size: 14px;
+  font-size: 16px;
   display: flex;
   padding: 16px;
   color: var(--tg-secondary);
@@ -239,7 +239,7 @@ a {
   color: var(--gr-secondary);
 }
 .staff .sidebar-links > div > a > i {
-  font-size: 14px;
+  font-size: 16px;
 }
 .staff .sidebar-links > div .active {
   border-left: 4px solid var(--gr-primary);
@@ -368,24 +368,13 @@ a {
   font-size: 16px;
   color: var(--tg-primary);
 }
-.staff .dashboard > .container > .overview > .container > .availability > .data, .staff .dashboard > .container > .overview > .container > .borrowed > .data, .staff .dashboard > .container > .overview > .container > .due > .data, .staff .dashboard > .container > .overview > .container > .registered > .data {
-  justify-content: flex-end;
-  flex-direction: column;
-  display: flex;
-  height: 100%;
-}
 .staff .dashboard > .container > .overview > .container > .availability > .data > h3, .staff .dashboard > .container > .overview > .container > .borrowed > .data > h3, .staff .dashboard > .container > .overview > .container > .due > .data > h3, .staff .dashboard > .container > .overview > .container > .registered > .data > h3 {
   text-overflow: ellipsis;
-  font-weight: 600;
   white-space: nowrap;
-  font-size: 24px;
+  font-weight: 600;
+  font-size: 32px;
   overflow: hidden;
   color: var(--tg-primary);
-}
-.staff .dashboard > .container > .overview > .container > .availability > .data > h4, .staff .dashboard > .container > .overview > .container > .borrowed > .data > h4, .staff .dashboard > .container > .overview > .container > .due > .data > h4, .staff .dashboard > .container > .overview > .container > .registered > .data > h4 {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--tg-secondary);
 }
 .staff .dashboard > .container > .notifications {
   background-color: var(--bg-secondary);
@@ -421,12 +410,12 @@ a {
 }
 .staff .dashboard > .container > .notifications > .entries > .entry > h3 {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--tg-primary);
 }
 .staff .dashboard > .container > .notifications > .entries > .entry > h4 {
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--tg-primary);
 }
 .staff .dashboard > .container > .notifications > .entries > .entry > time {
@@ -473,12 +462,12 @@ a {
 }
 .staff .dashboard > .container > .availability > .entries > .entry > .data > h3 {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--tg-primary);
 }
 .staff .dashboard > .container > .availability > .entries > .entry > .data > .wrapper > h4 {
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--tg-primary);
 }
 .staff .dashboard > .container > .availability > .entries > .entry > .data > time {
@@ -541,7 +530,7 @@ a {
 }
 .staff .dashboard > .container > .borrowed > .entries > .entry > .header > h3 {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--tg-primary);
 }
 .staff .dashboard > .container > .borrowed > .entries > .entry > .header > button {
@@ -563,7 +552,7 @@ a {
 }
 .staff .dashboard > .container > .borrowed > .entries > .entry > .data > .wrapper > h4 {
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--tg-primary);
 }
 .staff .dashboard > .container > .borrowed > .entries > .entry > .data > .wrapper > h5 {
