@@ -29,6 +29,18 @@ interface loginForm {
 
 interface dashboard {
     
+    actions: {
+
+        search: HTMLButtonElement
+        theme: HTMLButtonElement
+        refresh: HTMLButtonElement
+        view: {
+            notifications: HTMLButtonElement
+            account: HTMLButtonElement
+        }
+
+    }
+
     overview: {
 
         availability: HTMLElement

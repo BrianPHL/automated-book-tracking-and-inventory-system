@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const staff = {
+        actions: {
+            search: document.querySelector('#hd-actions-search'),
+            theme: document.querySelector('#hd-actions-theme'),
+            refresh: document.querySelector('#hd-actions-refresh'),
+            view: {
+                notifications: document.querySelector('#hd-actions-viewNotifications'),
+                account: document.querySelector('#hd-actions-viewAccount')
+            }
+        },
         overview: {
             availability: document.querySelector('#ov-av-data-count'),
             borrowed: document.querySelector('#ov-br-data-count'),
@@ -43,6 +52,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const init = () => {
+
+        const getPreferredTheme = () => {
+
+            const theme = localStorage.getItem('theme')
+
+            if (theme) {
+
+                setPreferredTheme(theme)
+
+            } else {
+
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  
+                    setPreferredTheme(theme)
+
+                } else {
+                  
+                    setPreferredTheme(theme)
+                    
+                }
+
+            }
+
+        }
+
+        getPreferredTheme()
+
+    }
+
+    const setPreferredTheme = (theme: string) => {
+
+        console.log(theme)
+
+        const button = staff.actions.theme
+
+        if (theme == 'dark') {
+
+            button.classList.remove('fa-moon')
+            button.classList.add('fa-sun')
+            
+        } else {
+            
+            button.classList.add('fa-moon')
+            button.classList.remove('fa-sun')
+
+        }
+
+        localStorage.setItem('theme', theme)
+        document.documentElement.setAttribute('data-theme', theme)
+        
+    }
+
     const navigation = document.querySelectorAll(
         '.sidebar-links-nav > a,' +
         '.sidebar-links-librarian > a,' +
@@ -68,4 +130,17 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
+    staff.actions.theme.addEventListener('click', (event) => {
+
+        const target = event.target as HTMLElement
+        const className = target.classList
+
+        className[1] == 'fa-moon'
+        ? setPreferredTheme('dark')
+        : setPreferredTheme('light')
+
+    })
+
+    init()
+    
 })
