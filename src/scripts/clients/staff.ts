@@ -1,9 +1,11 @@
+import { setLightTheme, setDarkTheme, setPreferredTheme } from "./initialize.js"
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const staff = {
         actions: {
-            search: document.querySelector('#hd-actions-search'),
             theme: document.querySelector('#hd-actions-theme'),
+            search: document.querySelector('#hd-actions-search'),
             refresh: document.querySelector('#hd-actions-refresh'),
             view: {
                 notifications: document.querySelector('#hd-actions-viewNotifications'),
@@ -54,93 +56,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const init = () => {
 
-        const getPreferredTheme = () => {
+        const startNavigationListener = () => {
 
-            const theme = localStorage.getItem('theme')
+            const navigation = document.querySelectorAll(
+                '.sidebar-links-nav > a,' +
+                '.sidebar-links-librarian > a,' +
+                '.sidebar-links-admin > a'
+            )
 
-            if (theme) {
+            navigation.forEach((element) => {
 
-                setPreferredTheme(theme)
+                element.addEventListener('click', (event) => {
+                
+                    const clickedLink = event.currentTarget as HTMLElement
 
-            } else {
+                    navigation.forEach((navElement) => {
 
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                  
-                    setPreferredTheme(theme)
+                        if (navElement != clickedLink) {
+                            navElement.classList.remove('active')
+                        }
+
+                        clickedLink.classList.add('active')
+
+                    })
+
+                })
+            })
+
+        }
+        startNavigationListener()
+
+        const startActionsListener = () => {
+
+            staff.actions.theme.addEventListener('click', (event) => {
+
+                const target = event.target as HTMLElement
+                const classes = target.classList
+
+                if (classes[1] == 'fa-moon') {
+
+                    setDarkTheme()
+                    setPreferredTheme('dark')
 
                 } else {
-                  
-                    setPreferredTheme(theme)
-                    
+
+                    setLightTheme()
+                    setPreferredTheme('light')                    
+
                 }
-
-            }
-
-        }
-
-        getPreferredTheme()
-
-    }
-
-    const setPreferredTheme = (theme: string) => {
-
-        console.log(theme)
-
-        const button = staff.actions.theme
-
-        if (theme == 'dark') {
-
-            button.classList.remove('fa-moon')
-            button.classList.add('fa-sun')
-            
-        } else {
-            
-            button.classList.add('fa-moon')
-            button.classList.remove('fa-sun')
-
-        }
-
-        localStorage.setItem('theme', theme)
-        document.documentElement.setAttribute('data-theme', theme)
-        
-    }
-
-    const navigation = document.querySelectorAll(
-        '.sidebar-links-nav > a,' +
-        '.sidebar-links-librarian > a,' +
-        '.sidebar-links-admin > a'
-    )
-
-    navigation.forEach((element) => {
-
-        element.addEventListener('click', (event) => {
-        
-            const clickedLink = event.currentTarget as HTMLElement
-
-            navigation.forEach((navElement) => {
-
-                if (navElement != clickedLink) {
-                    navElement.classList.remove('active')
-                }
-
-                clickedLink.classList.add('active')
 
             })
 
-        })
-    })
+            staff.actions.search.addEventListener('click', () => {
 
-    staff.actions.theme.addEventListener('click', (event) => {
+            })
 
-        const target = event.target as HTMLElement
-        const className = target.classList
+            staff.actions.refresh.addEventListener('click', () => {
 
-        className[1] == 'fa-moon'
-        ? setPreferredTheme('dark')
-        : setPreferredTheme('light')
+            })
 
-    })
+            staff.actions.view.account.addEventListener('click', () => {
+
+            })
+
+            staff.actions.view.notifications.addEventListener('click', () => {
+
+            })
+
+        }
+        startActionsListener()
+
+    }
 
     init()
     
+    
+    
+
 })

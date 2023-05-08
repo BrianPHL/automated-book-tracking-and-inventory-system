@@ -31,8 +31,8 @@ interface dashboard {
     
     actions: {
 
-        search: HTMLButtonElement
         theme: HTMLButtonElement
+        search: HTMLButtonElement
         refresh: HTMLButtonElement
         view: {
             notifications: HTMLButtonElement

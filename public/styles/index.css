@@ -1,5 +1,5 @@
 @import url(/node_modules/@fortawesome/fontawesome-free/css/all.css);
-html {
+html[data-theme=light] {
   --bg-primary: #F6F6F6;
   --bg-secondary: #F0F0F0;
   --bg-tertiary: #E0E0E0;
@@ -11,6 +11,7 @@ html {
   --gr-secondary-rgb: 52, 117, 66;
   --er-outline: #CECECE;
 }
+
 html[data-theme=dark] {
   --bg-primary: #161616;
   --bg-secondary: #131313;
