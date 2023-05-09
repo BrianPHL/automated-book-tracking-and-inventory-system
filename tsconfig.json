@@ -6,7 +6,7 @@
         "rootDir": "src/scripts",
         "outDir": "public/scripts",
         "allowSyntheticDefaultImports": true,
-        "types": ["node", "express"]
+        "types": ["node", "express", "luxon"]
     },
     "exclude": ["node_modules"]
 }
