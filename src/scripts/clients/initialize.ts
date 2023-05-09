@@ -1,9 +1,12 @@
+import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
+
 export const setLightTheme = () => {
 
     const htmlElement = document.querySelector('html') as HTMLElement;
-    const themeBtn = document.querySelector('#hd-actions-theme');
 
     if (htmlElement.getAttribute('data-site') == 'staff') {
+
+        const themeBtn = document.querySelector('#hd-actions-theme');
 
         themeBtn.classList.add('fa-moon')
         themeBtn.classList.remove('fa-sun')
@@ -16,9 +19,10 @@ export const setLightTheme = () => {
 export const setDarkTheme = () => {
 
     const htmlElement = document.querySelector('html') as HTMLElement;
-    const themeBtn = document.querySelector('#hd-actions-theme');
 
     if (htmlElement.getAttribute('data-site') == 'staff') {
+
+        const themeBtn = document.querySelector('#hd-actions-theme');
 
         themeBtn.classList.add('fa-sun')
         themeBtn.classList.remove('fa-moon') 
@@ -56,3 +60,6 @@ export const getPreferredTheme = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => { getPreferredTheme() })
+
+console.log(DateTime.now())
+console.log(DateTime.now().toFormat('dd MMMM yyyy'))
