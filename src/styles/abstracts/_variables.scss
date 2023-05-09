@@ -14,8 +14,9 @@ html[data-theme="light"] {
     --tg-secondary: #131313;
     
     --gr-primary: #0B3612;
-    --gr-primary-rgb: 11, 54, 18;
     --gr-secondary: #347542;
+
+    --gr-primary-rgb: 11, 54, 18;
     --gr-secondary-rgb: 52, 117, 66;
     
     --er-outline: #CECECE;
@@ -32,6 +33,9 @@ html[data-theme="dark"] {
 
     --gr-primary: #347542;
     --gr-secondary: #46A35A;
+
+    --gr-primary-rgb: 52, 117, 66;
+    --gr-secondary-rgb: 70, 163, 90;
 
     --er-outline: #202020;
 }

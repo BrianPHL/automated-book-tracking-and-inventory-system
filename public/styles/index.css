@@ -6,8 +6,8 @@ html[data-theme=light] {
   --tg-primary: #101010;
   --tg-secondary: #131313;
   --gr-primary: #0B3612;
-  --gr-primary-rgb: 11, 54, 18;
   --gr-secondary: #347542;
+  --gr-primary-rgb: 11, 54, 18;
   --gr-secondary-rgb: 52, 117, 66;
   --er-outline: #CECECE;
 }
@@ -20,6 +20,8 @@ html[data-theme=dark] {
   --tg-secondary: #CCCCCC;
   --gr-primary: #347542;
   --gr-secondary: #46A35A;
+  --gr-primary-rgb: 52, 117, 66;
+  --gr-secondary-rgb: 70, 163, 90;
   --er-outline: #202020;
 }
 
@@ -89,10 +91,12 @@ button:disabled:hover {
 }
 
 input {
+  background-color: var(--bg-tertiary);
   border-radius: 4px;
   font-size: 12px;
   padding: 8px;
   border: 1px solid var(--er-outline);
+  color: var(--tg-primary);
   width: 100%;
 }
 input:focus {
