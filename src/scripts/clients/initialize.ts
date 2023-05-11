@@ -6,7 +6,7 @@ export const setLightTheme = () => {
 
     if (htmlElement.getAttribute('data-site') == 'staff') {
 
-        const themeBtn = document.querySelector('#hd-actions-theme');
+        const themeBtn = document.querySelector('#hd-actions-theme > i');
 
         themeBtn.classList.add('fa-moon')
         themeBtn.classList.remove('fa-sun')
@@ -22,7 +22,7 @@ export const setDarkTheme = () => {
 
     if (htmlElement.getAttribute('data-site') == 'staff') {
 
-        const themeBtn = document.querySelector('#hd-actions-theme');
+        const themeBtn = document.querySelector('#hd-actions-theme > i');
 
         themeBtn.classList.add('fa-sun')
         themeBtn.classList.remove('fa-moon') 

@@ -2,7 +2,7 @@ import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
 export const setLightTheme = () => {
     const htmlElement = document.querySelector('html');
     if (htmlElement.getAttribute('data-site') == 'staff') {
-        const themeBtn = document.querySelector('#hd-actions-theme');
+        const themeBtn = document.querySelector('#hd-actions-theme > i');
         themeBtn.classList.add('fa-moon');
         themeBtn.classList.remove('fa-sun');
     }
@@ -12,7 +12,7 @@ export const setLightTheme = () => {
 export const setDarkTheme = () => {
     const htmlElement = document.querySelector('html');
     if (htmlElement.getAttribute('data-site') == 'staff') {
-        const themeBtn = document.querySelector('#hd-actions-theme');
+        const themeBtn = document.querySelector('#hd-actions-theme > i');
         themeBtn.classList.add('fa-sun');
         themeBtn.classList.remove('fa-moon');
     }

@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startNavigationListener();
         const startActionsListener = () => {
             staff.actions.theme.addEventListener('click', (event) => {
-                const target = event.target;
+                const target = document.querySelector('#hd-actions-theme > i');
                 const classes = target.classList;
                 if (classes[1] == 'fa-moon') {
                     setDarkTheme();
@@ -82,8 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             staff.actions.refresh.addEventListener('click', () => {
-            });
-            staff.actions.logout.addEventListener('click', () => {
             });
         };
         startActionsListener();

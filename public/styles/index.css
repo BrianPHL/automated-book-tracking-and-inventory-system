@@ -304,16 +304,24 @@ a {
   justify-content: flex-end;
   align-items: center;
   display: flex;
-  gap: 16px;
+  gap: 8px;
 }
-.staff .dashboard > .header > .actions > i {
+.staff .dashboard > .header > .actions > a {
+  background-color: var(--bg-primary);
+  border-radius: 4px;
+  align-items: center;
   transition: 0.2s ease;
   font-size: 16px;
+  display: flex;
+  padding: 8px 16px 8px 16px;
+  border: 1px solid var(--er-outline);
   color: var(--tg-primary);
+  gap: 8px;
 }
-.staff .dashboard > .header > .actions > i:hover {
+.staff .dashboard > .header > .actions > a:hover {
+  background-color: var(--gr-primary);
   cursor: pointer;
-  color: var(--gr-secondary);
+  color: var(--bg-primary);
 }
 .staff .dashboard > .container {
   grid-template-columns: 1fr 1fr 1fr;
