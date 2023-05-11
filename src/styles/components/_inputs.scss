@@ -1,9 +1,11 @@
 input {
     
+    background-color: var(--bg-tertiary);
     border-radius: 4px;
     font-size: 12px;
     padding: 8px;
     border: 1px solid var(--er-outline);
+    color: var(--tg-primary);
     width: 100%;
 
     &:focus {
