@@ -32,12 +32,8 @@ interface dashboard {
     actions: {
 
         theme: HTMLButtonElement
-        search: HTMLButtonElement
         refresh: HTMLButtonElement
-        view: {
-            notifications: HTMLButtonElement
-            account: HTMLButtonElement
-        }
+        logout: HTMLButtonElement
 
     }
 

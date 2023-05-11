@@ -5,12 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const staff = {
         actions: {
             theme: document.querySelector('#hd-actions-theme'),
-            search: document.querySelector('#hd-actions-search'),
             refresh: document.querySelector('#hd-actions-refresh'),
-            view: {
-                notifications: document.querySelector('#hd-actions-viewNotifications'),
-                account: document.querySelector('#hd-actions-viewAccount')
-            }
+            logout: document.querySelector('#hd-actions-logout')
         },
         overview: {
             availability: document.querySelector('#ov-av-data-count'),
@@ -55,6 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const init = () => {
+
+        const fetchDatabaseItems = () => {
+
+        }
+        fetchDatabaseItems()
 
         const startNavigationListener = () => {
 
@@ -107,19 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             })
 
-            staff.actions.search.addEventListener('click', () => {
-
-            })
-
             staff.actions.refresh.addEventListener('click', () => {
 
             })
 
-            staff.actions.view.account.addEventListener('click', () => {
-
-            })
-
-            staff.actions.view.notifications.addEventListener('click', () => {
+            staff.actions.logout.addEventListener('click', () => {
 
             })
 
@@ -130,7 +123,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init()
     
-    
-    
-
 })
