@@ -6,10 +6,13 @@ export const setLightTheme = () => {
 
     if (htmlElement.getAttribute('data-site') == 'staff') {
 
-        const themeBtn = document.querySelector('#hd-actions-theme > i');
+        const themeBtn = document.querySelector('#hd-actions-theme');
+        const themeText = themeBtn.querySelector('span');
+        const themeBtnIcon = themeBtn.querySelector('i');
 
-        themeBtn.classList.add('fa-moon')
-        themeBtn.classList.remove('fa-sun')
+        themeText.textContent = 'Change to Dark UI'
+        themeBtnIcon.classList.add('fa-moon')
+        themeBtnIcon.classList.remove('fa-sun')
 
     }
 
@@ -22,10 +25,13 @@ export const setDarkTheme = () => {
 
     if (htmlElement.getAttribute('data-site') == 'staff') {
 
-        const themeBtn = document.querySelector('#hd-actions-theme > i');
+        const themeBtn = document.querySelector('#hd-actions-theme');
+        const themeText = themeBtn.querySelector('span');
+        const themeBtnIcon = themeBtn.querySelector('i');
 
-        themeBtn.classList.add('fa-sun')
-        themeBtn.classList.remove('fa-moon') 
+        themeText.textContent = 'Change to Light UI'
+        themeBtnIcon.classList.add('fa-sun')
+        themeBtnIcon.classList.remove('fa-moon') 
 
     }
 
