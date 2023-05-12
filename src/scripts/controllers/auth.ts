@@ -1,17 +1,24 @@
 import { Request, Response } from "express";
-import { pool } from "../app.js";
+import { performDatabaseOperation } from "./db.js";
 
 const loginHandler = (req: Request, res: Response) => {
 
     const { username, password } = req.body
+    const queryString = "SELECT * FROM users WHERE username = ? AND password = ?"
+    const queryArgs = [ username, password ]
 
-    pool.query("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (error, results) => {
+    performDatabaseOperation(queryString, queryArgs, (result) => {
 
-        if (error) { console.log(error); res.sendStatus(500); }
+        if (result && result.constructor && result.constructor.name === 'QueryError') {
 
+            console.log(result)
+            res.sendStatus(500)
+
+        }
+        
         try {
 
-            if (Array.isArray(results) && results.length > 0) {
+            if (Array.isArray(result) && result.length > 0) {
 
                 res.sendStatus(200)
 
