@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const init = async () => {
+        const computeDueBooks = async () => {
+            await fetch('/db/books/due/compute');
+        };
+        await computeDueBooks();
         const getDatabaseItems = async () => {
             const getFetchResponse = async (url) => {
                 const response = await fetch(url, {

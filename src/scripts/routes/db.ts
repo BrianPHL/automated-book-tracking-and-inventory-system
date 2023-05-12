@@ -4,6 +4,10 @@ import { performDatabaseOperation } from "../controllers/db.js";
 
 const dbRoute = express.Router()
 
+dbRoute.get('/books/due/compute', (req: Request, res: Response):void => {
+    
+})
+
 dbRoute.get('/books/available/count', (req: Request, res: Response):void => {
 
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?"

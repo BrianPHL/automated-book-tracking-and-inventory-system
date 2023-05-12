@@ -1,6 +1,8 @@
 import express from "express";
 import { performDatabaseOperation } from "../controllers/db.js";
 const dbRoute = express.Router();
+dbRoute.get('/books/due/compute', (req, res) => {
+});
 dbRoute.get('/books/available/count', (req, res) => {
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?";
     const queryArgs = ['available'];
