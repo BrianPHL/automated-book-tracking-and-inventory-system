@@ -47,10 +47,85 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-    const init = () => {
-        const fetchDatabaseItems = () => {
+    const init = async () => {
+        const getDatabaseItems = async () => {
+            const getFetchResponse = async (url) => {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+                return await response.json();
+            };
+            const getAvailableBooks = async () => {
+                const count = await getFetchResponse('/db/availableBooks/count');
+                const data = await getFetchResponse('/db/availableBooks/data');
+                for (let i = 0; i < data.length; i++) {
+                    const entry = `
+                    <div class="entry">
+                        <div class="data">
+                            <h3 id="av-data-title">${data[i].title}</h3>
+                            <div class="wrapper">
+                                <h4 id="av-data-author">${data[i].author}</h4>
+                                <h4 id="av-data-category">${data[i].genre}</h4>
+                            </div>
+                            <time id="av-data-date">${data[i].date_publicized}</time>
+                        </div>
+                        <div class="actions">
+                            <button id="av-actions-lend">Lend</button>
+                            <button id="av-actions-edit">Edit</button>
+                        </div>
+                    </div>
+                    `;
+                    staff.availability.container.innerHTML += entry;
+                }
+                staff.overview.availability.textContent = count;
+            };
+            getAvailableBooks();
+            const getBorrowedBooks = async () => {
+                const count = await getFetchResponse('/db/borrowedBooks/count');
+                const data = await getFetchResponse('/db/borrowedBooks/data');
+                for (let i = 0; i < data.length; i++) {
+                    const entry = `
+                    <div class="entry">
+                        <div class="header">
+                            <h3 id="br-header-title">${data[i].title}</h3>
+                            <button id="br-header-viewDetails">View details</button>
+                        </div>
+                        <div class="data">
+                            <div class="wrapper">
+                                <h4>Borrowed by <span id="br-data-borrower">${data[i].borrower}</span></h4>
+                                <h4>Due in <span id="br-data-due">0</span> days</h4>
+                            </div>
+                            <time id="br-data-date">${data[i].date_publicized}</time>
+                        </div>
+                        <div class="actions">
+                            <button id="br-actions-markAsReturned">Mark as returned</button>
+                        </div>
+                        
+                    </div>
+                    `;
+                    staff.borrowed.container.innerHTML += entry;
+                }
+                staff.overview.borrowed.textContent = count;
+            };
+            getBorrowedBooks();
+            const getDueBooks = async () => {
+                const count = await getFetchResponse('/db/dueBooks/count');
+                staff.overview.due.textContent = count;
+            };
+            getDueBooks();
+            const getRegisteredStudents = async () => {
+                const count = await getFetchResponse('/db/students/count');
+                staff.overview.registered.textContent = count;
+            };
+            getRegisteredStudents();
         };
-        fetchDatabaseItems();
+        getDatabaseItems();
         const startNavigationListener = () => {
             const navigation = document.querySelectorAll('.sidebar-links-nav > a,' +
                 '.sidebar-links-librarian > a,' +
