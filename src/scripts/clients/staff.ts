@@ -74,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const getAvailableBooks = async () => {
 
+                staff.availability.container.innerHTML = ''
+
                 const count = await getFetchResponse('/db/availableBooks/count')
                 const data = await getFetchResponse('/db/availableBooks/data')
                 
@@ -108,6 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const getBorrowedBooks = async () => {
 
+                staff.borrowed.container.innerHTML = ''
+                
                 const count = await getFetchResponse('/db/borrowedBooks/count')
                 const data = await getFetchResponse('/db/borrowedBooks/data')
                 
@@ -216,9 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             })
 
-            staff.actions.refresh.addEventListener('click', () => {
-
-            })
+            staff.actions.refresh.addEventListener('click', () => { getDatabaseItems() })
 
         }
         startActionsListener()

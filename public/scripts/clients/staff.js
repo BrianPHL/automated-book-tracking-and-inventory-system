@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return await response.json();
             };
             const getAvailableBooks = async () => {
+                staff.availability.container.innerHTML = '';
                 const count = await getFetchResponse('/db/availableBooks/count');
                 const data = await getFetchResponse('/db/availableBooks/data');
                 for (let i = 0; i < data.length; i++) {
@@ -87,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             getAvailableBooks();
             const getBorrowedBooks = async () => {
+                staff.borrowed.container.innerHTML = '';
                 const count = await getFetchResponse('/db/borrowedBooks/count');
                 const data = await getFetchResponse('/db/borrowedBooks/data');
                 for (let i = 0; i < data.length; i++) {
@@ -156,8 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setPreferredTheme('light');
                 }
             });
-            staff.actions.refresh.addEventListener('click', () => {
-            });
+            staff.actions.refresh.addEventListener('click', () => { getDatabaseItems(); });
         };
         startActionsListener();
     };
