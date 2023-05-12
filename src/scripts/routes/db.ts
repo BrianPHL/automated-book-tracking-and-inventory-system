@@ -4,7 +4,7 @@ import { performDatabaseOperation } from "../controllers/db.js";
 
 const dbRoute = express.Router()
 
-dbRoute.get('/availableBooks/count', (req: Request, res: Response):void => {
+dbRoute.get('/books/available/count', (req: Request, res: Response):void => {
 
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?"
     const queryArgs = [ 'available' ]
@@ -15,7 +15,7 @@ dbRoute.get('/availableBooks/count', (req: Request, res: Response):void => {
 
 })
 
-dbRoute.get('/availableBooks/data', (req: Request, res: Response):void => {
+dbRoute.get('/books/available/data', (req: Request, res: Response):void => {
 
     const queryString = "SELECT * FROM books WHERE status = ?"
     const queryArgs = [ 'available' ]
@@ -26,7 +26,7 @@ dbRoute.get('/availableBooks/data', (req: Request, res: Response):void => {
 
 })
 
-dbRoute.get('/borrowedBooks/count', (req: Request, res: Response):void => {
+dbRoute.get('/books/borrowed/count', (req: Request, res: Response):void => {
 
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?"
     const queryArgs = [ 'borrowed' ]
@@ -37,7 +37,7 @@ dbRoute.get('/borrowedBooks/count', (req: Request, res: Response):void => {
 
 })
 
-dbRoute.get('/borrowedBooks/data', (req: Request, res: Response):void => {
+dbRoute.get('/books/borrowed/data', (req: Request, res: Response):void => {
 
     const queryString = "SELECT * FROM books WHERE status = ?"
     const queryArgs = [ 'borrowed' ]
@@ -48,7 +48,7 @@ dbRoute.get('/borrowedBooks/data', (req: Request, res: Response):void => {
 
 })
 
-dbRoute.get('/dueBooks/count', (req: Request, res: Response):void => {
+dbRoute.get('/books/due/count', (req: Request, res: Response):void => {
 
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?"
     const queryArgs = [ 'due' ]
@@ -59,7 +59,7 @@ dbRoute.get('/dueBooks/count', (req: Request, res: Response):void => {
 
 })
 
-dbRoute.get('/students/count', (req: Request, res: Response):void => {
+dbRoute.get('/students/registered/count', (req: Request, res: Response):void => {
 
     const queryString = "SELECT COUNT(*) as count FROM students"
     const queryArgs = [ null ]

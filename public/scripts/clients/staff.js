@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             const getAvailableBooks = async () => {
                 staff.availability.container.innerHTML = '';
-                const count = await getFetchResponse('/db/availableBooks/count');
-                const data = await getFetchResponse('/db/availableBooks/data');
+                const count = await getFetchResponse('/db/books/available/count');
+                const data = await getFetchResponse('/db/books/available/data');
                 for (let i = 0; i < data.length; i++) {
                     const entry = `
                     <div class="entry">
@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             getAvailableBooks();
             const getBorrowedBooks = async () => {
                 staff.borrowed.container.innerHTML = '';
-                const count = await getFetchResponse('/db/borrowedBooks/count');
-                const data = await getFetchResponse('/db/borrowedBooks/data');
+                const count = await getFetchResponse('/db/books/borrowed/count');
+                const data = await getFetchResponse('/db/books/borrowed/data');
                 for (let i = 0; i < data.length; i++) {
                     const entry = `
                     <div class="entry">
@@ -117,18 +117,18 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             getBorrowedBooks();
             const getDueBooks = async () => {
-                const count = await getFetchResponse('/db/dueBooks/count');
+                const count = await getFetchResponse('/db/books/due/count');
                 staff.overview.due.textContent = count;
             };
             getDueBooks();
             const getRegisteredStudents = async () => {
-                const count = await getFetchResponse('/db/students/count');
+                const count = await getFetchResponse('/db/students/registered/count');
                 staff.overview.registered.textContent = count;
             };
             getRegisteredStudents();
         };
-        getDatabaseItems();
-        const startNavigationListener = () => {
+        await getDatabaseItems();
+        const startNavigationListener = async () => {
             const navigation = document.querySelectorAll('.sidebar-links-nav > a,' +
                 '.sidebar-links-librarian > a,' +
                 '.sidebar-links-admin > a');
@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         };
-        startNavigationListener();
-        const startActionsListener = () => {
+        await startNavigationListener();
+        const startActionsListener = async () => {
             staff.actions.theme.addEventListener('click', (event) => {
                 const target = document.querySelector('#hd-actions-theme > i');
                 const classes = target.classList;
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             staff.actions.refresh.addEventListener('click', () => { getDatabaseItems(); });
         };
-        startActionsListener();
+        await startActionsListener();
     };
     init();
 });

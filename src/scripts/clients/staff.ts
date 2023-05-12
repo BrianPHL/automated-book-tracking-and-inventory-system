@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 staff.availability.container.innerHTML = ''
 
-                const count = await getFetchResponse('/db/availableBooks/count')
-                const data = await getFetchResponse('/db/availableBooks/data')
+                const count = await getFetchResponse('/db/books/available/count')
+                const data = await getFetchResponse('/db/books/available/data')
                 
                 for (let i = 0; i < data.length; i++) {
                     
@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 staff.borrowed.container.innerHTML = ''
                 
-                const count = await getFetchResponse('/db/borrowedBooks/count')
-                const data = await getFetchResponse('/db/borrowedBooks/data')
+                const count = await getFetchResponse('/db/books/borrowed/count')
+                const data = await getFetchResponse('/db/books/borrowed/data')
                 
                 for (let i = 0; i < data.length; i++) {
                     
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const getDueBooks = async () => {
 
-                const count = await getFetchResponse('/db/dueBooks/count')
+                const count = await getFetchResponse('/db/books/due/count')
 
                 staff.overview.due.textContent = count
 
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const getRegisteredStudents = async () => {
 
-                const count = await getFetchResponse('/db/students/count')
+                const count = await getFetchResponse('/db/students/registered/count')
 
                 staff.overview.registered.textContent = count
 
@@ -167,9 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
             getRegisteredStudents()
 
         }
-        getDatabaseItems()
+        await getDatabaseItems()
 
-        const startNavigationListener = () => {
+        const startNavigationListener = async () => {
 
             const navigation = document.querySelectorAll(
                 '.sidebar-links-nav > a,' +
@@ -197,9 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
         }
-        startNavigationListener()
+        await startNavigationListener()
 
-        const startActionsListener = () => {
+        const startActionsListener = async () => {
 
             staff.actions.theme.addEventListener('click', (event) => {
 
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
             staff.actions.refresh.addEventListener('click', () => { getDatabaseItems() })
 
         }
-        startActionsListener()
+        await startActionsListener()
 
     }
 
