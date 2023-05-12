@@ -1,4 +1,6 @@
-interface loginForm {
+import { QueryError, RowDataPacket, OkPacket, ResultSetHeader } from "mysql2";
+
+export interface loginForm {
 
     button: HTMLButtonElement
 
@@ -27,7 +29,7 @@ interface loginForm {
 
 }
 
-interface dashboard {
+export interface dashboard {
     
     actions: {
 
@@ -93,10 +95,18 @@ interface dashboard {
         data: {
 
             borrower: HTMLElement
-            due: number
+            due: HTMLElement
+
+        }
+
+        actions: {
+
+            markAsReturned: HTMLButtonElement
 
         }
 
     }
 
 }
+
+declare type callbackType = QueryError | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader

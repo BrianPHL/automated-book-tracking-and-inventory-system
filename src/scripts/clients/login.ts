@@ -1,3 +1,5 @@
+import { loginForm } from "../typings.js";
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const form: loginForm = {
