@@ -5,7 +5,7 @@
   "main": "public/scripts/app.js",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"nodemon public/scripts/app.js\" \"tsc -w\""
+    "start": "nodemon public/scripts/app.js"
   },
   "author": "brianph#0500",
   "license": "MIT",
@@ -22,7 +22,6 @@
     "@types/express": "^4.17.17",
     "@types/luxon": "^3.3.0",
     "@types/node": "^18.16.3",
-    "concurrently": "^8.0.1",
     "typescript": "^5.0.4"
   }
 }
