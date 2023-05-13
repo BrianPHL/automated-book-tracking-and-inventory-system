@@ -20,6 +20,9 @@ html[data-theme="light"] {
     --gr-secondary-rgb: 52, 117, 66;
     
     --er-outline: #CECECE;
+
+    --tg-warning: #b41414;
+
 }
 
 html[data-theme="dark"] {
@@ -38,4 +41,7 @@ html[data-theme="dark"] {
     --gr-secondary-rgb: 70, 163, 90;
 
     --er-outline: #202020;
+
+    --tg-warning: #FF3232;
+
 }

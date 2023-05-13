@@ -10,6 +10,7 @@ html[data-theme=light] {
   --gr-primary-rgb: 11, 54, 18;
   --gr-secondary-rgb: 52, 117, 66;
   --er-outline: #CECECE;
+  --tg-warning: #b41414;
 }
 
 html[data-theme=dark] {
@@ -23,6 +24,7 @@ html[data-theme=dark] {
   --gr-primary-rgb: 52, 117, 66;
   --gr-secondary-rgb: 70, 163, 90;
   --er-outline: #202020;
+  --tg-warning: #FF3232;
 }
 
 /* source-sans-pro-300 - latin */
@@ -572,6 +574,9 @@ a {
   font-weight: 400;
   font-size: 12px;
   color: var(--tg-secondary);
+}
+.staff .dashboard > .container > .borrowed > .entries > .entry > .data > .wrapper > .due {
+  color: var(--tg-warning);
 }
 .staff .dashboard > .container > .borrowed > .entries > .entry > .data > time {
   font-weight: 400;

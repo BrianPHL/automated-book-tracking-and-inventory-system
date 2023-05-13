@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="data">
                             <div class="wrapper">
                                 <h4>Borrowed by <span id="br-data-borrower">${dueData[i].borrower}</span></h4>
-                                <h4>Due in <span id="br-data-due">0</span> days</h4>
+                                <h4 class="due">Past due <span id="br-data-due">${dueData[i].duration_due}</span> days ago</h4>
                             </div>
                             <time id="br-data-date">${dueData[i].date_publicized}</time>
                         </div>
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="data">
                             <div class="wrapper">
                                 <h4>Borrowed by <span id="br-data-borrower">${borrowedData[i].borrower}</span></h4>
-                                <h4>Due in <span id="br-data-due">0</span> days</h4>
+                                <h4>Due in <span id="br-data-due">${borrowedData[i].duration_borrowed}</span> days</h4>
                             </div>
                             <time id="br-data-date">${borrowedData[i].date_publicized}</time>
                         </div>
