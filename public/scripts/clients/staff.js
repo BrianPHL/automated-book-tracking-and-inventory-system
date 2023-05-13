@@ -48,27 +48,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const init = async () => {
+        const getJSONResponse = async (url, method) => {
+            const response = await fetch(url, {
+                method: method.toUpperCase(),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+            return await response.json();
+        };
+        const getStatusResponse = async (url, method) => {
+            const response = await fetch(url, {
+                method: method.toUpperCase(),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+            return response.status;
+        };
         const computeDueBooks = async () => {
-            await fetch('/db/books/due/compute');
+            console.log('computing');
+            await getStatusResponse('/db/books/due/compute', 'POST');
+            console.log('computed?');
         };
         await computeDueBooks();
         const getDatabaseItems = async () => {
-            const getFetchResponse = async (url) => {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error: ${response.status}`);
-                }
-                return await response.json();
-            };
             const getAvailableBooks = async () => {
                 staff.availability.container.innerHTML = '';
-                const count = await getFetchResponse('/db/books/available/count');
-                const data = await getFetchResponse('/db/books/available/data');
+                const count = await getJSONResponse('/db/books/available/count', 'GET');
+                const data = await getJSONResponse('/db/books/available/data', 'GET');
                 for (let i = 0; i < data.length; i++) {
                     const entry = `
                     <div class="entry">
@@ -93,8 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
             getAvailableBooks();
             const getBorrowedBooks = async () => {
                 staff.borrowed.container.innerHTML = '';
-                const count = await getFetchResponse('/db/books/borrowed/count');
-                const data = await getFetchResponse('/db/books/borrowed/data');
+                const count = await getJSONResponse('/db/books/borrowed/count', 'GET');
+                const data = await getJSONResponse('/db/books/borrowed/data', 'GET');
                 for (let i = 0; i < data.length; i++) {
                     const entry = `
                     <div class="entry">
@@ -121,12 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             getBorrowedBooks();
             const getDueBooks = async () => {
-                const count = await getFetchResponse('/db/books/due/count');
+                const count = await getJSONResponse('/db/books/due/count', 'GET');
                 staff.overview.due.textContent = count;
             };
             getDueBooks();
             const getRegisteredStudents = async () => {
-                const count = await getFetchResponse('/db/students/registered/count');
+                const count = await getJSONResponse('/db/students/registered/count', 'GET');
                 staff.overview.registered.textContent = count;
             };
             getRegisteredStudents();

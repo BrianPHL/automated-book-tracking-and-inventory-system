@@ -1,7 +1,31 @@
 import express from "express";
 import { performDatabaseOperation } from "../controllers/db.js";
 const dbRoute = express.Router();
-dbRoute.get('/books/due/compute', (req, res) => {
+dbRoute.post('/books/due/compute', (req, res) => {
+    const queryString = "SELECT * FROM books WHERE status = ?";
+    const queryArgs = ['borrowed'];
+    const getDaysBetween = (startDate, endDate) => {
+        const dayMilliseconds = 24 * 60 * 60 * 1000;
+        const timeDifference = (endDate.getTime() - startDate.getTime());
+        return (timeDifference / dayMilliseconds);
+    };
+    performDatabaseOperation(queryString, queryArgs, (result) => {
+        if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+            for (let i = 0; i < result.length; i++) {
+                const dateBorrowed = new Date(result[i].date_borrowed);
+                const dateDue = new Date(result[i].date_due);
+                if (getDaysBetween(dateBorrowed, dateDue) < 1) {
+                    const queryString = "UPDATE books SET status = ? WHERE id = ?";
+                    const queryArgs = ['due', result[i].id];
+                    performDatabaseOperation(queryString, queryArgs);
+                }
+            }
+            res.sendStatus(200);
+        }
+        else {
+            res.send(500);
+        }
+    });
 });
 dbRoute.get('/books/available/count', (req, res) => {
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?";
