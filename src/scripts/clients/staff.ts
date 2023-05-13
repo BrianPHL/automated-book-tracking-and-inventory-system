@@ -322,9 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (target.id == 'br-actions-markAsReturned') {
 
-                    const entryTitle = target.parentElement.parentElement.querySelector('#br-header-title').textContent
+                    const entry = target.parentElement.parentElement
+                    const entryTitle = entry.querySelector('#br-header-title').textContent
 
-                    await getStatusResponse('', 'POST', { title: entryTitle })
+                    await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle })
+
+                    entry.remove();
 
                 }
 

@@ -230,8 +230,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('click', async (event) => {
                 const target = event.target;
                 if (target.id == 'br-actions-markAsReturned') {
-                    const entryTitle = target.parentElement.parentElement.querySelector('#br-header-title').textContent;
-                    await getStatusResponse('', 'POST', { title: entryTitle });
+                    const entry = target.parentElement.parentElement;
+                    const entryTitle = entry.querySelector('#br-header-title').textContent;
+                    await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle });
+                    entry.remove();
                 }
             });
         };

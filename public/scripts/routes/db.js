@@ -78,6 +78,21 @@ dbRoute.post('/books/due/compute', async (req, res) => {
     await computeBooksDuration();
     res.sendStatus(200);
 });
+dbRoute.post('/books/mark-as-returned', async (req, res) => {
+    const queryString = "UPDATE books SET status = ?, date_borrowed = ?, date_due = ?, duration_due = ?, duration_borrowed = ? WHERE title = ?";
+    const queryArgs = ['available', null, null, null, null, req.body.title];
+    try {
+        setTimeout(() => {
+            performDatabaseOperation(queryString, queryArgs);
+        }, 1000);
+    }
+    catch (err) {
+        res.send(err);
+    }
+    finally {
+        res.send(200);
+    }
+});
 dbRoute.get('/books/available/count', (req, res) => {
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?";
     const queryArgs = ['available'];
