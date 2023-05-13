@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import { performDatabaseOperation } from "../controllers/db.js";
+import { DateTime } from "luxon";
 
 const dbRoute = express.Router()
 
@@ -15,6 +16,63 @@ dbRoute.post('/books/due/compute', async (req: Request, res: Response) => {
         return (timeDifference / dayMilliseconds)
 
     }
+
+    const updateBorrowedDate = async () => {
+
+        const updateBorrowedBooks = async () => {
+
+            const queryString = "SELECT * FROM books WHERE status = ?"
+            const queryArgs = [ 'borrowed' ]
+
+            performDatabaseOperation(queryString, queryArgs, (result: any) => {
+
+                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+
+                    for (let i = 0; i < result.length; i++) {
+
+                        const timeNow = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss')
+                        const queryString = "UPDATE books SET date_borrowed = ? WHERE id = ?"
+                        const queryArgs = [ timeNow, result[i].id ]
+
+                        performDatabaseOperation(queryString, queryArgs)
+
+                    }
+
+                }
+                
+            })
+
+        }
+        await updateBorrowedBooks()
+
+        const updateDueBooks = async () => {
+
+            const queryString = "SELECT * FROM books WHERE status = ?"
+            const queryArgs = [ 'due' ]
+
+            performDatabaseOperation(queryString, queryArgs, (result: any) => {
+
+                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+
+                    for (let i = 0; i < result.length; i++) {
+
+                        const timeNow = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss')
+                        const queryString = "UPDATE books SET date_borrowed = ? WHERE id = ?"
+                        const queryArgs = [ timeNow, result[i].id ]
+
+                        performDatabaseOperation(queryString, queryArgs)
+
+                    }
+
+                }
+                
+            })
+
+        }
+        await updateDueBooks()
+
+    }
+    await updateBorrowedDate()
 
     const checkBorrowedBooks = async () => {
 
@@ -102,7 +160,7 @@ dbRoute.post('/books/due/compute', async (req: Request, res: Response) => {
                 
             })
         }
-        
+
         await computeDueDuration()
 
     }
