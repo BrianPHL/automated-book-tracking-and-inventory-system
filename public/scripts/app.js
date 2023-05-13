@@ -3,6 +3,7 @@ import express from "express";
 import { createPool } from "mysql2";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { EventEmitter } from "events";
 import dotenv from "dotenv";
 // ? Express Router Routes
 import loginRoute from "./routes/login.js";
@@ -21,6 +22,8 @@ const pool = createPool({
     password: process.env.DATABASE_PASS,
     database: process.env.DATABASE_NAME
 });
+const eventEmitter = new EventEmitter();
+EventEmitter.setMaxListeners(0);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("public"));
