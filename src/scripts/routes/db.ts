@@ -100,6 +100,17 @@ dbRoute.get('/books/due/count', (req: Request, res: Response):void => {
 
 })
 
+dbRoute.get('/books/due/data', (req: Request, res: Response):void => {
+
+    const queryString = "SELECT * FROM books WHERE status = ?"
+    const queryArgs = [ 'due' ]
+
+    performDatabaseOperation(queryString, queryArgs, (result) => {
+        res.json(result)
+    })
+
+})
+
 dbRoute.get('/students/registered/count', (req: Request, res: Response):void => {
 
     const queryString = "SELECT COUNT(*) as count FROM students"

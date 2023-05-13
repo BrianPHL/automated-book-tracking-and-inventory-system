@@ -105,23 +105,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 staff.overview.availability.textContent = count;
             };
             getAvailableBooks();
+            const getDueBooks = async () => {
+                const count = await getJSONResponse('/db/books/due/count', 'GET');
+                staff.overview.due.textContent = count;
+            };
+            getDueBooks();
             const getBorrowedBooks = async () => {
                 staff.borrowed.container.innerHTML = '';
                 const count = await getJSONResponse('/db/books/borrowed/count', 'GET');
-                const data = await getJSONResponse('/db/books/borrowed/data', 'GET');
-                for (let i = 0; i < data.length; i++) {
+                const borrowedData = await getJSONResponse('/db/books/borrowed/data', 'GET');
+                const dueData = await getJSONResponse('/db/books/due/data', 'GET');
+                for (let i = 0; i < dueData.length; i++) {
                     const entry = `
                     <div class="entry">
                         <div class="header">
-                            <h3 id="br-header-title">${data[i].title}</h3>
+                            <h3 id="br-header-title">${dueData[i].title}</h3>
                             <button id="br-header-viewDetails">View details</button>
                         </div>
                         <div class="data">
                             <div class="wrapper">
-                                <h4>Borrowed by <span id="br-data-borrower">${data[i].borrower}</span></h4>
+                                <h4>Borrowed by <span id="br-data-borrower">${dueData[i].borrower}</span></h4>
                                 <h4>Due in <span id="br-data-due">0</span> days</h4>
                             </div>
-                            <time id="br-data-date">${data[i].date_publicized}</time>
+                            <time id="br-data-date">${dueData[i].date_publicized}</time>
+                        </div>
+                        <div class="actions">
+                            <button id="br-actions-markAsReturned">Mark as returned</button>
+                        </div>
+                        
+                    </div>
+                    `;
+                    staff.borrowed.container.innerHTML += entry;
+                }
+                for (let i = 0; i < borrowedData.length; i++) {
+                    const entry = `
+                    <div class="entry">
+                        <div class="header">
+                            <h3 id="br-header-title">${borrowedData[i].title}</h3>
+                            <button id="br-header-viewDetails">View details</button>
+                        </div>
+                        <div class="data">
+                            <div class="wrapper">
+                                <h4>Borrowed by <span id="br-data-borrower">${borrowedData[i].borrower}</span></h4>
+                                <h4>Due in <span id="br-data-due">0</span> days</h4>
+                            </div>
+                            <time id="br-data-date">${borrowedData[i].date_publicized}</time>
                         </div>
                         <div class="actions">
                             <button id="br-actions-markAsReturned">Mark as returned</button>
@@ -134,11 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 staff.overview.borrowed.textContent = count;
             };
             getBorrowedBooks();
-            const getDueBooks = async () => {
-                const count = await getJSONResponse('/db/books/due/count', 'GET');
-                staff.overview.due.textContent = count;
-            };
-            getDueBooks();
             const getRegisteredStudents = async () => {
                 const count = await getJSONResponse('/db/students/registered/count', 'GET');
                 staff.overview.registered.textContent = count;
