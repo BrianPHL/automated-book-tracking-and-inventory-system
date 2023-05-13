@@ -53,31 +53,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const init = async () => {
         
-        const getJSONResponse = async (url: string, method: string) => {
+        const getJSONResponse = async (url: string, method: string, data?: object) => {
 
-            const response = await fetch(url, {
-                method: method.toUpperCase(),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
+            let response: Response
+
+            if (!data) {
+
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+
+            } else {
+
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+
+            }
 
             if (!response.ok) {
                 throw new Error(`HTTP error: ${response.status}`)
             }
 
-            return await response.json();
+            return response.json();
 
         }
 
-        const getStatusResponse = async (url: string, method: string) => {
+        const getStatusResponse = async (url: string, method: string, data?: object) => {
 
-            const response = await fetch(url, {
-                method: method.toUpperCase(),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
+            let response: Response
+
+            if (!data) {
+
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+
+            } else {
+
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+
+            }
 
             if (!response.ok) {
                 throw new Error(`HTTP error: ${response.status}`)
@@ -281,6 +313,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
         await startActionsListener()
+
+        const startEntriesListener = async () => {
+
+            document.addEventListener('click', async (event) => {
+
+                const target = event.target as HTMLElement
+                
+                if (target.id == 'br-actions-markAsReturned') {
+
+                    const entryTitle = target.parentElement.parentElement.querySelector('#br-header-title').textContent
+
+                    await getStatusResponse('', 'POST', { title: entryTitle })
+
+                }
+
+            })
+
+        }
+
+        await startEntriesListener()
 
     }
 

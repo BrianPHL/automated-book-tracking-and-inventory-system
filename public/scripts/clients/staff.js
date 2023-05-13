@@ -48,25 +48,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const init = async () => {
-        const getJSONResponse = async (url, method) => {
-            const response = await fetch(url, {
-                method: method.toUpperCase(),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
+        const getJSONResponse = async (url, method, data) => {
+            let response;
+            if (!data) {
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
+            else {
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+            }
             if (!response.ok) {
                 throw new Error(`HTTP error: ${response.status}`);
             }
-            return await response.json();
+            return response.json();
         };
-        const getStatusResponse = async (url, method) => {
-            const response = await fetch(url, {
-                method: method.toUpperCase(),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
+        const getStatusResponse = async (url, method, data) => {
+            let response;
+            if (!data) {
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
+            else {
+                response = await fetch(url, {
+                    method: method.toUpperCase(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+            }
             if (!response.ok) {
                 throw new Error(`HTTP error: ${response.status}`);
             }
@@ -202,6 +226,16 @@ document.addEventListener('DOMContentLoaded', () => {
             staff.actions.refresh.addEventListener('click', () => { getDatabaseItems(); });
         };
         await startActionsListener();
+        const startEntriesListener = async () => {
+            document.addEventListener('click', async (event) => {
+                const target = event.target;
+                if (target.id == 'br-actions-markAsReturned') {
+                    const entryTitle = target.parentElement.parentElement.querySelector('#br-header-title').textContent;
+                    await getStatusResponse('', 'POST', { title: entryTitle });
+                }
+            });
+        };
+        await startEntriesListener();
     };
     init();
 });
