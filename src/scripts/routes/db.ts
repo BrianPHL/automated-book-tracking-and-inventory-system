@@ -7,7 +7,6 @@ const dbRoute = express.Router()
 
 dbRoute.post('/books/due/compute', async (req: Request, res: Response) => {
 
-
     const getDaysBetween = (startDate: Date, endDate: Date): number => {
 
         const dayMilliseconds = 24 * 60 * 60 * 1000;
@@ -19,57 +18,26 @@ dbRoute.post('/books/due/compute', async (req: Request, res: Response) => {
 
     const updateBorrowedDate = async () => {
 
-        const updateBorrowedBooks = async () => {
+        const queryString = "SELECT * FROM books WHERE status = ? OR status = ?"
+        const queryArgs = [ 'borrowed', 'due' ]
 
-            const queryString = "SELECT * FROM books WHERE status = ?"
-            const queryArgs = [ 'borrowed' ]
+        performDatabaseOperation(queryString, queryArgs, (result: any) => {
 
-            performDatabaseOperation(queryString, queryArgs, (result: any) => {
+            if (Array.isArray(result) && result.constructor.name !== "QueryError") {
 
-                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+                for (let i = 0; i < result.length; i++) {
 
-                    for (let i = 0; i < result.length; i++) {
+                    const timeNow = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss')
+                    const queryString = "UPDATE books SET date_borrowed = ? WHERE id = ?"
+                    const queryArgs = [ timeNow, result[i].id ]
 
-                        const timeNow = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss')
-                        const queryString = "UPDATE books SET date_borrowed = ? WHERE id = ?"
-                        const queryArgs = [ timeNow, result[i].id ]
-
-                        performDatabaseOperation(queryString, queryArgs)
-
-                    }
+                    performDatabaseOperation(queryString, queryArgs)
 
                 }
-                
-            })
 
-        }
-        await updateBorrowedBooks()
-
-        const updateDueBooks = async () => {
-
-            const queryString = "SELECT * FROM books WHERE status = ?"
-            const queryArgs = [ 'due' ]
-
-            performDatabaseOperation(queryString, queryArgs, (result: any) => {
-
-                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
-
-                    for (let i = 0; i < result.length; i++) {
-
-                        const timeNow = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss')
-                        const queryString = "UPDATE books SET date_borrowed = ? WHERE id = ?"
-                        const queryArgs = [ timeNow, result[i].id ]
-
-                        performDatabaseOperation(queryString, queryArgs)
-
-                    }
-
-                }
-                
-            })
-
-        }
-        await updateDueBooks()
+            }
+            
+        })
 
     }
     await updateBorrowedDate()
