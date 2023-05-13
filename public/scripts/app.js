@@ -23,7 +23,7 @@ const pool = createPool({
     database: process.env.DATABASE_NAME
 });
 const eventEmitter = new EventEmitter();
-EventEmitter.setMaxListeners(0);
+eventEmitter.setMaxListeners(0);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("public"));

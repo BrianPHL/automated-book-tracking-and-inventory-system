@@ -27,7 +27,7 @@ const pool: Pool = createPool({
 })
 const eventEmitter = new EventEmitter()
 
-EventEmitter.setMaxListeners(0)
+eventEmitter.setMaxListeners(0)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
