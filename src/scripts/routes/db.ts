@@ -4,10 +4,9 @@ import { performDatabaseOperation } from "../controllers/db.js";
 
 const dbRoute = express.Router()
 
-dbRoute.post('/books/due/compute', (req: Request, res: Response):void => {
+dbRoute.post('/books/due/compute', async (req: Request, res: Response) => {
 
-    const queryString = "SELECT * FROM books WHERE status = ?"
-    const queryArgs = [ 'borrowed' ]
+
     const getDaysBetween = (startDate: Date, endDate: Date): number => {
 
         const dayMilliseconds = 24 * 60 * 60 * 1000;
@@ -17,97 +16,99 @@ dbRoute.post('/books/due/compute', (req: Request, res: Response):void => {
 
     }
 
-    performDatabaseOperation(queryString, queryArgs, async (result: any) => {
+    const checkBorrowedBooks = async () => {
 
-        if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+        const queryString = "SELECT * FROM books WHERE status = ?"
+        const queryArgs = [ 'borrowed' ]
 
-            const checkBorrowedBooks = async () => {
+        performDatabaseOperation(queryString, queryArgs, (result: any) => {
+
+            if (Array.isArray(result) && result.constructor.name !== "QueryError") {
 
                 for (let i = 0; i < result.length; i++) {
 
                     const dateBorrowed: Date = new Date(result[i].date_borrowed)
                     const dateDue: Date = new Date(result[i].date_due)
-    
+                
                     if (getDaysBetween(dateBorrowed, dateDue) < 1) {
-    
+                    
                         const queryString = "UPDATE books SET status = ? WHERE id = ?"
                         const queryArgs = [ 'due', result[i].id ]
-    
+                    
                         performDatabaseOperation(queryString, queryArgs)
-    
+                    
                     }
-    
+                
                 }
 
             }
 
-            await checkBorrowedBooks()
+        })
 
-            const computeBooksDuration = async () => {
 
-                const computeBorrowedDuration = async () => {
 
-                    const queryString = "SELECT * FROM books WHERE status = ?"
-                    const queryArgs = [ 'borrowed' ]
+    }
+    await checkBorrowedBooks()
 
-                    performDatabaseOperation(queryString, queryArgs, (result: any) => {
+    const computeBooksDuration = async () => {
 
-                        if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+        const computeBorrowedDuration = async () => {
 
-                            for (let i = 0; i < result.length; i++) {
+            const queryString = "SELECT * FROM books WHERE status = ?"
+            const queryArgs = [ 'borrowed' ]
 
-                                const dateBorrowed: Date = new Date(result[i].date_borrowed)
-                                const dateDue: Date = new Date(result[i].date_due)
-                                const queryString = "UPDATE books SET duration_borrowed = ? WHERE id = ?"
-                                const queryArgs = [ Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id ]
+            performDatabaseOperation(queryString, queryArgs, (result: any) => {
 
-                                performDatabaseOperation(queryString, queryArgs)
+                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
 
-                            }
+                    for (let i = 0; i < result.length; i++) {
 
-                        }
-                        
-                    })
+                        const dateBorrowed: Date = new Date(result[i].date_borrowed)
+                        const dateDue: Date = new Date(result[i].date_due)
+                        const queryString = "UPDATE books SET duration_borrowed = ? WHERE id = ?"
+                        const queryArgs = [ Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id ]
 
-                }
-                await computeBorrowedDuration()
+                        performDatabaseOperation(queryString, queryArgs)
 
-                const computeDueDuration = async () => {
-
-                    const queryString = "SELECT * FROM books WHERE status = ?"
-                    const queryArgs = [ 'due' ]
-
-                    performDatabaseOperation(queryString, queryArgs, (result: any) => {
-
-                        if (Array.isArray(result) && result.constructor.name !== "QueryError") {
-
-                            for (let i = 0; i < result.length; i++) {
-                                
-                                const dateBorrowed: Date = new Date(result[i].date_borrowed)
-                                const dateDue: Date = new Date(result[i].date_due)
-                                const queryString = "UPDATE books SET duration_due = ? WHERE id = ?"
-                                const queryArgs = [ Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id ]
-
-                                performDatabaseOperation(queryString, queryArgs)
-
-                            }
-
-                        }
-                        
-                    })
+                    }
 
                 }
-                await computeDueDuration()
+                
+            })
 
-            }
+        }
+        await computeBorrowedDuration()
 
-            await computeBooksDuration()
+        const computeDueDuration = async () => {
+            
+            const queryString = "SELECT * FROM books WHERE status = ?"
+            const queryArgs = [ 'due' ]
+            
+            performDatabaseOperation(queryString, queryArgs, (result: any) => {
+                
+                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+                    
+                    for (let i = 0; i < result.length; i++) {
+                        
+                        const dateBorrowed: Date = new Date(result[i].date_borrowed)
+                        const dateDue: Date = new Date(result[i].date_due)
+                        const queryString = "UPDATE books SET duration_due = ? WHERE id = ?"
+                        const queryArgs = [ Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id ]
+                        performDatabaseOperation(queryString, queryArgs)
+                    
+                    }
+                
+                }
+                
+            })
+        }
+        
+        await computeDueDuration()
 
-            res.sendStatus(200)
+    }
+    await computeBooksDuration()
 
-        } else { res.send(500) }
-
-    })
+    res.sendStatus(200)
 
 })
 

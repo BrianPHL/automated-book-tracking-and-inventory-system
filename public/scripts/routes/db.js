@@ -1,17 +1,17 @@
 import express from "express";
 import { performDatabaseOperation } from "../controllers/db.js";
 const dbRoute = express.Router();
-dbRoute.post('/books/due/compute', (req, res) => {
-    const queryString = "SELECT * FROM books WHERE status = ?";
-    const queryArgs = ['borrowed'];
+dbRoute.post('/books/due/compute', async (req, res) => {
     const getDaysBetween = (startDate, endDate) => {
         const dayMilliseconds = 24 * 60 * 60 * 1000;
         const timeDifference = (endDate.getTime() - startDate.getTime());
         return (timeDifference / dayMilliseconds);
     };
-    performDatabaseOperation(queryString, queryArgs, async (result) => {
-        if (Array.isArray(result) && result.constructor.name !== "QueryError") {
-            const checkBorrowedBooks = async () => {
+    const checkBorrowedBooks = async () => {
+        const queryString = "SELECT * FROM books WHERE status = ?";
+        const queryArgs = ['borrowed'];
+        performDatabaseOperation(queryString, queryArgs, (result) => {
+            if (Array.isArray(result) && result.constructor.name !== "QueryError") {
                 for (let i = 0; i < result.length; i++) {
                     const dateBorrowed = new Date(result[i].date_borrowed);
                     const dateDue = new Date(result[i].date_due);
@@ -21,49 +21,46 @@ dbRoute.post('/books/due/compute', (req, res) => {
                         performDatabaseOperation(queryString, queryArgs);
                     }
                 }
-            };
-            await checkBorrowedBooks();
-            const computeBooksDuration = async () => {
-                const computeBorrowedDuration = async () => {
-                    const queryString = "SELECT * FROM books WHERE status = ?";
-                    const queryArgs = ['borrowed'];
-                    performDatabaseOperation(queryString, queryArgs, (result) => {
-                        if (Array.isArray(result) && result.constructor.name !== "QueryError") {
-                            for (let i = 0; i < result.length; i++) {
-                                const dateBorrowed = new Date(result[i].date_borrowed);
-                                const dateDue = new Date(result[i].date_due);
-                                const queryString = "UPDATE books SET duration_borrowed = ? WHERE id = ?";
-                                const queryArgs = [Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id];
-                                performDatabaseOperation(queryString, queryArgs);
-                            }
-                        }
-                    });
-                };
-                await computeBorrowedDuration();
-                const computeDueDuration = async () => {
-                    const queryString = "SELECT * FROM books WHERE status = ?";
-                    const queryArgs = ['due'];
-                    performDatabaseOperation(queryString, queryArgs, (result) => {
-                        if (Array.isArray(result) && result.constructor.name !== "QueryError") {
-                            for (let i = 0; i < result.length; i++) {
-                                const dateBorrowed = new Date(result[i].date_borrowed);
-                                const dateDue = new Date(result[i].date_due);
-                                const queryString = "UPDATE books SET duration_due = ? WHERE id = ?";
-                                const queryArgs = [Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id];
-                                performDatabaseOperation(queryString, queryArgs);
-                            }
-                        }
-                    });
-                };
-                await computeDueDuration();
-            };
-            await computeBooksDuration();
-            res.sendStatus(200);
-        }
-        else {
-            res.send(500);
-        }
-    });
+            }
+        });
+    };
+    await checkBorrowedBooks();
+    const computeBooksDuration = async () => {
+        const computeBorrowedDuration = async () => {
+            const queryString = "SELECT * FROM books WHERE status = ?";
+            const queryArgs = ['borrowed'];
+            performDatabaseOperation(queryString, queryArgs, (result) => {
+                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+                    for (let i = 0; i < result.length; i++) {
+                        const dateBorrowed = new Date(result[i].date_borrowed);
+                        const dateDue = new Date(result[i].date_due);
+                        const queryString = "UPDATE books SET duration_borrowed = ? WHERE id = ?";
+                        const queryArgs = [Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id];
+                        performDatabaseOperation(queryString, queryArgs);
+                    }
+                }
+            });
+        };
+        await computeBorrowedDuration();
+        const computeDueDuration = async () => {
+            const queryString = "SELECT * FROM books WHERE status = ?";
+            const queryArgs = ['due'];
+            performDatabaseOperation(queryString, queryArgs, (result) => {
+                if (Array.isArray(result) && result.constructor.name !== "QueryError") {
+                    for (let i = 0; i < result.length; i++) {
+                        const dateBorrowed = new Date(result[i].date_borrowed);
+                        const dateDue = new Date(result[i].date_due);
+                        const queryString = "UPDATE books SET duration_due = ? WHERE id = ?";
+                        const queryArgs = [Math.abs(getDaysBetween(dateBorrowed, dateDue)), result[i].id];
+                        performDatabaseOperation(queryString, queryArgs);
+                    }
+                }
+            });
+        };
+        await computeDueDuration();
+    };
+    await computeBooksDuration();
+    res.sendStatus(200);
 });
 dbRoute.get('/books/available/count', (req, res) => {
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?";
