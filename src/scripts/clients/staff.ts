@@ -370,9 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const modalLend = modal.querySelector('#md-lend') as HTMLDivElement
                     const modalBook = modal.querySelector('#md-lend-lendedBook') as HTMLDivElement
                     const modalDateInput = modalLend.querySelector('#md-lend-dueDate') as HTMLInputElement
-                    const modalMinDate = DateTime.local().plus({ days: 1 }).toISODate().split('T')[0];
-
-                    console.log(modalMinDate)
+                    const modalMinDate = DateTime.now().plus({ days: 1 }).toISODate().split('T')[0];
 
                     modalBook.textContent = entry.querySelector('#av-data-title').textContent
                     modalDateInput.setAttribute('min', modalMinDate)

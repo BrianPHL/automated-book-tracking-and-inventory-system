@@ -32,7 +32,7 @@ dbRoute.post('/books/due/compute', async (req, res) => {
                 for (let i = 0; i < result.length; i++) {
                     const dateBorrowed = new Date(result[i].date_borrowed);
                     const dateDue = new Date(result[i].date_due);
-                    if (getDaysBetween(dateBorrowed, dateDue) < 1) {
+                    if (getDaysBetween(dateBorrowed, dateDue) < 0) {
                         const queryString = "UPDATE books SET status = ? WHERE id = ?";
                         const queryArgs = ['due', result[i].id];
                         performDatabaseOperation(queryString, queryArgs);
