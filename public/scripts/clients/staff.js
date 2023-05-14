@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             dateDue: `${DateTime.fromISO(lendConfirmDueDate.textContent).toFormat('yyyy-MM-dd')} ${lendConfirmDueTime}`
                         });
                         modal.style.display = 'none';
-                        lendConfirm.style.display = 'flex';
+                        lendConfirm.style.display = 'none';
                         lendConfirmLendedBook.textContent = '';
                         lendConfirmStudentName.textContent = '';
                         lendConfirmStudentNumber.textContent = '';

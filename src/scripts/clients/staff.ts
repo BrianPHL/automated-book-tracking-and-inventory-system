@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         })
 
                         modal.style.display = 'none'
-                        lendConfirm.style.display = 'flex'
+                        lendConfirm.style.display = 'none'
                         
                         lendConfirmLendedBook.textContent = ''
                         lendConfirmStudentName.textContent = ''
