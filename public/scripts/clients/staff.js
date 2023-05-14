@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const entryTitle = entry.querySelector('#br-header-title').textContent;
                     await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle });
                     entry.remove();
+                    await getDatabaseItems();
                 }
                 if (target.id == 'md-lend-close') {
                     const modal = document.querySelector('#md');
@@ -264,7 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const modalLend = modal.querySelector('#md-lend');
                     const modalBook = modal.querySelector('#md-lend-lendedBook');
                     const modalDateInput = modalLend.querySelector('#md-lend-dueDate');
-                    const modalMinDate = new Date().toISOString().split('T')[0];
+                    const modalMinDate = DateTime.local().plus({ days: 1 }).toISODate().split('T')[0];
+                    console.log(modalMinDate);
                     modalBook.textContent = entry.querySelector('#av-data-title').textContent;
                     modalDateInput.setAttribute('min', modalMinDate);
                     modal.style.display = 'grid';
