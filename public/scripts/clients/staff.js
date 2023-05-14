@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const init = async () => {
-        const areLendInputsFilled = () => {
+        const areLendInputsFilled = async () => {
             const lend = document.querySelector('#md-lend');
             const lendButton = lend.querySelector('#md-lend-submit');
             const studentNumber = lend.querySelector('#md-lend-studentNumber');
@@ -298,12 +298,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     const form = lend.querySelector('form');
                     const inputs = form.querySelectorAll('input');
                     inputs.forEach((element) => {
-                        element.addEventListener('input', () => {
-                            areLendInputsFilled();
+                        element.addEventListener('input', async () => {
+                            await areLendInputsFilled();
                         });
                     });
                 };
                 await startInputsListener();
+                const startSubmitListener = async () => {
+                    const lend = document.querySelector('#md-lend');
+                    const submit = lend.querySelector('#md-lend-submit');
+                    submit.addEventListener('click', async (event) => {
+                        event.preventDefault();
+                        const error = lend.querySelector('#md-lend-error');
+                        const errorText = error.querySelector('p');
+                        error.style.display = 'none';
+                        errorText.textContent = '';
+                        const studentNumber = lend.querySelector('#md-lend-studentNumber');
+                        const response = await getJSONResponse('/db/students/studentNumber/validate', 'POST', { studentNumber: studentNumber.value });
+                        if (!response.ok) {
+                            errorText.textContent = response.error;
+                            error.style.display = 'block';
+                        }
+                        else {
+                        }
+                    });
+                };
+                await startSubmitListener();
             };
             await startLendBookListener();
         };

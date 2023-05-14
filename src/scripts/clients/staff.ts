@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const init = async () => {
         
-        const areLendInputsFilled = () => {
+        const areLendInputsFilled = async () => {
 
             const lend = document.querySelector('#md-lend') as HTMLDivElement
             const lendButton = lend.querySelector('#md-lend-submit') as HTMLButtonElement
@@ -425,15 +425,50 @@ document.addEventListener('DOMContentLoaded', () => {
         
                     inputs.forEach((element) => {
                         
-                        element.addEventListener('input', () => {
-                            areLendInputsFilled()
+                        element.addEventListener('input', async () => {
+                            await areLendInputsFilled()
                         })
         
                     })
     
                 }
-    
                 await startInputsListener()
+
+                const startSubmitListener = async () => {
+
+                    const lend = document.querySelector('#md-lend') as HTMLDivElement
+                    const submit = lend.querySelector('#md-lend-submit') as HTMLButtonElement
+
+                    submit.addEventListener('click', async (event) => {
+
+                        event.preventDefault()
+
+                        const error = lend.querySelector('#md-lend-error') as HTMLDivElement
+                        const errorText = error.querySelector('p') as HTMLParagraphElement
+
+                        error.style.display = 'none'
+                        errorText.textContent = ''
+
+                        const studentNumber = lend.querySelector('#md-lend-studentNumber') as HTMLInputElement
+                        const response = await getJSONResponse('/db/students/studentNumber/validate', 'POST', { studentNumber: studentNumber.value })
+
+                        if (!response.ok) {
+                        
+
+
+                            errorText.textContent = response.error
+                            error.style.display = 'block'
+
+                        } else {
+
+
+
+                        }
+
+                    })
+
+                }
+                await startSubmitListener()
 
             }
 

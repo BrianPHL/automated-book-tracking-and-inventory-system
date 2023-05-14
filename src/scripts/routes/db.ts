@@ -5,6 +5,8 @@ import { DateTime } from "luxon";
 
 const dbRoute = express.Router()
 
+// TODO: Simplify everything. Only leave to 2 to 3 handlers. Let the request header contain the needed request for better efficiency.
+
 dbRoute.post('/books/due/compute', async (req: Request, res: Response) => {
 
     const getDaysBetween = (startDate: Date, endDate: Date): number => {
@@ -160,6 +162,27 @@ dbRoute.post('/books/mark-as-returned', async (req: Request, res: Response) => {
         res.send(200)
 
     }
+
+})
+
+dbRoute.post('/students/studentNumber/validate', (req: Request, res: Response):void => {
+
+    const { studentNumber } = req.body
+    const queryString = "SELECT first_name, last_name FROM students WHERE number = ?"
+    const queryArgs = [ studentNumber ]
+
+    performDatabaseOperation(queryString, queryArgs, (result: any) => {
+
+        
+        if (Array.isArray(result) && result.length > 0 && result.constructor.name != 'QueryError') {
+            console.log(result.length)
+            const concatenatedName = `${result[0].first_name} ${result[0].last_name}`
+            res.json({ ok: true, name: concatenatedName })
+        } else {
+            res.json({ ok: false, error: 'Invalid student number passed!' })
+        }
+
+    })
 
 })
 

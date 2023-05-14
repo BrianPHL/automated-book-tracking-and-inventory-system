@@ -320,6 +320,17 @@ a {
   cursor: pointer;
   color: var(--gr-primary);
 }
+.staff .dashboard > .modals > .lend > .error {
+  background-color: #FFCBCB;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 16px;
+  border: 1px solid #FF6B6B;
+}
+.staff .dashboard > .modals > .lend > .error p {
+  font-weight: 400;
+  font-size: 12px;
+}
 .staff .dashboard > .modals > .lend > form {
   flex-direction: column;
   display: flex;

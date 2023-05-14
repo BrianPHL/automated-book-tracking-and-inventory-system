@@ -195,6 +195,24 @@
 
                 }
 
+                & > .error {
+
+                    background-color: #FFCBCB;
+                    border-radius: 4px;
+                    overflow: auto;
+                    padding: 16px;
+                    border: 1px solid #FF6B6B;
+        
+                    p {
+        
+                        font-weight: $font-400;
+                        font-size: 12px;
+        
+            
+                    }
+
+                }
+
                 & > form {
 
                     flex-direction: column;
