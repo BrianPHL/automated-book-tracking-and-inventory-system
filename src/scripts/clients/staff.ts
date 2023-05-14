@@ -372,6 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const modalDateInput = modalLend.querySelector('#md-lend-dueDate') as HTMLInputElement
                     const modalMinDate = DateTime.now().plus({ days: 1 }).toISODate().split('T')[0];
 
+                    await areLendInputsFilled()
+
                     modalBook.textContent = entry.querySelector('#av-data-title').textContent
                     modalDateInput.setAttribute('min', modalMinDate)
                     modal.style.display = 'grid'
