@@ -48,6 +48,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const init = async () => {
+        const areLendInputsFilled = () => {
+            const lend = document.querySelector('#md-lend');
+            const lendButton = lend.querySelector('#md-lend-submit');
+            const studentNumber = lend.querySelector('#md-lend-studentNumber');
+            const dueDate = lend.querySelector('#md-lend-dueDate');
+            if (studentNumber.value != '' && dueDate.value != '') {
+                console.log(lendButton);
+                lendButton.disabled = false;
+            }
+            else {
+                console.log(lendButton);
+                lendButton.disabled = true;
+            }
+        };
+        const areLendConfirmationInputsFilled = () => {
+            const lend = document.querySelector('#md-lend-confirm');
+            const lendButton = lend.querySelector('#md-lend-confirm-submit');
+            const studentNumber = lend.querySelector('#md-lend-confirm-studentNumber');
+            const dueDate = lend.querySelector('#md-lend-confirm-dueDate');
+            if (studentNumber.value != '' && dueDate.value != '') {
+                lendButton.disabled = false;
+            }
+            else {
+                lendButton.disabled = true;
+            }
+        };
+        // const areEditInputsFilled = () => {
+        //     const edit = document.querySelector('#md-edit') as HTMLDivElement
+        //     const lendButton = edit.querySelector('#md-lend-confirm-submit') as HTMLButtonElement
+        //     const studentNumber = lend.querySelector('#md-lend-confirm-studentNumber') as HTMLInputElement
+        //     const dueDate = lend.querySelector('#md-lend-confirm-dueDate') as HTMLInputElement
+        //     if (studentNumber.value != '' && dueDate.value != '') {
+        //         lendButton.disabled = false;
+        //     } else {
+        //         lendButton.disabled = true;
+        //     }
+        // }
+        // const areEditConfirmationInputsFilled = () => {
+        //     if (form.username.input.value != '' && form.password.input.value != '') {
+        //         form.button.disabled = false;
+        //     } else {
+        //         form.button.disabled = true;
+        //     }
+        // }
         const getJSONResponse = async (url, method, data) => {
             let response;
             if (!data) {
@@ -235,9 +279,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle });
                     entry.remove();
                 }
+                if (target.id == 'md-lend-close') {
+                    const modal = document.querySelector('#md');
+                    const lend = modal.querySelector('#md-lend');
+                    modal.style.display = 'none';
+                    lend.style.display = 'none';
+                }
+                if (target.id == 'md-lend-submit') {
+                }
+                if (target.id == 'av-actions-lend') {
+                    const entry = target.parentElement.parentElement;
+                    const modal = document.querySelector('#md');
+                    const modalLend = modal.querySelector('#md-lend');
+                    const modalBook = modal.querySelector('#md-lend-lendedBook');
+                    const modalDateInput = modalLend.querySelector('#md-lend-dueDate');
+                    const modalMinDate = new Date().toISOString().split('T')[0];
+                    modalBook.textContent = entry.querySelector('#av-data-title').textContent;
+                    modalDateInput.setAttribute('min', modalMinDate);
+                    const showLendModal = () => {
+                        modal.style.display = 'grid';
+                        modalLend.style.display = 'flex';
+                    };
+                    showLendModal();
+                }
+                if (target.id == 'av-actions-edit') {
+                    const entry = target.parentElement.parentElement;
+                    console.log(entry);
+                }
             });
         };
         await startEntriesListener();
+        const startInputsListener = async () => {
+            const startLendBookInputsListener = async () => {
+                const lend = document.querySelector('#md-lend');
+                const form = lend.querySelector('form');
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach((element) => {
+                    element.addEventListener('input', () => {
+                        areLendInputsFilled();
+                    });
+                });
+            };
+            await startLendBookInputsListener();
+        };
+        await startInputsListener();
     };
     init();
 });

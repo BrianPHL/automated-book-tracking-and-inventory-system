@@ -83,6 +83,109 @@
 
             <div class="dashboard">
 
+                <div class="modals" id="md" style="display: none;">
+
+                    <div class="lend" id="md-lend" style="display: none;">
+
+                        <div class="header">
+
+                            <label for="lend">Lend book to student</label>
+
+                            <i class="fa-solid fa-close" id="md-lend-close"></i>
+
+                        </div>
+
+                        <form>
+
+                            <div class="inputs">
+
+                                <div class="lendedBook">
+
+                                    <label for="lendedBook">Book to be lended</label>
+                                    <div id="md-lend-lendedBook"></div>
+
+                                </div>
+
+                                <div class="studentNumber">
+
+                                    <label for="studentNumber">Student number</label>
+                                    <input id="md-lend-studentNumber" name="studentNumber" type="number" placeholder="Student number" required>
+    
+                                </div>
+    
+                                <div class="dueDate">
+    
+                                    <label for="dueDate">Due date</label>
+                                    <input id="md-lend-dueDate" name="dueDate" type="date" required>
+    
+                                </div>
+
+                            </div>
+                            
+                            <button type="submit" id="md-lend-submit" disabled>Submit</button>
+
+                        </form>
+
+                    </div>
+
+                    <div class="lend-confirm" id="md-lend-confirm" style="display: none;">
+
+                        <div class="header">
+
+                            <label for="lend">Confirm action</label>
+
+                            <i class="fa-solid fa-close" id="md-lend-confirm-close"></i>
+
+                        </div>
+
+                        <form>
+
+                            <div class="inputs">
+
+                                <div class="lendedBook">
+
+                                    <label for="lendedBook">Lended book title</label>
+                                    <div id="md-lend-confirm-lendedBook"></div>
+    
+                                </div>
+
+                                <div class="studentName">
+
+                                    <label for="studentName">Student name</label>
+                                    <div id="md-lend-confirm-studentName"></div>
+    
+                                </div>
+
+                                <div class="studentNumber">
+
+                                    <label for="studentNumber">Student number</label>
+                                    <div id="md-lend-confirm-studentNumber"></div>
+    
+                                </div>
+    
+                                <div class="dueDate">
+    
+                                    <label for="dueDate">Due date</label>
+                                    <input id="md-lend-dueDate" name="dueDate" type="date" required>
+    
+                                </div>
+
+                            </div>
+                            
+                            <button type="submit" disabled>Submit</button>
+
+                        </form>
+
+                    </div>
+
+                    <div class="edit" id="md-edit" style="display: none;">
+
+                        <h2>Edit</h2>
+
+                    </div>
+
+                </div>
+
                 <div class="header">
 
                     <div class="heading">
