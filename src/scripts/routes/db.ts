@@ -142,8 +142,8 @@ dbRoute.post('/books/due/compute', async (req: Request, res: Response) => {
 
 dbRoute.post('/books/mark-as-returned', async (req: Request, res: Response) => {
 
-    const queryString = "UPDATE books SET status = ?, date_borrowed = ?, date_due = ?, duration_due = ?, duration_borrowed = ? WHERE title = ?"
-    const queryArgs = [ 'available', null, null, null, null, req.body.title ]
+    const queryString = "UPDATE books SET status = ?, date_borrowed = ?, date_due = ?, duration_due = ?, duration_borrowed = ?, borrower = ?, borrower_number = ? WHERE title = ?"
+    const queryArgs = [ 'available', null, null, null, null, null, null, req.body.title ]
 
     try {
 
@@ -155,7 +155,7 @@ dbRoute.post('/books/mark-as-returned', async (req: Request, res: Response) => {
 
     } finally {
 
-        res.send(200)
+        res.sendStatus(200)
 
     }
 

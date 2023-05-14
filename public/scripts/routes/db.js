@@ -80,8 +80,8 @@ dbRoute.post('/books/due/compute', async (req, res) => {
     res.sendStatus(200);
 });
 dbRoute.post('/books/mark-as-returned', async (req, res) => {
-    const queryString = "UPDATE books SET status = ?, date_borrowed = ?, date_due = ?, duration_due = ?, duration_borrowed = ? WHERE title = ?";
-    const queryArgs = ['available', null, null, null, null, req.body.title];
+    const queryString = "UPDATE books SET status = ?, date_borrowed = ?, date_due = ?, duration_due = ?, duration_borrowed = ?, borrower = ?, borrower_number = ? WHERE title = ?";
+    const queryArgs = ['available', null, null, null, null, null, null, req.body.title];
     try {
         performDatabaseOperation(queryString, queryArgs);
     }
@@ -89,7 +89,7 @@ dbRoute.post('/books/mark-as-returned', async (req, res) => {
         res.send(err);
     }
     finally {
-        res.send(200);
+        res.sendStatus(200);
     }
 });
 dbRoute.post('/students/studentNumber/validate', (req, res) => {
