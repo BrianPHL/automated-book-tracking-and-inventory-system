@@ -69,21 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         }
 
-        const areLendConfirmationInputsFilled = () => {
-
-            const lend = document.querySelector('#md-lend-confirm') as HTMLDivElement
-            const lendButton = lend.querySelector('#md-lend-confirm-submit') as HTMLButtonElement
-            const studentNumber = lend.querySelector('#md-lend-confirm-studentNumber') as HTMLInputElement
-            const dueDate = lend.querySelector('#md-lend-confirm-dueDate') as HTMLInputElement
-
-            if (studentNumber.value != '' && dueDate.value != '') {
-                lendButton.disabled = false;
-            } else {
-                lendButton.disabled = true;
-            }
-    
-        }
-
         const getJSONResponse = async (url: string, method: string, data?: object) => {
 
             let response: Response
@@ -150,12 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
 
-        const computeDueBooks = async () => {
-
-            await getStatusResponse('/db/books/due/compute', 'POST')
-
-            
-        }
+        const computeDueBooks = async () => { await getStatusResponse('/db/books/due/compute', 'POST') }
         await computeDueBooks()
 
         const getDatabaseItems = async () => {
@@ -434,9 +414,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const lend = document.querySelector('#md-lend') as HTMLDivElement
                     const lendConfirm = document.querySelector('#md-lend-confirm') as HTMLDivElement
-                    const submit = lend.querySelector('#md-lend-submit') as HTMLButtonElement
+                    const lendSubmit = lend.querySelector('#md-lend-submit') as HTMLButtonElement
 
-                    submit.addEventListener('click', async (event) => {
+                    lendSubmit.addEventListener('click', async (event) => {
 
                         event.preventDefault()
 
@@ -469,6 +449,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             lendConfirmStudentName.textContent = confirmStudentName
                             lendConfirmStudentNumber.textContent = confirmStudentNumber
                             lendConfirmDueDate.textContent = confirmDueDate.value
+
+                            confirmLendedBook.textContent = ''
+                            confirmDueDate.value = ''
+                            studentNumber.value = ''
+
                             lend.style.display = 'none'
                             lendConfirm.style.display = 'flex'
 
@@ -505,6 +490,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         modal.style.display = 'none'
                         lendConfirm.style.display = 'flex'
                         
+                        lendConfirmLendedBook.textContent = ''
+                        lendConfirmStudentName.textContent = ''
+                        lendConfirmStudentNumber.textContent = ''
+                        lendConfirmDueDate.textContent = ''
+
                         await computeDueBooks()
                         await getDatabaseItems()
                         

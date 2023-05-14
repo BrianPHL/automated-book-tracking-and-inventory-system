@@ -61,18 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 lendButton.disabled = true;
             }
         };
-        const areLendConfirmationInputsFilled = () => {
-            const lend = document.querySelector('#md-lend-confirm');
-            const lendButton = lend.querySelector('#md-lend-confirm-submit');
-            const studentNumber = lend.querySelector('#md-lend-confirm-studentNumber');
-            const dueDate = lend.querySelector('#md-lend-confirm-dueDate');
-            if (studentNumber.value != '' && dueDate.value != '') {
-                lendButton.disabled = false;
-            }
-            else {
-                lendButton.disabled = true;
-            }
-        };
         const getJSONResponse = async (url, method, data) => {
             let response;
             if (!data) {
@@ -121,9 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return response.status;
         };
-        const computeDueBooks = async () => {
-            await getStatusResponse('/db/books/due/compute', 'POST');
-        };
+        const computeDueBooks = async () => { await getStatusResponse('/db/books/due/compute', 'POST'); };
         await computeDueBooks();
         const getDatabaseItems = async () => {
             const getAvailableBooks = async () => {
@@ -306,8 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const startSubmitListener = async () => {
                     const lend = document.querySelector('#md-lend');
                     const lendConfirm = document.querySelector('#md-lend-confirm');
-                    const submit = lend.querySelector('#md-lend-submit');
-                    submit.addEventListener('click', async (event) => {
+                    const lendSubmit = lend.querySelector('#md-lend-submit');
+                    lendSubmit.addEventListener('click', async (event) => {
                         event.preventDefault();
                         const error = lend.querySelector('#md-lend-error');
                         const errorText = error.querySelector('p');
@@ -332,6 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             lendConfirmStudentName.textContent = confirmStudentName;
                             lendConfirmStudentNumber.textContent = confirmStudentNumber;
                             lendConfirmDueDate.textContent = confirmDueDate.value;
+                            confirmLendedBook.textContent = '';
+                            confirmDueDate.value = '';
+                            studentNumber.value = '';
                             lend.style.display = 'none';
                             lendConfirm.style.display = 'flex';
                         }
@@ -357,6 +346,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         modal.style.display = 'none';
                         lendConfirm.style.display = 'flex';
+                        lendConfirmLendedBook.textContent = '';
+                        lendConfirmStudentName.textContent = '';
+                        lendConfirmStudentNumber.textContent = '';
+                        lendConfirmDueDate.textContent = '';
                         await computeDueBooks();
                         await getDatabaseItems();
                     });
