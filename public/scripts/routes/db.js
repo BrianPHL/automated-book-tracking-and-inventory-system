@@ -83,9 +83,7 @@ dbRoute.post('/books/mark-as-returned', async (req, res) => {
     const queryString = "UPDATE books SET status = ?, date_borrowed = ?, date_due = ?, duration_due = ?, duration_borrowed = ? WHERE title = ?";
     const queryArgs = ['available', null, null, null, null, req.body.title];
     try {
-        setTimeout(() => {
-            performDatabaseOperation(queryString, queryArgs);
-        }, 1000);
+        performDatabaseOperation(queryString, queryArgs);
     }
     catch (err) {
         res.send(err);

@@ -147,11 +147,7 @@ dbRoute.post('/books/mark-as-returned', async (req: Request, res: Response) => {
 
     try {
 
-        setTimeout(() => {
-
-            performDatabaseOperation(queryString, queryArgs)
-
-        }, 1000)
+        performDatabaseOperation(queryString, queryArgs)
 
     } catch (err) {
 
