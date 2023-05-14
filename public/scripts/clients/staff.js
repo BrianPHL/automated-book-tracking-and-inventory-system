@@ -74,24 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 lendButton.disabled = true;
             }
         };
-        // const areEditInputsFilled = () => {
-        //     const edit = document.querySelector('#md-edit') as HTMLDivElement
-        //     const lendButton = edit.querySelector('#md-lend-confirm-submit') as HTMLButtonElement
-        //     const studentNumber = lend.querySelector('#md-lend-confirm-studentNumber') as HTMLInputElement
-        //     const dueDate = lend.querySelector('#md-lend-confirm-dueDate') as HTMLInputElement
-        //     if (studentNumber.value != '' && dueDate.value != '') {
-        //         lendButton.disabled = false;
-        //     } else {
-        //         lendButton.disabled = true;
-        //     }
-        // }
-        // const areEditConfirmationInputsFilled = () => {
-        //     if (form.username.input.value != '' && form.password.input.value != '') {
-        //         form.button.disabled = false;
-        //     } else {
-        //         form.button.disabled = true;
-        //     }
-        // }
         const getJSONResponse = async (url, method, data) => {
             let response;
             if (!data) {
@@ -309,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
         await startEntriesListener();
-        const startInputsListener = async () => {
+        const startModalsListener = async () => {
             const startLendBookInputsListener = async () => {
                 const lend = document.querySelector('#md-lend');
                 const form = lend.querySelector('form');
@@ -322,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             await startLendBookInputsListener();
         };
-        await startInputsListener();
+        await startModalsListener();
     };
     init();
 });
