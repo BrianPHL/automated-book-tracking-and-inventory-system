@@ -415,23 +415,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const startModalsListener = async () => {
 
-            const startLendBookInputsListener = async () => {
+            const startLendBookListener = async () => {
 
-                const lend = document.querySelector('#md-lend') as HTMLDivElement
-                const form = lend.querySelector('form') as HTMLFormElement
-                const inputs = form.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
-    
-                inputs.forEach((element) => {
-                    
-                    element.addEventListener('input', () => {
-                        areLendInputsFilled()
+                const startInputsListener = async () => {
+
+                    const lend = document.querySelector('#md-lend') as HTMLDivElement
+                    const form = lend.querySelector('form') as HTMLFormElement
+                    const inputs = form.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+        
+                    inputs.forEach((element) => {
+                        
+                        element.addEventListener('input', () => {
+                            areLendInputsFilled()
+                        })
+        
                     })
     
-                })
+                }
+    
+                await startInputsListener()
 
             }
 
-            await startLendBookInputsListener()
+            await startLendBookListener()
 
         }
         await startModalsListener()

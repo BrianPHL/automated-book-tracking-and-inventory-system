@@ -292,17 +292,20 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         await startEntriesListener();
         const startModalsListener = async () => {
-            const startLendBookInputsListener = async () => {
-                const lend = document.querySelector('#md-lend');
-                const form = lend.querySelector('form');
-                const inputs = form.querySelectorAll('input');
-                inputs.forEach((element) => {
-                    element.addEventListener('input', () => {
-                        areLendInputsFilled();
+            const startLendBookListener = async () => {
+                const startInputsListener = async () => {
+                    const lend = document.querySelector('#md-lend');
+                    const form = lend.querySelector('form');
+                    const inputs = form.querySelectorAll('input');
+                    inputs.forEach((element) => {
+                        element.addEventListener('input', () => {
+                            areLendInputsFilled();
+                        });
                     });
-                });
+                };
+                await startInputsListener();
             };
-            await startLendBookInputsListener();
+            await startLendBookListener();
         };
         await startModalsListener();
     };
