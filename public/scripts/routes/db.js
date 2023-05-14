@@ -109,6 +109,15 @@ dbRoute.post('/students/studentNumber/validate', (req, res) => {
         }
     });
 });
+dbRoute.post('/books/lend', async (req, res) => {
+    const { lendedBook, studentName, studentNumber, dateDue } = req.body;
+    const dateBorrowed = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss');
+    const queryString = `UPDATE books SET borrower = ?, borrower_number = ?, date_borrowed = ?, date_due = ?, status = ? WHERE title = ?`;
+    const queryArgs = [studentName, studentNumber, dateBorrowed, dateDue, 'borrowed', lendedBook];
+    performDatabaseOperation(queryString, queryArgs, (result) => {
+        res.json(result);
+    });
+});
 dbRoute.get('/books/available/count', (req, res) => {
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?";
     const queryArgs = ['available'];

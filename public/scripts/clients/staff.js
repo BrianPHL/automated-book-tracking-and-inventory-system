@@ -1,3 +1,4 @@
+import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
 import { setLightTheme, setDarkTheme, setPreferredTheme } from "./initialize.js";
 document.addEventListener('DOMContentLoaded', () => {
     const staff = {
@@ -54,11 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const studentNumber = lend.querySelector('#md-lend-studentNumber');
             const dueDate = lend.querySelector('#md-lend-dueDate');
             if (studentNumber.value != '' && dueDate.value != '') {
-                console.log(lendButton);
                 lendButton.disabled = false;
             }
             else {
-                console.log(lendButton);
                 lendButton.disabled = true;
             }
         };
@@ -123,9 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.status;
         };
         const computeDueBooks = async () => {
-            console.log('computing');
             await getStatusResponse('/db/books/due/compute', 'POST');
-            console.log('computed?');
         };
         await computeDueBooks();
         const getDatabaseItems = async () => {
@@ -267,6 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     modal.style.display = 'none';
                     lend.style.display = 'none';
                 }
+                if (target.id == 'md-lend-confirm-close') {
+                    const modal = document.querySelector('#md');
+                    const lendConfirm = modal.querySelector('#md-lend-confirm');
+                    modal.style.display = 'none';
+                    lendConfirm.style.display = 'none';
+                }
                 if (target.id == 'md-lend-submit') {
                 }
                 if (target.id == 'av-actions-lend') {
@@ -278,15 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const modalMinDate = new Date().toISOString().split('T')[0];
                     modalBook.textContent = entry.querySelector('#av-data-title').textContent;
                     modalDateInput.setAttribute('min', modalMinDate);
-                    const showLendModal = () => {
-                        modal.style.display = 'grid';
-                        modalLend.style.display = 'flex';
-                    };
-                    showLendModal();
+                    modal.style.display = 'grid';
+                    modalLend.style.display = 'flex';
                 }
                 if (target.id == 'av-actions-edit') {
                     const entry = target.parentElement.parentElement;
-                    console.log(entry);
                 }
             });
         };
@@ -306,6 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await startInputsListener();
                 const startSubmitListener = async () => {
                     const lend = document.querySelector('#md-lend');
+                    const lendConfirm = document.querySelector('#md-lend-confirm');
                     const submit = lend.querySelector('#md-lend-submit');
                     submit.addEventListener('click', async (event) => {
                         event.preventDefault();
@@ -320,10 +320,48 @@ document.addEventListener('DOMContentLoaded', () => {
                             error.style.display = 'block';
                         }
                         else {
+                            const confirmLendedBook = lend.querySelector('#md-lend-lendedBook');
+                            const confirmStudentName = response.name;
+                            const confirmStudentNumber = studentNumber.value;
+                            const confirmDueDate = lend.querySelector('#md-lend-dueDate');
+                            const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook');
+                            const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName');
+                            const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber');
+                            const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate');
+                            lendConfirmLendedBook.textContent = confirmLendedBook.textContent;
+                            lendConfirmStudentName.textContent = confirmStudentName;
+                            lendConfirmStudentNumber.textContent = confirmStudentNumber;
+                            lendConfirmDueDate.textContent = confirmDueDate.value;
+                            lend.style.display = 'none';
+                            lendConfirm.style.display = 'flex';
                         }
                     });
                 };
                 await startSubmitListener();
+                const startConfirmSubmitListener = async () => {
+                    const modal = document.querySelector('#md');
+                    const lendConfirm = modal.querySelector('#md-lend-confirm');
+                    const lendConfirmSubmit = lendConfirm.querySelector('#md-lend-confirm-submit');
+                    lendConfirmSubmit.addEventListener('click', async (event) => {
+                        const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook');
+                        const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName');
+                        const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber');
+                        const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate');
+                        const lendConfirmDueTime = DateTime.now().toFormat('HH:mm:ss');
+                        event.preventDefault();
+                        await getJSONResponse('/db/books/lend', 'POST', {
+                            lendedBook: lendConfirmLendedBook.textContent,
+                            studentName: lendConfirmStudentName.textContent,
+                            studentNumber: lendConfirmStudentNumber.textContent,
+                            dateDue: `${DateTime.fromISO(lendConfirmDueDate.textContent).toFormat('yyyy-MM-dd')} ${lendConfirmDueTime}`
+                        });
+                        modal.style.display = 'none';
+                        lendConfirm.style.display = 'flex';
+                        await computeDueBooks();
+                        await getDatabaseItems();
+                    });
+                };
+                await startConfirmSubmitListener();
             };
             await startLendBookListener();
         };

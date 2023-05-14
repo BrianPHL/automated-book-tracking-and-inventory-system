@@ -186,6 +186,21 @@ dbRoute.post('/students/studentNumber/validate', (req: Request, res: Response):v
 
 })
 
+dbRoute.post('/books/lend', async (req: Request, res: Response) => {
+
+    const { lendedBook, studentName, studentNumber, dateDue } = req.body
+    const dateBorrowed = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss')
+    const queryString = `UPDATE books SET borrower = ?, borrower_number = ?, date_borrowed = ?, date_due = ?, status = ? WHERE title = ?`
+    const queryArgs = [ studentName, studentNumber, dateBorrowed, dateDue, 'borrowed', lendedBook ]
+
+    performDatabaseOperation(queryString, queryArgs, (result) => {
+        
+        res.json(result)
+
+    })
+
+})
+
 dbRoute.get('/books/available/count', (req: Request, res: Response):void => {
 
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?"

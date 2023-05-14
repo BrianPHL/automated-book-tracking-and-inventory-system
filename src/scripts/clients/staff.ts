@@ -1,3 +1,4 @@
+import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js"
 import { dashboard } from "../typings.js"
 import { setLightTheme, setDarkTheme, setPreferredTheme } from "./initialize.js"
 
@@ -61,10 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const dueDate = lend.querySelector('#md-lend-dueDate') as HTMLInputElement
 
             if (studentNumber.value != '' && dueDate.value != '') {
-                console.log(lendButton)
                 lendButton.disabled = false;
             } else {
-                console.log(lendButton)
                 lendButton.disabled = true;
             }
     
@@ -153,11 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const computeDueBooks = async () => {
 
-            console.log('computing')
-
             await getStatusResponse('/db/books/due/compute', 'POST')
-
-            console.log('computed?')
 
             
         }
@@ -373,6 +368,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }
 
+                if (target.id == 'md-lend-confirm-close') {
+
+                    const modal = document.querySelector('#md') as HTMLDivElement
+                    const lendConfirm = modal.querySelector('#md-lend-confirm') as HTMLDivElement
+
+                    modal.style.display = 'none'
+                    lendConfirm.style.display = 'none'
+
+                }
+
                 if (target.id == 'md-lend-submit') {
 
                 }
@@ -388,23 +393,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     modalBook.textContent = entry.querySelector('#av-data-title').textContent
                     modalDateInput.setAttribute('min', modalMinDate)
-
-                    const showLendModal = () => {
-
-                        modal.style.display = 'grid'
-                        modalLend.style.display = 'flex'
-
-                    }
-
-                    showLendModal()
+                    modal.style.display = 'grid'
+                    modalLend.style.display = 'flex'
 
                 }
 
                 if (target.id == 'av-actions-edit') {
 
                     const entry = target.parentElement.parentElement
-                    
-                    console.log(entry)
 
                 }
 
@@ -437,6 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const startSubmitListener = async () => {
 
                     const lend = document.querySelector('#md-lend') as HTMLDivElement
+                    const lendConfirm = document.querySelector('#md-lend-confirm') as HTMLDivElement
                     const submit = lend.querySelector('#md-lend-submit') as HTMLButtonElement
 
                     submit.addEventListener('click', async (event) => {
@@ -453,15 +450,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         const response = await getJSONResponse('/db/students/studentNumber/validate', 'POST', { studentNumber: studentNumber.value })
 
                         if (!response.ok) {
-                        
-
 
                             errorText.textContent = response.error
                             error.style.display = 'block'
 
                         } else {
 
+                            const confirmLendedBook = lend.querySelector('#md-lend-lendedBook') as HTMLDivElement
+                            const confirmStudentName = response.name
+                            const confirmStudentNumber = studentNumber.value
+                            const confirmDueDate = lend.querySelector('#md-lend-dueDate') as HTMLInputElement
+                            const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook') as HTMLDivElement
+                            const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName') as HTMLDivElement
+                            const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber') as HTMLDivElement
+                            const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate') as HTMLDivElement
 
+                            lendConfirmLendedBook.textContent = confirmLendedBook.textContent
+                            lendConfirmStudentName.textContent = confirmStudentName
+                            lendConfirmStudentNumber.textContent = confirmStudentNumber
+                            lendConfirmDueDate.textContent = confirmDueDate.value
+                            lend.style.display = 'none'
+                            lendConfirm.style.display = 'flex'
 
                         }
 
@@ -469,6 +478,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }
                 await startSubmitListener()
+
+                const startConfirmSubmitListener = async () => {
+
+                    const modal = document.querySelector('#md') as HTMLDivElement
+                    const lendConfirm = modal.querySelector('#md-lend-confirm') as HTMLDivElement
+                    const lendConfirmSubmit = lendConfirm.querySelector('#md-lend-confirm-submit') as HTMLButtonElement
+
+                    lendConfirmSubmit.addEventListener('click', async (event) => {
+
+                        const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook') as HTMLDivElement
+                        const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName') as HTMLDivElement
+                        const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber') as HTMLDivElement
+                        const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate') as HTMLDivElement
+                        const lendConfirmDueTime = DateTime.now().toFormat('HH:mm:ss')
+
+                        event.preventDefault()
+
+                        await getJSONResponse('/db/books/lend', 'POST', {
+                            lendedBook: lendConfirmLendedBook.textContent,
+                            studentName: lendConfirmStudentName.textContent,
+                            studentNumber: lendConfirmStudentNumber.textContent,
+                            dateDue: `${DateTime.fromISO(lendConfirmDueDate.textContent).toFormat('yyyy-MM-dd')} ${lendConfirmDueTime}`
+                        })
+
+                        modal.style.display = 'none'
+                        lendConfirm.style.display = 'flex'
+                        
+                        await computeDueBooks()
+                        await getDatabaseItems()
+                        
+                    })
+
+                }
+
+                await startConfirmSubmitListener()
 
             }
 

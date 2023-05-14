@@ -145,7 +145,7 @@
             display: grid;
             margin: -24px;
 
-            & > .lend {
+            & > .lend, & > .lend-confirm {
 
                 background-color: var(--bg-primary);
                 flex-direction: column;
