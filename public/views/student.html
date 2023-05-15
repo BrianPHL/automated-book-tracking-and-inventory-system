@@ -5,6 +5,7 @@
     <head>
 
         <link rel="shortcut icon" href="/static/assets/ico/favicon.ico" type="image/x-icon">
+        <script type="module" src="/static/scripts/clients/initialize.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>ABTIS | Student Dashboard</title>
@@ -15,9 +16,100 @@
 
     <body>
 
-        <h1>Welcome, student!</h1>
-        <h2>You are currently in the FEUR Library Dashboard</h2>
-        <h3>Here you can browse, borrow, and return books.</h3>
+        <div class="student">
+
+            <div class="sidebar">
+
+                <div class="header">
+
+                    <img src="/static/assets/images/feur_logo.webp" alt="">
+                    <h1>A.B.T.I.S.</h1>
+
+                </div>
+
+                <div class="links">
+
+                    <nav>
+
+                        <label for="nav">Navigation</label>
+
+                        <a class="nav-dashboard active" href="javascript:void(0)">
+
+                            <i class="fa-solid fa-house"></i>
+                            Dashboard
+
+                        </a>
+
+                    </nav>
+
+                </div>
+
+                <div class="spacer">
+
+                </div>
+
+                <div class="footer">
+
+                    <a class="settings" chref="javascript:void(0)">
+
+                        <i class="fa-solid fa-gear"></i>
+                        Settings
+
+                    </a>
+
+                </div>
+
+            </div>
+    
+            <div class="dashboard">
+    
+                <div class="modals" style="display: none;"></div>
+    
+                <div class="header" id="hd">
+
+                    <div class="heading">
+
+                        <h2>ABTIS / Dashboard</h2>
+                        <h3>Logged in as a Student</h3>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <a id="hd-actions-theme">
+                            <i class="fa-solid fa-moon"></i>
+                            <span></span>
+                        </a>
+                        
+                        <a id="hd-actions-refresh">
+                            <i class="fa-solid fa-rotate"></i>
+                            Refresh
+                        </a>
+
+                        <a id="hd-actions-logout" href="/logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+
+                    </div>
+
+                </div>
+    
+                <div class="container">
+
+                    <div class="available" id="av">
+
+                        <label for="available">Books Available</label>
+
+                        <div id="av-data-entries" class="entries"></div>
+
+                    </div>
+
+                </div>
+    
+            </div>
+
+        </div>
 
         <script type="module" src="/static/scripts/clients/student.js"></script>
 

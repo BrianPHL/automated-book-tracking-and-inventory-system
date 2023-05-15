@@ -1,0 +1,452 @@
+.student {
+
+    grid-template-columns: 256px 1fr;
+    grid-template-rows: 100vh;
+    background-color: var(--bg-tertiary);
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+
+    & > .sidebar {
+
+        background-color: var(--bg-primary);
+        flex-direction: column;
+        border-right: 1px solid var(--er-outline);
+        grid-column: 1;
+        grid-row: 1;
+        display: flex;
+        padding: 24px;
+        gap: 48px;
+
+        & > .header {
+
+            flex-direction: column;
+            align-items: center;
+            display: flex;
+            gap: 16px;
+
+            & > img {
+
+                height: 176px;
+
+            }
+
+            & > h1 {
+
+                font-weight: $font-700;
+                text-align: center;
+                font-size: 24px;
+                color: var(--gr-primary);
+
+            }
+
+        }
+
+        & > .links {
+
+            flex-direction: column;
+            display: flex;
+            gap: 16px;
+
+            & > nav {
+
+                flex-direction: column;
+                display: flex;
+                
+                & > label {
+
+                    font-weight: $font-600;
+                    font-size: 12px;
+                    color: var(--gr-secondary);
+
+                }
+
+                & > a {
+
+                    border-left: 4px solid transparent;
+                    font-weight: $font-400;
+                    align-items: center;
+                    transition: 0.2s ease;
+                    font-size: 16px;
+                    display: flex;
+                    padding: 16px;
+                    color: var(--tg-primary);
+                    gap: 16px;
+
+                    &:hover {
+
+                        border-left: 4px solid var(--gr-secondary);
+                        color: var(--gr-secondary);
+
+                    }
+
+                    & > i {
+
+                        font-size: 16px;
+
+                    }
+
+                }
+
+                .active {
+
+                    border-left: 4px solid var(--gr-primary);
+
+                }
+
+            }
+
+        }
+
+        & > .spacer {
+
+            flex-grow: 1;
+            display: flex;
+
+        }
+
+        & > .footer {
+
+            align-items: center;
+
+            & > a {
+
+                font-weight: $font-400;
+                transition: 0.2s ease;
+                font-size: 16px;
+                align-items: center;
+                display: flex;
+                color: var(--tg-primary);
+                gap: 16px;
+
+                &:hover { color: var(--gr-secondary); }
+
+            }
+
+        }
+
+    }
+
+    & > .dashboard {
+
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        display: grid;
+        padding: 24px;
+        gap: 24px;
+
+        & > .modals {
+
+            background-color: rgba(var(--gr-primary-rgb), 0.3);
+            place-content: center;
+            grid-column: 1;
+            grid-row: 1/3;
+            z-index: 9;
+            display: grid;
+            margin: -24px;
+    
+            & > div {
+    
+                background-color: var(--bg-primary);
+                flex-direction: column;
+                border-radius: 4px;
+                padding: 48px;
+                display: flex;
+                border: 1px solid var(--er-outline);
+                width: 360px;
+                gap: 48px;
+    
+                & > .header {
+    
+                    justify-content: space-between;
+                    align-items: center;
+                    display: flex;
+    
+                    & > label {
+    
+                        text-overflow: ellipsis;
+                        font-weight: $font-400;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        color: var(--tg-primary);
+    
+                        & > span {
+    
+                            color: var(--gr-primary);
+    
+                        }
+    
+                    }
+    
+                    & > i {
+    
+                        transition: 0.2s ease;
+                        font-size: 20px;
+                        color: var(--tg-secondary);
+    
+                        &:hover {
+    
+                            cursor: pointer;
+                            color: var(--gr-primary);
+    
+                        }
+    
+                    }
+    
+                }
+    
+                & > .error {
+    
+                    background-color: #FFCBCB;
+                    border-radius: 4px;
+                    overflow: auto;
+                    padding: 16px;
+                    border: 1px solid #FF6B6B;
+        
+                    p {
+        
+                        font-weight: $font-400;
+                        font-size: 12px;
+        
+            
+                    }
+    
+                }
+    
+                & > form {
+    
+                    flex-direction: column;
+                    display: flex;
+                    gap: 48px;
+                 
+                    flex-direction: column;
+                    display: flex;
+                    gap: 16px;
+                    
+                    & > div {
+    
+                        flex-direction: column;
+                        display: flex;
+                        gap: 8px;
+    
+                        & > label {
+    
+                            font-weight: $font-400;
+                            font-size: 12px;
+                            color: var(--gr-primary);
+        
+                        }
+                        
+                        & > div {
+    
+                            background-color: var(--bg-tertiary);
+                            border-radius: 4px;
+                            font-size: 12px;
+                            padding: 8px;
+                            border: 1px solid var(--er-outline);
+                            color: var(--tg-primary);
+                            width: 100%;
+                        
+                            &:focus {
+                        
+                                outline: 1px solid var(--gr-secondary);
+                        
+                            }
+    
+                        }
+                        
+                    }
+    
+                }
+    
+            }
+    
+        }
+    
+        & > .header {
+    
+            grid-template-columns: 50% 50%;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            grid-column: 1;
+            align-items: center;
+            grid-row: 1;
+            padding: 16px;
+            display: grid;
+            border: 1px solid var(--er-outline);
+    
+            & > .heading {
+    
+                flex-direction: column;
+                display: flex;
+    
+                & > h2 {
+    
+                    font-weight: $font-700;
+                    font-size: 16px;
+                    color: var(--gr-primary);
+    
+                }
+                
+                & > h3 {
+    
+                    font-weight: $font-400;
+                    font-size: 12px;
+                    color: var(--tg-primary);
+    
+                }
+    
+            }
+    
+            & > .actions {
+    
+                justify-content: flex-end;
+                align-items: center;
+                display: flex;
+                gap: 8px;
+    
+                & > a {
+    
+                    background-color: var(--bg-primary);
+                    border-radius: 4px;
+                    align-items: center;
+                    transition: 0.2s ease;
+                    font-size: 16px;
+                    display: flex;
+                    padding: 8px 16px 8px 16px;
+                    border: 1px solid var(--er-outline);
+                    color: var(--tg-primary);
+                    gap: 8px;
+    
+                    &:hover {
+    
+                        background-color: var(--gr-primary);
+                        cursor: pointer;
+                        color: var(--bg-primary);
+    
+                    }
+    
+                }
+    
+            }
+    
+        }
+    
+        & > .container {
+    
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-column: 1;
+            min-height: 0;
+            grid-row: 2;
+            display: grid;
+            gap: 16px;
+    
+            & > #av {
+
+                background-color: var(--bg-secondary);
+                flex-direction: column;
+                border-radius: 4px;
+                min-height: 0;
+                display: flex;
+                border: 1px solid var(--er-outline);
+
+                & > label {
+
+                    font-weight: $font-600;
+                    padding: 16px;
+                    color: var(--gr-primary);
+
+                }
+
+                & > .entries {
+
+                    flex-direction: column;
+                    overflow-y: auto;
+                    padding: 0 16px 16px 16px;
+                    display: flex;
+                    gap: 8px;
+
+                    & > .entry {
+
+                        background-color: var(--bg-primary);
+                        flex-direction: column;
+                        border-radius: 4px;
+                        flex-shrink: 0;
+                        padding: 16px;
+                        display: flex;
+                        border: 1px solid var(--er-outline);
+                        gap: 16px;
+
+                        & > .data {
+
+                            flex-direction: column;
+                            display: flex;
+                            gap: 16px;
+
+                            & > h3 {
+
+                                font-weight: $font-600;
+                                font-size: 16px;
+                                color: var(--tg-primary);
+    
+                            }
+
+                            & > .wrapper {
+                                
+                                & > h4 {
+                                                                
+                                    font-weight: $font-400;
+                                    font-size: 16px;
+                                    color: var(--tg-primary);
+                                                                
+                                }
+
+                            }
+    
+                            & > time {
+    
+                                font-weight: $font-400;
+                                font-size: 12px;
+                                color: var(--tg-secondary);
+    
+                            }
+
+                        }
+
+                        & > .actions {
+
+                            justify-content: space-between;
+                            flex-direction: row;
+                            display: flex;
+
+                            & > button {
+                                
+                                background-color: transparent;
+                                white-space: nowrap;
+                                font-weight: $font-600;
+                                font-size: 12px;
+                                padding: 0;
+                                flex: 0;
+                                color: var(--gr-primary);
+
+                                &:hover {
+
+                                    color: var(--gr-secondary);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+                }
+    
+            }
+    
+        }
+
+    }
+
+}
