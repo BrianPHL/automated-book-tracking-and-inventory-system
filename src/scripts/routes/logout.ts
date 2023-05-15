@@ -5,7 +5,6 @@ const logoutRoute = express.Router()
 
 logoutRoute.get("/", (req: Request, res: Response):void => {
 
-    console.log('Logout?')
     res.redirect("/")
 
 })
