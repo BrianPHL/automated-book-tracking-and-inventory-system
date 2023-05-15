@@ -421,7 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const modalEditFormInputs = modalEditForm.querySelectorAll('input');
                     modalEditFormInputs.forEach((element) => {
                         element.addEventListener('input', async () => {
-                            console.log('typing');
                             await areEditBookInputsFilled();
                         });
                     });

@@ -601,7 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalEditFormInputs.forEach((element) => {
                         
                         element.addEventListener('input', async () => {
-                            console.log('typing')
                             await areEditBookInputsFilled()
                         })
         
