@@ -49,17 +49,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const init = async () => {
-        const areLendInputsFilled = async () => {
-            const lend = document.querySelector('#md-lend');
-            const lendButton = lend.querySelector('#md-lend-submit');
-            const studentNumber = lend.querySelector('#md-lend-studentNumber');
-            const dueDate = lend.querySelector('#md-lend-dueDate');
-            if (studentNumber.value != '' && dueDate.value != '') {
-                lendButton.disabled = false;
+        const areLendBookInputsFilled = async () => {
+            const modal = document.querySelector('#md');
+            const modalLend = modal.querySelector('#md-lend');
+            const modalLendSubmit = modalLend.querySelector('#md-lend-submit');
+            const modalLendForm = modalLend.querySelector('form');
+            const modalLendFormInputs = modalLendForm.querySelectorAll('input');
+            let areInputsFilled = true;
+            for (const inputs of modalLendFormInputs) {
+                if (inputs.value.trim() == '') {
+                    areInputsFilled = false;
+                    break;
+                }
             }
-            else {
-                lendButton.disabled = true;
+            modalLendSubmit.disabled = !areInputsFilled;
+        };
+        const areEditBookInputsFilled = async () => {
+            const modal = document.querySelector('#md');
+            const modalEdit = modal.querySelector('#md-edit');
+            const modalEditSubmit = modalEdit.querySelector('#md-edit-submit');
+            const modalEditForm = modalEdit.querySelector('form');
+            const modalEditFormInputs = modalEditForm.querySelectorAll('input');
+            let areInputsFilled = true;
+            for (const inputs of modalEditFormInputs) {
+                if (inputs.value.trim() == '') {
+                    areInputsFilled = false;
+                    break;
+                }
             }
+            modalEditSubmit.disabled = !areInputsFilled;
         };
         const getJSONResponse = async (url, method, data) => {
             let response;
@@ -118,12 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await getJSONResponse('/db/books/available/data', 'GET');
                 for (let i = 0; i < data.length; i++) {
                     const entry = `
-                    <div class="entry">
+                    <div class="entry" data-id="${data[i].id}">
                         <div class="data">
                             <h3 id="av-data-title">${data[i].title}</h3>
                             <div class="wrapper">
                                 <h4 id="av-data-author">${data[i].author}</h4>
-                                <h4 id="av-data-category">${data[i].genre}</h4>
+                                <h4 id="av-data-genre">${data[i].genre}</h4>
                             </div>
                             <time id="av-data-date">${data[i].date_publicized}</time>
                         </div>
@@ -150,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dueData = await getJSONResponse('/db/books/due/data', 'GET');
                 for (let i = 0; i < dueData.length; i++) {
                     const entry = `
-                    <div class="entry">
+                    <div class="entry" data-id="${dueData[i].id}">
                         <div class="header">
                             <h3 id="br-header-title">${dueData[i].title}</h3>
                             <button id="br-header-viewDetails">View details</button>
@@ -238,127 +256,249 @@ document.addEventListener('DOMContentLoaded', () => {
         const startEntriesListener = async () => {
             document.addEventListener('click', async (event) => {
                 const target = event.target;
-                if (target.id == 'br-actions-markAsReturned') {
-                    const entry = target.parentElement.parentElement;
-                    const entryTitle = entry.querySelector('#br-header-title').textContent;
-                    await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle });
-                    entry.remove();
-                    await getDatabaseItems();
-                }
-                if (target.id == 'md-lend-close') {
-                    const modal = document.querySelector('#md');
-                    const lend = modal.querySelector('#md-lend');
-                    modal.style.display = 'none';
-                    lend.style.display = 'none';
-                }
-                if (target.id == 'md-lend-confirm-close') {
-                    const modal = document.querySelector('#md');
-                    const lendConfirm = modal.querySelector('#md-lend-confirm');
-                    modal.style.display = 'none';
-                    lendConfirm.style.display = 'none';
-                }
-                if (target.id == 'md-lend-submit') {
-                }
-                if (target.id == 'av-actions-lend') {
-                    const entry = target.parentElement.parentElement;
-                    const modal = document.querySelector('#md');
-                    const modalLend = modal.querySelector('#md-lend');
-                    const modalBook = modal.querySelector('#md-lend-lendedBook');
-                    const modalDateInput = modalLend.querySelector('#md-lend-dueDate');
-                    const modalMinDate = DateTime.now().plus({ days: 1 }).toISODate().split('T')[0];
-                    await areLendInputsFilled();
-                    modalBook.textContent = entry.querySelector('#av-data-title').textContent;
-                    modalDateInput.setAttribute('min', modalMinDate);
-                    modal.style.display = 'grid';
-                    modalLend.style.display = 'flex';
-                }
-                if (target.id == 'av-actions-edit') {
-                    const entry = target.parentElement.parentElement;
-                }
+                const startBorrowedEntriesListener = async () => {
+                    if (target.id == 'br-actions-markAsReturned') {
+                        const entry = target.parentElement.parentElement;
+                        const entryTitle = entry.querySelector('#br-header-title').textContent;
+                        await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle });
+                        entry.remove();
+                        await getDatabaseItems();
+                    }
+                };
+                startBorrowedEntriesListener();
+                const startAvailableEntriesListener = async () => {
+                    if (target.id == 'av-actions-lend') {
+                        const entry = target.parentElement.parentElement;
+                        const modal = document.querySelector('#md');
+                        const modalLend = modal.querySelector('#md-lend');
+                        const modalLendForm = modalLend.querySelector('form');
+                        const modalLendFormInputs = modalLendForm.querySelectorAll('input');
+                        const modalLendBook = modalLend.querySelector('#md-lend-lendedBook');
+                        const modalLendDate = modalLend.querySelector('#md-lend-dueDate');
+                        const modalMinDate = DateTime.now().plus({ days: 1 }).toISODate().split('T')[0];
+                        for (const inputs of modalLendFormInputs) {
+                            inputs.value = '';
+                        }
+                        await areLendBookInputsFilled();
+                        modalLendBook.textContent = entry.querySelector('#av-data-title').textContent;
+                        modalLendDate.setAttribute('min', modalMinDate);
+                        modal.style.display = 'grid';
+                        modalLend.style.display = 'flex';
+                    }
+                    if (target.id == 'av-actions-edit') {
+                        const modal = document.querySelector('#md');
+                        const entry = target.parentElement.parentElement;
+                        console.log(entry);
+                        const entryId = entry.getAttribute('data-id');
+                        const entryTitle = entry.querySelector('#av-data-title');
+                        const entryAuthor = entry.querySelector('#av-data-author');
+                        const entryGenre = entry.querySelector('#av-data-genre');
+                        const entryPublication = entry.querySelector('#av-data-date');
+                        const edit = modal.querySelector('#md-edit');
+                        const editId = edit.querySelector('#md-edit-id');
+                        const editTitle = edit.querySelector('#md-edit-title');
+                        const editAuthor = edit.querySelector('#md-edit-author');
+                        const editGenre = edit.querySelector('#md-edit-genre');
+                        const editPublication = edit.querySelector('#md-edit-datePublicized');
+                        editId.textContent = entryId;
+                        editTitle.value = entryTitle.textContent;
+                        editAuthor.value = entryAuthor.textContent;
+                        editGenre.value = entryGenre.textContent;
+                        editPublication.value = new Date(entryPublication.textContent).toISOString().split('T')[0];
+                        await areEditBookInputsFilled();
+                        modal.style.display = 'grid';
+                        edit.style.display = 'flex';
+                    }
+                };
+                startAvailableEntriesListener();
             });
         };
         await startEntriesListener();
         const startModalsListener = async () => {
             const startLendBookListener = async () => {
+                const modal = document.querySelector('#md');
+                const modalLend = modal.querySelector('#md-lend');
+                const modalLendConfirm = modal.querySelector('#md-lend-confirm');
                 const startInputsListener = async () => {
-                    const lend = document.querySelector('#md-lend');
-                    const form = lend.querySelector('form');
-                    const inputs = form.querySelectorAll('input');
-                    inputs.forEach((element) => {
+                    const modalLendForm = modalLend.querySelector('form');
+                    const modalLendFormInputs = modalLendForm.querySelectorAll('input');
+                    modalLendFormInputs.forEach((element) => {
                         element.addEventListener('input', async () => {
-                            await areLendInputsFilled();
+                            await areLendBookInputsFilled();
                         });
                     });
                 };
                 await startInputsListener();
-                const startSubmitListener = async () => {
-                    const lend = document.querySelector('#md-lend');
-                    const lendConfirm = document.querySelector('#md-lend-confirm');
-                    const lendSubmit = lend.querySelector('#md-lend-submit');
-                    lendSubmit.addEventListener('click', async (event) => {
-                        event.preventDefault();
-                        const error = lend.querySelector('#md-lend-error');
-                        const errorText = error.querySelector('p');
-                        error.style.display = 'none';
-                        errorText.textContent = '';
-                        const studentNumber = lend.querySelector('#md-lend-studentNumber');
-                        const response = await getJSONResponse('/db/students/studentNumber/validate', 'POST', { studentNumber: studentNumber.value });
-                        if (!response.ok) {
-                            errorText.textContent = response.error;
-                            error.style.display = 'block';
-                        }
-                        else {
-                            const confirmLendedBook = lend.querySelector('#md-lend-lendedBook');
-                            const confirmStudentName = response.name;
-                            const confirmStudentNumber = studentNumber.value;
-                            const confirmDueDate = lend.querySelector('#md-lend-dueDate');
-                            const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook');
-                            const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName');
-                            const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber');
-                            const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate');
-                            lendConfirmLendedBook.textContent = confirmLendedBook.textContent;
-                            lendConfirmStudentName.textContent = confirmStudentName;
-                            lendConfirmStudentNumber.textContent = confirmStudentNumber;
-                            lendConfirmDueDate.textContent = confirmDueDate.value;
-                            confirmLendedBook.textContent = '';
-                            confirmDueDate.value = '';
-                            studentNumber.value = '';
-                            lend.style.display = 'none';
-                            lendConfirm.style.display = 'flex';
-                        }
-                    });
-                };
-                await startSubmitListener();
-                const startConfirmSubmitListener = async () => {
-                    const modal = document.querySelector('#md');
-                    const lendConfirm = modal.querySelector('#md-lend-confirm');
-                    const lendConfirmSubmit = lendConfirm.querySelector('#md-lend-confirm-submit');
-                    lendConfirmSubmit.addEventListener('click', async (event) => {
-                        const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook');
-                        const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName');
-                        const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber');
-                        const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate');
-                        const lendConfirmDueTime = DateTime.now().toFormat('HH:mm:ss');
-                        event.preventDefault();
-                        await getJSONResponse('/db/books/lend', 'POST', {
-                            lendedBook: lendConfirmLendedBook.textContent,
-                            studentName: lendConfirmStudentName.textContent,
-                            studentNumber: lendConfirmStudentNumber.textContent,
-                            dateDue: `${DateTime.fromISO(lendConfirmDueDate.textContent).toFormat('yyyy-MM-dd')} ${lendConfirmDueTime}`
+                const startActionsListener = async () => {
+                    const modalLendSubmit = modalLend.querySelector('#md-lend-submit');
+                    const modalLendConfirmSubmit = modalLendConfirm.querySelector('#md-lend-confirm-submit');
+                    const startLendSubmitListener = async () => {
+                        modalLendSubmit.addEventListener('click', async (event) => {
+                            event.preventDefault();
+                            const error = modal.querySelector('#md-lend-error');
+                            const errorText = error.querySelector('p');
+                            error.style.display = 'none';
+                            errorText.textContent = '';
+                            const studentNumber = modal.querySelector('#md-lend-studentNumber');
+                            const response = await getJSONResponse('/db/students/studentNumber/validate', 'POST', { studentNumber: studentNumber.value });
+                            if (!response.ok) {
+                                errorText.textContent = response.error;
+                                error.style.display = 'block';
+                            }
+                            else {
+                                const confirmLendedBook = modalLend.querySelector('#md-lend-lendedBook');
+                                const confirmStudentName = response.name;
+                                const confirmStudentNumber = studentNumber.value;
+                                const confirmDueDate = modalLend.querySelector('#md-lend-dueDate');
+                                const lendConfirmLendedBook = modalLendConfirm.querySelector('#md-lend-confirm-lendedBook');
+                                const lendConfirmStudentName = modalLendConfirm.querySelector('#md-lend-confirm-studentName');
+                                const lendConfirmStudentNumber = modalLendConfirm.querySelector('#md-lend-confirm-studentNumber');
+                                const lendConfirmDueDate = modalLendConfirm.querySelector('#md-lend-confirm-dueDate');
+                                lendConfirmLendedBook.textContent = confirmLendedBook.textContent;
+                                lendConfirmStudentName.textContent = confirmStudentName;
+                                lendConfirmStudentNumber.textContent = confirmStudentNumber;
+                                lendConfirmDueDate.textContent = confirmDueDate.value;
+                                confirmLendedBook.textContent = '';
+                                confirmDueDate.value = '';
+                                studentNumber.value = '';
+                                modalLend.style.display = 'none';
+                                modalLendConfirm.style.display = 'flex';
+                            }
                         });
-                        modal.style.display = 'none';
-                        lendConfirm.style.display = 'none';
-                        lendConfirmLendedBook.textContent = '';
-                        lendConfirmStudentName.textContent = '';
-                        lendConfirmStudentNumber.textContent = '';
-                        lendConfirmDueDate.textContent = '';
-                        await computeDueBooks();
-                        await getDatabaseItems();
-                    });
+                    };
+                    await startLendSubmitListener();
+                    const startLendCloseListener = async () => {
+                        const modalLendClose = modalLend.querySelector('#md-lend-close');
+                        modalLendClose.addEventListener('click', () => {
+                            modal.style.display = 'none';
+                            modalLend.style.display = 'none';
+                        });
+                    };
+                    await startLendCloseListener();
+                    const startLendConfirmSubmitListener = async () => {
+                        modalLendConfirmSubmit.addEventListener('click', async (event) => {
+                            event.preventDefault();
+                            const lendConfirmLendedBook = modalLendConfirm.querySelector('#md-lend-confirm-lendedBook');
+                            const lendConfirmStudentName = modalLendConfirm.querySelector('#md-lend-confirm-studentName');
+                            const lendConfirmStudentNumber = modalLendConfirm.querySelector('#md-lend-confirm-studentNumber');
+                            const lendConfirmDueDate = modalLendConfirm.querySelector('#md-lend-confirm-dueDate');
+                            const lendConfirmDueTime = DateTime.now().toFormat('HH:mm:ss');
+                            await getJSONResponse('/db/books/lend', 'POST', {
+                                lendedBook: lendConfirmLendedBook.textContent,
+                                studentName: lendConfirmStudentName.textContent,
+                                studentNumber: lendConfirmStudentNumber.textContent,
+                                dateDue: `${DateTime.fromISO(lendConfirmDueDate.textContent).toFormat('yyyy-MM-dd')} ${lendConfirmDueTime}`
+                            });
+                            modal.style.display = 'none';
+                            modalLendConfirm.style.display = 'none';
+                            lendConfirmLendedBook.textContent = '';
+                            lendConfirmStudentName.textContent = '';
+                            lendConfirmStudentNumber.textContent = '';
+                            lendConfirmDueDate.textContent = '';
+                            await computeDueBooks();
+                            await getDatabaseItems();
+                        });
+                    };
+                    await startLendConfirmSubmitListener();
+                    const startLendConfirmCloseListener = async () => {
+                        const modalLendConfirmClose = modalLendConfirm.querySelector('#md-lend-confirm-close');
+                        modalLendConfirmClose.addEventListener('click', () => {
+                            modal.style.display = 'none';
+                            modalLendConfirm.style.display = 'none';
+                        });
+                    };
+                    await startLendConfirmCloseListener();
                 };
-                await startConfirmSubmitListener();
+                await startActionsListener();
             };
             await startLendBookListener();
+            const startEditBookListener = async () => {
+                const modal = document.querySelector('#md');
+                const modalEdit = modal.querySelector('#md-edit');
+                const modalEditConfirm = modal.querySelector('#md-edit-confirm');
+                const startInputsListener = async () => {
+                    const modalEditForm = modalEdit.querySelector('form');
+                    const modalEditFormInputs = modalEditForm.querySelectorAll('input');
+                    modalEditFormInputs.forEach((element) => {
+                        element.addEventListener('input', async () => {
+                            console.log('typing');
+                            await areEditBookInputsFilled();
+                        });
+                    });
+                };
+                await startInputsListener();
+                const startActionsListener = async () => {
+                    const modalEditSubmit = modalEdit.querySelector('#md-edit-submit');
+                    const modalEditConfirmSubmit = modalEditConfirm.querySelector('#md-edit-confirm-submit');
+                    const startEditSubmitListener = async () => {
+                        modalEditSubmit.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            const modalEditId = modalEdit.querySelector('#md-edit-id');
+                            const modalEditTitle = modalEdit.querySelector('#md-edit-title');
+                            const modalEditAuthor = modalEdit.querySelector('#md-edit-author');
+                            const modalEditGenre = modalEdit.querySelector('#md-edit-genre');
+                            const modalEditPublication = modalEdit.querySelector('#md-edit-datePublicized');
+                            const modalEditConfirmId = modalEditConfirm.querySelector('#md-edit-confirm-id');
+                            const modalEditConfirmTitle = modalEditConfirm.querySelector('#md-edit-confirm-title');
+                            const modalEditConfirmAuthor = modalEditConfirm.querySelector('#md-edit-confirm-author');
+                            const modalEditConfirmGenre = modalEditConfirm.querySelector('#md-edit-confirm-genre');
+                            const modalEditConfirmPublication = modalEditConfirm.querySelector('#md-edit-confirm-datePublicized');
+                            modalEditConfirmId.textContent = modalEditId.textContent;
+                            modalEditConfirmTitle.textContent = modalEditTitle.value;
+                            modalEditConfirmAuthor.textContent = modalEditAuthor.value;
+                            modalEditConfirmGenre.textContent = modalEditGenre.value;
+                            modalEditConfirmPublication.textContent = modalEditPublication.value;
+                            modalEdit.style.display = 'none';
+                            modalEditConfirm.style.display = 'flex';
+                        });
+                    };
+                    await startEditSubmitListener();
+                    const startEditCloseListener = async () => {
+                        const modalEditClose = modalEdit.querySelector('#md-edit-close');
+                        modalEditClose.addEventListener('click', () => {
+                            modal.style.display = 'none';
+                            modalEdit.style.display = 'none';
+                        });
+                    };
+                    await startEditCloseListener();
+                    const startEditConfirmSubmitListener = async () => {
+                        modalEditConfirmSubmit.addEventListener('click', async (event) => {
+                            event.preventDefault();
+                            const modalEditConfirmId = modalEditConfirm.querySelector('#md-edit-confirm-id');
+                            const modalEditConfirmTitle = modalEditConfirm.querySelector('#md-edit-confirm-title');
+                            const modalEditConfirmAuthor = modalEditConfirm.querySelector('#md-edit-confirm-author');
+                            const modalEditConfirmGenre = modalEditConfirm.querySelector('#md-edit-confirm-genre');
+                            const modalEditConfirmPublication = modalEditConfirm.querySelector('#md-edit-confirm-datePublicized');
+                            console.log(modalEditConfirmTitle.textContent, modalEditConfirmAuthor.textContent, modalEditConfirmGenre.textContent, modalEditConfirmPublication.textContent);
+                            await getJSONResponse('/db/books/edit', 'POST', {
+                                id: modalEditConfirmId.textContent,
+                                title: modalEditConfirmTitle.textContent,
+                                author: modalEditConfirmAuthor.textContent,
+                                genre: modalEditConfirmGenre.textContent,
+                                datePublicized: modalEditConfirmPublication.textContent
+                            });
+                            modal.style.display = 'none';
+                            modalEditConfirm.style.display = 'none';
+                            modalEditConfirmTitle.textContent = '';
+                            modalEditConfirmAuthor.textContent = '';
+                            modalEditConfirmGenre.textContent = '';
+                            modalEditConfirmPublication.textContent = '';
+                            await getDatabaseItems();
+                        });
+                    };
+                    await startEditConfirmSubmitListener();
+                    const startEditConfirmCloseListener = async () => {
+                        const modalEditConfirmClose = modalEditConfirm.querySelector('#md-edit-confirm-close');
+                        modalEditConfirmClose.addEventListener('click', () => {
+                            modal.style.display = 'none';
+                            modalEditConfirm.style.display = 'none';
+                        });
+                    };
+                    await startEditConfirmCloseListener();
+                };
+                await startActionsListener();
+            };
+            await startEditBookListener();
         };
         await startModalsListener();
     };

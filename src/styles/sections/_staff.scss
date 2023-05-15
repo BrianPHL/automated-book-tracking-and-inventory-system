@@ -145,7 +145,7 @@
             display: grid;
             margin: -24px;
 
-            & > .lend, & > .lend-confirm {
+            & > .lend, & > .lend-confirm, & > .edit, & > .edit-confirm {
 
                 background-color: var(--bg-primary);
                 flex-direction: column;
@@ -219,46 +219,42 @@
                     display: flex;
                     gap: 48px;
                  
-                    & > .inputs {
+                    flex-direction: column;
+                    display: flex;
+                    gap: 16px;
+                    
+                    & > div {
 
                         flex-direction: column;
                         display: flex;
-                        gap: 16px;
-                     
+                        gap: 8px;
+
+                        & > label {
+
+                            font-weight: $font-400;
+                            font-size: 12px;
+                            color: var(--gr-primary);
+        
+                        }
+                        
                         & > div {
 
-                            flex-direction: column;
-                            display: flex;
-                            gap: 8px;
-
-                            & > label {
-
-                                font-weight: $font-400;
-                                font-size: 12px;
-                                color: var(--gr-primary);
-            
-                            }
-
-                            & > div {
-
-                                background-color: var(--bg-tertiary);
-                                border-radius: 4px;
-                                font-size: 12px;
-                                padding: 8px;
-                                border: 1px solid var(--er-outline);
-                                color: var(--tg-primary);
-                                width: 100%;
-                            
-                                &:focus {
-                            
-                                    outline: 1px solid var(--gr-secondary);
-                            
-                                }
-
+                            background-color: var(--bg-tertiary);
+                            border-radius: 4px;
+                            font-size: 12px;
+                            padding: 8px;
+                            border: 1px solid var(--er-outline);
+                            color: var(--tg-primary);
+                            width: 100%;
+                        
+                            &:focus {
+                        
+                                outline: 1px solid var(--gr-secondary);
+                        
                             }
 
                         }
-    
+                        
                     }
 
                 }

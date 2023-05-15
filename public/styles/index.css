@@ -286,7 +286,7 @@ a {
   display: grid;
   margin: -24px;
 }
-.staff .dashboard > .modals > .lend, .staff .dashboard > .modals > .lend-confirm {
+.staff .dashboard > .modals > .lend, .staff .dashboard > .modals > .lend-confirm, .staff .dashboard > .modals > .edit, .staff .dashboard > .modals > .edit-confirm {
   background-color: var(--bg-primary);
   flex-direction: column;
   border-radius: 4px;
@@ -296,62 +296,60 @@ a {
   width: 360px;
   gap: 48px;
 }
-.staff .dashboard > .modals > .lend > .header, .staff .dashboard > .modals > .lend-confirm > .header {
+.staff .dashboard > .modals > .lend > .header, .staff .dashboard > .modals > .lend-confirm > .header, .staff .dashboard > .modals > .edit > .header, .staff .dashboard > .modals > .edit-confirm > .header {
   justify-content: space-between;
   align-items: center;
   display: flex;
 }
-.staff .dashboard > .modals > .lend > .header > label, .staff .dashboard > .modals > .lend-confirm > .header > label {
+.staff .dashboard > .modals > .lend > .header > label, .staff .dashboard > .modals > .lend-confirm > .header > label, .staff .dashboard > .modals > .edit > .header > label, .staff .dashboard > .modals > .edit-confirm > .header > label {
   text-overflow: ellipsis;
   font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
   color: var(--tg-primary);
 }
-.staff .dashboard > .modals > .lend > .header > label > span, .staff .dashboard > .modals > .lend-confirm > .header > label > span {
+.staff .dashboard > .modals > .lend > .header > label > span, .staff .dashboard > .modals > .lend-confirm > .header > label > span, .staff .dashboard > .modals > .edit > .header > label > span, .staff .dashboard > .modals > .edit-confirm > .header > label > span {
   color: var(--gr-primary);
 }
-.staff .dashboard > .modals > .lend > .header > i, .staff .dashboard > .modals > .lend-confirm > .header > i {
+.staff .dashboard > .modals > .lend > .header > i, .staff .dashboard > .modals > .lend-confirm > .header > i, .staff .dashboard > .modals > .edit > .header > i, .staff .dashboard > .modals > .edit-confirm > .header > i {
   transition: 0.2s ease;
   font-size: 20px;
   color: var(--tg-secondary);
 }
-.staff .dashboard > .modals > .lend > .header > i:hover, .staff .dashboard > .modals > .lend-confirm > .header > i:hover {
+.staff .dashboard > .modals > .lend > .header > i:hover, .staff .dashboard > .modals > .lend-confirm > .header > i:hover, .staff .dashboard > .modals > .edit > .header > i:hover, .staff .dashboard > .modals > .edit-confirm > .header > i:hover {
   cursor: pointer;
   color: var(--gr-primary);
 }
-.staff .dashboard > .modals > .lend > .error, .staff .dashboard > .modals > .lend-confirm > .error {
+.staff .dashboard > .modals > .lend > .error, .staff .dashboard > .modals > .lend-confirm > .error, .staff .dashboard > .modals > .edit > .error, .staff .dashboard > .modals > .edit-confirm > .error {
   background-color: #FFCBCB;
   border-radius: 4px;
   overflow: auto;
   padding: 16px;
   border: 1px solid #FF6B6B;
 }
-.staff .dashboard > .modals > .lend > .error p, .staff .dashboard > .modals > .lend-confirm > .error p {
+.staff .dashboard > .modals > .lend > .error p, .staff .dashboard > .modals > .lend-confirm > .error p, .staff .dashboard > .modals > .edit > .error p, .staff .dashboard > .modals > .edit-confirm > .error p {
   font-weight: 400;
   font-size: 12px;
 }
-.staff .dashboard > .modals > .lend > form, .staff .dashboard > .modals > .lend-confirm > form {
+.staff .dashboard > .modals > .lend > form, .staff .dashboard > .modals > .lend-confirm > form, .staff .dashboard > .modals > .edit > form, .staff .dashboard > .modals > .edit-confirm > form {
   flex-direction: column;
   display: flex;
   gap: 48px;
-}
-.staff .dashboard > .modals > .lend > form > .inputs, .staff .dashboard > .modals > .lend-confirm > form > .inputs {
   flex-direction: column;
   display: flex;
   gap: 16px;
 }
-.staff .dashboard > .modals > .lend > form > .inputs > div, .staff .dashboard > .modals > .lend-confirm > form > .inputs > div {
+.staff .dashboard > .modals > .lend > form > div, .staff .dashboard > .modals > .lend-confirm > form > div, .staff .dashboard > .modals > .edit > form > div, .staff .dashboard > .modals > .edit-confirm > form > div {
   flex-direction: column;
   display: flex;
   gap: 8px;
 }
-.staff .dashboard > .modals > .lend > form > .inputs > div > label, .staff .dashboard > .modals > .lend-confirm > form > .inputs > div > label {
+.staff .dashboard > .modals > .lend > form > div > label, .staff .dashboard > .modals > .lend-confirm > form > div > label, .staff .dashboard > .modals > .edit > form > div > label, .staff .dashboard > .modals > .edit-confirm > form > div > label {
   font-weight: 400;
   font-size: 12px;
   color: var(--gr-primary);
 }
-.staff .dashboard > .modals > .lend > form > .inputs > div > div, .staff .dashboard > .modals > .lend-confirm > form > .inputs > div > div {
+.staff .dashboard > .modals > .lend > form > div > div, .staff .dashboard > .modals > .lend-confirm > form > div > div, .staff .dashboard > .modals > .edit > form > div > div, .staff .dashboard > .modals > .edit-confirm > form > div > div {
   background-color: var(--bg-tertiary);
   border-radius: 4px;
   font-size: 12px;
@@ -360,7 +358,7 @@ a {
   color: var(--tg-primary);
   width: 100%;
 }
-.staff .dashboard > .modals > .lend > form > .inputs > div > div:focus, .staff .dashboard > .modals > .lend-confirm > form > .inputs > div > div:focus {
+.staff .dashboard > .modals > .lend > form > div > div:focus, .staff .dashboard > .modals > .lend-confirm > form > div > div:focus, .staff .dashboard > .modals > .edit > form > div > div:focus, .staff .dashboard > .modals > .edit-confirm > form > div > div:focus {
   outline: 1px solid var(--gr-secondary);
 }
 .staff .dashboard > .header {

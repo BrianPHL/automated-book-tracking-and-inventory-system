@@ -54,19 +54,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const init = async () => {
         
-        const areLendInputsFilled = async () => {
+        const areLendBookInputsFilled = async () => {
 
-            const lend = document.querySelector('#md-lend') as HTMLDivElement
-            const lendButton = lend.querySelector('#md-lend-submit') as HTMLButtonElement
-            const studentNumber = lend.querySelector('#md-lend-studentNumber') as HTMLInputElement
-            const dueDate = lend.querySelector('#md-lend-dueDate') as HTMLInputElement
+            const modal = document.querySelector('#md') as HTMLDivElement
+            const modalLend = modal.querySelector('#md-lend') as HTMLDivElement
+            const modalLendSubmit = modalLend.querySelector('#md-lend-submit') as HTMLButtonElement
+            const modalLendForm = modalLend.querySelector('form') as HTMLFormElement
+            const modalLendFormInputs = modalLendForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
+            let areInputsFilled: boolean = true
 
-            if (studentNumber.value != '' && dueDate.value != '') {
-                lendButton.disabled = false;
-            } else {
-                lendButton.disabled = true;
+            for (const inputs of modalLendFormInputs) {
+
+                if (inputs.value.trim() == '') {
+                    areInputsFilled = false
+                    break
+                }
+
             }
     
+            modalLendSubmit.disabled = !areInputsFilled
+    
+        }
+
+        const areEditBookInputsFilled = async () => {
+
+            const modal = document.querySelector('#md') as HTMLDivElement
+            const modalEdit = modal.querySelector('#md-edit') as HTMLDivElement
+            const modalEditSubmit = modalEdit.querySelector('#md-edit-submit') as HTMLButtonElement
+            const modalEditForm = modalEdit.querySelector('form') as HTMLFormElement
+            const modalEditFormInputs = modalEditForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
+            let areInputsFilled: boolean = true
+
+            for (const inputs of modalEditFormInputs) {
+
+                if (inputs.value.trim() == '') {
+                    areInputsFilled = false
+                    break
+                }
+
+            }
+    
+            modalEditSubmit.disabled = !areInputsFilled
+
         }
 
         const getJSONResponse = async (url: string, method: string, data?: object) => {
@@ -151,12 +180,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     const entry =
                     `
-                    <div class="entry">
+                    <div class="entry" data-id="${ data[i].id }">
                         <div class="data">
                             <h3 id="av-data-title">${ data[i].title }</h3>
                             <div class="wrapper">
                                 <h4 id="av-data-author">${ data[i].author }</h4>
-                                <h4 id="av-data-category">${ data[i].genre }</h4>
+                                <h4 id="av-data-genre">${ data[i].genre }</h4>
                             </div>
                             <time id="av-data-date">${ data[i].date_publicized }</time>
                         </div>
@@ -197,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     const entry =
                     `
-                    <div class="entry">
+                    <div class="entry" data-id="${ dueData[i].id }">
                         <div class="header">
                             <h3 id="br-header-title">${ dueData[i].title }</h3>
                             <button id="br-header-viewDetails">View details</button>
@@ -327,65 +356,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const target = event.target as HTMLElement
                 
-                if (target.id == 'br-actions-markAsReturned') {
+                const startBorrowedEntriesListener = async () => {
 
-                    const entry = target.parentElement.parentElement
-                    const entryTitle = entry.querySelector('#br-header-title').textContent
+                    if (target.id == 'br-actions-markAsReturned') {
 
-                    await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle })
-
-                    entry.remove();
-                    await getDatabaseItems()
-
-                }
-
-                if (target.id == 'md-lend-close') {
-
-                    const modal = document.querySelector('#md') as HTMLDivElement
-                    const lend = modal.querySelector('#md-lend') as HTMLDivElement
-
-                    modal.style.display = 'none'
-                    lend.style.display = 'none'
+                        const entry = target.parentElement.parentElement
+                        const entryTitle = entry.querySelector('#br-header-title').textContent
+    
+                        await getStatusResponse('/db/books/mark-as-returned', 'POST', { title: entryTitle })
+    
+                        entry.remove();
+                        await getDatabaseItems()
+    
+                    }
 
                 }
+                startBorrowedEntriesListener()
 
-                if (target.id == 'md-lend-confirm-close') {
+                const startAvailableEntriesListener = async () => {
 
-                    const modal = document.querySelector('#md') as HTMLDivElement
-                    const lendConfirm = modal.querySelector('#md-lend-confirm') as HTMLDivElement
-
-                    modal.style.display = 'none'
-                    lendConfirm.style.display = 'none'
-
-                }
-
-                if (target.id == 'md-lend-submit') {
-
-                }
-
-                if (target.id == 'av-actions-lend') {
+                    if (target.id == 'av-actions-lend') {
                 
-                    const entry = target.parentElement.parentElement
-                    const modal = document.querySelector('#md') as HTMLDivElement
-                    const modalLend = modal.querySelector('#md-lend') as HTMLDivElement
-                    const modalBook = modal.querySelector('#md-lend-lendedBook') as HTMLDivElement
-                    const modalDateInput = modalLend.querySelector('#md-lend-dueDate') as HTMLInputElement
-                    const modalMinDate = DateTime.now().plus({ days: 1 }).toISODate().split('T')[0];
+                        const entry = target.parentElement.parentElement
+                        const modal = document.querySelector('#md') as HTMLDivElement
+                        const modalLend = modal.querySelector('#md-lend') as HTMLDivElement
+                        const modalLendForm = modalLend.querySelector('form') as HTMLFormElement
+                        const modalLendFormInputs = modalLendForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
+                        const modalLendBook = modalLend.querySelector('#md-lend-lendedBook') as HTMLDivElement
+                        const modalLendDate = modalLend.querySelector('#md-lend-dueDate') as HTMLInputElement
+                        const modalMinDate = DateTime.now().plus({ days: 1 }).toISODate().split('T')[0];
+    
+                        for (const inputs of modalLendFormInputs) {
+                            inputs.value = ''
+                        }
 
-                    await areLendInputsFilled()
+                        await areLendBookInputsFilled()
+    
+                        modalLendBook.textContent = entry.querySelector('#av-data-title').textContent
+                        modalLendDate.setAttribute('min', modalMinDate)
+                        modal.style.display = 'grid'
+                        modalLend.style.display = 'flex'
+    
+                    }
+    
+                    if (target.id == 'av-actions-edit') {
+    
+                        const modal = document.querySelector('#md') as HTMLDivElement
+                        
+                        const entry = target.parentElement.parentElement
+                        console.log(entry)
+                        const entryId = entry.getAttribute('data-id')
+                        const entryTitle = entry.querySelector('#av-data-title') as HTMLElement
+                        const entryAuthor = entry.querySelector('#av-data-author') as HTMLElement
+                        const entryGenre = entry.querySelector('#av-data-genre') as HTMLElement
+                        const entryPublication = entry.querySelector('#av-data-date') as HTMLElement
+                        const edit = modal.querySelector('#md-edit') as HTMLDivElement
+                        const editId = edit.querySelector('#md-edit-id') as HTMLDivElement
+                        const editTitle = edit.querySelector('#md-edit-title') as HTMLInputElement
+                        const editAuthor = edit.querySelector('#md-edit-author') as HTMLInputElement
+                        const editGenre = edit.querySelector('#md-edit-genre') as HTMLInputElement
+                        const editPublication = edit.querySelector('#md-edit-datePublicized') as HTMLInputElement
 
-                    modalBook.textContent = entry.querySelector('#av-data-title').textContent
-                    modalDateInput.setAttribute('min', modalMinDate)
-                    modal.style.display = 'grid'
-                    modalLend.style.display = 'flex'
+                        editId.textContent = entryId
+                        editTitle.value = entryTitle.textContent
+                        editAuthor.value = entryAuthor.textContent
+                        editGenre.value = entryGenre.textContent
+                        editPublication.value = new Date(entryPublication.textContent).toISOString().split('T')[0]
+    
+                        await areEditBookInputsFilled()
+    
+                        modal.style.display = 'grid'
+                        edit.style.display = 'flex'
+    
+                    }
 
                 }
-
-                if (target.id == 'av-actions-edit') {
-
-                    const entry = target.parentElement.parentElement
-
-                }
+                startAvailableEntriesListener()
 
             })
 
@@ -396,16 +442,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const startLendBookListener = async () => {
 
+                const modal = document.querySelector('#md') as HTMLDivElement
+                const modalLend = modal.querySelector('#md-lend') as HTMLDivElement
+                const modalLendConfirm = modal.querySelector('#md-lend-confirm') as HTMLDivElement
+
                 const startInputsListener = async () => {
 
-                    const lend = document.querySelector('#md-lend') as HTMLDivElement
-                    const form = lend.querySelector('form') as HTMLFormElement
-                    const inputs = form.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+                    const modalLendForm = modalLend.querySelector('form') as HTMLFormElement
+                    const modalLendFormInputs = modalLendForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
         
-                    inputs.forEach((element) => {
+                    modalLendFormInputs.forEach((element) => {
                         
                         element.addEventListener('input', async () => {
-                            await areLendInputsFilled()
+                            await areLendBookInputsFilled()
                         })
         
                     })
@@ -413,103 +462,260 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 await startInputsListener()
 
-                const startSubmitListener = async () => {
+                const startActionsListener = async () => {
 
-                    const lend = document.querySelector('#md-lend') as HTMLDivElement
-                    const lendConfirm = document.querySelector('#md-lend-confirm') as HTMLDivElement
-                    const lendSubmit = lend.querySelector('#md-lend-submit') as HTMLButtonElement
+                    const modalLendSubmit = modalLend.querySelector('#md-lend-submit') as HTMLButtonElement
+                    const modalLendConfirmSubmit = modalLendConfirm.querySelector('#md-lend-confirm-submit') as HTMLButtonElement
 
-                    lendSubmit.addEventListener('click', async (event) => {
+                    const startLendSubmitListener = async () => {
 
-                        event.preventDefault()
+                        modalLendSubmit.addEventListener('click', async (event) => {
 
-                        const error = lend.querySelector('#md-lend-error') as HTMLDivElement
-                        const errorText = error.querySelector('p') as HTMLParagraphElement
-
-                        error.style.display = 'none'
-                        errorText.textContent = ''
-
-                        const studentNumber = lend.querySelector('#md-lend-studentNumber') as HTMLInputElement
-                        const response = await getJSONResponse('/db/students/studentNumber/validate', 'POST', { studentNumber: studentNumber.value })
-
-                        if (!response.ok) {
-
-                            errorText.textContent = response.error
-                            error.style.display = 'block'
-
-                        } else {
-
-                            const confirmLendedBook = lend.querySelector('#md-lend-lendedBook') as HTMLDivElement
-                            const confirmStudentName = response.name
-                            const confirmStudentNumber = studentNumber.value
-                            const confirmDueDate = lend.querySelector('#md-lend-dueDate') as HTMLInputElement
-                            const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook') as HTMLDivElement
-                            const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName') as HTMLDivElement
-                            const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber') as HTMLDivElement
-                            const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate') as HTMLDivElement
-
-                            lendConfirmLendedBook.textContent = confirmLendedBook.textContent
-                            lendConfirmStudentName.textContent = confirmStudentName
-                            lendConfirmStudentNumber.textContent = confirmStudentNumber
-                            lendConfirmDueDate.textContent = confirmDueDate.value
-
-                            confirmLendedBook.textContent = ''
-                            confirmDueDate.value = ''
-                            studentNumber.value = ''
-
-                            lend.style.display = 'none'
-                            lendConfirm.style.display = 'flex'
-
-                        }
-
-                    })
-
-                }
-                await startSubmitListener()
-
-                const startConfirmSubmitListener = async () => {
-
-                    const modal = document.querySelector('#md') as HTMLDivElement
-                    const lendConfirm = modal.querySelector('#md-lend-confirm') as HTMLDivElement
-                    const lendConfirmSubmit = lendConfirm.querySelector('#md-lend-confirm-submit') as HTMLButtonElement
-
-                    lendConfirmSubmit.addEventListener('click', async (event) => {
-
-                        const lendConfirmLendedBook = lendConfirm.querySelector('#md-lend-confirm-lendedBook') as HTMLDivElement
-                        const lendConfirmStudentName = lendConfirm.querySelector('#md-lend-confirm-studentName') as HTMLDivElement
-                        const lendConfirmStudentNumber = lendConfirm.querySelector('#md-lend-confirm-studentNumber') as HTMLDivElement
-                        const lendConfirmDueDate = lendConfirm.querySelector('#md-lend-confirm-dueDate') as HTMLDivElement
-                        const lendConfirmDueTime = DateTime.now().toFormat('HH:mm:ss')
-
-                        event.preventDefault()
-
-                        await getJSONResponse('/db/books/lend', 'POST', {
-                            lendedBook: lendConfirmLendedBook.textContent,
-                            studentName: lendConfirmStudentName.textContent,
-                            studentNumber: lendConfirmStudentNumber.textContent,
-                            dateDue: `${DateTime.fromISO(lendConfirmDueDate.textContent).toFormat('yyyy-MM-dd')} ${lendConfirmDueTime}`
+                            event.preventDefault()
+    
+                            const error = modal.querySelector('#md-lend-error') as HTMLDivElement
+                            const errorText = error.querySelector('p') as HTMLParagraphElement
+    
+                            error.style.display = 'none'
+                            errorText.textContent = ''
+    
+                            const studentNumber = modal.querySelector('#md-lend-studentNumber') as HTMLInputElement
+                            const response = await getJSONResponse('/db/students/studentNumber/validate', 'POST', { studentNumber: studentNumber.value })
+    
+                            if (!response.ok) {
+    
+                                errorText.textContent = response.error
+                                error.style.display = 'block'
+    
+                            } else {
+    
+                                const confirmLendedBook = modalLend.querySelector('#md-lend-lendedBook') as HTMLDivElement
+                                const confirmStudentName = response.name
+                                const confirmStudentNumber = studentNumber.value
+                                const confirmDueDate = modalLend.querySelector('#md-lend-dueDate') as HTMLInputElement
+                                const lendConfirmLendedBook = modalLendConfirm.querySelector('#md-lend-confirm-lendedBook') as HTMLDivElement
+                                const lendConfirmStudentName = modalLendConfirm.querySelector('#md-lend-confirm-studentName') as HTMLDivElement
+                                const lendConfirmStudentNumber = modalLendConfirm.querySelector('#md-lend-confirm-studentNumber') as HTMLDivElement
+                                const lendConfirmDueDate = modalLendConfirm.querySelector('#md-lend-confirm-dueDate') as HTMLDivElement
+    
+                                lendConfirmLendedBook.textContent = confirmLendedBook.textContent
+                                lendConfirmStudentName.textContent = confirmStudentName
+                                lendConfirmStudentNumber.textContent = confirmStudentNumber
+                                lendConfirmDueDate.textContent = confirmDueDate.value
+    
+                                confirmLendedBook.textContent = ''
+                                confirmDueDate.value = ''
+                                studentNumber.value = ''
+    
+                                modalLend.style.display = 'none'
+                                modalLendConfirm.style.display = 'flex'
+    
+                            }
+    
                         })
 
-                        modal.style.display = 'none'
-                        lendConfirm.style.display = 'none'
-                        
-                        lendConfirmLendedBook.textContent = ''
-                        lendConfirmStudentName.textContent = ''
-                        lendConfirmStudentNumber.textContent = ''
-                        lendConfirmDueDate.textContent = ''
+                    }
+                    await startLendSubmitListener()
 
-                        await computeDueBooks()
-                        await getDatabaseItems()
+                    const startLendCloseListener = async () => {
+
+                        const modalLendClose = modalLend.querySelector('#md-lend-close') as HTMLButtonElement
+
+                        modalLendClose.addEventListener('click', () => {
+
+                            modal.style.display = 'none'
+                            modalLend.style.display = 'none'
+    
+                        })
+
+                    }
+                    await startLendCloseListener()
+
+                    const startLendConfirmSubmitListener = async () => {
+
+                        modalLendConfirmSubmit.addEventListener('click', async (event) => {
+                            
+                            event.preventDefault()
+
+                            const lendConfirmLendedBook = modalLendConfirm.querySelector('#md-lend-confirm-lendedBook') as HTMLDivElement
+                            const lendConfirmStudentName = modalLendConfirm.querySelector('#md-lend-confirm-studentName') as HTMLDivElement
+                            const lendConfirmStudentNumber = modalLendConfirm.querySelector('#md-lend-confirm-studentNumber') as HTMLDivElement
+                            const lendConfirmDueDate = modalLendConfirm.querySelector('#md-lend-confirm-dueDate') as HTMLDivElement
+                            const lendConfirmDueTime = DateTime.now().toFormat('HH:mm:ss')
+    
+                            await getJSONResponse('/db/books/lend', 'POST', {
+                                lendedBook: lendConfirmLendedBook.textContent,
+                                studentName: lendConfirmStudentName.textContent,
+                                studentNumber: lendConfirmStudentNumber.textContent,
+                                dateDue: `${DateTime.fromISO(lendConfirmDueDate.textContent).toFormat('yyyy-MM-dd')} ${lendConfirmDueTime}`
+                            })
+    
+                            modal.style.display = 'none'
+                            modalLendConfirm.style.display = 'none'
+                            
+                            lendConfirmLendedBook.textContent = ''
+                            lendConfirmStudentName.textContent = ''
+                            lendConfirmStudentNumber.textContent = ''
+                            lendConfirmDueDate.textContent = ''
+    
+                            await computeDueBooks()
+                            await getDatabaseItems()
+                            
+                        })
+
+                    }
+
+                    await startLendConfirmSubmitListener()
+
+                    const startLendConfirmCloseListener = async () => {
                         
-                    })
+                        const modalLendConfirmClose = modalLendConfirm.querySelector('#md-lend-confirm-close') as HTMLButtonElement
+
+                        modalLendConfirmClose.addEventListener('click', () => {
+
+                            modal.style.display = 'none'
+                            modalLendConfirm.style.display = 'none'
+    
+                        })
+
+                    }
+                    await startLendConfirmCloseListener()
 
                 }
-
-                await startConfirmSubmitListener()
+                await startActionsListener()
 
             }
-
             await startLendBookListener()
+
+            const startEditBookListener = async () => {
+
+                const modal = document.querySelector('#md') as HTMLDivElement
+                const modalEdit = modal.querySelector('#md-edit') as HTMLDivElement
+                const modalEditConfirm = modal.querySelector('#md-edit-confirm') as HTMLDivElement
+
+                const startInputsListener = async () => {
+
+                    const modalEditForm = modalEdit.querySelector('form') as HTMLFormElement
+                    const modalEditFormInputs = modalEditForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+        
+                    modalEditFormInputs.forEach((element) => {
+                        
+                        element.addEventListener('input', async () => {
+                            console.log('typing')
+                            await areEditBookInputsFilled()
+                        })
+        
+                    })
+    
+                }
+                await startInputsListener()
+
+                const startActionsListener = async () => {
+
+                    const modalEditSubmit = modalEdit.querySelector('#md-edit-submit') as HTMLButtonElement
+                    const modalEditConfirmSubmit = modalEditConfirm.querySelector('#md-edit-confirm-submit') as HTMLButtonElement
+
+                    const startEditSubmitListener = async () => {
+
+                        modalEditSubmit.addEventListener('click', (event) => {
+
+                            event.preventDefault()
+
+                            const modalEditId = modalEdit.querySelector('#md-edit-id') as HTMLDivElement
+                            const modalEditTitle = modalEdit.querySelector('#md-edit-title') as HTMLInputElement
+                            const modalEditAuthor = modalEdit.querySelector('#md-edit-author') as HTMLInputElement
+                            const modalEditGenre = modalEdit.querySelector('#md-edit-genre') as HTMLInputElement
+                            const modalEditPublication = modalEdit.querySelector('#md-edit-datePublicized') as HTMLInputElement
+                            const modalEditConfirmId = modalEditConfirm.querySelector('#md-edit-confirm-id') as HTMLDivElement
+                            const modalEditConfirmTitle = modalEditConfirm.querySelector('#md-edit-confirm-title') as HTMLDivElement
+                            const modalEditConfirmAuthor = modalEditConfirm.querySelector('#md-edit-confirm-author') as HTMLDivElement
+                            const modalEditConfirmGenre = modalEditConfirm.querySelector('#md-edit-confirm-genre') as HTMLDivElement
+                            const modalEditConfirmPublication = modalEditConfirm.querySelector('#md-edit-confirm-datePublicized') as HTMLDivElement
+
+                            modalEditConfirmId.textContent = modalEditId.textContent
+                            modalEditConfirmTitle.textContent = modalEditTitle.value
+                            modalEditConfirmAuthor.textContent = modalEditAuthor.value
+                            modalEditConfirmGenre.textContent = modalEditGenre.value
+                            modalEditConfirmPublication.textContent = modalEditPublication.value
+
+                            modalEdit.style.display = 'none'
+                            modalEditConfirm.style.display = 'flex'
+
+                        })
+
+                    }
+                    await startEditSubmitListener()
+
+                    const startEditCloseListener = async () => {
+
+                        const modalEditClose = modalEdit.querySelector('#md-edit-close') as HTMLButtonElement
+
+                        modalEditClose.addEventListener('click', () => {
+
+                            modal.style.display = 'none'
+                            modalEdit.style.display = 'none'
+
+                        })
+
+                    }
+                    await startEditCloseListener()
+
+                    const startEditConfirmSubmitListener = async () => {
+
+                        modalEditConfirmSubmit.addEventListener('click', async (event) => {
+
+                            event.preventDefault()
+
+                            const modalEditConfirmId = modalEditConfirm.querySelector('#md-edit-confirm-id') as HTMLDivElement
+                            const modalEditConfirmTitle = modalEditConfirm.querySelector('#md-edit-confirm-title') as HTMLDivElement
+                            const modalEditConfirmAuthor = modalEditConfirm.querySelector('#md-edit-confirm-author') as HTMLDivElement
+                            const modalEditConfirmGenre = modalEditConfirm.querySelector('#md-edit-confirm-genre') as HTMLDivElement
+                            const modalEditConfirmPublication = modalEditConfirm.querySelector('#md-edit-confirm-datePublicized') as HTMLDivElement
+
+                            console.log(modalEditConfirmTitle.textContent, modalEditConfirmAuthor.textContent, modalEditConfirmGenre.textContent, modalEditConfirmPublication.textContent)
+
+                            await getJSONResponse('/db/books/edit', 'POST', {
+                                id: modalEditConfirmId.textContent,
+                                title: modalEditConfirmTitle.textContent,
+                                author: modalEditConfirmAuthor.textContent,
+                                genre: modalEditConfirmGenre.textContent,
+                                datePublicized: modalEditConfirmPublication.textContent
+                            })
+
+                            modal.style.display = 'none'
+                            modalEditConfirm.style.display = 'none'
+
+                            modalEditConfirmTitle.textContent = ''
+                            modalEditConfirmAuthor.textContent = ''
+                            modalEditConfirmGenre.textContent = ''
+                            modalEditConfirmPublication.textContent = ''
+
+                            await getDatabaseItems()
+
+                        })
+
+                    }
+                    await startEditConfirmSubmitListener()
+
+                    const startEditConfirmCloseListener = async () => {
+                        
+                        const modalEditConfirmClose = modalEditConfirm.querySelector('#md-edit-confirm-close') as HTMLButtonElement
+
+                        modalEditConfirmClose.addEventListener('click', () => {
+
+                            modal.style.display = 'none'
+                            modalEditConfirm.style.display = 'none'
+
+                        })
+
+                    }
+                    await startEditConfirmCloseListener()
+
+                }
+                await startActionsListener()
+
+            }
+            await startEditBookListener()
 
         }
         await startModalsListener()

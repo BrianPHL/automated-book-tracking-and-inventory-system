@@ -89,7 +89,7 @@
 
                         <div class="header">
 
-                            <label for="lend">Lend book to student</label>
+                            <label for="lend">Lend Book to Student</label>
 
                             <i class="fa-solid fa-close" id="md-lend-close"></i>
 
@@ -99,34 +99,30 @@
 
                         <form>
 
-                            <div class="inputs">
+                            <div class="lendedBook">
 
-                                <div class="lendedBook">
+                                <label for="lendedBook">Book to be lended</label>
+                                <div id="md-lend-lendedBook"></div>
 
-                                    <label for="lendedBook">Book to be lended</label>
-                                    <div id="md-lend-lendedBook"></div>
+                            </div>
 
-                                </div>
+                            <div class="studentNumber">
 
-                                <div class="studentNumber">
+                                <label for="studentNumber">Student number</label>
+                                <input id="md-lend-studentNumber" name="studentNumber" type="number" placeholder="Student number" required>
 
-                                    <label for="studentNumber">Student number</label>
-                                    <input id="md-lend-studentNumber" name="studentNumber" type="number" placeholder="Student number" required>
-    
-                                </div>
-    
-                                <div class="dueDate">
-    
-                                    <label for="dueDate">Due date</label>
-                                    <input id="md-lend-dueDate" name="dueDate" type="date" required>
-    
-                                </div>
+                            </div>
+
+                            <div class="dueDate">
+
+                                <label for="dueDate">Due date</label>
+                                <input id="md-lend-dueDate" name="dueDate" type="date" required>
 
                             </div>
                             
-                            <button type="submit" id="md-lend-submit" disabled>Submit</button>
-
                         </form>
+
+                        <button type="submit" id="md-lend-submit" disabled>Submit</button>
 
                     </div>
 
@@ -134,7 +130,7 @@
 
                         <div class="header">
 
-                            <label for="lend">Confirm action</label>
+                            <label for="lend-confirm">Confirm Lend Book to Student</label>
 
                             <i class="fa-solid fa-close" id="md-lend-confirm-close"></i>
 
@@ -142,47 +138,143 @@
 
                         <form>
 
-                            <div class="inputs">
+                            <div class="lendedBook">
 
-                                <div class="lendedBook">
+                                <label for="lendedBook">Lended book title</label>
+                                <div id="md-lend-confirm-lendedBook"></div>
 
-                                    <label for="lendedBook">Lended book title</label>
-                                    <div id="md-lend-confirm-lendedBook"></div>
-    
-                                </div>
+                            </div>
 
-                                <div class="studentName">
+                            <div class="studentName">
 
-                                    <label for="studentName">Student name</label>
-                                    <div id="md-lend-confirm-studentName"></div>
-    
-                                </div>
+                                <label for="studentName">Student name</label>
+                                <div id="md-lend-confirm-studentName"></div>
 
-                                <div class="studentNumber">
+                            </div>
 
-                                    <label for="studentNumber">Student number</label>
-                                    <div id="md-lend-confirm-studentNumber"></div>
-    
-                                </div>
-    
-                                <div class="dueDate">
-    
-                                    <label for="dueDate">Due date</label>
-                                    <div id="md-lend-confirm-dueDate"></div>
+                            <div class="studentNumber">
 
-                                </div>
+                                <label for="studentNumber">Student number</label>
+                                <div id="md-lend-confirm-studentNumber"></div>
+
+                            </div>
+
+                            <div class="dueDate">
+
+                                <label for="dueDate">Due date</label>
+                                <div id="md-lend-confirm-dueDate"></div>
 
                             </div>
                             
-                            <button id="md-lend-confirm-submit" type="submit">Confirm & Submit</button>
-
                         </form>
-
+                        
+                        <button id="md-lend-confirm-submit" type="submit">Confirm & Submit</button>
+                    
                     </div>
 
                     <div class="edit" id="md-edit" style="display: none;">
 
-                        <h2>Edit</h2>
+                        <div class="header">
+
+                            <label for="edit">Book Edit</label>
+
+                            <i class="fa-solid fa-close" id="md-edit-close"></i>
+
+                        </div>
+
+                        <form>
+
+                            <div class="id">
+
+                                <label for="id">Book Identification Number</label>
+                                <div id="md-edit-id"></div>
+
+                            </div>
+
+                            <div class="title">
+
+                                <label for="title">Book Title</label>
+                                <input id="md-edit-title" type="text" placeholder="Title" required>
+                                
+                            </div>
+
+                            <div class="author">
+
+                                <label for="author">Book Author</label>
+                                <input id="md-edit-author" type="text" placeholder="Author" required>
+
+                            </div>
+
+                            <div class="genre">
+
+                                <label for="genre">Book Genre</label>
+                                <input id="md-edit-genre" type="text" placeholder="Genre" required>
+
+                            </div>
+
+                            <div class="datePublicized">
+
+                                <label for="datePublicized">Book Date of Publication</label>
+                                <input id="md-edit-datePublicized" type="date" required>
+
+                            </div>
+
+                        </form>
+
+                        <button id="md-edit-submit" type="submit" disabled>Submit changes</button>
+
+                    </div>
+
+                    <div class="edit-confirm" id="md-edit-confirm" style="display: none;">
+
+                        <div class="header">
+
+                            <label for="edit-confirm">Confirm Book Edit</label>
+
+                            <i class="fa-solid fa-close" id="md-edit-confirm-close"></i>
+
+                        </div>
+
+                        <form>
+
+                            <div class="id">
+
+                                <label for="id">Book Identification Number</label>
+                                <div id="md-edit-confirm-id"></div>
+
+                            </div>
+
+                            <div class="title">
+
+                                <label for="title">Book Title</label>
+                                <div id="md-edit-confirm-title"></div>
+
+                            </div>
+
+                            <div class="author">
+
+                                <label for="author">Book Author</label>
+                                <div id="md-edit-confirm-author"></div>
+
+                            </div>
+
+                            <div class="genre">
+
+                                <label for="genre">Book Genre</label>
+                                <div id="md-edit-confirm-genre"></div>
+
+                            </div>
+
+                            <div class="datePublicized">
+
+                                <label for="datePublicized">Book Date of publication</label>
+                                <div id="md-edit-confirm-datePublicized"></div>
+
+                            </div>
+
+                        </form>
+
+                        <button id="md-edit-confirm-submit" type="submit">Confirm & Submit changes</button>
 
                     </div>
 

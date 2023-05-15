@@ -112,9 +112,13 @@ dbRoute.post('/books/lend', async (req, res) => {
     const dateBorrowed = DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss');
     const queryString = `UPDATE books SET borrower = ?, borrower_number = ?, date_borrowed = ?, date_due = ?, status = ? WHERE title = ?`;
     const queryArgs = [studentName, studentNumber, dateBorrowed, dateDue, 'borrowed', lendedBook];
-    performDatabaseOperation(queryString, queryArgs, (result) => {
-        res.json(result);
-    });
+    performDatabaseOperation(queryString, queryArgs, (result) => { res.json(result); });
+});
+dbRoute.post('/books/edit', async (req, res) => {
+    const { id, title, author, genre, datePublicized } = req.body;
+    const queryString = `UPDATE books SET title = ?, author = ?, genre = ?, date_publicized = ? WHERE id = ?`;
+    const queryArgs = [title, author, genre, DateTime.fromISO(datePublicized).toFormat('d MMMM yyyy'), id];
+    performDatabaseOperation(queryString, queryArgs, (result) => { res.json(result); });
 });
 dbRoute.get('/books/available/count', (req, res) => {
     const queryString = "SELECT COUNT(*) as count FROM books WHERE status = ?";
