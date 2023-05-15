@@ -345,7 +345,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             })
 
-            staff.actions.refresh.addEventListener('click', () => { getDatabaseItems() })
+            staff.actions.refresh.addEventListener('click', async () => { 
+                await computeDueBooks()
+                await getDatabaseItems() 
+            })
 
         }
         await startActionsListener()
@@ -404,7 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         const modal = document.querySelector('#md') as HTMLDivElement
                         
                         const entry = target.parentElement.parentElement
-                        console.log(entry)
                         const entryId = entry.getAttribute('data-id')
                         const entryTitle = entry.querySelector('#av-data-title') as HTMLElement
                         const entryAuthor = entry.querySelector('#av-data-author') as HTMLElement
@@ -670,8 +672,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             const modalEditConfirmAuthor = modalEditConfirm.querySelector('#md-edit-confirm-author') as HTMLDivElement
                             const modalEditConfirmGenre = modalEditConfirm.querySelector('#md-edit-confirm-genre') as HTMLDivElement
                             const modalEditConfirmPublication = modalEditConfirm.querySelector('#md-edit-confirm-datePublicized') as HTMLDivElement
-
-                            console.log(modalEditConfirmTitle.textContent, modalEditConfirmAuthor.textContent, modalEditConfirmGenre.textContent, modalEditConfirmPublication.textContent)
 
                             await getJSONResponse('/db/books/edit', 'POST', {
                                 id: modalEditConfirmId.textContent,

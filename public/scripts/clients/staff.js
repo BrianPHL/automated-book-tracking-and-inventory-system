@@ -250,7 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     setPreferredTheme('light');
                 }
             });
-            staff.actions.refresh.addEventListener('click', () => { getDatabaseItems(); });
+            staff.actions.refresh.addEventListener('click', async () => {
+                await computeDueBooks();
+                await getDatabaseItems();
+            });
         };
         await startActionsListener();
         const startEntriesListener = async () => {
@@ -288,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (target.id == 'av-actions-edit') {
                         const modal = document.querySelector('#md');
                         const entry = target.parentElement.parentElement;
-                        console.log(entry);
                         const entryId = entry.getAttribute('data-id');
                         const entryTitle = entry.querySelector('#av-data-title');
                         const entryAuthor = entry.querySelector('#av-data-author');
@@ -468,7 +470,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             const modalEditConfirmAuthor = modalEditConfirm.querySelector('#md-edit-confirm-author');
                             const modalEditConfirmGenre = modalEditConfirm.querySelector('#md-edit-confirm-genre');
                             const modalEditConfirmPublication = modalEditConfirm.querySelector('#md-edit-confirm-datePublicized');
-                            console.log(modalEditConfirmTitle.textContent, modalEditConfirmAuthor.textContent, modalEditConfirmGenre.textContent, modalEditConfirmPublication.textContent);
                             await getJSONResponse('/db/books/edit', 'POST', {
                                 id: modalEditConfirmId.textContent,
                                 title: modalEditConfirmTitle.textContent,
