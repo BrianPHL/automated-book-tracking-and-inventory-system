@@ -94,11 +94,10 @@ dbRoute.post('/books/mark-as-returned', async (req, res) => {
 });
 dbRoute.post('/students/studentNumber/validate', (req, res) => {
     const { studentNumber } = req.body;
-    const queryString = "SELECT first_name, last_name FROM students WHERE number = ?";
+    const queryString = "SELECT first_name, last_name FROM students WHERE student_number = ?";
     const queryArgs = [studentNumber];
     performDatabaseOperation(queryString, queryArgs, (result) => {
         if (Array.isArray(result) && result.length > 0 && result.constructor.name != 'QueryError') {
-            console.log(result.length);
             const concatenatedName = `${result[0].first_name} ${result[0].last_name}`;
             res.json({ ok: true, name: concatenatedName });
         }
