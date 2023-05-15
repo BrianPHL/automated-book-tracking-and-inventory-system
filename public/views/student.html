@@ -63,7 +63,103 @@
     
             <div class="dashboard">
     
-                <div class="modals" style="display: none;"></div>
+                <div class="modals" id="md" style="display: none;">
+                
+                    <div class="borrow" id="md-borrow" style="display: none;">
+
+                        <div class="header">
+
+                            <label for="borrow">Borrow Book</label>
+
+                            <i class="fa-solid fa-close" id="md-borrow-close"></i>
+
+                        </div>
+
+                        <div id="md-borrow-error" class="error" style="display: none;"><p></p></div>
+
+                        <form>
+
+                            <div class="book">
+
+                                <label for="book">Book to be Borrowed</label>
+                                <div id="md-borrow-book"></div>
+
+                            </div>
+
+                            <div class="studentNumber">
+
+                                <label for="studentNumber">Student Number</label>
+                                <input id="md-borrow-studentNumber" type="text" required>
+
+                            </div>
+                            
+                        </form>
+
+                        <button type="submit" id="md-borrow-submit" disabled>Submit</button>
+
+                    </div>
+
+                    <div class="borrow-confirm" id="md-borrow-confirm" style="display: none;">
+                        
+                        <div class="header">
+
+                            <label for="borrow">Borrow Book</label>
+
+                            <i class="fa-solid fa-close" id="md-borrow-confirm-close"></i>
+
+                        </div>
+
+                        <form>
+
+                            <div class="book">
+
+                                <label for="book">Book to be Borrowed</label>
+                                <div id="md-borrow-confirm-book"></div>
+
+                            </div>
+
+                            <div class="studentName">
+
+                                <label for="studentNumber">Student Name</label>
+                                <div id="md-borrow-confirm-studentName"></div>
+
+                            </div>
+
+                            <div class="studentNumber">
+
+                                <label for="studentNumber">Student Number</label>
+                                <div id="md-borrow-confirm-studentNumber"></div>
+
+                            </div>
+
+                            <div class="phoneNumber">
+
+                                <label for="phoneNumber">Phone Number</label>
+                                <div id="md-borrow-confirm-phoneNumber"></div>
+
+                            </div>
+                            
+                            <div class="studentEmail">
+
+                                <label for="studentEmail">Student Email</label>
+                                <div id="md-borrow-confirm-studentEmail"></div>
+
+                            </div>
+
+                            <div class="dueDate">
+
+                                <label for="dueDate">Borrow Due Date</label>
+                                <div id="md-borrow-confirm-dueDate"></div>
+
+                            </div>
+
+                        </form>
+
+                        <button type="submit" id="md-borrow-confirm-submit">Confirm & Submit</button>
+
+                    </div>
+
+                </div>
     
                 <div class="header" id="hd">
 

@@ -164,14 +164,23 @@ dbRoute.post('/books/mark-as-returned', async (req: Request, res: Response) => {
 dbRoute.post('/students/studentNumber/validate', (req: Request, res: Response):void => {
 
     const { studentNumber } = req.body
-    const queryString = "SELECT first_name, last_name FROM students WHERE student_number = ?"
+    const queryString = "SELECT student_number, phone_number, email, first_name, last_name FROM students WHERE student_number = ?"
     const queryArgs = [ studentNumber ]
 
     performDatabaseOperation(queryString, queryArgs, (result: any) => {
 
         if (Array.isArray(result) && result.length > 0 && result.constructor.name != 'QueryError') {
+            const phoneNumber = result[0].phone_number
+            const studentEmail = result[0].email
             const concatenatedName = `${result[0].first_name} ${result[0].last_name}`
-            res.json({ ok: true, name: concatenatedName })
+            res.json({ 
+                ok: true,
+                name: concatenatedName,
+                studentNumber: studentNumber,
+                phoneNumber: phoneNumber,
+                studentEmail: studentEmail
+                
+            })
         } else {
             res.json({ ok: false, error: 'Invalid student number passed!' })
         }
