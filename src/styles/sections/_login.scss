@@ -1,4 +1,4 @@
-.login {
+body[data-site="login"] {
 
     background-repeat: no-repeat;
     background-image: url('/static/assets/images/login_background.webp');
@@ -9,7 +9,7 @@
     height: 100vh;
     width: 100vw;
 
-    & > .modal {
+    & > .login {
 
         background-color: var(--bg-secondary);
         flex-direction: column;
@@ -47,7 +47,7 @@
 
         }
 
-        form {
+        & > form {
 
             flex-direction: column;
             display: flex;

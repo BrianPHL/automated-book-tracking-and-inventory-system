@@ -14,15 +14,13 @@
 
     </head>
 
-    <body>
+    <body data-site="login">
 
         <div class="login">
 
-            <div class="modal">
+            <h1 class="header">Automated Book Tracking and Inventory System</h1>
 
-                <h1 class="header">Automated Book Tracking and Inventory System</h1>
-
-                <div class="error" style="display: none;"><p></p></div>
+                <div id="error" class="error" style="display: none;"><p></p></div>
 
                 <form>
 
@@ -31,14 +29,14 @@
                         <div class="username">
 
                             <label for="username">Username</label>
-                            <input type="username" name="username" placeholder="Username" required>
+                            <input id="inputs-username" type="username" name="username" placeholder="Username" required>
     
                         </div>
     
                         <div class="password">
     
                             <label for="password">Password</label>
-                            <input type="password" name="password" placeholder="Password" required>
+                            <input id="inputs-password" type="password" name="password" placeholder="Password" required>
     
                         </div>
 
@@ -53,8 +51,6 @@
                     </div>
 
                 </form>
-
-            </div>
 
         </div>
 
