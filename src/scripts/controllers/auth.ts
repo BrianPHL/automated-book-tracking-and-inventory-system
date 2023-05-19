@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { performDatabaseOperation } from "./db.js";
+import { performDatabaseOperation } from "../helpers/db.js";
 
 const loginHandler = (req: Request, res: Response) => {
 
