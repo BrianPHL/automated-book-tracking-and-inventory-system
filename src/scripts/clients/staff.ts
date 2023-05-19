@@ -1,6 +1,7 @@
 import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js"
 import { dashboard } from "../typings.js"
 import { setLightTheme, setDarkTheme, setPreferredTheme } from "./initialize.js"
+import { checkFormInputs } from "../helpers/dom.js"
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -52,49 +53,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const staffx = document.querySelector('.staff') as HTMLDivElement
+
+    const staffSidebar = staffx.querySelector('.sidebar') as HTMLDivElement
+
+    const staffDashboard = staffx.querySelector('.dashboard') as HTMLDivElement
+    const staffDashboardModals = staffDashboard.querySelector('.modals') as HTMLDivElement
+    const staffDashboardHeader = staffDashboard.querySelector('.header') as HTMLDivElement
+    const staffDashboardContainer = staffDashboard.querySelector('.container') as HTMLDivElement
+
     const init = async () => {
         
         const areLendBookInputsFilled = async () => {
 
-            const modal = document.querySelector('#md') as HTMLDivElement
-            const modalLend = modal.querySelector('#md-lend') as HTMLDivElement
-            const modalLendSubmit = modalLend.querySelector('#md-lend-submit') as HTMLButtonElement
-            const modalLendForm = modalLend.querySelector('form') as HTMLFormElement
-            const modalLendFormInputs = modalLendForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
-            let areInputsFilled: boolean = true
+            const lend = staffDashboardModals.querySelector('.lend') as HTMLDivElement
+            const lendForm = lend.querySelector('form') as HTMLFormElement
+            const lendFormInputs = lend.querySelectorAll('input') as NodeListOf<HTMLInputElement>
 
-            for (const inputs of modalLendFormInputs) {
+            await checkFormInputs(lendForm)
 
-                if (inputs.value.trim() == '') {
-                    areInputsFilled = false
-                    break
-                }
-
-            }
-    
-            modalLendSubmit.disabled = !areInputsFilled
+            lendFormInputs.forEach(input => input.addEventListener('input', async () => {
+                await checkFormInputs(lendForm)
+            }))
     
         }
 
         const areEditBookInputsFilled = async () => {
 
-            const modal = document.querySelector('#md') as HTMLDivElement
-            const modalEdit = modal.querySelector('#md-edit') as HTMLDivElement
-            const modalEditSubmit = modalEdit.querySelector('#md-edit-submit') as HTMLButtonElement
-            const modalEditForm = modalEdit.querySelector('form') as HTMLFormElement
-            const modalEditFormInputs = modalEditForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
-            let areInputsFilled: boolean = true
+            const edit = staffDashboardModals.querySelector('.edit') as HTMLDivElement
+            const editForm = edit.querySelector('form') as HTMLFormElement
+            const editFormInputs = edit.querySelectorAll('input') as NodeListOf<HTMLInputElement>
 
-            for (const inputs of modalEditFormInputs) {
+            await checkFormInputs(editForm)
 
-                if (inputs.value.trim() == '') {
-                    areInputsFilled = false
-                    break
-                }
-
-            }
-    
-            modalEditSubmit.disabled = !areInputsFilled
+            editFormInputs.forEach(input => input.addEventListener('input', async () => {
+                await checkFormInputs(editForm)
+            }))
 
         }
 
