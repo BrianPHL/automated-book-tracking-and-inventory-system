@@ -1,17 +1,20 @@
-export const areFormInputsFilled = async (inputs: NodeListOf<HTMLInputElement>, button: HTMLButtonElement) => {
+export const checkFormInputs = async (form: HTMLFormElement) => {
 
-    for (const input of inputs) {
+    const formInputs = form.querySelectorAll('input') as NodeListOf<HTMLInputElement>
+    const formSubmit = form.querySelector("button[type='submit']") as HTMLButtonElement
+
+    for (const input of formInputs) {
 
         if (input.value.trim() === '') {
 
-            button.disabled = true;
+            formSubmit.disabled = true;
             return;
 
         }
 
     }
 
-    button.disabled = false;
+    formSubmit.disabled = false;
 
 }
 

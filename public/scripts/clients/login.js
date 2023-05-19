@@ -1,22 +1,21 @@
-import { areFormInputsFilled, manipulateURL, sanitizeURL } from "../helpers/dom.js";
+import { checkFormInputs, manipulateURL, sanitizeURL } from "../helpers/dom.js";
 document.addEventListener('DOMContentLoaded', async () => {
     const login = document.querySelector('.login');
-    const loginError = login.querySelector('.error');
-    const loginErrorInfo = loginError.querySelector('p');
-    const loginForm = login.querySelector('form');
-    const loginFormInputs = loginForm.querySelectorAll('input');
-    const loginFormSubmit = loginForm.querySelector("button[type='submit']");
     await sanitizeURL();
     const checkLoginFormInputs = async () => {
-        await areFormInputsFilled(loginFormInputs, loginFormSubmit);
-        loginFormInputs.forEach((input) => {
-            input.addEventListener('input', async () => {
-                await areFormInputsFilled(loginFormInputs, loginFormSubmit);
-            });
-        });
+        const loginForm = login.querySelector('form');
+        const formInputs = loginForm.querySelectorAll('input');
+        await checkFormInputs(loginForm);
+        formInputs.forEach(input => input.addEventListener('input', async () => {
+            await checkFormInputs(loginForm);
+        }));
     };
     await checkLoginFormInputs();
     const checkLoginFormSubmit = async () => {
+        const loginForm = login.querySelector('form');
+        const loginFormSubmit = loginForm.querySelector("button[type='submit']");
+        const loginError = login.querySelector('.error');
+        const loginErrorInfo = loginError.querySelector('p');
         loginFormSubmit.addEventListener('click', (event) => {
             event.preventDefault();
             sanitizeURL();

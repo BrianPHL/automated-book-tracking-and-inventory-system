@@ -1,6 +1,6 @@
 import 
 { 
-    areFormInputsFilled, 
+    checkFormInputs, 
     manipulateURL, 
     sanitizeURL 
 } 
@@ -10,34 +10,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const login = document.querySelector('.login') as HTMLDivElement
     
-    const loginError = login.querySelector('.error') as HTMLDivElement
-    const loginErrorInfo = loginError.querySelector('p') as HTMLParagraphElement
-    
-    const loginForm = login.querySelector('form') as HTMLFormElement
-    const loginFormInputs = loginForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
-    const loginFormSubmit = loginForm.querySelector("button[type='submit']") as HTMLButtonElement
-
-
     await sanitizeURL()
 
     const checkLoginFormInputs = async () => {
 
-        await areFormInputsFilled(loginFormInputs, loginFormSubmit)
+        const loginForm = login.querySelector('form') as HTMLFormElement
+        const formInputs = loginForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
 
-        loginFormInputs.forEach((input) => {
-        
-            input.addEventListener('input', async () => {
-        
-                await areFormInputsFilled(loginFormInputs, loginFormSubmit)
-        
-            })
-        
-        })
+        await checkFormInputs(loginForm)
+
+        formInputs.forEach(input => input.addEventListener('input', async() => {
+            await checkFormInputs(loginForm)
+        }))
 
     }
     await checkLoginFormInputs()
 
     const checkLoginFormSubmit = async () => {
+
+        const loginForm = login.querySelector('form') as HTMLFormElement
+        const loginFormSubmit = loginForm.querySelector("button[type='submit']") as HTMLButtonElement
+        
+        const loginError = login.querySelector('.error') as HTMLDivElement
+        const loginErrorInfo = loginError.querySelector('p') as HTMLParagraphElement
 
         loginFormSubmit.addEventListener('click', (event) => {
 

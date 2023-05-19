@@ -1,11 +1,13 @@
-export const areFormInputsFilled = async (inputs, button) => {
-    for (const input of inputs) {
+export const checkFormInputs = async (form) => {
+    const formInputs = form.querySelectorAll('input');
+    const formSubmit = form.querySelector("button[type='submit']");
+    for (const input of formInputs) {
         if (input.value.trim() === '') {
-            button.disabled = true;
+            formSubmit.disabled = true;
             return;
         }
     }
-    button.disabled = false;
+    formSubmit.disabled = false;
 };
 export const manipulateURL = async (message) => {
     const errorData = { message: message };
