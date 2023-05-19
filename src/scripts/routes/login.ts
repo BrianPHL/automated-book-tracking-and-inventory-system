@@ -8,7 +8,6 @@ loginRoute.get("/", (req: Request, res: Response):void => {
     res.sendFile("login.html", { root: "public/views" })
 })
 
-// loginRoute.post("/", auth.loginHandler)
-loginRoute.post("/", auth.loginHandler)
+loginRoute.post("/authenticate", auth.loginHandler)
 
 export default loginRoute
