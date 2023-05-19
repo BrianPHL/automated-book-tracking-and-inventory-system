@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const checkLoginFormInputs = async () => {
 
         const loginForm = login.querySelector('form') as HTMLFormElement
-        const formInputs = loginForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
+        const loginFormInputs = loginForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>
 
         await checkFormInputs(loginForm)
 
-        formInputs.forEach(input => input.addEventListener('input', async() => {
+        loginFormInputs.forEach(input => input.addEventListener('input', async() => {
             await checkFormInputs(loginForm)
         }))
 

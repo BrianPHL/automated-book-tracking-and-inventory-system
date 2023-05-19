@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     await sanitizeURL();
     const checkLoginFormInputs = async () => {
         const loginForm = login.querySelector('form');
-        const formInputs = loginForm.querySelectorAll('input');
+        const loginFormInputs = loginForm.querySelectorAll('input');
         await checkFormInputs(loginForm);
-        formInputs.forEach(input => input.addEventListener('input', async () => {
+        loginFormInputs.forEach(input => input.addEventListener('input', async () => {
             await checkFormInputs(loginForm);
         }));
     };
