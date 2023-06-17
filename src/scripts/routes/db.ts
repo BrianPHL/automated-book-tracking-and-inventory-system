@@ -1,6 +1,6 @@
 import express from "express";
 import { Request, Response } from "express";
-import { performDatabaseOperation } from "../helpers/db.js";
+import { performDatabaseOperation } from "../utils/db.js";
 import { DateTime } from "luxon";
 
 const dbRoute = express.Router()

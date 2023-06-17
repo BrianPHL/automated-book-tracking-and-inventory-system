@@ -1,4 +1,4 @@
-import { performDatabaseOperation } from "../helpers/db.js";
+import { performDatabaseOperation } from "../utils/db.js";
 const loginHandler = (req, res) => {
     const { username, password } = req.body;
     const queryString = "SELECT * FROM users WHERE username = ? AND password = ?";

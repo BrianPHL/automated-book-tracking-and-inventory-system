@@ -1,5 +1,5 @@
 import express from "express";
-import { performDatabaseOperation } from "../helpers/db.js";
+import { performDatabaseOperation } from "../utils/db.js";
 import { DateTime } from "luxon";
 const dbRoute = express.Router();
 // TODO: Simplify everything. Only leave to 2 to 3 handlers. Let the request header contain the needed request for better efficiency.

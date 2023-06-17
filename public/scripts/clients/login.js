@@ -1,4 +1,4 @@
-import { checkFormInputs, manipulateURL, sanitizeURL } from "../helpers/dom.js";
+import { checkFormInputs, manipulateURL, sanitizeURL } from "../utils/dom.js";
 document.addEventListener('DOMContentLoaded', async () => {
     const login = document.querySelector('.login');
     await sanitizeURL();

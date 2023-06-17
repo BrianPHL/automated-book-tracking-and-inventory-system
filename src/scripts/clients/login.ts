@@ -4,7 +4,7 @@ import
     manipulateURL, 
     sanitizeURL 
 } 
-from "../helpers/dom.js";
+from "../utils/dom.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
 

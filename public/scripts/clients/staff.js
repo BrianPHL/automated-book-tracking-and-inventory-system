@@ -1,6 +1,6 @@
 import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
 import { setLightTheme, setDarkTheme, setPreferredTheme } from "./initialize.js";
-import { checkFormInputs } from "../helpers/dom.js";
+import { checkFormInputs } from "../utils/dom.js";
 document.addEventListener('DOMContentLoaded', () => {
     const staff = {
         actions: {
