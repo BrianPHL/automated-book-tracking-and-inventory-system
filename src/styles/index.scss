@@ -1,13 +1,8 @@
-@import 'abstracts/variables';
+@import "abstracts/variables";
+@import "abstracts/mixins";
 
-@import 'base/typography';
-@import 'base/reset';
+@import "base/typography";
+@import "base/reset";
 
-@import 'components/buttons';
-@import 'components/inputs';
-@import 'components/anchors';
-
-@import 'sections/login';
-@import 'sections/staff';
-@import 'sections/student';
-@import 'sections/error';
+@import "sections/dashboard";
+@import "sections/login";

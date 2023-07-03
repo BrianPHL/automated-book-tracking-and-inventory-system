@@ -1,949 +1,759 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap");
 @import url("/static/styles/icons/css/all.min.css");
 html[data-theme=light] {
-  --bg-primary: #F6F6F6;
-  --bg-secondary: #F0F0F0;
-  --bg-tertiary: #E0E0E0;
-  --tg-primary: #101010;
-  --tg-secondary: #131313;
-  --gr-primary: #0B3612;
-  --gr-secondary: #347542;
-  --gr-primary-rgb: 11, 54, 18;
-  --gr-secondary-rgb: 52, 117, 66;
-  --er-outline: #CECECE;
-  --tg-warning: #b41414;
+  --background-primary: #F6F6F6;
+  --background-secondary: #F0F0F0;
+  --background-tertiary: #E5E5E5;
+  --typography-primary: #202020;
+  --typography-secondary: #606060;
+  --accent-primary: #347542;
+  --accent-secondary: #D3F6DB;
+  --warning: #D02020;
 }
 
 html[data-theme=dark] {
-  --bg-primary: #161616;
-  --bg-secondary: #131313;
-  --bg-tertiary: #101010;
-  --tg-primary: #F0F0F0;
-  --tg-secondary: #CCCCCC;
-  --gr-primary: #347542;
-  --gr-secondary: #46A35A;
-  --gr-primary-rgb: 52, 117, 66;
-  --gr-secondary-rgb: 70, 163, 90;
-  --er-outline: #202020;
-  --tg-warning: #FF3232;
+  --background-primary: #101010;
+  --background-secondary: #151515;
+  --background-tertiary: #202020;
+  --typography-primary: #E0E0E0;
+  --typography-secondary: #A0A0A0;
+  --accent-primary: #347542;
+  --accent-secondary: #18271C;
+  --warning: #FF5050;
 }
 
-@font-face {
-  font-display: swap;
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 300;
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-300.eot");
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-300.eot?#iefix") format("embedded-opentype"), url("/static/assets/fonts/source-sans-pro-v21-latin-300.woff2") format("woff2"), url("/static/assets/fonts/source-sans-pro-v21-latin-300.woff") format("woff"), url("/static/assets/fonts/source-sans-pro-v21-latin-300.ttf") format("truetype"), url("/static/assets/fonts/source-sans-pro-v21-latin-300.svg#SourceSansPro") format("svg");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-regular.eot");
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-regular.eot?#iefix") format("embedded-opentype"), url("/static/assets/fonts/source-sans-pro-v21-latin-regular.woff2") format("woff2"), url("/static/assets/fonts/source-sans-pro-v21-latin-regular.woff") format("woff"), url("/static/assets/fonts/source-sans-pro-v21-latin-regular.ttf") format("truetype"), url("/static/assets/fonts/source-sans-pro-v21-latin-regular.svg#SourceSansPro") format("svg");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 600;
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-600.eot");
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-600.eot?#iefix") format("embedded-opentype"), url("/static/assets/fonts/source-sans-pro-v21-latin-600.woff2") format("woff2"), url("/static/assets/fonts/source-sans-pro-v21-latin-600.woff") format("woff"), url("/static/assets/fonts/source-sans-pro-v21-latin-600.ttf") format("truetype"), url("/static/assets/fonts/source-sans-pro-v21-latin-600.svg#SourceSansPro") format("svg");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 700;
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-700.eot");
-  src: url("/static/assets/fonts/source-sans-pro-v21-latin-700.eot?#iefix") format("embedded-opentype"), url("/static/assets/fonts/source-sans-pro-v21-latin-700.woff2") format("woff2"), url("/static/assets/fonts/source-sans-pro-v21-latin-700.woff") format("woff"), url("/static/assets/fonts/source-sans-pro-v21-latin-700.ttf") format("truetype"), url("/static/assets/fonts/source-sans-pro-v21-latin-700.svg#SourceSansPro") format("svg");
-}
 * {
-  font-family: "Source Sans Pro", sans-serif;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-button {
-  border-radius: 4px;
-  transition: 0.2s ease;
-  padding: 16px;
-  border: 0;
-  color: var(--bg-primary);
-  width: 100%;
+html[data-site=dashboard] h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--typography-primary);
 }
-button:enabled {
-  background-color: var(--gr-primary);
+html[data-site=dashboard] h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--typography-secondary);
 }
-button:enabled:hover {
-  background-color: var(--gr-secondary);
+html[data-site=dashboard] h3 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] h4 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 0.625rem;
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] a {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  transition: 0.2s all ease;
+}
+html[data-site=dashboard] a:hover {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] button {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  display: flex;
+  gap: 0.5rem;
+  transition: 0.2s all ease;
+  border: none;
+}
+html[data-site=dashboard] button:enabled {
+  background-color: var(--accent-primary);
+  color: var(--background-primary);
+}
+html[data-site=dashboard] button:enabled > i {
+  transition: 0.2s all ease;
+  color: var(--background-primary);
+}
+html[data-site=dashboard] button:enabled:hover {
+  background-color: var(--typography-primary);
   cursor: pointer;
+  color: var(--accent-primary);
 }
-button:disabled {
-  background-color: rgba(var(--gr-primary-rgb), 0.5);
+html[data-site=dashboard] button:enabled:hover > i {
+  color: var(--accent-primary);
 }
-button:disabled:hover {
+html[data-site=dashboard] button:disabled {
+  background-color: var(--accent-secondary);
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] button:disabled:hover {
   cursor: not-allowed;
 }
-
-.input {
-  background-color: var(--bg-tertiary);
-  flex-direction: row-reverse;
-  border-radius: 4px;
-  align-items: center;
-  padding: 12px 16px;
+html[data-site=dashboard] i {
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] > body {
+  background-color: var(--background-secondary);
+  grid-template-columns: 100%;
+  grid-template-rows: auto 1fr;
+  display: grid;
+  height: 100vh;
+}
+html[data-site=dashboard] > body > header {
+  background-color: var(--background-primary);
+  flex-direction: column;
   display: flex;
-  border: 1px solid var(--er-outline);
-  gap: 8px;
 }
-.input > i {
-  transition: 0.2s ease;
-  font-size: 12px;
-  color: var(--tg-secondary);
+html[data-site=dashboard] > body > header > .heading {
+  justify-content: space-between;
+  padding: 2rem 16rem;
+  display: flex;
 }
-.input > input {
+html[data-site=dashboard] > body > header > .heading > .info {
+  text-align: right;
+}
+html[data-site=dashboard] > body > header > .heading > .info > h2 {
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > header > nav {
+  justify-content: space-between;
+  display: flex;
+  padding: 0 16rem;
+}
+html[data-site=dashboard] > body > header > nav > .tabs {
+  display: flex;
+}
+html[data-site=dashboard] > body > header > nav > .tabs > div {
+  border-bottom: 2px solid transparent;
+  align-items: center;
+  display: flex;
+  padding: 1rem 2rem;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > header > nav > .tabs > div > i, html[data-site=dashboard] > body > header > nav > .tabs > div h2 {
+  transition: 0.2s all ease;
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] > body > header > nav > .tabs > div:hover {
+  border-bottom: 2px solid var(--accent-primary);
+  cursor: pointer;
+}
+html[data-site=dashboard] > body > header > nav > .tabs > div:hover > i, html[data-site=dashboard] > body > header > nav > .tabs > div:hover h2 {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > header > nav > .tabs > .active {
+  background-color: var(--accent-secondary);
+  border-bottom: 2px solid var(--accent-primary);
+}
+html[data-site=dashboard] > body > header > nav > .tabs > .active > h2, html[data-site=dashboard] > body > header > nav > .tabs > .active i {
+  font-weight: 500;
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > header > nav > .actions {
+  align-items: center;
+  display: flex;
+  gap: 1.5rem;
+}
+html[data-site=dashboard] > body > header > nav > .actions > div {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > header > nav > .actions > div > i, html[data-site=dashboard] > body > header > nav > .actions > div h2 {
+  transition: 0.2s all ease;
+}
+html[data-site=dashboard] > body > header > nav > .actions > div:hover {
+  cursor: pointer;
+}
+html[data-site=dashboard] > body > header > nav > .actions > div:hover > i, html[data-site=dashboard] > body > header > nav > .actions > div:hover h2 {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > main {
+  grid-template-columns: 100%;
+  grid-template-rows: auto 1fr auto;
+  padding: 2rem 16rem;
+  display: grid;
+  width: 100vw;
+  gap: 2rem;
+}
+html[data-site=dashboard] > body > main > .overview {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row: 1;
+  display: grid;
+  gap: 1.5rem;
+}
+html[data-site=dashboard] > body > main > .overview > div {
+  flex-direction: column;
+  padding: 1.5rem;
+  display: flex;
+  border: 1px solid var(--background-tertiary);
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > main > .overview > div > .header {
+  justify-content: space-between;
+  align-items: flex-start;
+  display: flex;
+}
+html[data-site=dashboard] > body > main > .overview > div > h1 {
+  font-size: 1.25rem;
+}
+html[data-site=dashboard] > body > main > .table {
+  flex-direction: column;
+  grid-row: 2;
+  display: flex;
+  gap: 2rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls {
+  justify-content: space-between;
+  display: flex;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .filter {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .filter > i {
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > main > .table > .controls > .filter > .container {
+  align-items: center;
+  display: flex;
+  gap: 0.25rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .filter > .container > h2, html[data-site=dashboard] > body > main > .table > .controls > .filter > .container i {
+  transition: 0.2s all ease;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > main > .table > .controls > .filter > .container:hover {
+  cursor: pointer;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .filter > .container:hover > h2, html[data-site=dashboard] > body > main > .table > .controls > .filter > .container:hover i {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > i {
+  transition: 0.2s all ease;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > i:hover {
+  cursor: pointer;
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search {
+  position: relative;
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > input {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
   background-color: transparent;
-  font-size: 12px;
-  border: 0;
-  color: var(--tg-secondary);
+  transition: 0.2s all ease;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid var(--background-tertiary);
+  width: 100%;
+  color: var(--typography-primary);
 }
-.input > input:focus-within {
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > label {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  pointer-events: none;
+  transition: 0.2s all ease;
+  position: absolute;
+  padding: 0 0.5rem;
+  cursor: text;
+  color: var(--typography-secondary);
+  left: 0.5rem;
+  top: 0.8rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:hover, html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:focus {
+  border-color: var(--accent-primary);
   outline: none;
 }
-.input > input:focus-within ~ i {
-  color: var(--gr-secondary);
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:hover ~ .label, html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:focus ~ .label {
+  color: var(--accent-primary);
 }
-.input > input:focus-within ~ .input {
-  border: 1px solid red;
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:focus ~ .label,
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > i[aria-disabled=true] {
+  cursor: not-allowed;
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > i[aria-disabled=false] {
+  cursor: pointer;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > main > .table > .data {
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto 1fr;
+  display: grid;
+  border: 1px solid var(--background-tertiary);
+  height: 100%;
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--background-tertiary);
+  align-items: center;
+  grid-row: 1;
+  display: flex;
+  padding: 1rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div > i[aria-disabled=true] {
+  cursor: not-allowed;
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div > i[aria-disabled=false] {
+  transition: 0.2s all ease;
+  cursor: pointer;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div > i[aria-disabled=false]:hover {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 > input {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  transition: 0.2s all ease;
+  align-self: flex-start;
+  padding: 0.25rem 0.25rem;
+  text-align: center;
+  border: 1px solid var(--background-tertiary);
+  color: var(--typography-primary);
+  width: 2rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 > input:hover, html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 > input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+html[data-site=dashboard] > body > main > .table > .data > .headers {
+  grid-template-rows: 100%;
+  border-bottom: 1px solid var(--background-tertiary);
+  align-items: center;
+  grid-row: 2;
+  display: grid;
+  padding: 1rem;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .headers > div {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .headers > div > h2, html[data-site=dashboard] > body > main > .table > .data > .headers > div i {
+  transition: 0.2s all ease;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > main > .table > .data > .headers > div:hover {
+  cursor: pointer;
+}
+html[data-site=dashboard] > body > main > .table > .data > .headers > div:hover > h2, html[data-site=dashboard] > body > main > .table > .data > .headers > div:hover i {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > main > .table > .data > .headers > .warning {
+  font-size: 1.25rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .headers > .warning, html[data-site=dashboard] > body > main > .table > .data > .headers .actions {
+  align-items: center;
+  visibility: hidden;
+  display: flex;
+  width: auto;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries {
+  grid-row: 3;
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries > .entry {
+  grid-template-rows: 100%;
+  border-bottom: 1px solid var(--background-tertiary);
+  align-items: center;
+  display: grid;
+  padding: 1rem;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > div {
+  flex-direction: column;
+  display: flex;
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > div > h2, html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > div h3 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .warning {
+  font-size: 1.25rem;
+  color: var(--warning);
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .actions {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  width: auto;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .actions > i {
+  transition: 0.2s all ease;
+}
+html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .actions > i:hover {
+  cursor: pointer;
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > main > footer {
+  justify-content: space-between;
+  grid-row: 3;
+  display: flex;
+}
+html[data-site=dashboard] > body[data-tab=users] > main > .table > .data > .headers,
+html[data-site=dashboard] > body[data-tab=users] .entries > .entry {
+  grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
+}
+html[data-site=dashboard] > body[data-tab=inventory] > main > .table > .data > .headers,
+html[data-site=dashboard] > body[data-tab=inventory] .entries > .entry,
+html[data-site=dashboard] body[data-tab=students] > main > .table > .data > .headers,
+html[data-site=dashboard] body[data-tab=students] .entries > .entry,
+html[data-site=dashboard] body[data-tab=studentDashboard] > main > .table > .data > .headers,
+html[data-site=dashboard] body[data-tab=studentDashboard] .entries > .entry {
+  grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
+}
+html[data-site=dashboard] > body[data-tab=dashboard] > main > .table > .data > .headers,
+html[data-site=dashboard] > body[data-tab=dashboard] .entries > .entry {
+  grid-template-columns: auto repeat(7, minmax(0, 1fr)) auto;
 }
 
-a {
-  text-decoration: none;
+@media only screen and (max-width: 1700px) {
+  html[data-site=dashboard] > body > header > .heading {
+    padding: 2rem 8rem;
+  }
+  html[data-site=dashboard] > body > header > nav {
+    padding: 0rem 8rem;
+  }
+  html[data-site=dashboard] > body > main {
+    padding: 2rem 8rem;
+  }
 }
-
-body[data-site=login] {
+@media only screen and (max-width: 1480px) {
+  html[data-site=dashboard] > body > header > .heading {
+    padding: 2rem 4rem;
+  }
+  html[data-site=dashboard] > body > header > nav {
+    padding: 0rem 4rem;
+  }
+  html[data-site=dashboard] > body > main {
+    padding: 2rem 4rem;
+  }
+}
+@media only screen and (max-width: 1300px) {
+  html[data-site=dashboard] > body > header > .heading {
+    padding: 2rem 2rem;
+  }
+  html[data-site=dashboard] > body > header > nav {
+    padding: 0rem 2rem;
+  }
+  html[data-site=dashboard] > body > main {
+    padding: 2rem 2rem;
+  }
+}
+html[data-site=login] h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--typography-primary);
+}
+html[data-site=login] h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--typography-secondary);
+}
+html[data-site=login] h3 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+}
+html[data-site=login] h4 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 0.625rem;
+  color: var(--typography-secondary);
+}
+html[data-site=login] a {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  transition: 0.2s all ease;
+}
+html[data-site=login] a:hover {
+  color: var(--accent-primary);
+}
+html[data-site=login] button {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  display: flex;
+  gap: 0.5rem;
+  transition: 0.2s all ease;
+  border: none;
+}
+html[data-site=login] button:enabled {
+  background-color: var(--accent-primary);
+  color: var(--background-primary);
+}
+html[data-site=login] button:enabled > i {
+  transition: 0.2s all ease;
+  color: var(--background-primary);
+}
+html[data-site=login] button:enabled:hover {
+  background-color: var(--typography-primary);
+  cursor: pointer;
+  color: var(--accent-primary);
+}
+html[data-site=login] button:enabled:hover > i {
+  color: var(--accent-primary);
+}
+html[data-site=login] button:disabled {
+  background-color: var(--accent-secondary);
+  color: var(--typography-secondary);
+}
+html[data-site=login] button:disabled:hover {
+  cursor: not-allowed;
+}
+html[data-site=login] i {
+  color: var(--typography-secondary);
+}
+html[data-site=login] > body {
   background-repeat: no-repeat;
   background-image: url("/static/assets/images/login_background.webp");
-  background-color: var(--bg-tertiary);
+  background-color: var(--background-secondary);
   background-size: cover;
   place-items: center;
   display: grid;
   height: 100vh;
   width: 100vw;
 }
-body[data-site=login] > .login {
-  background-color: var(--bg-secondary);
+html[data-site=login] > body > .modal {
+  background-color: var(--background-secondary);
   flex-direction: column;
-  border-radius: 4px;
-  padding: 48px;
+  align-items: flex-start;
+  padding: 2rem;
   display: flex;
-  border: 1px solid var(--er-outline);
-  width: 360px;
-  gap: 48px;
+  width: 20rem;
+  gap: 2rem;
 }
-body[data-site=login] > .login > .header {
-  font-weight: 700;
-  text-align: center;
-  font-size: 16px;
-  color: var(--gr-primary);
-}
-body[data-site=login] > .login > .error {
-  background-color: #FFCBCB;
-  border-radius: 4px;
-  overflow: auto;
-  padding: 16px;
-  border: 1px solid #FF6B6B;
-}
-body[data-site=login] > .login > .error p {
-  font-weight: 400;
-  font-size: 12px;
-}
-body[data-site=login] > .login > form {
-  flex-direction: column;
-  display: flex;
-  gap: 48px;
-}
-body[data-site=login] > .login > form > .inputs {
-  flex-direction: column;
-  display: flex;
-  gap: 16px;
-}
-body[data-site=login] > .login > form > .inputs > div {
-  flex-direction: column;
-  display: flex;
-  gap: 8px;
-}
-body[data-site=login] > .login > form > .inputs > div > label {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--gr-primary);
-}
-body[data-site=login] > .login > form > .cta {
-  flex-direction: column;
-  align-items: center;
-  display: flex;
-  gap: 8px;
-}
-body[data-site=login] > .login > form > .cta > a {
-  text-decoration: none;
-  font-weight: 400;
-  transition: 0.2s ease;
-  font-size: 12px;
-  color: var(--gr-primary);
-}
-body[data-site=login] > .login > form > .cta > a:hover {
-  color: var(--gr-secondary);
-}
-
-.staff {
-  grid-template-columns: 256px 1fr;
-  grid-template-rows: 100vh;
-  background-color: var(--bg-tertiary);
-  display: grid;
-  height: 100vh;
-  width: 100vw;
-}
-.staff .sidebar {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-right: 1px solid var(--er-outline);
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  padding: 24px;
-  gap: 48px;
-}
-.staff .sidebar-header {
-  flex-direction: column;
-  align-items: center;
-  display: flex;
-  gap: 16px;
-}
-.staff .sidebar-header > img {
-  height: 176px;
-}
-.staff .sidebar-header > h1 {
-  font-weight: 700;
-  text-align: center;
-  font-size: 24px;
-  color: var(--gr-primary);
-}
-.staff .sidebar-links {
-  flex-direction: column;
-  display: flex;
-  gap: 16px;
-}
-.staff .sidebar-links > div {
-  flex-direction: column;
-  display: flex;
-}
-.staff .sidebar-links > div > label {
-  font-weight: 600;
-  font-size: 12px;
-  color: var(--gr-secondary);
-}
-.staff .sidebar-links > div > a {
-  border-left: 4px solid transparent;
-  font-weight: 400;
-  align-items: center;
-  transition: 0.2s ease;
-  font-size: 16px;
-  display: flex;
-  padding: 16px;
-  color: var(--tg-primary);
-  gap: 16px;
-}
-.staff .sidebar-links > div > a:hover {
-  border-left: 4px solid var(--gr-secondary);
-  color: var(--gr-secondary);
-}
-.staff .sidebar-links > div > a > i {
-  font-size: 16px;
-}
-.staff .sidebar-links > div .active {
-  border-left: 4px solid var(--gr-primary);
-}
-.staff .sidebar-spacer {
-  flex-grow: 1;
-  display: flex;
-}
-.staff .sidebar-footer {
-  align-items: center;
-}
-.staff .sidebar-footer > a {
-  font-weight: 400;
-  transition: 0.2s ease;
-  font-size: 16px;
-  align-items: center;
-  display: flex;
-  color: var(--tg-primary);
-  gap: 16px;
-}
-.staff .sidebar-footer > a:hover {
-  color: var(--gr-secondary);
-}
-.staff .dashboard {
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  display: grid;
-  padding: 24px;
-  gap: 24px;
-}
-.staff .dashboard > .modals {
-  background-color: rgba(var(--gr-primary-rgb), 0.3);
-  place-content: center;
-  grid-column: 1;
-  grid-row: 1/3;
-  z-index: 9;
-  display: grid;
-  margin: -24px;
-}
-.staff .dashboard > .modals > .lend, .staff .dashboard > .modals > .lend-confirm, .staff .dashboard > .modals > .edit, .staff .dashboard > .modals > .edit-confirm {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-radius: 4px;
-  padding: 48px;
-  display: flex;
-  border: 1px solid var(--er-outline);
-  width: 360px;
-  gap: 48px;
-}
-.staff .dashboard > .modals > .lend > .header, .staff .dashboard > .modals > .lend-confirm > .header, .staff .dashboard > .modals > .edit > .header, .staff .dashboard > .modals > .edit-confirm > .header {
+html[data-site=login] > body > .modal > .header {
   justify-content: space-between;
   align-items: center;
+  align-self: stretch;
   display: flex;
 }
-.staff .dashboard > .modals > .lend > .header > label, .staff .dashboard > .modals > .lend-confirm > .header > label, .staff .dashboard > .modals > .edit > .header > label, .staff .dashboard > .modals > .edit-confirm > .header > label {
-  text-overflow: ellipsis;
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  color: var(--tg-primary);
+html[data-site=login] > body > .modal > .header > i {
+  transition: 0.2s all ease;
+  font-size: 1.25rem;
 }
-.staff .dashboard > .modals > .lend > .header > label > span, .staff .dashboard > .modals > .lend-confirm > .header > label > span, .staff .dashboard > .modals > .edit > .header > label > span, .staff .dashboard > .modals > .edit-confirm > .header > label > span {
-  color: var(--gr-primary);
-}
-.staff .dashboard > .modals > .lend > .header > i, .staff .dashboard > .modals > .lend-confirm > .header > i, .staff .dashboard > .modals > .edit > .header > i, .staff .dashboard > .modals > .edit-confirm > .header > i {
-  transition: 0.2s ease;
-  font-size: 20px;
-  color: var(--tg-secondary);
-}
-.staff .dashboard > .modals > .lend > .header > i:hover, .staff .dashboard > .modals > .lend-confirm > .header > i:hover, .staff .dashboard > .modals > .edit > .header > i:hover, .staff .dashboard > .modals > .edit-confirm > .header > i:hover {
+html[data-site=login] > body > .modal > .header > i:hover {
   cursor: pointer;
-  color: var(--gr-primary);
+  color: var(--accent-primary);
 }
-.staff .dashboard > .modals > .lend > .error, .staff .dashboard > .modals > .lend-confirm > .error, .staff .dashboard > .modals > .edit > .error, .staff .dashboard > .modals > .edit-confirm > .error {
-  background-color: #FFCBCB;
-  border-radius: 4px;
-  overflow: auto;
-  padding: 16px;
-  border: 1px solid #FF6B6B;
+html[data-site=login] > body > .modal > .warning {
+  align-items: center;
+  align-self: stretch;
+  padding: 0.5rem;
+  display: flex;
+  border: 1px solid var(--background-tertiary);
+  gap: 0.5rem;
 }
-.staff .dashboard > .modals > .lend > .error p, .staff .dashboard > .modals > .lend-confirm > .error p, .staff .dashboard > .modals > .edit > .error p, .staff .dashboard > .modals > .edit-confirm > .error p {
+html[data-site=login] > body > .modal > .warning > i {
+  font-size: 1rem;
+  color: var(--warning);
+}
+html[data-site=login] > body > .modal > .warning > .text {
+  flex-direction: column;
+  display: flex;
+}
+html[data-site=login] > body > .modal > .warning > .text > h3 {
+  color: var(--typography-primary);
+}
+html[data-site=login] > body > .modal > form {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  gap: 2rem;
+}
+html[data-site=login] > body > .modal > form > .inputs {
+  flex-direction: column;
+  display: flex;
+  gap: 1.5rem;
+}
+html[data-site=login] > body > .modal > form > .inputs > .username, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber {
+  position: relative;
+}
+html[data-site=login] > body > .modal > form > .inputs > .username > input, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber > input {
+  font-family: "Poppins", sans-serif;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  transition: 0.2s all ease;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid var(--background-tertiary);
+  width: 100%;
+  color: var(--typography-primary);
 }
-.staff .dashboard > .modals > .lend > form, .staff .dashboard > .modals > .lend-confirm > form, .staff .dashboard > .modals > .edit > form, .staff .dashboard > .modals > .edit-confirm > form {
-  flex-direction: column;
-  display: flex;
-  gap: 48px;
-  flex-direction: column;
-  display: flex;
-  gap: 16px;
-}
-.staff .dashboard > .modals > .lend > form > div, .staff .dashboard > .modals > .lend-confirm > form > div, .staff .dashboard > .modals > .edit > form > div, .staff .dashboard > .modals > .edit-confirm > form > div {
-  flex-direction: column;
-  display: flex;
-  gap: 8px;
-}
-.staff .dashboard > .modals > .lend > form > div > label, .staff .dashboard > .modals > .lend-confirm > form > div > label, .staff .dashboard > .modals > .edit > form > div > label, .staff .dashboard > .modals > .edit-confirm > form > div > label {
+html[data-site=login] > body > .modal > form > .inputs > .username > label, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber > label {
+  font-family: "Poppins", sans-serif;
   font-weight: 400;
-  font-size: 12px;
-  color: var(--gr-primary);
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  pointer-events: none;
+  transition: 0.2s all ease;
+  position: absolute;
+  padding: 0 0.5rem;
+  cursor: text;
+  color: var(--typography-secondary);
+  left: 0.5rem;
+  top: 0.8rem;
 }
-.staff .dashboard > .modals > .lend > form > div > div, .staff .dashboard > .modals > .lend-confirm > form > div > div, .staff .dashboard > .modals > .edit > form > div > div, .staff .dashboard > .modals > .edit-confirm > form > div > div {
-  background-color: var(--bg-tertiary);
-  border-radius: 4px;
-  font-size: 12px;
-  padding: 8px;
-  border: 1px solid var(--er-outline);
-  color: var(--tg-primary);
+html[data-site=login] > body > .modal > form > .inputs > .username .input:hover, html[data-site=login] > body > .modal > form > .inputs > .username .input:focus, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber .input:hover, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber .input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+html[data-site=login] > body > .modal > form > .inputs > .username .input:hover ~ .label, html[data-site=login] > body > .modal > form > .inputs > .username .input:focus ~ .label, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber .input:hover ~ .label, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber .input:focus ~ .label {
+  color: var(--accent-primary);
+}
+html[data-site=login] > body > .modal > form > .inputs > .username .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=login] > body > .modal > form > .inputs > .username .input:focus ~ .label,
+html[data-site=login] > body > .modal > form > .inputs > .username .input:not(:placeholder-shown).input:not(:focus) ~ .label, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber .input:focus ~ .label,
+html[data-site=login] > body > .modal > form > .inputs > .phoneNumber .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=login] > body > .modal > form > .inputs > .password {
+  flex-direction: column;
+  display: flex;
+  gap: 0.25rem;
+}
+html[data-site=login] > body > .modal > form > .inputs > .password > .container {
+  position: relative;
+}
+html[data-site=login] > body > .modal > form > .inputs > .password > .container > input {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  transition: 0.2s all ease;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid var(--background-tertiary);
+  width: 100%;
+  color: var(--typography-primary);
+}
+html[data-site=login] > body > .modal > form > .inputs > .password > .container > label {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  pointer-events: none;
+  transition: 0.2s all ease;
+  position: absolute;
+  padding: 0 0.5rem;
+  cursor: text;
+  color: var(--typography-secondary);
+  left: 0.5rem;
+  top: 0.8rem;
+}
+html[data-site=login] > body > .modal > form > .inputs > .password > .container .input:hover, html[data-site=login] > body > .modal > form > .inputs > .password > .container .input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+html[data-site=login] > body > .modal > form > .inputs > .password > .container .input:hover ~ .label, html[data-site=login] > body > .modal > form > .inputs > .password > .container .input:focus ~ .label {
+  color: var(--accent-primary);
+}
+html[data-site=login] > body > .modal > form > .inputs > .password > .container .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=login] > body > .modal > form > .inputs > .password > .container .input:focus ~ .label,
+html[data-site=login] > body > .modal > form > .inputs > .password > .container .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=login] > body > .modal > form > .actions {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  gap: 0.25rem;
+}
+html[data-site=login] > body > .modal > form > .actions > button {
   width: 100%;
 }
-.staff .dashboard > .modals > .lend > form > div > div:focus, .staff .dashboard > .modals > .lend-confirm > form > div > div:focus, .staff .dashboard > .modals > .edit > form > div > div:focus, .staff .dashboard > .modals > .edit-confirm > form > div > div:focus {
-  outline: 1px solid var(--gr-secondary);
-}
-.staff .dashboard > .header {
-  grid-template-columns: 50% 50%;
-  background-color: var(--bg-secondary);
-  border-radius: 4px;
-  grid-column: 1;
-  align-items: center;
-  grid-row: 1;
-  padding: 16px;
-  display: grid;
-  border: 1px solid var(--er-outline);
-}
-.staff .dashboard > .header > .heading {
-  flex-direction: column;
-  display: flex;
-}
-.staff .dashboard > .header > .heading > h2 {
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .header > .heading > h3 {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .header > .actions {
-  justify-content: flex-end;
-  align-items: center;
-  display: flex;
-  gap: 8px;
-}
-.staff .dashboard > .header > .actions > a {
-  background-color: var(--bg-primary);
-  border-radius: 4px;
-  align-items: center;
-  transition: 0.2s ease;
-  font-size: 16px;
-  display: flex;
-  padding: 8px 16px 8px 16px;
-  border: 1px solid var(--er-outline);
-  color: var(--tg-primary);
-  gap: 8px;
-}
-.staff .dashboard > .header > .actions > a:hover {
-  background-color: var(--gr-primary);
-  cursor: pointer;
-  color: var(--bg-primary);
-}
-.staff .dashboard > .container {
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto 3fr;
-  grid-column: 1;
-  min-height: 0;
-  grid-row: 2;
-  display: grid;
-  gap: 16px;
-}
-.staff .dashboard > .container > .overview {
-  background-color: var(--bg-secondary);
-  flex-direction: column;
-  border-radius: 4px;
-  grid-column: 1/4;
-  grid-row: 1;
-  display: flex;
-  border: 1px solid var(--er-outline);
-}
-.staff .dashboard > .container > .overview > label {
-  font-weight: 600;
-  padding: 16px;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .container > .overview > .container {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 1fr;
-  padding: 0px 16px 16px 16px;
-  display: grid;
-  height: 100%;
-  gap: 16px;
-}
-.staff .dashboard > .container > .overview > .container > .availability {
-  grid-column: 1;
-}
-.staff .dashboard > .container > .overview > .container > .borrowed {
-  grid-column: 2;
-}
-.staff .dashboard > .container > .overview > .container > .due {
-  grid-column: 3;
-}
-.staff .dashboard > .container > .overview > .container > .registered {
-  grid-column: 4;
-}
-.staff .dashboard > .container > .overview > .container > .availability, .staff .dashboard > .container > .overview > .container > .borrowed, .staff .dashboard > .container > .overview > .container > .due, .staff .dashboard > .container > .overview > .container > .registered {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-radius: 4px;
-  flex-grow: 0;
-  min-width: 0;
-  display: flex;
-  padding: 16px;
-  border: 1px solid var(--er-outline);
-}
-.staff .dashboard > .container > .overview > .container > .availability > label, .staff .dashboard > .container > .overview > .container > .borrowed > label, .staff .dashboard > .container > .overview > .container > .due > label, .staff .dashboard > .container > .overview > .container > .registered > label {
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .overview > .container > .availability > .data > h3, .staff .dashboard > .container > .overview > .container > .borrowed > .data > h3, .staff .dashboard > .container > .overview > .container > .due > .data > h3, .staff .dashboard > .container > .overview > .container > .registered > .data > h3 {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-weight: 600;
-  font-size: 32px;
-  overflow: hidden;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .notifications {
-  background-color: var(--bg-secondary);
-  flex-direction: column;
-  border-radius: 4px;
-  grid-column: 1;
-  min-height: 0;
-  grid-row: 2;
-  display: flex;
-  border: 1px solid var(--er-outline);
-}
-.staff .dashboard > .container > .notifications > label {
-  font-weight: 600;
-  padding: 16px;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .container > .notifications > .entries {
-  flex-direction: column;
-  overflow-y: auto;
-  padding: 0 16px 16px 16px;
-  display: flex;
-  gap: 8px;
-}
-.staff .dashboard > .container > .notifications > .entries > .entry {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-radius: 4px;
-  flex-shrink: 0;
-  padding: 16px;
-  display: flex;
-  border: 1px solid var(--er-outline);
-  gap: 16px;
-}
-.staff .dashboard > .container > .notifications > .entries > .entry > h3 {
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .notifications > .entries > .entry > h4 {
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .notifications > .entries > .entry > time {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--tg-secondary);
-}
-.staff .dashboard > .container > .availability {
-  background-color: var(--bg-secondary);
-  flex-direction: column;
-  border-radius: 4px;
-  grid-column: 2/3;
-  min-height: 0;
-  grid-row: 2;
-  display: flex;
-  border: 1px solid var(--er-outline);
-}
-.staff .dashboard > .container > .availability > label {
-  font-weight: 600;
-  padding: 16px;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .container > .availability > .entries {
-  flex-direction: column;
-  overflow-y: auto;
-  padding: 0 16px 16px 16px;
-  display: flex;
-  gap: 8px;
-}
-.staff .dashboard > .container > .availability > .entries > .entry {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-radius: 4px;
-  flex-shrink: 0;
-  padding: 16px;
-  display: flex;
-  border: 1px solid var(--er-outline);
-  gap: 16px;
-}
-.staff .dashboard > .container > .availability > .entries > .entry > .data {
-  flex-direction: column;
-  display: flex;
-  gap: 16px;
-}
-.staff .dashboard > .container > .availability > .entries > .entry > .data > h3 {
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .availability > .entries > .entry > .data > .wrapper > h4 {
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .availability > .entries > .entry > .data > time {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--tg-secondary);
-}
-.staff .dashboard > .container > .availability > .entries > .entry > .actions {
-  justify-content: space-between;
-  flex-direction: row;
-  display: flex;
-}
-.staff .dashboard > .container > .availability > .entries > .entry > .actions > button {
-  background-color: transparent;
-  font-weight: 600;
-  font-size: 12px;
-  padding: 0;
-  flex: 0;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .container > .availability > .entries > .entry > .actions > button:hover {
-  color: var(--gr-secondary);
-}
-.staff .dashboard > .container > .borrowed {
-  background-color: var(--bg-secondary);
-  flex-direction: column;
-  border-radius: 4px;
-  grid-column: 3/4;
-  min-height: 0;
-  grid-row: 2;
-  display: flex;
-  border: 1px solid var(--er-outline);
-}
-.staff .dashboard > .container > .borrowed > label {
-  font-weight: 600;
-  padding: 16px;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .container > .borrowed > .entries {
-  flex-direction: column;
-  overflow-y: auto;
-  padding: 0 16px 16px 16px;
-  display: flex;
-  gap: 8px;
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-radius: 4px;
-  flex-shrink: 0;
-  padding: 16px;
-  display: flex;
-  border: 1px solid var(--er-outline);
-  gap: 16px;
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .header {
-  justify-content: space-between;
-  flex-direction: row;
-  display: flex;
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .header > h3 {
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .header > button {
-  background-color: transparent;
-  font-weight: 600;
-  white-space: nowrap;
-  font-size: 12px;
-  padding: 0;
-  flex: 0;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .header > button:hover {
-  color: var(--gr-secondary);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .data {
-  flex-direction: column;
-  display: flex;
-  gap: 16px;
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .data > .wrapper > h4 {
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--tg-primary);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .data > .wrapper > h5 {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--tg-secondary);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .data > .wrapper > .due {
-  color: var(--tg-warning);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .data > time {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--tg-secondary);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .actions {
-  display: flex;
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .actions button {
-  background-color: transparent;
-  font-weight: 600;
-  white-space: nowrap;
-  font-size: 12px;
-  padding: 0;
-  flex: 0;
-  color: var(--gr-primary);
-}
-.staff .dashboard > .container > .borrowed > .entries > .entry > .actions button:hover {
-  color: var(--gr-secondary);
-}
-
-.student {
-  grid-template-columns: 256px 1fr;
-  grid-template-rows: 100vh;
-  background-color: var(--bg-tertiary);
-  display: grid;
-  height: 100vh;
-  width: 100vw;
-}
-.student > .sidebar {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-right: 1px solid var(--er-outline);
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  padding: 24px;
-  gap: 48px;
-}
-.student > .sidebar > .header {
-  flex-direction: column;
-  align-items: center;
-  display: flex;
-  gap: 16px;
-}
-.student > .sidebar > .header > img {
-  height: 176px;
-}
-.student > .sidebar > .header > h1 {
-  font-weight: 700;
-  text-align: center;
-  font-size: 24px;
-  color: var(--gr-primary);
-}
-.student > .sidebar > .links {
-  flex-direction: column;
-  display: flex;
-  gap: 16px;
-}
-.student > .sidebar > .links > nav {
-  flex-direction: column;
-  display: flex;
-}
-.student > .sidebar > .links > nav > label {
-  font-weight: 600;
-  font-size: 12px;
-  color: var(--gr-secondary);
-}
-.student > .sidebar > .links > nav > a {
-  border-left: 4px solid transparent;
-  font-weight: 400;
-  align-items: center;
-  transition: 0.2s ease;
-  font-size: 16px;
-  display: flex;
-  padding: 16px;
-  color: var(--tg-primary);
-  gap: 16px;
-}
-.student > .sidebar > .links > nav > a:hover {
-  border-left: 4px solid var(--gr-secondary);
-  color: var(--gr-secondary);
-}
-.student > .sidebar > .links > nav > a > i {
-  font-size: 16px;
-}
-.student > .sidebar > .links > nav .active {
-  border-left: 4px solid var(--gr-primary);
-}
-.student > .sidebar > .spacer {
-  flex-grow: 1;
-  display: flex;
-}
-.student > .sidebar > .footer {
-  align-items: center;
-}
-.student > .sidebar > .footer > a {
-  font-weight: 400;
-  transition: 0.2s ease;
-  font-size: 16px;
-  align-items: center;
-  display: flex;
-  color: var(--tg-primary);
-  gap: 16px;
-}
-.student > .sidebar > .footer > a:hover {
-  color: var(--gr-secondary);
-}
-.student > .dashboard {
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  display: grid;
-  padding: 24px;
-  gap: 24px;
-}
-.student > .dashboard > .modals {
-  background-color: rgba(var(--gr-primary-rgb), 0.3);
-  place-content: center;
-  grid-column: 1;
-  grid-row: 1/3;
-  z-index: 9;
-  display: grid;
-  margin: -24px;
-}
-.student > .dashboard > .modals > div {
-  background-color: var(--bg-primary);
-  flex-direction: column;
-  border-radius: 4px;
-  padding: 48px;
-  display: flex;
-  border: 1px solid var(--er-outline);
-  width: 360px;
-  gap: 48px;
-}
-.student > .dashboard > .modals > div > .header {
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-}
-.student > .dashboard > .modals > div > .header > label {
-  text-overflow: ellipsis;
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  color: var(--tg-primary);
-}
-.student > .dashboard > .modals > div > .header > label > span {
-  color: var(--gr-primary);
-}
-.student > .dashboard > .modals > div > .header > i {
-  transition: 0.2s ease;
-  font-size: 20px;
-  color: var(--tg-secondary);
-}
-.student > .dashboard > .modals > div > .header > i:hover {
-  cursor: pointer;
-  color: var(--gr-primary);
-}
-.student > .dashboard > .modals > div > .error {
-  background-color: #FFCBCB;
-  border-radius: 4px;
-  overflow: auto;
-  padding: 16px;
-  border: 1px solid #FF6B6B;
-}
-.student > .dashboard > .modals > div > .error p {
-  font-weight: 400;
-  font-size: 12px;
-}
-.student > .dashboard > .modals > div > form {
-  flex-direction: column;
-  display: flex;
-  gap: 48px;
-  flex-direction: column;
-  display: flex;
-  gap: 16px;
-}
-.student > .dashboard > .modals > div > form > div {
-  flex-direction: column;
-  display: flex;
-  gap: 8px;
-}
-.student > .dashboard > .modals > div > form > div > label {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--gr-primary);
-}
-.student > .dashboard > .modals > div > form > div > div {
-  background-color: var(--bg-tertiary);
-  border-radius: 4px;
-  font-size: 12px;
-  padding: 8px;
-  border: 1px solid var(--er-outline);
-  color: var(--tg-primary);
-  width: 100%;
-}
-.student > .dashboard > .modals > div > form > div > div:focus {
-  outline: 1px solid var(--gr-secondary);
-}
-.student > .dashboard > .header {
-  grid-template-columns: 50% 50%;
-  background-color: var(--bg-secondary);
-  border-radius: 4px;
-  grid-column: 1;
-  align-items: center;
-  grid-row: 1;
-  padding: 16px;
-  display: grid;
-  border: 1px solid var(--er-outline);
-}
-.student > .dashboard > .header > .heading {
-  flex-direction: column;
-  display: flex;
-}
-.student > .dashboard > .header > .heading > h2 {
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--gr-primary);
-}
-.student > .dashboard > .header > .heading > h3 {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--tg-primary);
-}
-.student > .dashboard > .header > .actions {
-  justify-content: flex-end;
-  align-items: center;
-  display: flex;
-  gap: 8px;
-}
-.student > .dashboard > .header > .actions > a {
-  background-color: var(--bg-primary);
-  border-radius: 4px;
-  align-items: center;
-  transition: 0.2s ease;
-  font-size: 16px;
-  display: flex;
-  padding: 8px 16px 8px 16px;
-  border: 1px solid var(--er-outline);
-  color: var(--tg-primary);
-  gap: 8px;
-}
-.student > .dashboard > .header > .actions > a:hover {
-  background-color: var(--gr-primary);
-  cursor: pointer;
-  color: var(--bg-primary);
-}
-.student > .dashboard > .container {
-  background-color: var(--bg-secondary);
-  border-radius: 4px;
-  min-height: 0;
-  border: 1px solid var(--er-outline);
-}
-.student > .dashboard > .container > .header {
-  justify-content: space-between;
-  padding: 16px;
-  display: flex;
-}
-.student > .dashboard > .container > .header > .heading > label {
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--gr-primary);
-}
-.student > .dashboard > .container > .header > .heading > h4 {
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--tg-secondary);
-}
-.student > .dashboard > .container > .header > .actions {
+html[data-site=login] > body > .modal > .note {
+  align-self: center;
   display: flex;
 }/*# sourceMappingURL=index.css.map */

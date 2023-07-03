@@ -1,0 +1,161 @@
+@mixin h1-styles {
+
+    font-family: $poppins;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--typography-primary);
+
+}
+
+@mixin h2-styles {
+
+    font-family: $poppins;
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: var(--typography-secondary);
+
+}
+
+@mixin h3-styles {
+
+    font-family: $poppins;
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--typography-secondary);
+
+}
+
+@mixin h4-styles {
+
+    font-family: $poppins;
+    font-weight: 300;
+    font-size: 0.625rem;
+    color: var(--typography-secondary);
+
+}
+
+@mixin anchor-styles {
+
+    @include h3-styles();
+
+    transition: 0.2s all ease;
+
+    &:hover {
+
+        color: var(--accent-primary);
+
+    }
+
+}
+
+@mixin button-styles {
+
+    background-color: transparent;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    display: flex;
+    gap: 0.5rem;
+
+}
+
+@mixin primary-button-styles {
+
+    @include h2-styles();
+    @include button-styles();
+
+    transition: 0.2s all ease;
+    border: none;
+
+    &:enabled {
+
+        background-color: var(--accent-primary);
+        color: var(--background-primary);
+
+        & > i { 
+        
+            transition: 0.2s all ease;
+            color: var(--background-primary); 
+        
+        }
+
+        &:hover {
+
+            background-color: var(--typography-primary);
+            cursor: pointer;
+            color: var(--accent-primary);
+
+            & > i { color: var(--accent-primary); }
+
+        }
+
+    }
+
+    &:disabled {
+
+        background-color: var(--accent-secondary);
+        color: var(--typography-secondary);
+
+        &:hover { cursor: not-allowed; }
+
+    }
+
+}
+
+@mixin input-styles {
+
+    position: relative;
+
+    & > input {
+
+        @include h3-styles();
+
+        background-color: transparent;
+        transition: 0.2s all ease;
+        padding: 0.75rem 0.75rem;
+        border: 1px solid var(--background-tertiary);
+        width: 100%;
+        color: var(--typography-primary);
+
+    }
+
+    & > label {
+
+        @include h3-styles();
+
+        pointer-events: none;
+        transition: 0.2s all ease;
+        position: absolute;
+        padding: 0 0.5rem;
+        cursor: text;
+        color: var(--typography-secondary);
+        left: 0.5rem;
+        top: 0.8rem;
+
+    }
+
+    .input:hover, .input:focus { border-color: var(--accent-primary); outline: none; }
+
+    .input:hover ~ .label, .input:focus ~ .label { color: var(--accent-primary); }
+
+    .input:focus ~ .label,
+    .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+    
+        background-color: var(--background-secondary);
+        font-size: 0.65rem;
+        left: 0.5rem;
+        top: -0.5rem;
+    
+    }
+
+}
+
+@mixin text-ellipsis-styles {
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    
+}

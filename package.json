@@ -1,27 +1,32 @@
 {
-  "name": "abtis-final",
+  "name": "express_project_template",
   "version": "1.0.0",
-  "description": "Automated Book Tracking and Inventory System - Web App",
+  "description": "A template that I use to build Express web applications.",
   "main": "public/scripts/app.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon public/scripts/app.js"
+    "start": "nodemon public/scripts/app.js",
+    "test": "echo \"Message: You've successfully ran the test command. This is an open-source Express template. Happy coding!\" && exit 1"
   },
-  "author": "brianph#0500",
+  "keywords": [
+    "template",
+    "node",
+    "node template",
+    "project template",
+    "project",
+    "open source"
+  ],
+  "author": "Brian Pasco",
   "license": "MIT",
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.0",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "luxon": "^3.3.0",
-    "mysql2": "^3.2.4",
-    "nodemon": "^2.0.22",
-    "socket.io": "^4.6.1"
-  },
   "devDependencies": {
+    "@types/node": "^20.2.5",
+    "dotenv": "^16.1.4",
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
     "@types/express": "^4.17.17",
-    "@types/luxon": "^3.3.0",
-    "@types/node": "^18.16.3",
-    "typescript": "^5.0.4"
+    "express": "^4.18.2",
+    "mysql2": "^3.4.3",
+    "typescript": "^5.1.3"
   }
 }
