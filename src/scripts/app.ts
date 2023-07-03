@@ -3,13 +3,13 @@ import dotenv from "dotenv";
 import { Pool, createPool } from "mysql2";
 import { createServer } from "http";
 
-import personnelLoginRoute from "./routes/personnel/login.personnel.route.js";
-import personnelDashboardRoute from "./routes/personnel/dashboard.personnel.route.js";
-import personnelInventoryRoute from "./routes/personnel/inventory.personnel.route.js";
-import personnelStudentsRoute from "./routes/personnel/students.personnel.route.js";
-import personnelUsersRoute from "./routes/personnel/users.personnel.route.js";
-import studentLoginRoute from "./routes/student/login.student.route.js";
-import studentDashboardRoute from "./routes/student/dashboard.student.route.js";
+import personnelLoginRoute from "./routes/personnel/login.route.js";
+import personnelDashboardRoute from "./routes/personnel/dashboard.route.js";
+import personnelInventoryRoute from "./routes/personnel/inventory.route.js";
+import personnelStudentsRoute from "./routes/personnel/students.route.js";
+import personnelUsersRoute from "./routes/personnel/users.route.js";
+import studentLoginRoute from "./routes/student/login.route.js";
+import studentDashboardRoute from "./routes/student/dashboard.route.js";
 
 dotenv.config()
 
