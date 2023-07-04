@@ -29,4 +29,4 @@ app.use("/personnel/students", personnelStudentsRoute);
 app.use("/personnel/users", personnelUsersRoute);
 app.use("/student", studentLoginRoute);
 app.use("/student/dashboard", studentDashboardRoute);
-httpServer.listen(3000); // ? Temporarily set to 3000 as dev port.
+httpServer.listen(process.env.EXPRESS_PORT);
