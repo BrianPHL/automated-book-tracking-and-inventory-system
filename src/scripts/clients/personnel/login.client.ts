@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             try {
                 
-                const response = await fetch('/personnel/auth', {
+                const response = await fetch('/auth', {
 
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
@@ -50,11 +50,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
 
                 if (!response.ok) {
+                    
+                    console.log(response.status)
 
-                    await manipulateURL({
-                        title: 'Incorrect username or password.',
-                        body: 'Make sure that everything is typed correctly.' 
-                    })
+                    if (response.status === 500) {
+
+                        await manipulateURL({
+                            title: 'Internal Server Error.',
+                            body: 'Contact the server administrator.' 
+                        })
+
+                    } else if (response.status === 403) {
+
+                        await manipulateURL({
+                            title: 'Incorrect username or password.',
+                            body: 'Make sure that everything is typed correctly.' 
+                        })
+
+                    } else {
+                     
+                        await manipulateURL({
+                            title: 'Unhandled error occured.',
+                            body: 'Contact the server administrator.' 
+                        })
+
+                    }
             
                     const urlParams = new URLSearchParams(window.location.search)
                     

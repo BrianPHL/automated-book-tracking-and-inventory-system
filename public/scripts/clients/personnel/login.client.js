@@ -26,16 +26,31 @@ document.addEventListener('DOMContentLoaded', () => {
             modalFormSubmit.innerHTML = 'Sign in <i class="fa-regular fa-right-to-bracket"></i>';
             modalFormSubmit.disabled = false;
             try {
-                const response = await fetch('/personnel/auth', {
+                const response = await fetch('/auth', {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData)
                 });
                 if (!response.ok) {
-                    await manipulateURL({
-                        title: 'Incorrect username or password.',
-                        body: 'Make sure that everything is typed correctly.'
-                    });
+                    console.log(response.status);
+                    if (response.status === 500) {
+                        await manipulateURL({
+                            title: 'Internal Server Error.',
+                            body: 'Contact the server administrator.'
+                        });
+                    }
+                    else if (response.status === 403) {
+                        await manipulateURL({
+                            title: 'Incorrect username or password.',
+                            body: 'Make sure that everything is typed correctly.'
+                        });
+                    }
+                    else {
+                        await manipulateURL({
+                            title: 'Unhandled error occured.',
+                            body: 'Contact the server administrator.'
+                        });
+                    }
                     const urlParams = new URLSearchParams(window.location.search);
                     modalWarning.style.display = 'flex';
                     modalWarning.querySelector('h3').textContent = urlParams.get('title');
