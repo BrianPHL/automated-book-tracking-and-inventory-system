@@ -22,3 +22,5 @@ export const executeDatabaseQuery = async (query: string, argument?: string[] | 
     })
 
 }
+
+export const isQueryError = async (result: callbackType) => { return result && result.constructor && result.constructor.name === "QueryError" }

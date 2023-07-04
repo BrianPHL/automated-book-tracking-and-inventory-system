@@ -9,3 +9,4 @@ export const executeDatabaseQuery = async (query, argument, callback) => {
         }
     });
 };
+export const isQueryError = async (result) => { return result && result.constructor && result.constructor.name === "QueryError"; };
