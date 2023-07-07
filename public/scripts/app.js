@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { createPool } from "mysql2";
 import { createServer } from "http";
+import cookieParser from "cookie-parser";
 import personnelLoginRoute from "./routes/personnel/login.route.js";
 import personnelDashboardRoute from "./routes/personnel/dashboard.route.js";
 import personnelInventoryRoute from "./routes/personnel/inventory.route.js";
@@ -18,6 +19,7 @@ export const pool = createPool({
 });
 const app = express();
 const httpServer = createServer(app);
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("public"));

@@ -32,22 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(loginData)
                 });
                 if (!response.ok) {
-                    console.log(response.status);
-                    if (response.status === 500) {
+                    if (response.status === 403) {
                         await manipulateURL({
-                            title: 'Internal Server Error.',
-                            body: 'Contact the server administrator.'
-                        });
-                    }
-                    else if (response.status === 403) {
-                        await manipulateURL({
-                            title: 'Incorrect username or password.',
+                            title: 'Incorrect username or password',
                             body: 'Make sure that everything is typed correctly.'
                         });
                     }
                     else {
                         await manipulateURL({
-                            title: 'Unhandled error occured.',
+                            title: 'Internal Server Error',
                             body: 'Contact the server administrator.'
                         });
                     }
@@ -55,9 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalWarning.style.display = 'flex';
                     modalWarning.querySelector('h3').textContent = urlParams.get('title');
                     modalWarning.querySelector('h4').textContent = urlParams.get('body');
-                }
-                else {
-                    window.location.href = '/personnel/dashboard';
                 }
             }
             catch (err) {

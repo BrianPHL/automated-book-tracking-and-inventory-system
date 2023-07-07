@@ -1,4 +1,5 @@
 import { pool } from "../app.js";
+import { validate as uuidValidate } from 'uuid';
 export const executeDatabaseQuery = async (query, argument, callback) => {
     pool.query(query, argument, (error, results) => {
         if (callback) {
@@ -9,4 +10,9 @@ export const executeDatabaseQuery = async (query, argument, callback) => {
         }
     });
 };
-export const isQueryError = async (result) => { return result && result.constructor && result.constructor.name === "QueryError"; };
+export const isQueryError = async (result) => {
+    return result && result.constructor && result.constructor.name === "QueryError";
+};
+export const isLoggedIn = async (cookie) => {
+    return cookie && uuidValidate(cookie);
+};
