@@ -6,14 +6,10 @@ export const personnelLogin = (req: Request, res: Response): void => {
 
     const cookie = req.cookies['rememberMe']
 
-    if (isLoggedIn(cookie)) { 
-        
-        res.redirect("/personnel/dashboard") 
-
-    }
-
-    res.sendFile("login.html", { root: "public/views/personnel" })
-
+    isLoggedIn(cookie)
+    ? res.redirect("/personnel/dashboard")
+    : res.sendFile("login.html", { root: "public/views/personnel" })
+    
 }
 
 export const personnelLoginAuth = async (req: Request, res: Response): Promise<void> => {

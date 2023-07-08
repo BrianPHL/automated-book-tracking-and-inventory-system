@@ -2,10 +2,9 @@ import { executeDatabaseQuery, isQueryError, isLoggedIn } from "../utils/server.
 import { v4 as uuidv4 } from "uuid";
 export const personnelLogin = (req, res) => {
     const cookie = req.cookies['rememberMe'];
-    if (isLoggedIn(cookie)) {
-        res.redirect("/personnel/dashboard");
-    }
-    res.sendFile("login.html", { root: "public/views/personnel" });
+    isLoggedIn(cookie)
+        ? res.redirect("/personnel/dashboard")
+        : res.sendFile("login.html", { root: "public/views/personnel" });
 };
 export const personnelLoginAuth = async (req, res) => {
     const { username, password } = req.body;
