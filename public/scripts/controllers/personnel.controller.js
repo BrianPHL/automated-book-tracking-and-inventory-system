@@ -1,8 +1,8 @@
-import { executeDatabaseQuery, isQueryError, isLoggedIn } from "../utils/server.utils.js";
+import { executeDatabaseQuery, isQueryError, validateCookies } from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
-export const personnelLogin = (req, res) => {
-    const cookie = req.cookies['rememberMe'];
-    isLoggedIn(cookie)
+export const personnelLogin = async (req, res) => {
+    const memoryCookie = req.cookies['memory'];
+    await validateCookies([memoryCookie])
         ? res.redirect("/personnel/dashboard")
         : res.sendFile("login.html", { root: "public/views/personnel" });
 };
@@ -16,8 +16,14 @@ export const personnelLoginAuth = async (req, res) => {
         }
         try {
             if (Array.isArray(result) && result.length > 0) {
+                // TODO: Create two separate "Access" cookies for "student" and "personnel".
                 res
-                    .cookie("rememberMe", uuidv4(), {
+                    .cookie("memory", uuidv4(), {
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                    secure: true
+                })
+                    .cookie("access", uuidv4(), {
                     maxAge: 30 * 24 * 60 * 60 * 1000,
                     httpOnly: true,
                     secure: true
@@ -32,4 +38,28 @@ export const personnelLoginAuth = async (req, res) => {
             throw err;
         }
     });
+};
+export const personnelDashboard = async (req, res) => {
+    const accessCookie = req.cookies['access'];
+    await validateCookies([accessCookie])
+        ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
+        : res.sendStatus(401);
+};
+export const personnelInventory = async (req, res) => {
+    const accessCookie = req.cookies['access'];
+    await validateCookies([accessCookie])
+        ? res.sendFile("inventory.html", { root: "public/views/personnel" })
+        : res.sendStatus(401);
+};
+export const personnelStudents = async (req, res) => {
+    const accessCookie = req.cookies['access'];
+    await validateCookies([accessCookie])
+        ? res.sendFile("students.html", { root: "public/views/personnel" })
+        : res.sendStatus(401);
+};
+export const personnelUsers = async (req, res) => {
+    const accessCookie = req.cookies['access'];
+    await validateCookies([accessCookie])
+        ? res.sendFile("users.html", { root: "public/views/personnel" })
+        : res.sendStatus(401);
 };

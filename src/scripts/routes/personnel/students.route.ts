@@ -1,12 +1,8 @@
 import express from "express";
-import { Request, Response } from "express";
+import { personnelStudents } from "../../controllers/personnel.controller.js";
 
 const personnelStudentsRoute = express.Router();
 
-personnelStudentsRoute.use("/", (req: Request, res: Response): void => {
-
-    res.sendFile("students.html", { root: "public/views/personnel" })
-
-})
+personnelStudentsRoute.get("/", personnelStudents)
 
 export default personnelStudentsRoute

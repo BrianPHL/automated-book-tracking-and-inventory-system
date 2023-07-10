@@ -1,4 +1,3 @@
-import { CookieOptions } from "express";
 import { pool } from "../app.js"
 import { QueryError, RowDataPacket, OkPacket, ResultSetHeader } from "mysql2";
 import { validate as uuidValidate } from 'uuid';
@@ -31,8 +30,15 @@ export const isQueryError = async (result: callbackType) => {
 
 }
 
-export const isLoggedIn = async (cookie: CookieOptions): Promise<boolean> => {
+export const validateCookies = async (cookies: string[]): Promise<boolean> => {
 
-    return cookie && uuidValidate(cookie)
+    if(!cookies || cookies === undefined) { return false }
+
+    let results: boolean[] = []
+
+    for await (let cookie of cookies) { results.push(uuidValidate(cookie)) }
+    for await (let result of results) { if (result === false) { return false } }
+
+    return true
 
 }

@@ -1,6 +1,5 @@
 import express from "express";
+import { personnelInventory } from "../../controllers/personnel.controller.js";
 const personnelInventoryRoute = express.Router();
-personnelInventoryRoute.use("/", (req, res) => {
-    res.sendFile("inventory.html", { root: "public/views/personnel" });
-});
+personnelInventoryRoute.get("/", personnelInventory);
 export default personnelInventoryRoute;
