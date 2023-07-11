@@ -182,8 +182,10 @@ html[data-site=dashboard] > body > header > nav > .actions > div:hover > i, html
 html[data-site=dashboard] > body > main {
   grid-template-columns: 100%;
   grid-template-rows: auto 1fr auto;
+  min-height: 0;
   padding: 2rem 16rem;
   display: grid;
+  height: 100%;
   width: 100vw;
   gap: 2rem;
 }
@@ -210,6 +212,7 @@ html[data-site=dashboard] > body > main > .overview > div > h1 {
 }
 html[data-site=dashboard] > body > main > .table {
   flex-direction: column;
+  min-height: 0;
   grid-row: 2;
   display: flex;
   gap: 2rem;
@@ -317,6 +320,7 @@ html[data-site=dashboard] > body > main > .table > .controls > .actions > .searc
 html[data-site=dashboard] > body > main > .table > .data {
   grid-template-columns: 100%;
   grid-template-rows: auto auto 1fr;
+  min-height: 0;
   display: grid;
   border: 1px solid var(--background-tertiary);
   height: 100%;
@@ -377,6 +381,7 @@ html[data-site=dashboard] > body > main > .table > .data > .pagination > .contro
 html[data-site=dashboard] > body > main > .table > .data > .headers {
   grid-template-rows: 100%;
   border-bottom: 1px solid var(--background-tertiary);
+  padding-right: 2rem;
   align-items: center;
   grid-row: 2;
   display: grid;
@@ -401,14 +406,17 @@ html[data-site=dashboard] > body > main > .table > .data > .headers > div:hover 
 html[data-site=dashboard] > body > main > .table > .data > .headers > .warning {
   font-size: 1.25rem;
 }
+html[data-site=dashboard] > body > main > .table > .data > .headers > .actions {
+  margin-right: 1vw;
+}
 html[data-site=dashboard] > body > main > .table > .data > .headers > .warning, html[data-site=dashboard] > body > main > .table > .data > .headers .actions {
   align-items: center;
   visibility: hidden;
   display: flex;
-  width: auto;
   gap: 1rem;
 }
 html[data-site=dashboard] > body > main > .table > .data > .entries {
+  overflow-y: scroll;
   grid-row: 3;
 }
 html[data-site=dashboard] > body > main > .table > .data > .entries > .entry {
@@ -452,20 +460,20 @@ html[data-site=dashboard] > body > main > footer {
   grid-row: 3;
   display: flex;
 }
-html[data-site=dashboard] > body[data-tab=users] > main > .table > .data > .headers,
-html[data-site=dashboard] > body[data-tab=users] .entries > .entry {
+html[data-site=dashboard] > body > main[data-tab=users] > .table > .data > .headers,
+html[data-site=dashboard] > body > main[data-tab=users] .entries > .entry {
   grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
 }
-html[data-site=dashboard] > body[data-tab=inventory] > main > .table > .data > .headers,
-html[data-site=dashboard] > body[data-tab=inventory] .entries > .entry,
-html[data-site=dashboard] body[data-tab=students] > main > .table > .data > .headers,
-html[data-site=dashboard] body[data-tab=students] .entries > .entry,
-html[data-site=dashboard] body[data-tab=studentDashboard] > main > .table > .data > .headers,
-html[data-site=dashboard] body[data-tab=studentDashboard] .entries > .entry {
+html[data-site=dashboard] > body > main[data-tab=inventory] > .table > .data > .headers,
+html[data-site=dashboard] > body > main[data-tab=inventory] .entries > .entry,
+html[data-site=dashboard] > body main[data-tab=students] > .table > .data > .headers,
+html[data-site=dashboard] > body main[data-tab=students] .entries > .entry,
+html[data-site=dashboard] > body main[data-tab=studentDashboard] > .table > .data > .headers,
+html[data-site=dashboard] > body main[data-tab=studentDashboard] .entries > .entry {
   grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
 }
-html[data-site=dashboard] > body[data-tab=dashboard] > main > .table > .data > .headers,
-html[data-site=dashboard] > body[data-tab=dashboard] .entries > .entry {
+html[data-site=dashboard] > body > main[data-tab=dashboard] > .table > .data > .headers,
+html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
   grid-template-columns: auto repeat(7, minmax(0, 1fr)) auto;
 }
 

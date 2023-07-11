@@ -130,8 +130,10 @@ html[data-site="dashboard"] {
 
             grid-template-columns: 100%;
             grid-template-rows: auto 1fr auto;
+            min-height: 0;
             padding: 2rem 16rem;
             display: grid;
+            height: 100%;
             width: 100vw;
             gap: 2rem;
 
@@ -167,6 +169,7 @@ html[data-site="dashboard"] {
             & > .table {
 
                 flex-direction: column;
+                min-height: 0;
                 grid-row: 2;
                 display: flex;
                 gap: 2rem;
@@ -267,6 +270,7 @@ html[data-site="dashboard"] {
 
                     grid-template-columns: 100%;
                     grid-template-rows: auto auto 1fr;
+                    min-height: 0;
                     display: grid;
                     border: 1px solid var(--background-tertiary);
                     height: 100%;
@@ -353,6 +357,7 @@ html[data-site="dashboard"] {
 
                         grid-template-rows: 100%;
                         border-bottom: 1px solid var(--background-tertiary);
+                        padding-right: 2rem;
                         align-items: center;
                         grid-row: 2;
                         display: grid;
@@ -383,13 +388,18 @@ html[data-site="dashboard"] {
                         }
 
                         & > .warning { font-size: 1.25rem; }
+                        & > .actions {
+
+                            margin-right: 1vw;
+
+                        }
+
 
                         & > .warning, .actions {
 
                             align-items: center;
                             visibility: hidden;
                             display: flex;
-                            width: auto;
                             gap: 1rem;
 
                         }
@@ -397,7 +407,8 @@ html[data-site="dashboard"] {
                     }
 
                     & > .entries {
-
+                        
+                        overflow-y: scroll;
                         grid-row: 3;
 
                         & > .entry {
@@ -475,53 +486,47 @@ html[data-site="dashboard"] {
 
         }
 
-    }
+        & > main[data-tab="users"] {
 
-    & > body[data-tab="users"] {
-
-        & > main 
-        > .table 
-        > .data 
-        > .headers, 
-          .entries 
-        > .entry {
-
-            grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
-
+            & > .table 
+              > .data 
+              > .headers, .entries 
+              > .entry {
+    
+                grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
+    
+            }
+    
         }
-
-    }
-
-    & > body[data-tab="inventory"], 
-        body[data-tab="students"], 
-        body[data-tab="studentDashboard"] {
-
-        & > main 
-        > .table 
-        > .data 
-        > .headers, 
-          .entries 
-        > .entry {
-
-            grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
-
+    
+        & > main[data-tab="inventory"], 
+            main[data-tab="students"], 
+            main[data-tab="studentDashboard"] {
+    
+            & > .table 
+            > .data 
+            > .headers, .entries 
+            > .entry {
+    
+                grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
+    
+            }
+    
         }
-
-    }
-
-    & > body[data-tab="dashboard"] {
-
-        & > main 
-          > .table 
-          > .data 
-          > .headers, 
-            .entries 
-          > .entry {
-
-            grid-template-columns: auto repeat(7, minmax(0, 1fr)) auto;
-
+    
+        & > main[data-tab="dashboard"] {
+    
+            & > .table 
+            > .data 
+            > .headers, .entries 
+            > .entry {
+    
+                grid-template-columns: auto repeat(7, minmax(0, 1fr)) auto;
+    
+            }
+    
         }
-
+        
     }
 
 }
