@@ -24,3 +24,21 @@ export const sanitizeURL = async () => {
         history.pushState({}, document.title, previousUrl);
     }
 };
+export const getPreferredTheme = () => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+export const setPreferredTheme = (cb) => {
+    const savedTheme = localStorage.getItem('theme');
+    const preferredTheme = getPreferredTheme();
+    cb({ savedTheme: savedTheme, preferredTheme: preferredTheme });
+};
+export const setLightTheme = () => {
+    const htmlElement = document.querySelector('html');
+    htmlElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
+};
+export const setDarkTheme = () => {
+    const htmlElement = document.querySelector('html');
+    htmlElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+};

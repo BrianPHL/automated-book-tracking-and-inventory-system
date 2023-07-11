@@ -42,3 +42,43 @@ export const sanitizeURL = async () => {
     }
 
 }
+
+export const getPreferredTheme = (): boolean => {
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+
+}
+
+interface cbDataType {
+
+    savedTheme?: string
+    preferredTheme: boolean
+
+}
+
+export const setPreferredTheme = (cb: (cbData: cbDataType) => void): void => {
+
+    const savedTheme: string = localStorage.getItem('theme')
+    const preferredTheme: boolean = getPreferredTheme()
+
+    cb({ savedTheme: savedTheme, preferredTheme: preferredTheme })
+
+}
+
+export const setLightTheme = (): void => {
+
+    const htmlElement: HTMLElement = document.querySelector('html')
+
+    htmlElement.setAttribute('data-theme', 'light')
+    localStorage.setItem('theme', 'light')
+
+}
+
+export const setDarkTheme = () => {
+
+    const htmlElement: HTMLElement = document.querySelector('html')
+
+    htmlElement.setAttribute('data-theme', 'dark')
+    localStorage.setItem('theme', 'dark')
+
+}
