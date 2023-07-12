@@ -10,6 +10,7 @@ import personnelStudentsRoute from "./routes/personnel/students.route.js";
 import personnelUsersRoute from "./routes/personnel/users.route.js";
 import studentLoginRoute from "./routes/student/login.route.js";
 import studentDashboardRoute from "./routes/student/dashboard.route.js";
+import personnelLogoutRoute from "./routes/personnel/logout.route.js";
 dotenv.config();
 export const pool = createPool({
     host: process.env.DATABASE_HOST,
@@ -29,6 +30,7 @@ app.use("/personnel/dashboard", personnelDashboardRoute);
 app.use("/personnel/inventory", personnelInventoryRoute);
 app.use("/personnel/students", personnelStudentsRoute);
 app.use("/personnel/users", personnelUsersRoute);
+app.use("/personnel/logout", personnelLogoutRoute);
 app.use("/student", studentLoginRoute);
 app.use("/student/dashboard", studentDashboardRoute);
 httpServer.listen(process.env.EXPRESS_PORT);

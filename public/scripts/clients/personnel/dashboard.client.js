@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlElement = document.querySelector('html');
     const bodyElement = htmlElement.querySelector('body');
     const themeBtn = bodyElement.querySelector('#nav-actions-theme');
+    const logoutBtn = bodyElement.querySelector('#nav-actions-logout');
     setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
@@ -17,5 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTheme === 'light'
             ? setDarkTheme()
             : setLightTheme();
+    });
+    logoutBtn.addEventListener('click', async () => {
+        const response = await fetch('/personnel/logout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        // TODO: Integrate error title & error body in Href URL.
+        !response.ok
+            ? window.location.href = '/error'
+            : window.location.href = '/';
     });
 });

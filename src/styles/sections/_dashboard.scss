@@ -110,11 +110,19 @@ html[data-site="dashboard"] {
 
                         & > i, h2 { transition: 0.2s all ease; }
 
-                        &:hover {
+                        &:first-child:hover {
 
                             cursor: pointer;
 
                             & > i, h2 { color: var(--accent-primary); }
+
+                        }
+
+                        &:last-child:hover {
+
+                            cursor: pointer;
+
+                            & > i, h2 { color: var(--warning); }
 
                         }
 

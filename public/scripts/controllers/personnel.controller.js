@@ -63,3 +63,9 @@ export const personnelUsers = async (req, res) => {
         ? res.sendFile("users.html", { root: "public/views/personnel" })
         : res.sendStatus(401);
 };
+export const personnelLogout = async (req, res) => {
+    res
+        .clearCookie('memory')
+        .clearCookie('access')
+        .sendStatus(200);
+};

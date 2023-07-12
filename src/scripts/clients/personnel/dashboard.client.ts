@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlElement: HTMLElement = document.querySelector('html')
     const bodyElement: HTMLBodyElement = htmlElement.querySelector('body')
     const themeBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-theme')
+    const logoutBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-logout')
 
     setPreferredTheme((cbData) => {
 
@@ -33,6 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTheme === 'light'
         ? setDarkTheme()
         : setLightTheme()
+
+    })
+
+    logoutBtn.addEventListener('click', async () => {
+
+        const response: Response = await fetch('/personnel/logout', {
+        
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        
+        })
+
+        // TODO: Integrate error title & error body in Href URL.
+        !response.ok
+        ? window.location.href = '/error'
+        : window.location.href = '/'
 
     })
 

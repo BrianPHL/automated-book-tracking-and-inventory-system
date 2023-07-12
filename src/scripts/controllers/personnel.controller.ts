@@ -96,3 +96,12 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
     : res.sendStatus(401)
 
 }
+
+export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
+
+    res
+    .clearCookie('memory')
+    .clearCookie('access')
+    .sendStatus(200)
+
+}
