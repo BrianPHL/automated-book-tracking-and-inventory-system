@@ -20,15 +20,33 @@ document.addEventListener('DOMContentLoaded', () => {
             ? setDarkTheme()
             : setLightTheme();
     });
-    logoutBtn.addEventListener('click', async (event) => {
+    logoutBtn.addEventListener('click', (event) => {
         event.preventDefault();
-        const response = await fetch('/personnel/logout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        // TODO: Integrate error title & error body in Href URL.
-        !response.ok
-            ? window.location.href = '/error'
-            : window.location.href = '/';
+        logoutBtn.innerHTML =
+            `
+            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+            <h2>Logging out...</h2>
+        `;
+        setTimeout(async () => {
+            logoutBtn.innerHTML =
+                `
+                <i class="fa-regular fa-right-from-bracket"></i>
+                <h2>Logout</h2>
+            `;
+            try {
+                const response = await fetch('/personnel/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                // TODO: Integrate error title & error body in Href URL.
+                !response.ok
+                    ? window.location.href = '/error'
+                    : window.location.href = '/';
+            }
+            catch (err) {
+                // TODO: Integrate error title & error body in Href URL.
+                window.location.href = '/error';
+            }
+        }, 2500);
     });
 });

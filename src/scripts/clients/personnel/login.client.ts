@@ -30,13 +30,21 @@ document.addEventListener('DOMContentLoaded', () => {
             password: formData.get('password')
         }
     
-        modalFormSubmit.innerHTML = 'Processing... <i class="fa-duotone fa-loader fa-spin-pulse"></i>'
+        modalFormSubmit.innerHTML = 
+        `
+            Processing... 
+            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+        `
         modalFormSubmit.disabled = true
         modalWarning.style.display = 'none'
 
         setTimeout(async () => {
     
-            modalFormSubmit.innerHTML = 'Sign in <i class="fa-regular fa-right-to-bracket"></i>'
+            modalFormSubmit.innerHTML = 
+            `
+                Sign in 
+                <i class="fa-regular fa-right-to-bracket"></i>
+            `
             modalFormSubmit.disabled = false
     
             try {
