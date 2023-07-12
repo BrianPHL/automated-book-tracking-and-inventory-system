@@ -34,11 +34,29 @@ export const setPreferredTheme = (cb) => {
 };
 export const setLightTheme = () => {
     const htmlElement = document.querySelector('html');
+    const bodyElement = htmlElement.querySelector('body');
+    if (htmlElement.getAttribute('data-site') === 'dashboard') {
+        const themeBtn = bodyElement.querySelector('#nav-actions-theme');
+        themeBtn.innerHTML =
+            `
+            <i class="fa-regular fa-moon"></i>
+            <h2>Dark mode</h2>
+        `;
+    }
     htmlElement.setAttribute('data-theme', 'light');
     localStorage.setItem('theme', 'light');
 };
 export const setDarkTheme = () => {
     const htmlElement = document.querySelector('html');
+    const bodyElement = htmlElement.querySelector('body');
+    if (htmlElement.getAttribute('data-site') === 'dashboard') {
+        const themeBtn = bodyElement.querySelector('#nav-actions-theme');
+        themeBtn.innerHTML =
+            `
+            <i class="fa-solid fa-sun-bright"></i>
+            <h2>Light mode</h2>
+        `;
+    }
     htmlElement.setAttribute('data-theme', 'dark');
     localStorage.setItem('theme', 'dark');
 };

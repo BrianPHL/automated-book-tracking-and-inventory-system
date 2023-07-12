@@ -1,6 +1,8 @@
 import { setDarkTheme, setLightTheme, setPreferredTheme } from "../../utils/client.utils.js";
 document.addEventListener('DOMContentLoaded', () => {
-    const themeBtn = document.querySelector('#nav-actions-theme');
+    const htmlElement = document.querySelector('html');
+    const bodyElement = htmlElement.querySelector('body');
+    const themeBtn = bodyElement.querySelector('#nav-actions-theme');
     setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
@@ -10,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? setLightTheme()
                 : setDarkTheme());
     });
-    console.log(themeBtn);
     themeBtn.addEventListener('click', () => {
         const currentTheme = localStorage.getItem('theme');
         currentTheme === 'light'

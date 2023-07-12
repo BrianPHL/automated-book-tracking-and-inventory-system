@@ -68,6 +68,20 @@ export const setPreferredTheme = (cb: (cbData: cbDataType) => void): void => {
 export const setLightTheme = (): void => {
 
     const htmlElement: HTMLElement = document.querySelector('html')
+    const bodyElement: HTMLBodyElement = htmlElement.querySelector('body')
+
+
+    if (htmlElement.getAttribute('data-site') === 'dashboard') {
+
+        const themeBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-theme')
+
+        themeBtn.innerHTML = 
+        `
+            <i class="fa-regular fa-moon"></i>
+            <h2>Dark mode</h2>
+        `
+
+    }
 
     htmlElement.setAttribute('data-theme', 'light')
     localStorage.setItem('theme', 'light')
@@ -77,6 +91,20 @@ export const setLightTheme = (): void => {
 export const setDarkTheme = () => {
 
     const htmlElement: HTMLElement = document.querySelector('html')
+    const bodyElement: HTMLBodyElement = htmlElement.querySelector('body')
+
+
+    if (htmlElement.getAttribute('data-site') === 'dashboard') {
+
+        const themeBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-theme')
+
+        themeBtn.innerHTML = 
+        `
+            <i class="fa-solid fa-sun-bright"></i>
+            <h2>Light mode</h2>
+        `
+
+    }
 
     htmlElement.setAttribute('data-theme', 'dark')
     localStorage.setItem('theme', 'dark')

@@ -2,7 +2,9 @@ import { setDarkTheme, setLightTheme, setPreferredTheme } from "../../utils/clie
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const themeBtn: HTMLButtonElement = document.querySelector('#nav-actions-theme')
+    const htmlElement: HTMLElement = document.querySelector('html')
+    const bodyElement: HTMLBodyElement = htmlElement.querySelector('body')
+    const themeBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-theme')
 
     setPreferredTheme((cbData) => {
 
@@ -23,8 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         )
         
     })
-
-    console.log(themeBtn)
 
     themeBtn.addEventListener('click', () => {
 
