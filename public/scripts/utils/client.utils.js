@@ -53,7 +53,7 @@ export const setDarkTheme = () => {
         const themeBtn = bodyElement.querySelector('#nav-actions-theme');
         themeBtn.innerHTML =
             `
-            <i class="fa-solid fa-sun-bright"></i>
+            <i class="fa-regular fa-sun-bright"></i>
             <h2>Light mode</h2>
         `;
     }
