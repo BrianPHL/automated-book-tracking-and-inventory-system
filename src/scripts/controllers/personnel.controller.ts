@@ -43,7 +43,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
                     secure: true
 
                 })
-                .redirect("/personnel/dashboard")
+                .sendStatus(200)
 
             } else {
 

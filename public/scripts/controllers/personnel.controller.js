@@ -28,7 +28,7 @@ export const personnelLoginAuth = async (req, res) => {
                     httpOnly: true,
                     secure: true
                 })
-                    .redirect("/personnel/dashboard");
+                    .sendStatus(200);
             }
             else {
                 res.sendStatus(403);

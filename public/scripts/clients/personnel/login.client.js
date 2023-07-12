@@ -49,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalWarning.querySelector('h3').textContent = urlParams.get('title');
                     modalWarning.querySelector('h4').textContent = urlParams.get('body');
                 }
+                else {
+                    window.location.href = '/personnel/dashboard';
+                }
             }
             catch (err) {
                 modalWarning.style.display = 'flex';
