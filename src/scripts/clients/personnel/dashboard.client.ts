@@ -27,7 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
     })
 
-    themeBtn.addEventListener('click', () => {
+    themeBtn.addEventListener('click', (event) => {
+
+        event.preventDefault()
 
         const currentTheme = localStorage.getItem('theme')
 
@@ -37,7 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 
-    logoutBtn.addEventListener('click', async () => {
+    logoutBtn.addEventListener('click', async (event) => {
+
+        event.preventDefault()
 
         const response: Response = await fetch('/personnel/logout', {
         

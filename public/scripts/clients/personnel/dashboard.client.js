@@ -13,13 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? setLightTheme()
                 : setDarkTheme());
     });
-    themeBtn.addEventListener('click', () => {
+    themeBtn.addEventListener('click', (event) => {
+        event.preventDefault();
         const currentTheme = localStorage.getItem('theme');
         currentTheme === 'light'
             ? setDarkTheme()
             : setLightTheme();
     });
-    logoutBtn.addEventListener('click', async () => {
+    logoutBtn.addEventListener('click', async (event) => {
+        event.preventDefault();
         const response = await fetch('/personnel/logout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
