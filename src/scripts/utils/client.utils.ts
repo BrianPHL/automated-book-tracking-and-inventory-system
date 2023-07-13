@@ -73,9 +73,12 @@ export const setLightTheme = (): void => {
 
     if (htmlElement.getAttribute('data-site') === 'dashboard') {
 
-        const themeBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-theme')
+        const header: HTMLElement = bodyElement.querySelector('header')
+        const nav: HTMLElement = header.querySelector('nav')
+        const navActions: HTMLDivElement = nav.querySelector('.actions')
+        const navActionsTheme: HTMLButtonElement = navActions.querySelector('.themeSwitch')
 
-        themeBtn.innerHTML = 
+        navActionsTheme.innerHTML = 
         `
             <i class="fa-regular fa-moon"></i>
             <h2>Dark mode</h2>
@@ -93,12 +96,14 @@ export const setDarkTheme = () => {
     const htmlElement: HTMLElement = document.querySelector('html')
     const bodyElement: HTMLBodyElement = htmlElement.querySelector('body')
 
-
     if (htmlElement.getAttribute('data-site') === 'dashboard') {
 
-        const themeBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-theme')
+        const header: HTMLElement = bodyElement.querySelector('header')
+        const nav: HTMLElement = header.querySelector('nav')
+        const navActions: HTMLDivElement = nav.querySelector('.actions')
+        const navActionsTheme: HTMLButtonElement = navActions.querySelector('.themeSwitch')
 
-        themeBtn.innerHTML = 
+        navActionsTheme.innerHTML = 
         `
             <i class="fa-regular fa-sun-bright"></i>
             <h2>Light mode</h2>

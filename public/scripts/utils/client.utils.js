@@ -36,8 +36,11 @@ export const setLightTheme = () => {
     const htmlElement = document.querySelector('html');
     const bodyElement = htmlElement.querySelector('body');
     if (htmlElement.getAttribute('data-site') === 'dashboard') {
-        const themeBtn = bodyElement.querySelector('#nav-actions-theme');
-        themeBtn.innerHTML =
+        const header = bodyElement.querySelector('header');
+        const nav = header.querySelector('nav');
+        const navActions = nav.querySelector('.actions');
+        const navActionsTheme = navActions.querySelector('.themeSwitch');
+        navActionsTheme.innerHTML =
             `
             <i class="fa-regular fa-moon"></i>
             <h2>Dark mode</h2>
@@ -50,8 +53,11 @@ export const setDarkTheme = () => {
     const htmlElement = document.querySelector('html');
     const bodyElement = htmlElement.querySelector('body');
     if (htmlElement.getAttribute('data-site') === 'dashboard') {
-        const themeBtn = bodyElement.querySelector('#nav-actions-theme');
-        themeBtn.innerHTML =
+        const header = bodyElement.querySelector('header');
+        const nav = header.querySelector('nav');
+        const navActions = nav.querySelector('.actions');
+        const navActionsTheme = navActions.querySelector('.themeSwitch');
+        navActionsTheme.innerHTML =
             `
             <i class="fa-regular fa-sun-bright"></i>
             <h2>Light mode</h2>

@@ -2,8 +2,15 @@ import { setDarkTheme, setLightTheme, setPreferredTheme } from "../../utils/clie
 document.addEventListener('DOMContentLoaded', () => {
     const htmlElement = document.querySelector('html');
     const bodyElement = htmlElement.querySelector('body');
-    const themeBtn = bodyElement.querySelector('#nav-actions-theme');
-    const logoutBtn = bodyElement.querySelector('#nav-actions-logout');
+    const header = bodyElement.querySelector('header');
+    const nav = header.querySelector('nav');
+    const navActions = nav.querySelector('.actions');
+    const navActionsTheme = navActions.querySelector('.themeSwitch');
+    const navActionsLogout = navActions.querySelector('.logout');
+    const mainDashboard = bodyElement.querySelector('main[data-tab="dashboard"]');
+    const mainInventory = bodyElement.querySelector('main[data-tab="inventory"]');
+    const mainStudents = bodyElement.querySelector('main[data-tab="students"]');
+    const mainUsers = bodyElement.querySelector('main[data-tab="users"]');
     setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
@@ -13,16 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? setLightTheme()
                 : setDarkTheme());
     });
-    themeBtn.addEventListener('click', (event) => {
+    navActionsTheme.addEventListener('click', (event) => {
         event.preventDefault();
         const currentTheme = localStorage.getItem('theme');
         currentTheme === 'light'
             ? setDarkTheme()
             : setLightTheme();
     });
-    logoutBtn.addEventListener('click', (event) => {
+    navActionsLogout.addEventListener('click', (event) => {
         event.preventDefault();
-        logoutBtn.innerHTML =
+        navActionsLogout.innerHTML =
             `
             <i class="fa-duotone fa-loader fa-spin-pulse"></i>
             <h2>Logging out...</h2>

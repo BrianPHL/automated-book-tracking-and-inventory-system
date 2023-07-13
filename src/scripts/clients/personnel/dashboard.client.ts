@@ -4,8 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const htmlElement: HTMLElement = document.querySelector('html')
     const bodyElement: HTMLBodyElement = htmlElement.querySelector('body')
-    const themeBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-theme')
-    const logoutBtn: HTMLButtonElement = bodyElement.querySelector('#nav-actions-logout')
+
+    const header: HTMLElement = bodyElement.querySelector('header')
+    const nav: HTMLElement = header.querySelector('nav')
+    const navActions: HTMLDivElement = nav.querySelector('.actions')
+    const navActionsTheme: HTMLButtonElement = navActions.querySelector('.themeSwitch')
+    const navActionsLogout: HTMLButtonElement = navActions.querySelector('.logout')
+
+    const mainDashboard: HTMLDivElement = bodyElement.querySelector('main[data-tab="dashboard"]')
+
+
+    const mainInventory: HTMLDivElement = bodyElement.querySelector('main[data-tab="inventory"]')
+    const mainStudents: HTMLDivElement = bodyElement.querySelector('main[data-tab="students"]')
+    const mainUsers: HTMLDivElement = bodyElement.querySelector('main[data-tab="users"]')
 
     setPreferredTheme((cbData) => {
 
@@ -27,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
     })
 
-    themeBtn.addEventListener('click', (event) => {
+    navActionsTheme.addEventListener('click', (event) => {
 
         event.preventDefault()
 
@@ -39,11 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 
-    logoutBtn.addEventListener('click', (event) => {
+    navActionsLogout.addEventListener('click', (event) => {
 
         event.preventDefault()
 
-        logoutBtn.innerHTML =
+        navActionsLogout.innerHTML =
         `
             <i class="fa-duotone fa-loader fa-spin-pulse"></i>
             <h2>Logging out...</h2>
