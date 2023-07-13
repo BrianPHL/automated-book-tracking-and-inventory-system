@@ -28,11 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>Logging out...</h2>
         `;
         setTimeout(async () => {
-            logoutBtn.innerHTML =
-                `
-                <i class="fa-regular fa-right-from-bracket"></i>
-                <h2>Logout</h2>
-            `;
             try {
                 const response = await fetch('/personnel/logout', {
                     method: 'POST',

@@ -51,12 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(async () => {
 
-            logoutBtn.innerHTML =
-            `
-                <i class="fa-regular fa-right-from-bracket"></i>
-                <h2>Logout</h2>
-            `
-
             try {
 
                 const response: Response = await fetch('/personnel/logout', {
