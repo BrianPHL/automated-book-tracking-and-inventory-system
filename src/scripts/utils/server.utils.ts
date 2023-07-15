@@ -1,6 +1,7 @@
 import { pool } from "../app.js"
 import { QueryError, RowDataPacket, OkPacket, ResultSetHeader } from "mysql2";
 import { validate as uuidValidate } from 'uuid';
+import { Response } from "express";
 
 declare type callbackType = QueryError | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader
 
@@ -42,3 +43,13 @@ export const validateCookies = async (cookies: string[]): Promise<boolean> => {
     return true
 
 }
+
+export const errorPrompt = (res: Response, data: object): void => {
+
+    const params = new URLSearchParams()
+
+    for (let [key, value] of Object.entries(data)) { params.append(key, value) }
+
+    res.redirect(`/error?${params.toString()}`)
+
+}   

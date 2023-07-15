@@ -1,4 +1,4 @@
-import { executeDatabaseQuery, isQueryError, validateCookies } from "../utils/server.utils.js";
+import { errorPrompt, executeDatabaseQuery, isQueryError, validateCookies } from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 export const personnelLogin = async (req, res) => {
     const memoryCookie = req.cookies['memory'];
@@ -43,29 +43,48 @@ export const personnelDashboard = async (req, res) => {
     const accessCookie = req.cookies['access'];
     await validateCookies([accessCookie])
         ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
-        : res.sendStatus(401);
+        : errorPrompt(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        });
 };
 export const personnelInventory = async (req, res) => {
     const accessCookie = req.cookies['access'];
     await validateCookies([accessCookie])
         ? res.sendFile("inventory.html", { root: "public/views/personnel" })
-        : res.sendStatus(401);
+        : errorPrompt(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        });
 };
 export const personnelStudents = async (req, res) => {
     const accessCookie = req.cookies['access'];
     await validateCookies([accessCookie])
         ? res.sendFile("students.html", { root: "public/views/personnel" })
-        : res.sendStatus(401);
+        : errorPrompt(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        });
 };
 export const personnelUsers = async (req, res) => {
     const accessCookie = req.cookies['access'];
     await validateCookies([accessCookie])
         ? res.sendFile("users.html", { root: "public/views/personnel" })
-        : res.sendStatus(401);
+        : errorPrompt(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        });
 };
 export const personnelLogout = async (req, res) => {
     res
         .clearCookie('memory')
         .clearCookie('access')
         .sendStatus(200);
+};
+export const error = async (req, res) => {
+    res.sendFile("error.html", { root: "public/views" });
 };

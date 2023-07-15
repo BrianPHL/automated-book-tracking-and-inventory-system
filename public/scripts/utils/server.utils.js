@@ -28,3 +28,10 @@ export const validateCookies = async (cookies) => {
     }
     return true;
 };
+export const errorPrompt = (res, data) => {
+    const params = new URLSearchParams();
+    for (let [key, value] of Object.entries(data)) {
+        params.append(key, value);
+    }
+    res.redirect(`/error?${params.toString()}`);
+};

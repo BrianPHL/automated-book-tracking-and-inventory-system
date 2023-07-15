@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { executeDatabaseQuery, isQueryError, validateCookies } from "../utils/server.utils.js";
+import { errorPrompt, executeDatabaseQuery, isQueryError, validateCookies } from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 
 export const personnelLogin = async (req: Request, res: Response): Promise<void> => {
@@ -63,7 +63,11 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
 
     await validateCookies([accessCookie])
     ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
-    : res.sendStatus(401)
+    : errorPrompt(res, {
+        status: 401,
+        title: "Unauthorized",
+        body: "You are not authorized to enter this webpage!"
+    })
 
 }
 
@@ -73,7 +77,11 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
 
     await validateCookies([accessCookie])
     ? res.sendFile("inventory.html", { root: "public/views/personnel" })
-    : res.sendStatus(401)
+    : errorPrompt(res, {
+        status: 401,
+        title: "Unauthorized",
+        body: "You are not authorized to enter this webpage!"
+    })
 
 }
 
@@ -83,7 +91,11 @@ export const personnelStudents = async (req: Request, res: Response): Promise<vo
 
     await validateCookies([accessCookie])
     ? res.sendFile("students.html", { root: "public/views/personnel" })
-    : res.sendStatus(401)
+    : errorPrompt(res, {
+        status: 401,
+        title: "Unauthorized",
+        body: "You are not authorized to enter this webpage!"
+    })
 
 }
 
@@ -93,7 +105,11 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 
     await validateCookies([accessCookie])
     ? res.sendFile("users.html", { root: "public/views/personnel" })
-    : res.sendStatus(401)
+    : errorPrompt(res, {
+        status: 401,
+        title: "Unauthorized",
+        body: "You are not authorized to enter this webpage!"
+    })
 
 }
 
@@ -103,5 +119,11 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
     .clearCookie('memory')
     .clearCookie('access')
     .sendStatus(200)
+
+}
+
+export const error = async (req: Request, res: Response): Promise<void> => {
+
+    res.sendFile("error.html", { root: "public/views" })
 
 }

@@ -12,6 +12,7 @@ import personnelUsersRoute from "./routes/personnel/users.route.js";
 import studentLoginRoute from "./routes/student/login.route.js";
 import studentDashboardRoute from "./routes/student/dashboard.route.js";
 import personnelLogoutRoute from "./routes/personnel/logout.route.js";
+import errorRoute from "./routes/error.routes.js";
 
 dotenv.config()
 
@@ -40,5 +41,7 @@ app.use("/personnel/logout", personnelLogoutRoute)
 
 app.use("/student", studentLoginRoute)
 app.use("/student/dashboard", studentDashboardRoute)
+
+app.use("/error", errorRoute)
 
 httpServer.listen(process.env.EXPRESS_PORT)
