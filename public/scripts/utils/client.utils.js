@@ -66,3 +66,6 @@ export const setDarkTheme = () => {
     htmlElement.setAttribute('data-theme', 'dark');
     localStorage.setItem('theme', 'dark');
 };
+export const getURLData = async (url, identifier) => {
+    return new URLSearchParams(url).get(identifier);
+};

@@ -115,3 +115,9 @@ export const setDarkTheme = () => {
     localStorage.setItem('theme', 'dark')
 
 }
+
+export const getURLData = async (url: string, identifier: string): Promise<string> => {
+
+    return new URLSearchParams(url).get(identifier)
+
+}

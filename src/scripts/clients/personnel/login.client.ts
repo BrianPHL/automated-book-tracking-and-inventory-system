@@ -1,4 +1,4 @@
-import { checkFormInputs, manipulateURL, sanitizeURL } from "../../utils/client.utils.js"
+import { checkFormInputs, getURLData, manipulateURL, sanitizeURL } from "../../utils/client.utils.js"
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -79,11 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     }
 
-                    const urlParams = new URLSearchParams(window.location.search)
-                    
+                    const warningTitle = await getURLData(window.location.search, 'title')
+                    const warningBody = await getURLData(window.location.search, 'body')
+
                     modalWarning.style.display = 'flex'
-                    modalWarning.querySelector('h3').textContent = urlParams.get('title')
-                    modalWarning.querySelector('h4').textContent = urlParams.get('body')
+                    modalWarning.querySelector('h3').textContent = warningTitle
+                    modalWarning.querySelector('h4').textContent = warningBody
                 
                 } else { window.location.href = '/personnel/dashboard' }
 
