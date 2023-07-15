@@ -1,4 +1,4 @@
-import { getURLData } from "../utils/client.utils.js"
+import * as utils from "../utils/client.utils.js"
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modalErrorStatus: HTMLHeadingElement = modalError.querySelector('.status')
     const modalErrorBody: HTMLHeadingElement = modalError.querySelector('.body')
 
-    modalErrorTitle.textContent = await getURLData(window.location.search, 'title')
-    modalErrorStatus.textContent =`Code: ${await getURLData(window.location.search, 'status')}`
-    modalErrorBody.textContent = await getURLData(window.location.search, 'body')
+    modalErrorTitle.textContent = await utils.getURLData(window.location.search, 'title')
+    modalErrorStatus.textContent =`Code: ${await utils.getURLData(window.location.search, 'status')}`
+    modalErrorBody.textContent = await utils.getURLData(window.location.search, 'body')
 
 })

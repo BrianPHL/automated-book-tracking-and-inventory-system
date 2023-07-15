@@ -1,4 +1,4 @@
-import { setDarkTheme, setLightTheme, setPreferredTheme } from "../../utils/client.utils.js";
+import * as utils from "../../utils/client.utils.js";
 document.addEventListener('DOMContentLoaded', () => {
     const htmlElement = document.querySelector('html');
     const bodyElement = htmlElement.querySelector('body');
@@ -11,21 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainInventory = bodyElement.querySelector('main[data-tab="inventory"]');
     const mainStudents = bodyElement.querySelector('main[data-tab="students"]');
     const mainUsers = bodyElement.querySelector('main[data-tab="users"]');
-    setPreferredTheme((cbData) => {
+    utils.setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
-                ? setLightTheme()
-                : setDarkTheme())
+                ? utils.setLightTheme()
+                : utils.setDarkTheme())
             : (cbData.savedTheme === 'light'
-                ? setLightTheme()
-                : setDarkTheme());
+                ? utils.setLightTheme()
+                : utils.setDarkTheme());
     });
     navActionsTheme.addEventListener('click', (event) => {
         event.preventDefault();
         const currentTheme = localStorage.getItem('theme');
         currentTheme === 'light'
-            ? setDarkTheme()
-            : setLightTheme();
+            ? utils.setDarkTheme()
+            : utils.setLightTheme();
     });
     navActionsLogout.addEventListener('click', (event) => {
         event.preventDefault();

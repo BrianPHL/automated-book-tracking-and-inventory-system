@@ -1,4 +1,4 @@
-import { checkFormInputs, getURLData, manipulateURL, sanitizeURL } from "../../utils/client.utils.js";
+import * as utils from "../../utils/client.utils.js";
 document.addEventListener('DOMContentLoaded', () => {
     const html = document.querySelector('html');
     const modal = html.querySelector('.modal');
@@ -7,13 +7,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalForm = modal.querySelector('form');
     const modalFormInputs = modalForm.querySelectorAll('input');
     const modalFormSubmit = modalForm.querySelector('button[type="submit"]');
+    utils.setPreferredTheme((cbData) => {
+        !cbData.savedTheme
+            ? (!cbData.preferredTheme
+                ? utils.setLightTheme()
+                : utils.setDarkTheme())
+            : (cbData.savedTheme === 'light'
+                ? utils.setLightTheme()
+                : utils.setDarkTheme());
+    });
     modalFormInputs.forEach(input => input.addEventListener('input', () => {
-        checkFormInputs(modalForm);
+        utils.checkFormInputs(modalForm);
     }));
-    checkFormInputs(modalForm);
+    utils.checkFormInputs(modalForm);
     modalFormSubmit.addEventListener('click', async (event) => {
         event.preventDefault();
-        await sanitizeURL();
+        await utils.sanitizeURL();
         const formData = new FormData(modalForm);
         const loginData = {
             username: formData.get('username'),
@@ -41,19 +50,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 if (!response.ok) {
                     if (response.status === 403) {
-                        await manipulateURL({
+                        await utils.manipulateURL({
                             title: 'Incorrect username or password',
                             body: 'Make sure that everything is typed correctly.'
                         });
                     }
                     else {
-                        await manipulateURL({
+                        await utils.manipulateURL({
                             title: 'Internal Server Error',
                             body: 'Contact the server administrator.'
                         });
                     }
-                    const warningTitle = await getURLData(window.location.search, 'title');
-                    const warningBody = await getURLData(window.location.search, 'body');
+                    const warningTitle = await utils.getURLData(window.location.search, 'title');
+                    const warningBody = await utils.getURLData(window.location.search, 'body');
                     modalWarning.style.display = 'flex';
                     modalWarning.querySelector('h3').textContent = warningTitle;
                     modalWarning.querySelector('h4').textContent = warningBody;

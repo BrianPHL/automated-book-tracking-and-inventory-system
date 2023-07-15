@@ -1,4 +1,4 @@
-import { setDarkTheme, setLightTheme, setPreferredTheme } from "../../utils/client.utils.js"
+import * as utils from "../../utils/client.utils.js"
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -18,21 +18,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainStudents: HTMLDivElement = bodyElement.querySelector('main[data-tab="students"]')
     const mainUsers: HTMLDivElement = bodyElement.querySelector('main[data-tab="users"]')
 
-    setPreferredTheme((cbData) => {
+    utils.setPreferredTheme((cbData) => {
 
         !cbData.savedTheme
         ? (
 
             !cbData.preferredTheme
-            ? setLightTheme()
-            : setDarkTheme()
+            ? utils.setLightTheme()
+            : utils.setDarkTheme()
 
         )
         : (
 
             cbData.savedTheme === 'light'
-            ? setLightTheme()
-            : setDarkTheme()
+            ? utils.setLightTheme()
+            : utils.setDarkTheme()
 
         )
         
@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = localStorage.getItem('theme')
 
         currentTheme === 'light'
-        ? setDarkTheme()
-        : setLightTheme()
+        ? utils.setDarkTheme()
+        : utils.setLightTheme()
 
     })
 
