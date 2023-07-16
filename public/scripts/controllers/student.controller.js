@@ -19,7 +19,6 @@ export const studentLoginAuth = async (req, res) => {
         }
         try {
             if (Array.isArray(result) && result.length > 0) {
-                console.log('YES');
                 res
                     .cookie("sMemory", uuidv4(), {
                     maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -34,7 +33,6 @@ export const studentLoginAuth = async (req, res) => {
                     .sendStatus(200);
             }
             else {
-                console.log('NO');
                 res.sendStatus(403);
             }
         }

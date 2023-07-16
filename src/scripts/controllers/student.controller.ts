@@ -30,8 +30,6 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
 
             if (Array.isArray(result) && result.length > 0) {
 
-                console.log('YES')
-
                 res
                 .cookie("sMemory", uuidv4(), {
 
@@ -50,8 +48,6 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
                 .sendStatus(200)
 
             } else {
-
-                console.log('NO')
 
                 res.sendStatus(403)
 

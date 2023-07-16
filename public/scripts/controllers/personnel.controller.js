@@ -30,7 +30,6 @@ export const personnelLoginAuth = async (req, res) => {
                     .sendStatus(200);
             }
             else {
-                console.log('NO');
                 res.sendStatus(403);
             }
         }

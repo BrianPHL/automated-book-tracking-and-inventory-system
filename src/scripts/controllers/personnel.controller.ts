@@ -45,8 +45,6 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
             } else {
 
-                console.log('NO')
-
                 res.sendStatus(403)
 
             }
