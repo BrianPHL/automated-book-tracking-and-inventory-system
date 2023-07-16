@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const personnelLogin = async (req: Request, res: Response): Promise<void> => {
     
-    const memoryCookie = req.cookies['memory']
+    const memoryCookie = req.cookies['pMemory']
 
     await utils.validateCookies([memoryCookie])
     ? res.redirect("/personnel/dashboard")
@@ -18,7 +18,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
     const queryString = "SELECT * FROM personnel WHERE username = ? AND password = ?"
     const queryArgs = [ username, password ]
 
-    await utils.executeDatabaseQuery(queryString, queryArgs, async (result: any) => {
+    await utils.executeDatabaseQuery(queryString, queryArgs, async (result: any): Promise<void> => {
 
         if (await utils.isQueryError(result)) { res.sendStatus(500) }
 
@@ -26,17 +26,15 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
             if (Array.isArray(result) && result.length > 0) {
 
-                // TODO: Create two separate "Access" cookies for "student" and "personnel".
-
                 res
-                .cookie("memory", uuidv4(), {
+                .cookie("pMemory", uuidv4(), {
 
                     maxAge: 30 * 24 * 60 * 60 * 1000, 
                     httpOnly: true, 
                     secure: true
                 
                 })
-                .cookie("access", uuidv4(), {
+                .cookie("pAccess", uuidv4(), {
 
                     maxAge: 30 * 24 * 60 * 60 * 1000, 
                     httpOnly: true, 
@@ -46,6 +44,8 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
                 .sendStatus(200)
 
             } else {
+
+                console.log('NO')
 
                 res.sendStatus(403)
 
@@ -59,7 +59,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 export const personnelDashboard = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['access']
+    const accessCookie = req.cookies['pAccess']
 
     await utils.validateCookies([accessCookie])
     ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
@@ -73,7 +73,7 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
 
 export const personnelInventory = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['access']
+    const accessCookie = req.cookies['pAccess']
 
     await utils.validateCookies([accessCookie])
     ? res.sendFile("inventory.html", { root: "public/views/personnel" })
@@ -87,7 +87,7 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
 
 export const personnelStudents = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['access']
+    const accessCookie = req.cookies['pAccess']
 
     await utils.validateCookies([accessCookie])
     ? res.sendFile("students.html", { root: "public/views/personnel" })
@@ -101,7 +101,7 @@ export const personnelStudents = async (req: Request, res: Response): Promise<vo
 
 export const personnelUsers = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['access']
+    const accessCookie = req.cookies['pAccess']
 
     await utils.validateCookies([accessCookie])
     ? res.sendFile("users.html", { root: "public/views/personnel" })
@@ -116,8 +116,8 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
 
     res
-    .clearCookie('memory')
-    .clearCookie('access')
+    .clearCookie('pMemory')
+    .clearCookie('pAccess')
     .sendStatus(200)
 
 }

@@ -52,4 +52,10 @@ export const errorPrompt = (res: Response, data: object): void => {
 
     res.redirect(`/error?${params.toString()}`)
 
-}   
+}
+
+export const isStudentNumber = (argument: string): boolean => {
+
+    return argument[0] === 'R'
+
+}

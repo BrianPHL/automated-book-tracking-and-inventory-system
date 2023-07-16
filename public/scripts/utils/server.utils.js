@@ -35,3 +35,6 @@ export const errorPrompt = (res, data) => {
     }
     res.redirect(`/error?${params.toString()}`);
 };
+export const isStudentNumber = (argument) => {
+    return argument[0] === 'R';
+};

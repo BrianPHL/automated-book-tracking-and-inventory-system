@@ -1,7 +1,7 @@
 import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 export const personnelLogin = async (req, res) => {
-    const memoryCookie = req.cookies['memory'];
+    const memoryCookie = req.cookies['pMemory'];
     await utils.validateCookies([memoryCookie])
         ? res.redirect("/personnel/dashboard")
         : res.sendFile("login.html", { root: "public/views/personnel" });
@@ -16,14 +16,13 @@ export const personnelLoginAuth = async (req, res) => {
         }
         try {
             if (Array.isArray(result) && result.length > 0) {
-                // TODO: Create two separate "Access" cookies for "student" and "personnel".
                 res
-                    .cookie("memory", uuidv4(), {
+                    .cookie("pMemory", uuidv4(), {
                     maxAge: 30 * 24 * 60 * 60 * 1000,
                     httpOnly: true,
                     secure: true
                 })
-                    .cookie("access", uuidv4(), {
+                    .cookie("pAccess", uuidv4(), {
                     maxAge: 30 * 24 * 60 * 60 * 1000,
                     httpOnly: true,
                     secure: true
@@ -31,6 +30,7 @@ export const personnelLoginAuth = async (req, res) => {
                     .sendStatus(200);
             }
             else {
+                console.log('NO');
                 res.sendStatus(403);
             }
         }
@@ -40,7 +40,7 @@ export const personnelLoginAuth = async (req, res) => {
     });
 };
 export const personnelDashboard = async (req, res) => {
-    const accessCookie = req.cookies['access'];
+    const accessCookie = req.cookies['pAccess'];
     await utils.validateCookies([accessCookie])
         ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
         : utils.errorPrompt(res, {
@@ -50,7 +50,7 @@ export const personnelDashboard = async (req, res) => {
         });
 };
 export const personnelInventory = async (req, res) => {
-    const accessCookie = req.cookies['access'];
+    const accessCookie = req.cookies['pAccess'];
     await utils.validateCookies([accessCookie])
         ? res.sendFile("inventory.html", { root: "public/views/personnel" })
         : utils.errorPrompt(res, {
@@ -60,7 +60,7 @@ export const personnelInventory = async (req, res) => {
         });
 };
 export const personnelStudents = async (req, res) => {
-    const accessCookie = req.cookies['access'];
+    const accessCookie = req.cookies['pAccess'];
     await utils.validateCookies([accessCookie])
         ? res.sendFile("students.html", { root: "public/views/personnel" })
         : utils.errorPrompt(res, {
@@ -70,7 +70,7 @@ export const personnelStudents = async (req, res) => {
         });
 };
 export const personnelUsers = async (req, res) => {
-    const accessCookie = req.cookies['access'];
+    const accessCookie = req.cookies['pAccess'];
     await utils.validateCookies([accessCookie])
         ? res.sendFile("users.html", { root: "public/views/personnel" })
         : utils.errorPrompt(res, {
@@ -81,8 +81,8 @@ export const personnelUsers = async (req, res) => {
 };
 export const personnelLogout = async (req, res) => {
     res
-        .clearCookie('memory')
-        .clearCookie('access')
+        .clearCookie('pMemory')
+        .clearCookie('pAccess')
         .sendStatus(200);
 };
 export const error = async (req, res) => {
