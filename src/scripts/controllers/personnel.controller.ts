@@ -99,7 +99,7 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
 
     await utils.validateToken('personnel', accessCookie)
     ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
-    : utils.errorPrompt(res, {
+    : utils.errorPromptRedirect(res, {
         status: 401,
         title: "Unauthorized",
         body: "You are not authorized to enter this webpage!"
@@ -113,7 +113,7 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
 
     await utils.validateToken('personnel', accessCookie)
     ? res.sendFile("inventory.html", { root: "public/views/personnel" })
-    : utils.errorPrompt(res, {
+    : utils.errorPromptRedirect(res, {
         status: 401,
         title: "Unauthorized",
         body: "You are not authorized to enter this webpage!"
@@ -127,7 +127,7 @@ export const personnelStudents = async (req: Request, res: Response): Promise<vo
 
     await utils.validateToken('personnel', accessCookie)
     ? res.sendFile("students.html", { root: "public/views/personnel" })
-    : utils.errorPrompt(res, {
+    : utils.errorPromptRedirect(res, {
         status: 401,
         title: "Unauthorized",
         body: "You are not authorized to enter this webpage!"
@@ -141,7 +141,7 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 
     await utils.validateToken('personnel', accessCookie)
     ? res.sendFile("users.html", { root: "public/views/personnel" })
-    : utils.errorPrompt(res, {
+    : utils.errorPromptRedirect(res, {
         status: 401,
         title: "Unauthorized",
         body: "You are not authorized to enter this webpage!"
@@ -150,8 +150,6 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 }
 
 export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
-
-
 
     const dataCookie = req.cookies['pData']
     const isTokenRemoved: boolean = await utils.removeAccessToken({
@@ -167,7 +165,12 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
         .clearCookie('pData')
         .sendStatus(200)
     )
-    : res.sendStatus(500)
+    : utils.errorPromptURL(res, {
+        status: 500,
+        title: 'Internal Server Error',
+        body: 'Contact the server administrator.'
+    })
+
 
 }
 

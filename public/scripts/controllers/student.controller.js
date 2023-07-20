@@ -65,7 +65,7 @@ export const studentDashboard = async (req, res) => {
     const accessCookie = req.cookies['sAccess'];
     await utils.validateToken('students', accessCookie)
         ? res.sendFile("dashboard.html", { root: "public/views/student" })
-        : utils.errorPrompt(res, {
+        : utils.errorPromptRedirect(res, {
             status: 401,
             title: "Unauthorized",
             body: "You are not authorized to enter this webpage!"
@@ -83,5 +83,9 @@ export const studentLogout = async (req, res) => {
             .clearCookie('sAccess')
             .clearCookie('sData')
             .sendStatus(200))
-        : res.sendStatus(500);
+        : utils.errorPromptURL(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: 'Contact the server administrator.'
+        });
 };

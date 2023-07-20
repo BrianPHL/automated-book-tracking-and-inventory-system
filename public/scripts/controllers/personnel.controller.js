@@ -60,7 +60,7 @@ export const personnelDashboard = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
         ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
-        : utils.errorPrompt(res, {
+        : utils.errorPromptRedirect(res, {
             status: 401,
             title: "Unauthorized",
             body: "You are not authorized to enter this webpage!"
@@ -70,7 +70,7 @@ export const personnelInventory = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
         ? res.sendFile("inventory.html", { root: "public/views/personnel" })
-        : utils.errorPrompt(res, {
+        : utils.errorPromptRedirect(res, {
             status: 401,
             title: "Unauthorized",
             body: "You are not authorized to enter this webpage!"
@@ -80,7 +80,7 @@ export const personnelStudents = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
         ? res.sendFile("students.html", { root: "public/views/personnel" })
-        : utils.errorPrompt(res, {
+        : utils.errorPromptRedirect(res, {
             status: 401,
             title: "Unauthorized",
             body: "You are not authorized to enter this webpage!"
@@ -90,7 +90,7 @@ export const personnelUsers = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
         ? res.sendFile("users.html", { root: "public/views/personnel" })
-        : utils.errorPrompt(res, {
+        : utils.errorPromptRedirect(res, {
             status: 401,
             title: "Unauthorized",
             body: "You are not authorized to enter this webpage!"
@@ -108,7 +108,11 @@ export const personnelLogout = async (req, res) => {
             .clearCookie('pAccess')
             .clearCookie('pData')
             .sendStatus(200))
-        : res.sendStatus(500);
+        : utils.errorPromptURL(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: 'Contact the server administrator.'
+        });
 };
 export const error = async (req, res) => {
     res.sendFile("error.html", { root: "public/views" });

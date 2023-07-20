@@ -40,14 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
-                // TODO: Integrate error title & error body in Href URL.
+                const responseError = await response.text();
                 !response.ok
-                    ? window.location.href = '/error'
+                    ? window.location.href = `/error?${responseError}`
                     : window.location.href = '/';
             }
             catch (err) {
-                // TODO: Integrate error title & error body in Href URL.
-                window.location.href = '/error';
+                const { name, message } = err;
+                window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
             }
         }, 2500);
     });
