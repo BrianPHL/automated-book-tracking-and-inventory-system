@@ -42,7 +42,7 @@ export const validateToken = async (table: string, token: string): Promise<boole
             [token]
         )
 
-        if (await isQueryError(result)) { console.log(result); return false }
+        if (await isQueryError(result)) { console.error(result); return false }
         if (Array.isArray(result) && result.length < 1) { return false }
 
         return result[0].access_token === token
@@ -81,7 +81,7 @@ export const addAccessToken = async (data: addAccessToken): Promise<boolean> => 
 
     } catch(err) {
 
-        console.log(err);
+        console.error(err);
         return false
 
     }
@@ -103,7 +103,7 @@ export const removeAccessToken = async (data: removeAccessToken): Promise<boolea
 
     } catch(err) {
 
-        console.log(err);
+        console.error(err);
         return false
 
     }

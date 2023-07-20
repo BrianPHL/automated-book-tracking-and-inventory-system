@@ -11,7 +11,7 @@ export const personnelLoginAuth = async (req, res) => {
     try {
         await utils.executeDatabaseQuery("SELECT * FROM personnel WHERE username = ? AND password = ?", [username, password], async (result) => {
             if (await utils.isQueryError(result)) {
-                console.log(result);
+                console.error(result);
                 res.sendStatus(500);
             }
             if (Array.isArray(result) && result.length > 0) {
@@ -48,7 +48,7 @@ export const personnelLoginAuth = async (req, res) => {
         });
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         res.sendStatus(500);
     }
 };

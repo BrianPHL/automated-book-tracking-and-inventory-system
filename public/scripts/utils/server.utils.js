@@ -19,7 +19,7 @@ export const validateToken = async (table, token) => {
     try {
         const result = await executeDatabaseQuery(`SELECT access_token FROM ${table} WHERE access_token = ?`, [token]);
         if (await isQueryError(result)) {
-            console.log(result);
+            console.error(result);
             return false;
         }
         if (Array.isArray(result) && result.length < 1) {
@@ -44,7 +44,7 @@ export const addAccessToken = async (data) => {
         await executeDatabaseQuery("UPDATE personnel SET access_token = ? WHERE username = ? AND password = ?", [data.token, data.username, data.password]);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return false;
     }
     return true;
@@ -54,7 +54,7 @@ export const removeAccessToken = async (data) => {
         await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = NULL WHERE access_token = ?`, [data.token]);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return false;
     }
     return true;
