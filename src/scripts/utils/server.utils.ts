@@ -66,7 +66,15 @@ export const errorPrompt = (res: Response, data: object): void => {
 
 }
 
-interface addAccessToken { table: string, token: UUID, username: string, password: string }
+interface addAccessToken { 
+
+    table: string, 
+    column: string, 
+    token: UUID, 
+    identifier: string, 
+    password: string 
+
+}
 
 export const addAccessToken = async (data: addAccessToken): Promise<boolean> => {
 
@@ -74,8 +82,8 @@ export const addAccessToken = async (data: addAccessToken): Promise<boolean> => 
 
         await executeDatabaseQuery(
                     
-            "UPDATE personnel SET access_token = ? WHERE username = ? AND password = ?",
-            [ data.token, data.username, data.password ]
+            `UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`,
+            [ data.token, data.identifier, data.password ]
 
         )
 

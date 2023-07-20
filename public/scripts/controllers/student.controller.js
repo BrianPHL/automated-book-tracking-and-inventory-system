@@ -13,33 +13,53 @@ export const studentLoginAuth = async (req, res) => {
     studentOrPhoneNum[0] === 'R'
         ? queryString = "SELECT * FROM students WHERE student_number = ? AND password = ?"
         : queryString = "SELECT * FROM students WHERE phone_number = ? AND password = ?";
-    await utils.executeDatabaseQuery(queryString, queryArgs, async (result) => {
-        if (await utils.isQueryError(result)) {
-            res.sendStatus(500);
-        }
-        try {
+    try {
+        await utils.executeDatabaseQuery(queryString, queryArgs, async (result) => {
+            if (await utils.isQueryError(result)) {
+                console.error(result);
+                res.sendStatus(500);
+            }
             if (Array.isArray(result) && result.length > 0) {
-                res
-                    .cookie("sMemory", uuidv4(), {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    httpOnly: true,
-                    secure: true
-                })
-                    .cookie("sAccess", uuidv4(), {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    httpOnly: true,
-                    secure: true
-                })
-                    .sendStatus(200);
+                const uuidToken = uuidv4();
+                const isTokenAdded = await utils.addAccessToken({
+                    table: 'students',
+                    column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
+                    token: uuidToken,
+                    identifier: studentOrPhoneNum,
+                    password: password
+                });
+                isTokenAdded
+                    ? (res
+                        .cookie("sMemory", uuidToken, {
+                        maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
+                        httpOnly: true,
+                        secure: true
+                    })
+                        .cookie("sAccess", uuidToken, {
+                        maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
+                        httpOnly: true,
+                        secure: true
+                    })
+                        .cookie("sData", uuidToken, {
+                        maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
+                        httpOnly: true,
+                        secure: true
+                    })
+                        .sendStatus(200))
+                    : res.sendStatus(500);
             }
             else {
                 res.sendStatus(403);
             }
-        }
-        catch (err) {
-            throw err;
-        }
-    });
+        });
+    }
+    catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 };
 export const studentDashboard = async (req, res) => {
     const accessCookie = req.cookies['sAccess'];
@@ -52,8 +72,16 @@ export const studentDashboard = async (req, res) => {
         });
 };
 export const studentLogout = async (req, res) => {
-    res
-        .clearCookie('sMemory')
-        .clearCookie('sAccess')
-        .sendStatus(200);
+    const dataCookie = req.cookies['sData'];
+    const isTokenRemoved = await utils.removeAccessToken({
+        table: 'students',
+        token: dataCookie
+    });
+    isTokenRemoved
+        ? (res
+            .clearCookie('sMemory')
+            .clearCookie('sAccess')
+            .clearCookie('sData')
+            .sendStatus(200))
+        : res.sendStatus(500);
 };

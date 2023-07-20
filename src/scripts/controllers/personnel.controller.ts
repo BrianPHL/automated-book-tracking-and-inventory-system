@@ -22,16 +22,24 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
         await utils.executeDatabaseQuery(
 
             "SELECT * FROM personnel WHERE username = ? AND password = ?",
-            [ username, password ], async (result: any): Promise<void> => {
+            [ username, password ], 
+            async (result: any): Promise<void> => {
     
-            if (await utils.isQueryError(result)) { console.error(result); res.sendStatus(500) }
+            if (await utils.isQueryError(result)) {
+                
+                console.error(result)
+                res.sendStatus(500)
+            
+            }
+
             if (Array.isArray(result) && result.length > 0) {
     
                 const uuidToken: UUID = uuidv4()
                 const isTokenAdded: boolean = await utils.addAccessToken({
                     table: 'personnel',
+                    column: 'username',
                     token: uuidToken,
-                    username: username,
+                    identifier: username,
                     password: password
                 })
 
@@ -76,7 +84,12 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
     
         })
 
-    } catch (err) { console.error(err); res.sendStatus(500) }
+    } catch (err) { 
+        
+        console.error(err)
+        res.sendStatus(500)
+    
+    }
 
 }
 

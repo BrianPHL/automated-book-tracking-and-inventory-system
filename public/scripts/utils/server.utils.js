@@ -41,7 +41,7 @@ export const errorPrompt = (res, data) => {
 };
 export const addAccessToken = async (data) => {
     try {
-        await executeDatabaseQuery("UPDATE personnel SET access_token = ? WHERE username = ? AND password = ?", [data.token, data.username, data.password]);
+        await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`, [data.token, data.identifier, data.password]);
     }
     catch (err) {
         console.error(err);

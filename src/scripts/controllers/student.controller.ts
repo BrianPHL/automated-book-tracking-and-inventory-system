@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
+import { UUID } from "crypto";
 
 export const studentLogin = async (req: Request, res: Response): Promise<void> => {
 
@@ -22,40 +23,79 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
     ? queryString = "SELECT * FROM students WHERE student_number = ? AND password = ?"
     : queryString = "SELECT * FROM students WHERE phone_number = ? AND password = ?"
 
-    await utils.executeDatabaseQuery(queryString, queryArgs, async (result: any): Promise<void> => {
+    try {
 
-        if (await utils.isQueryError(result)) { res.sendStatus(500) }
-
-        try {
+        await utils.executeDatabaseQuery(
+            
+            queryString, 
+            queryArgs, 
+            async (result: any): Promise<void> => {
+    
+            if (await utils.isQueryError(result)) {
+                
+                console.error(result)
+                res.sendStatus(500)
+            
+            }
 
             if (Array.isArray(result) && result.length > 0) {
-
-                res
-                .cookie("sMemory", uuidv4(), {
-
-                    maxAge: 30 * 24 * 60 * 60 * 1000, 
-                    httpOnly: true, 
-                    secure: true
-                
+    
+                const uuidToken: UUID = uuidv4()
+                const isTokenAdded: boolean = await utils.addAccessToken({
+                    table: 'students',
+                    column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
+                    token: uuidToken,
+                    identifier: studentOrPhoneNum,
+                    password: password
                 })
-                .cookie("sAccess", uuidv4(), {
 
-                    maxAge: 30 * 24 * 60 * 60 * 1000, 
-                    httpOnly: true, 
-                    secure: true
+                isTokenAdded
+                ? (
+                    res
+                    .cookie("sMemory", uuidToken, {
+    
+                        maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
+                        httpOnly: true,
+                        secure: true
+                    
+                    })
+                    .cookie("sAccess", uuidToken, {
+    
+                        maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
+                        httpOnly: true,
+                        secure: true
+    
+                    })
+                    .cookie("sData", uuidToken, {
+    
+                        maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
+                        httpOnly: true,
+                        secure: true
+    
+                    })
+                    .sendStatus(200)
+                )
+                : res.sendStatus(500)
 
-                })
-                .sendStatus(200)
+
 
             } else {
 
                 res.sendStatus(403)
 
             }
-            
-        } catch (err) { throw err }
+    
+        })
 
-    })
+    } catch (err) { 
+        
+        console.error(err)
+        res.sendStatus(500)
+    
+    }
 
 }
 
@@ -75,9 +115,20 @@ export const studentDashboard = async (req: Request, res: Response): Promise<voi
 
 export const studentLogout = async (req: Request, res: Response): Promise<void> => {
 
-    res
-    .clearCookie('sMemory')
-    .clearCookie('sAccess')
-    .sendStatus(200)
+    const dataCookie = req.cookies['sData']
+    const isTokenRemoved: boolean = await utils.removeAccessToken({
+        table: 'students',
+        token: dataCookie
+    })
+
+    isTokenRemoved
+    ? (
+        res
+        .clearCookie('sMemory')
+        .clearCookie('sAccess')
+        .clearCookie('sData')
+        .sendStatus(200)
+    )
+    : res.sendStatus(500)
 
 }

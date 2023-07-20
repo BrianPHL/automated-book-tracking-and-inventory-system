@@ -18,8 +18,9 @@ export const personnelLoginAuth = async (req, res) => {
                 const uuidToken = uuidv4();
                 const isTokenAdded = await utils.addAccessToken({
                     table: 'personnel',
+                    column: 'username',
                     token: uuidToken,
-                    username: username,
+                    identifier: username,
                     password: password
                 });
                 isTokenAdded
