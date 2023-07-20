@@ -6,7 +6,7 @@ export const studentLogin = async (req: Request, res: Response): Promise<void> =
 
     const memoryCookie = req.cookies['sMemory']
 
-    await utils.validateCookies([memoryCookie])
+    await utils.validateToken('students', memoryCookie)
     ? res.redirect("/student/dashboard")
     : res.sendFile("login.html", { root: "public/views/student" })
 
@@ -18,7 +18,7 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
     const queryArgs = [ studentOrPhoneNum.toString(), password.toString() ]
     let queryString: string
 
-    utils.isStudentNumber(studentOrPhoneNum)
+    studentOrPhoneNum[0] === 'R'
     ? queryString = "SELECT * FROM students WHERE student_number = ? AND password = ?"
     : queryString = "SELECT * FROM students WHERE phone_number = ? AND password = ?"
 
@@ -63,7 +63,7 @@ export const studentDashboard = async (req: Request, res: Response): Promise<voi
 
     const accessCookie = req.cookies['sAccess']
 
-    await utils.validateCookies([accessCookie])
+    await utils.validateToken('students', accessCookie)
     ? res.sendFile("dashboard.html", { root: "public/views/student" })
     : utils.errorPrompt(res, {
         status: 401,
