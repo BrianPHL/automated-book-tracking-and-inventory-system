@@ -26,16 +26,19 @@ export const personnelLoginAuth = async (req, res) => {
                     ? (res
                         .cookie("pMemory", uuidToken, {
                         maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
                         httpOnly: true,
                         secure: true
                     })
                         .cookie("pAccess", uuidToken, {
                         maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
                         httpOnly: true,
                         secure: true
                     })
                         .cookie("pData", uuidToken, {
                         maxAge: 30 * 24 * 60 * 60 * 1000,
+                        sameSite: "strict",
                         httpOnly: true,
                         secure: true
                     })
