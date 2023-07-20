@@ -56,13 +56,29 @@ export const validateToken = async (table: string, token: string): Promise<boole
 
 }
 
-export const errorPrompt = (res: Response, data: object): void => {
+export const errorPrompt = async (data: object): Promise<URLSearchParams> => {
 
     const params = new URLSearchParams()
 
     for (let [key, value] of Object.entries(data)) { params.append(key, value) }
+    
+    return params
+
+}
+
+export const errorPromptRedirect = async (res: Response, data: object): Promise<void> => {
+
+    const params = await errorPrompt(data)
 
     res.redirect(`/error?${params.toString()}`)
+
+}
+
+export const errorPromptURL = async (res: Response, data: object): Promise<void> => {
+
+    const params = await errorPrompt(data)
+
+    res.send(params.toString())
 
 }
 

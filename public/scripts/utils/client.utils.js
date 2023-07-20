@@ -9,6 +9,13 @@ export const checkFormInputs = async (form) => {
     }
     formSubmit.disabled = false;
 };
+export const errorPrompt = async (data) => {
+    const params = new URLSearchParams();
+    for (let [key, value] of Object.entries(data)) {
+        params.append(key, value);
+    }
+    return params;
+};
 export const manipulateURL = async (data) => {
     const params = new URLSearchParams();
     for (let [key, value] of Object.entries(data)) {

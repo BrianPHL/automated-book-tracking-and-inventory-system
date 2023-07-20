@@ -18,6 +18,16 @@ export const checkFormInputs = async (form: HTMLFormElement) => {
 
 }
 
+export const errorPrompt = async (data: object): Promise<URLSearchParams> => {
+
+    const params = new URLSearchParams()
+
+    for (let [key, value] of Object.entries(data)) { params.append(key, value) }
+    
+    return params
+
+}
+
 export const manipulateURL = async (data: object) => {
 
     const params = new URLSearchParams()

@@ -32,12 +32,20 @@ export const validateToken = async (table, token) => {
         return false;
     }
 };
-export const errorPrompt = (res, data) => {
+export const errorPrompt = async (data) => {
     const params = new URLSearchParams();
     for (let [key, value] of Object.entries(data)) {
         params.append(key, value);
     }
+    return params;
+};
+export const errorPromptRedirect = async (res, data) => {
+    const params = await errorPrompt(data);
     res.redirect(`/error?${params.toString()}`);
+};
+export const errorPromptURL = async (res, data) => {
+    const params = await errorPrompt(data);
+    res.send(params.toString());
 };
 export const addAccessToken = async (data) => {
     try {
