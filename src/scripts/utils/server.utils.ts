@@ -17,8 +17,6 @@ export const executeDatabaseQuery = async (query: string, argument?: string | st
 
         pool.query(query, argument, (error, results) => {
 
-            console.log(results)
-
             !error
             ? callback(results)
             : callback(error)
