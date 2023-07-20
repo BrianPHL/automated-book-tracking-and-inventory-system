@@ -63,18 +63,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     const warningTitle = await utils.getURLData(window.location.search, 'title');
                     const warningBody = await utils.getURLData(window.location.search, 'body');
-                    modalWarning.style.display = 'flex';
                     modalWarning.querySelector('h3').textContent = warningTitle;
                     modalWarning.querySelector('h4').textContent = warningBody;
+                    modalWarning.style.display = 'flex';
                 }
                 else {
                     window.location.href = '/personnel/dashboard';
                 }
             }
             catch (err) {
-                modalWarning.style.display = 'flex';
                 modalWarningText.querySelector('h3').textContent = 'An unhandled exception occured.';
                 modalWarningText.querySelector('h4').textContent = err;
+                modalWarning.style.display = 'flex';
             }
         }, 2500);
     });
