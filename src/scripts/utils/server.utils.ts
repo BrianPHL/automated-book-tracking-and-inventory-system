@@ -1,28 +1,32 @@
 import { pool } from "../app.js"
-import { QueryError, RowDataPacket, OkPacket, ResultSetHeader } from "mysql2";
-import { validate as uuidValidate } from 'uuid';
+import { Query, QueryError, RowDataPacket, OkPacket, ResultSetHeader, FieldPacket } from "mysql2";
 import { Response } from "express";
+import { UUID } from "crypto";
 
-declare type callbackType = QueryError | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader
+declare type callbackType = Query | QueryError | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | FieldPacket[]
 
-export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: callbackType) => void) => {
+export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
-    pool.query(query, argument, (error, results) => {
-
-        if (callback) {
-
-            if (error) {
-
-                callback(error)
-    
-            }
-    
-            callback(results)    
-
-        }
+    if (!callback) {
         
-    })
+        const [rows] = await pool.promise().query(query, argument)
 
+        return rows
+
+    } else {
+
+        pool.query(query, argument, (error, results) => {
+
+            console.log(results)
+
+            !error
+            ? callback(results)
+            : callback(error)
+
+        })
+
+    }
+    
 }
 
 export const isQueryError = async (result: callbackType) => { 
@@ -31,16 +35,26 @@ export const isQueryError = async (result: callbackType) => {
 
 }
 
-export const validateCookies = async (cookies: string[]): Promise<boolean> => {
+export const validateToken = async (table: string, token: string): Promise<boolean> => {
 
-    if(!cookies || cookies === undefined) { return false }
+    try {
 
-    let results: boolean[] = []
+        const result: any = await executeDatabaseQuery(
+            `SELECT access_token FROM ${table} WHERE access_token = ?`, 
+            [token]
+        )
 
-    for await (let cookie of cookies) { results.push(uuidValidate(cookie)) }
-    for await (let result of results) { if (result === false) { return false } }
+        if (await isQueryError(result)) { console.log(result); return false }
+        if (Array.isArray(result) && result.length < 1) { return false }
 
-    return true
+        return result[0].access_token === token
+
+    } catch(err) {
+
+        console.error(err)
+        return false
+
+    }
 
 }
 
@@ -54,8 +68,48 @@ export const errorPrompt = (res: Response, data: object): void => {
 
 }
 
-export const isStudentNumber = (argument: string): boolean => {
+interface addAccessToken { table: string, token: UUID, username: string, password: string }
 
-    return argument[0] === 'R'
+export const addAccessToken = async (data: addAccessToken): Promise<boolean> => {
+
+    try {
+
+        await executeDatabaseQuery(
+                    
+            "UPDATE personnel SET access_token = ? WHERE username = ? AND password = ?",
+            [ data.token, data.username, data.password ]
+
+        )
+
+    } catch(err) {
+
+        console.log(err);
+        return false
+
+    }
+
+    return true
+
+}
+
+interface removeAccessToken { table: string, token: UUID }
+
+export const removeAccessToken = async (data: removeAccessToken): Promise<boolean> => {
+
+    try {
+
+        await executeDatabaseQuery(
+            `UPDATE ${data.table} SET access_token = NULL WHERE access_token = ?`,
+            [ data.token ]
+        )
+
+    } catch(err) {
+
+        console.log(err);
+        return false
+
+    }
+
+    return true
 
 }
