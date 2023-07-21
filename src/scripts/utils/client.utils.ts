@@ -59,14 +59,7 @@ export const getPreferredTheme = (): boolean => {
 
 }
 
-interface cbDataType {
-
-    savedTheme?: string
-    preferredTheme: boolean
-
-}
-
-export const setPreferredTheme = (cb: (cbData: cbDataType) => void): void => {
+export const setPreferredTheme = (cb: (cbData: { savedTheme?: string, preferredTheme: boolean }) => void): void => {
 
     const savedTheme: string = localStorage.getItem('theme')
     const preferredTheme: boolean = getPreferredTheme()

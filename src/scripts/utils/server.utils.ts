@@ -1,9 +1,6 @@
-import { pool } from "../app.js"
-import { Query, QueryError, RowDataPacket, OkPacket, ResultSetHeader, FieldPacket } from "mysql2";
+import { pool } from "../app.js";
 import { Response } from "express";
 import { UUID } from "crypto";
-
-declare type callbackType = Query | QueryError | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader | FieldPacket[]
 
 export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
@@ -27,7 +24,7 @@ export const executeDatabaseQuery = async (query: string, argument?: string | st
     
 }
 
-export const isQueryError = async (result: callbackType) => { 
+export const isQueryError = async (result: any) => { 
     
     return result && result.constructor && result.constructor.name === "QueryError" 
 
@@ -82,17 +79,7 @@ export const errorPromptURL = async (res: Response, data: object): Promise<void>
 
 }
 
-interface addAccessToken { 
-
-    table: string, 
-    column: string, 
-    token: UUID, 
-    identifier: string, 
-    password: string 
-
-}
-
-export const addAccessToken = async (data: addAccessToken): Promise<boolean> => {
+export const addAccessToken = async (data: { table: string, column: string, token: UUID, identifier: string, password: string }): Promise<boolean> => {
 
     try {
 
@@ -114,9 +101,7 @@ export const addAccessToken = async (data: addAccessToken): Promise<boolean> => 
 
 }
 
-interface removeAccessToken { table: string, token: UUID }
-
-export const removeAccessToken = async (data: removeAccessToken): Promise<boolean> => {
+export const removeAccessToken = async (data: { table: string, token: UUID }): Promise<boolean> => {
 
     try {
 
