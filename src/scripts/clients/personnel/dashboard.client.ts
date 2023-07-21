@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navActionsLogout: HTMLButtonElement = navActions.querySelector('.logout')
 
     const mainDashboard: HTMLDivElement = bodyElement.querySelector('main[data-tab="dashboard"]')
-
-
     const mainInventory: HTMLDivElement = bodyElement.querySelector('main[data-tab="inventory"]')
     const mainStudents: HTMLDivElement = bodyElement.querySelector('main[data-tab="students"]')
     const mainUsers: HTMLDivElement = bodyElement.querySelector('main[data-tab="users"]')

@@ -767,10 +767,6 @@ html[data-site=login] > body > .modal > form > .actions {
 html[data-site=login] > body > .modal > form > .actions > button {
   width: 100%;
 }
-html[data-site=login] > body > .modal > .note {
-  align-self: center;
-  display: flex;
-}
 
 html[data-site=error] h1 {
   font-family: "Poppins", sans-serif;
