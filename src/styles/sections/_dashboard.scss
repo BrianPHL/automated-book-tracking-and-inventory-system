@@ -59,6 +59,7 @@ html[data-site="dashboard"] {
 
                         & > i, h2 { 
 
+                            pointer-events: none;
                             transition: 0.2s all ease;
                             color: var(--typography-secondary);
 

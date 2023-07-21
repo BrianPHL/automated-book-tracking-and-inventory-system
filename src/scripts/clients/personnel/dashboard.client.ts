@@ -7,10 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const header: HTMLElement = bodyElement.querySelector('header')
     const nav: HTMLElement = header.querySelector('nav')
+    
+    const navTabs: HTMLDivElement = nav.querySelector('.tabs')
+    const navTabsBtn: NodeListOf<HTMLDivElement> = navTabs.querySelectorAll('div')
+
     const navActions: HTMLDivElement = nav.querySelector('.actions')
     const navActionsTheme: HTMLButtonElement = navActions.querySelector('.themeSwitch')
     const navActionsLogout: HTMLButtonElement = navActions.querySelector('.logout')
 
+    const mainTabs: NodeListOf<HTMLElement> = bodyElement.querySelectorAll('main')
     const mainDashboard: HTMLDivElement = bodyElement.querySelector('main[data-tab="dashboard"]')
     const mainInventory: HTMLDivElement = bodyElement.querySelector('main[data-tab="inventory"]')
     const mainStudents: HTMLDivElement = bodyElement.querySelector('main[data-tab="students"]')
@@ -85,5 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2500)
 
     })
+
+    navTabsBtn.forEach(tabs => {
+
+        tabs.addEventListener('click', (event: MouseEvent) => {
+            
+            const navTab = event.target as HTMLElement
+            const mainTab: HTMLDivElement = bodyElement.querySelector(`main[data-tab="${ navTab.classList[0] }"]`)
+            
+            navTabsBtn.forEach(tabs => { tabs.classList.remove('active') })
+            mainTabs.forEach(tabs => { tabs.style.display = 'none' })
+            
+            navTab.classList.add('active')
+            mainTab.style.display = 'grid'
+
+        })
+
+    });
 
 })
