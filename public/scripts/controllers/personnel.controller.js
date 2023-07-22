@@ -1,11 +1,13 @@
 import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
+// * export function status: complete
 export const personnelLogin = async (req, res) => {
     const memoryCookie = req.cookies['pMemory'];
     await utils.validateToken('personnel', memoryCookie)
         ? res.redirect("/personnel/dashboard")
         : res.sendFile("login.html", { root: "public/views/personnel" });
 };
+// TODO: export function status: partial, could be improved.
 export const personnelLoginAuth = async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -56,6 +58,7 @@ export const personnelLoginAuth = async (req, res) => {
         res.sendStatus(500);
     }
 };
+// * export function status: complete
 export const personnelDashboard = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
@@ -66,6 +69,7 @@ export const personnelDashboard = async (req, res) => {
             body: "You are not authorized to enter this webpage!"
         });
 };
+// * export function status: complete
 export const personnelInventory = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
@@ -76,6 +80,7 @@ export const personnelInventory = async (req, res) => {
             body: "You are not authorized to enter this webpage!"
         });
 };
+// * export function status: complete
 export const personnelStudents = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
@@ -86,6 +91,7 @@ export const personnelStudents = async (req, res) => {
             body: "You are not authorized to enter this webpage!"
         });
 };
+// * export function status: complete
 export const personnelUsers = async (req, res) => {
     const accessCookie = req.cookies['pAccess'];
     await utils.validateToken('personnel', accessCookie)
@@ -96,24 +102,26 @@ export const personnelUsers = async (req, res) => {
             body: "You are not authorized to enter this webpage!"
         });
 };
+// * export function status: complete
 export const personnelLogout = async (req, res) => {
     const dataCookie = req.cookies['pData'];
     const isTokenRemoved = await utils.removeAccessToken({
         table: 'personnel',
         token: dataCookie
     });
-    isTokenRemoved
-        ? (res
-            .clearCookie('pMemory')
-            .clearCookie('pAccess')
-            .clearCookie('pData')
-            .sendStatus(200))
-        : utils.errorPromptURL(res, {
+    !isTokenRemoved
+        ? utils.errorPromptURL({
             status: 500,
             title: 'Internal Server Error',
             body: 'Contact the server administrator.'
-        });
+        })
+        : (res
+            .clearCookie('pMemory')
+            .clearCookie('pAccess')
+            .clearCookie('pData')
+            .sendStatus(200));
 };
+// TODO: export function status: partial, could be improved.
 export const error = async (req, res) => {
     res.sendFile("error.html", { root: "public/views" });
 };

@@ -3,6 +3,7 @@ import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 import { UUID } from "crypto";
 
+// * export function status: complete
 export const personnelLogin = async (req: Request, res: Response): Promise<void> => {
     
     const memoryCookie = req.cookies['pMemory']
@@ -13,6 +14,7 @@ export const personnelLogin = async (req: Request, res: Response): Promise<void>
 
 }
 
+// TODO: export function status: partial, could be improved.
 export const personnelLoginAuth = async (req: Request, res: Response): Promise<void> => {
 
     const { username, password } = req.body
@@ -93,6 +95,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 }
 
+// * export function status: complete
 export const personnelDashboard = async (req: Request, res: Response): Promise<void> => {
 
     const accessCookie = req.cookies['pAccess']
@@ -107,6 +110,7 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
 
 }
 
+// * export function status: complete
 export const personnelInventory = async (req: Request, res: Response): Promise<void> => {
 
     const accessCookie = req.cookies['pAccess']
@@ -121,6 +125,7 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
 
 }
 
+// * export function status: complete
 export const personnelStudents = async (req: Request, res: Response): Promise<void> => {
 
     const accessCookie = req.cookies['pAccess']
@@ -135,6 +140,7 @@ export const personnelStudents = async (req: Request, res: Response): Promise<vo
 
 }
 
+// * export function status: complete
 export const personnelUsers = async (req: Request, res: Response): Promise<void> => {
 
     const accessCookie = req.cookies['pAccess']
@@ -149,6 +155,7 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 
 }
 
+// * export function status: complete
 export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
 
     const dataCookie = req.cookies['pData']
@@ -157,23 +164,24 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
         token: dataCookie
     })
 
-    isTokenRemoved
-    ? (
+    !isTokenRemoved
+    ? utils.errorPromptURL({
+        status: 500,
+        title: 'Internal Server Error',
+        body: 'Contact the server administrator.'
+    })
+    : (
         res
         .clearCookie('pMemory')
         .clearCookie('pAccess')
         .clearCookie('pData')
         .sendStatus(200)
     )
-    : utils.errorPromptURL(res, {
-        status: 500,
-        title: 'Internal Server Error',
-        body: 'Contact the server administrator.'
-    })
 
 
 }
 
+// TODO: export function status: partial, could be improved.
 export const error = async (req: Request, res: Response): Promise<void> => {
 
     res.sendFile("error.html", { root: "public/views" })
