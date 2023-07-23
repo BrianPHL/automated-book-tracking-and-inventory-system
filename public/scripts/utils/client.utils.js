@@ -85,3 +85,20 @@ export const setDarkTheme = () => {
 export const getURLData = async (url, identifier) => {
     return new URLSearchParams(url).get(identifier);
 };
+export const retrieveDashboardData = async (type, tab) => {
+    try {
+        const data = { tab: tab };
+        const response = await fetch(`/${type}/dashboard/retrieve`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        !response.ok
+            ? window.location.href = `/error?${await response.text()}`
+            : console.log(`${type} data retrieval successful!`);
+    }
+    catch (err) {
+        const { name, message } = err;
+        window.location.href = `/error?${(await errorPrompt({ title: name, body: message })).toString()}`;
+    }
+};
