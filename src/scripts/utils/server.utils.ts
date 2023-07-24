@@ -5,21 +5,21 @@ import { UUID } from "crypto";
 // TODO: export function status: partial, could be improved.
 export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
-    if (!callback) {
-        
-        const [rows] = await pool.promise().query(query, argument)
+    try {
 
-        return rows
+        if (!callback) {
 
-    } else {
+            const [rows] = await pool.promise().query(query, argument)
 
-        pool.query(query, argument, (error, results) => {
+            return rows
 
-            !error
-            ? callback(results)
-            : callback(error)
 
-        })
+        } else { pool.query(query, argument, (results) => { callback(results) }) }
+
+    } catch(err) {
+
+        console.error(err.name, err.message)
+        throw err
 
     }
     
@@ -29,30 +29,6 @@ export const executeDatabaseQuery = async (query: string, argument?: string | st
 export const isQueryError = async (result: any) => { 
     
     return result && result.constructor && result.constructor.name === "QueryError" 
-
-}
-
-// TODO: export function status: partial, could be improved.
-export const validateToken = async (table: string, token: string): Promise<boolean> => {
-
-    try {
-
-        const result: any = await executeDatabaseQuery(
-            `SELECT access_token FROM ${table} WHERE access_token = ?`, 
-            [token]
-        )
-
-        if (await isQueryError(result)) { console.error(result); return false }
-        if (Array.isArray(result) && result.length < 1) { return false }
-
-        return result[0].access_token === token
-
-    } catch(err) {
-
-        console.error(err)
-        return false
-
-    }
 
 }
 
@@ -77,11 +53,32 @@ export const errorPromptRedirect = async (res: Response, data: {status: number, 
 }
 
 // * export function status: complete
-export const errorPromptURL = async (data: { status: number, title: string, body: string }): Promise<string> => {
+export const errorPromptURL = async (res: Response, data: { status: number, title: string, body: string }): Promise<string> => {
 
     const params = await errorPrompt(data)
 
     return params.toString()
+
+}
+
+// TODO: export function status: partial, could be improved.
+export const validateAccessToken = async (data: { table: string, token: UUID }): Promise<boolean> => {
+
+    try {
+
+        const result = await executeDatabaseQuery(
+            `SELECT access_token FROM ${ data.table } WHERE access_token = ?`,
+            [ data.token ]
+        )
+        
+        return !await isQueryResultEmpty(result)
+
+    } catch(err) {
+
+        console.error(err.name, err.message)
+        throw err
+
+    }
 
 }
 
@@ -90,21 +87,19 @@ export const addAccessToken = async (data: { table: string, column: string, toke
 
     try {
 
-        await executeDatabaseQuery(
-                    
+        const result = await executeDatabaseQuery(
             `UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`,
             [ data.token, data.identifier, data.password ]
-
         )
+
+        return !result ? false : true
 
     } catch(err) {
 
-        console.error(err);
-        return false
+        console.error(err.name, err.message)
+        throw err
 
     }
-
-    return true
 
 }
 
@@ -113,18 +108,47 @@ export const removeAccessToken = async (data: { table: string, token: UUID }): P
 
     try {
 
-        await executeDatabaseQuery(
-            `UPDATE ${data.table} SET access_token = NULL WHERE access_token = ?`,
+        const result = await executeDatabaseQuery(
+            `UPDATE ${ data.table } SET access_token = NULL WHERE access_token = ?`,
             [ data.token ]
         )
 
+        return !result ? false : true
+
     } catch(err) {
 
-        console.error(err);
-        return false
+        console.error(err.name, err.message)
+        throw err
 
     }
 
-    return true
+}
+
+export const retrieveAccountData = async (type: string, token: UUID): Promise<object | boolean> => {
+
+    let result: object = {}
+
+    try {
+
+        result = await executeDatabaseQuery(
+            `SELECT first_name, last_name, role FROM ${ type } WHERE access_token = ?`,
+            [ token ]
+        )
+
+        return result[0]
+
+        
+    } catch(err) {
+
+        console.error(err.name, err.message)
+        throw err
+
+    }
+    
+}
+
+export const isQueryResultEmpty = async (queryResult: any) => {
+
+    return !(Array.isArray(queryResult) && queryResult.length > 0)
 
 }
