@@ -63,10 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' }
                 
                 })
-                const responseError: string = await response.text()
 
                 !response.ok
-                ? window.location.href = `/error?${ responseError }`
+                ? window.location.href = `/error?${ await response.text() }`
                 : window.location.href = '/'
 
             } catch(err) {

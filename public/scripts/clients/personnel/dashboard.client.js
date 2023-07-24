@@ -10,10 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navActionsTheme = navActions.querySelector('.themeSwitch');
     const navActionsLogout = navActions.querySelector('.logout');
     const mainTabs = bodyElement.querySelectorAll('main');
-    const mainDashboard = bodyElement.querySelector('main[data-tab="dashboard"]');
-    const mainInventory = bodyElement.querySelector('main[data-tab="inventory"]');
-    const mainStudents = bodyElement.querySelector('main[data-tab="students"]');
-    const mainUsers = bodyElement.querySelector('main[data-tab="users"]');
     utils.setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
@@ -43,9 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
-                const responseError = await response.text();
                 !response.ok
-                    ? window.location.href = `/error?${responseError}`
+                    ? window.location.href = `/error?${await response.text()}`
                     : window.location.href = '/';
             }
             catch (err) {
@@ -62,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
             mainTabs.forEach(tabs => { tabs.style.display = 'none'; });
             navTab.classList.add('active');
             mainTab.style.display = 'grid';
+            utils.retrieveDashboardData('personnel', navTab.classList[0]);
         });
     });
+    utils.retrieveDashboardData('personnel', 'dashboard');
 });

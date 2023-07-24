@@ -16,10 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navActionsLogout: HTMLButtonElement = navActions.querySelector('.logout')
 
     const mainTabs: NodeListOf<HTMLElement> = bodyElement.querySelectorAll('main')
-    const mainDashboard: HTMLDivElement = bodyElement.querySelector('main[data-tab="dashboard"]')
-    const mainInventory: HTMLDivElement = bodyElement.querySelector('main[data-tab="inventory"]')
-    const mainStudents: HTMLDivElement = bodyElement.querySelector('main[data-tab="students"]')
-    const mainUsers: HTMLDivElement = bodyElement.querySelector('main[data-tab="users"]')
 
     utils.setPreferredTheme((cbData) => {
 
@@ -73,10 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' }
                 
                 })
-                const responseError: string = await response.text()
 
                 !response.ok
-                ? window.location.href = `/error?${ responseError }`
+                ? window.location.href = `/error?${ await response.text() }`
                 : window.location.href = '/'
 
             } catch(err) {
@@ -104,8 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
             navTab.classList.add('active')
             mainTab.style.display = 'grid'
 
+            utils.retrieveDashboardData('personnel', navTab.classList[0])
+
         })
 
-    });
+    })
+
+    utils.retrieveDashboardData('personnel', 'dashboard')
 
 })
