@@ -2,9 +2,22 @@ import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 export const studentLogin = async (req, res) => {
     const memoryCookie = req.cookies['sMemory'];
-    await utils.validateToken('students', memoryCookie)
-        ? res.redirect("/student/dashboard")
-        : res.sendFile("login.html", { root: "public/views/student" });
+    try {
+        await utils.validateAccessToken({
+            table: 'students',
+            token: memoryCookie
+        })
+            ? res.redirect("/student/dashboard")
+            : res.sendFile("login.html", { root: "public/views/student" });
+    }
+    catch (err) {
+        console.error(err.name, err.message);
+        await utils.errorPromptRedirect(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        });
+    }
 };
 export const studentLoginAuth = async (req, res) => {
     const { studentOrPhoneNum, password } = req.body;
@@ -62,30 +75,48 @@ export const studentLoginAuth = async (req, res) => {
     }
 };
 export const studentDashboard = async (req, res) => {
-    const accessCookie = req.cookies['sAccess'];
-    await utils.validateToken('students', accessCookie)
-        ? res.sendFile("dashboard.html", { root: "public/views/student" })
-        : utils.errorPromptRedirect(res, {
-            status: 401,
-            title: "Unauthorized",
-            body: "You are not authorized to enter this webpage!"
+    try {
+        const accessCookie = req.cookies['sAccess'];
+        const isTokenValid = await utils.validateAccessToken({
+            table: 'students',
+            token: accessCookie
         });
-};
-export const studentLogout = async (req, res) => {
-    const dataCookie = req.cookies['sData'];
-    const isTokenRemoved = await utils.removeAccessToken({
-        table: 'students',
-        token: dataCookie
-    });
-    isTokenRemoved
-        ? (res
-            .clearCookie('sMemory')
-            .clearCookie('sAccess')
-            .clearCookie('sData')
-            .sendStatus(200))
-        : utils.errorPromptURL(res, {
+        !isTokenValid
+            ? utils.errorPromptRedirect(res, {
+                status: 401,
+                title: "Unauthorized",
+                body: "You are not authorized to enter this webpage!"
+            })
+            : res.sendFile("dashboard.html", { root: "public/views/student" });
+    }
+    catch (err) {
+        await utils.errorPromptURL(res, {
             status: 500,
             title: 'Internal Server Error',
-            body: 'Contact the server administrator.'
+            body: err.message
         });
+    }
+};
+export const studentLogout = async (req, res) => {
+    try {
+        const dataCookie = req.cookies['sData'];
+        const isTokenRemoved = await utils.removeAccessToken({
+            table: 'students',
+            token: dataCookie
+        });
+        !isTokenRemoved
+            ? await utils.errorPromptURL(res, {
+                status: 500,
+                title: 'Internal Server Error',
+                body: 'Contact the server administrator.'
+            })
+            : res.clearCookie('sMemory').clearCookie('sAccess').clearCookie('sData').sendStatus(200);
+    }
+    catch (err) {
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        });
+    }
 };

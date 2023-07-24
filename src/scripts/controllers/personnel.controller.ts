@@ -6,20 +6,36 @@ import { UUID } from "crypto";
 // * export function status: complete
 export const personnelLogin = async (req: Request, res: Response): Promise<void> => {
     
-    const memoryCookie = req.cookies['pMemory']
+    try {
 
-    await utils.validateToken('personnel', memoryCookie)
-    ? res.redirect("/personnel/dashboard")
-    : res.sendFile("login.html", { root: "public/views/personnel" })
+        const memoryCookie: UUID = req.cookies['pMemory']
+        const isTokenValid: boolean = await utils.validateAccessToken({
+            table: 'personnel', 
+            token: memoryCookie
+        })
+
+        !isTokenValid
+        ? res.sendFile("login.html", { root: "public/views/personnel" })
+        : res.redirect("/personnel/dashboard")
+
+    } catch(err) {
+
+        await utils.errorPromptRedirect(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        })
+
+    }
 
 }
 
 // TODO: export function status: partial, could be improved.
 export const personnelLoginAuth = async (req: Request, res: Response): Promise<void> => {
 
-    const { username, password } = req.body
-
     try {
+
+        const { username, password } = req.body
 
         await utils.executeDatabaseQuery(
 
@@ -34,8 +50,8 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
             
             }
 
-            if (Array.isArray(result) && result.length > 0) {
-    
+            if (await utils.isQueryResultEmpty(result)) {
+
                 const uuidToken: UUID = uuidv4()
                 const isTokenAdded: boolean = await utils.addAccessToken({
                     table: 'personnel',
@@ -47,6 +63,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
                 isTokenAdded
                 ? (
+
                     res
                     .cookie("pMemory", uuidToken, {
     
@@ -98,86 +115,155 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 // * export function status: complete
 export const personnelDashboard = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['pAccess']
+    try {
 
-    await utils.validateToken('personnel', accessCookie)
-    ? res.sendFile("dashboard.html", { root: "public/views/personnel" })
-    : utils.errorPromptRedirect(res, {
-        status: 401,
-        title: "Unauthorized",
-        body: "You are not authorized to enter this webpage!"
-    })
+        const accessCookie: UUID = req.cookies['pAccess']
+        const isTokenValid: boolean = await utils.validateAccessToken({
+            table: 'personnel', 
+            token: accessCookie
+        })
+
+        !isTokenValid
+        ? utils.errorPromptRedirect(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        })
+        : res.sendFile("dashboard.html", { root: "public/views/personnel" })
+
+    } catch(err) {
+
+        await utils.errorPromptRedirect(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        })
+
+    }
 
 }
 
 // * export function status: complete
 export const personnelInventory = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['pAccess']
+    try {
 
-    await utils.validateToken('personnel', accessCookie)
-    ? res.sendFile("inventory.html", { root: "public/views/personnel" })
-    : utils.errorPromptRedirect(res, {
-        status: 401,
-        title: "Unauthorized",
-        body: "You are not authorized to enter this webpage!"
-    })
+        const accessCookie: UUID = req.cookies['pAccess']
+        const isTokenValid: boolean = await utils.validateAccessToken({
+            table: 'personnel', 
+            token: accessCookie
+        })
+    
+        !isTokenValid
+        ? utils.errorPromptRedirect(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        })
+        : res.sendFile("inventory.html", { root: "public/views/personnel" })
+
+    } catch(err) {
+
+        await utils.errorPromptRedirect(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        })
+
+    }
 
 }
 
 // * export function status: complete
 export const personnelStudents = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['pAccess']
+    try {
 
-    await utils.validateToken('personnel', accessCookie)
-    ? res.sendFile("students.html", { root: "public/views/personnel" })
-    : utils.errorPromptRedirect(res, {
-        status: 401,
-        title: "Unauthorized",
-        body: "You are not authorized to enter this webpage!"
-    })
+        const accessCookie: UUID = req.cookies['pAccess']
+        const isTokenValid: boolean = await utils.validateAccessToken({
+            table: 'personnel', 
+            token: accessCookie
+        })
+    
+        !isTokenValid
+        ? utils.errorPromptRedirect(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        })
+        : res.sendFile("students.html", { root: "public/views/personnel" })
+        
+    } catch(err) {
+
+        await utils.errorPromptRedirect(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        })
+
+    }
 
 }
 
 // * export function status: complete
 export const personnelUsers = async (req: Request, res: Response): Promise<void> => {
 
-    const accessCookie = req.cookies['pAccess']
+    try {
 
-    await utils.validateToken('personnel', accessCookie)
-    ? res.sendFile("users.html", { root: "public/views/personnel" })
-    : utils.errorPromptRedirect(res, {
-        status: 401,
-        title: "Unauthorized",
-        body: "You are not authorized to enter this webpage!"
-    })
+        const accessCookie: UUID = req.cookies['pAccess']
+        const isTokenValid: boolean = await utils.validateAccessToken({
+            table: 'personnel', 
+            token: accessCookie
+        })
+
+        !isTokenValid
+        ? utils.errorPromptRedirect(res, {
+            status: 401,
+            title: "Unauthorized",
+            body: "You are not authorized to enter this webpage!"
+        })
+        : res.sendFile("users.html", { root: "public/views/personnel" })
+
+    } catch(err) {
+
+        await utils.errorPromptRedirect(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        })
+
+    }
 
 }
 
 // * export function status: complete
 export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
+    
+    try {
 
-    const dataCookie = req.cookies['pData']
-    const isTokenRemoved: boolean = await utils.removeAccessToken({
-        table: 'personnel',
-        token: dataCookie
-    })
+        const dataCookie: UUID = req.cookies['pData']
+        const isTokenRemoved = await utils.removeAccessToken({ 
+            table: 'personnel', 
+            token: dataCookie 
+        })
 
-    !isTokenRemoved
-    ? utils.errorPromptURL({
-        status: 500,
-        title: 'Internal Server Error',
-        body: 'Contact the server administrator.'
-    })
-    : (
-        res
-        .clearCookie('pMemory')
-        .clearCookie('pAccess')
-        .clearCookie('pData')
-        .sendStatus(200)
-    )
+        !isTokenRemoved
+        ? await utils.errorPromptURL(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: 'The server was unable to handle your request'
+        })
+        : res.clearCookie('pMemory').clearCookie('pAccess').clearCookie('pData').sendStatus(200)
 
+    } catch(err) {
+
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        })
+
+    }
 
 }
 
