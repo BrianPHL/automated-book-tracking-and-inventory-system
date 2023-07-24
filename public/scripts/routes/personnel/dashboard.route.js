@@ -1,5 +1,6 @@
 import express from "express";
-import { personnelDashboard } from "../../controllers/personnel.controller.js";
+import * as controller from "../../controllers/personnel.controller.js";
 const personnelDashboardRoute = express.Router();
-personnelDashboardRoute.get("/", personnelDashboard);
+personnelDashboardRoute.get("/", controller.personnelDashboard);
+personnelDashboardRoute.post("/retrieve", controller.personnelDashboardData);
 export default personnelDashboardRoute;
