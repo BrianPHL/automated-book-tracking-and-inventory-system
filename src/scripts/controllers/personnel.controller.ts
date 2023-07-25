@@ -30,83 +30,67 @@ export const personnelLogin = async (req: Request, res: Response): Promise<void>
 
 }
 
-// TODO: export function status: partial, could be improved.
+// * export function status: complete
 export const personnelLoginAuth = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
         const { username, password } = req.body
-
-        await utils.executeDatabaseQuery(
-
-            "SELECT * FROM personnel WHERE username = ? AND password = ?",
-            [ username, password ], 
-            async (result: any): Promise<void> => {
-    
-            if (await utils.isQueryError(result)) {
-                
-                console.error(result)
-                res.sendStatus(500)
+        const result = await utils.executeDatabaseQuery(
+            "SELECT * FROM personnel WHERE username = ? AND password = ?", 
+            [username, password]
+        )
+        
+        if (await utils.isQueryError(result)) {
             
-            }
+            console.error(result)
+            res.sendStatus(500)
+        
+        }
 
-            if (await utils.isQueryResultEmpty(result)) {
+        if (!await utils.isQueryResultEmpty(result)) {
 
-                const uuidToken: UUID = uuidv4()
-                const isTokenAdded: boolean = await utils.addAccessToken({
-                    table: 'personnel',
-                    column: 'username',
-                    token: uuidToken,
-                    identifier: username,
-                    password: password
-                })
+            const uuidToken: UUID = uuidv4()
+            const isTokenAdded: boolean = await utils.addAccessToken({
+                table: 'personnel',
+                column: 'username',
+                token: uuidToken,
+                identifier: username,
+                password: password
+            })
+            
+            !isTokenAdded
+            ? res.sendStatus(500)
+            : res
+            .cookie("pMemory", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true    
+            })
+            .cookie("pAccess", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+            .cookie("pData", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+            .sendStatus(200)
 
-                isTokenAdded
-                ? (
-
-                    res
-                    .cookie("pMemory", uuidToken, {
-    
-                        maxAge: 30 * 24 * 60 * 60 * 1000,
-                        sameSite: "strict",
-                        httpOnly: true,
-                        secure: true
-                    
-                    })
-                    .cookie("pAccess", uuidToken, {
-    
-                        maxAge: 30 * 24 * 60 * 60 * 1000,
-                        sameSite: "strict",
-                        httpOnly: true,
-                        secure: true
-    
-                    })
-                    .cookie("pData", uuidToken, {
-    
-                        maxAge: 30 * 24 * 60 * 60 * 1000,
-                        sameSite: "strict",
-                        httpOnly: true,
-                        secure: true
-    
-                    })
-                    .sendStatus(200)
-                )
-                : res.sendStatus(500)
-
-
-
-            } else {
-
-                res.sendStatus(403)
-
-            }
-    
-        })
+        } else { res.sendStatus(403) }
 
     } catch (err) { 
         
-        console.error(err)
-        res.sendStatus(500)
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: 'Internal Server Error',
+            body: err.message
+        })
     
     }
 
