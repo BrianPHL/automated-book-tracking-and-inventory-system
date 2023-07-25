@@ -5,16 +5,17 @@ import { UUID } from "crypto";
 
 export const studentLogin = async (req: Request, res: Response): Promise<void> => {
 
-    const memoryCookie = req.cookies['sMemory']
-
     try {
-
-        await utils.validateAccessToken({
+        
+        const memoryCookie: UUID = req.cookies['sMemory']
+        const isTokenValid: boolean = await utils.validateAccessToken({
             table: 'students', 
             token: memoryCookie
         }) 
-        ? res.redirect("/student/dashboard") 
-        : res.sendFile("login.html", { root: "public/views/student" })
+
+        !isTokenValid
+        ? res.sendFile("login.html", { root: "public/views/student" })
+        : res.redirect("/student/dashboard") 
 
     } catch(err) {
 
@@ -55,7 +56,7 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
             
             }
 
-            if (Array.isArray(result) && result.length > 0) {
+            if (!await utils.isQueryResultEmpty(result)) {
     
                 const uuidToken: UUID = uuidv4()
                 const isTokenAdded: boolean = await utils.addAccessToken({

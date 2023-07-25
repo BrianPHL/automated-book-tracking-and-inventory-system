@@ -1,14 +1,15 @@
 import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 export const studentLogin = async (req, res) => {
-    const memoryCookie = req.cookies['sMemory'];
     try {
-        await utils.validateAccessToken({
+        const memoryCookie = req.cookies['sMemory'];
+        const isTokenValid = await utils.validateAccessToken({
             table: 'students',
             token: memoryCookie
-        })
-            ? res.redirect("/student/dashboard")
-            : res.sendFile("login.html", { root: "public/views/student" });
+        });
+        !isTokenValid
+            ? res.sendFile("login.html", { root: "public/views/student" })
+            : res.redirect("/student/dashboard");
     }
     catch (err) {
         console.error(err.name, err.message);
@@ -32,7 +33,7 @@ export const studentLoginAuth = async (req, res) => {
                 console.error(result);
                 res.sendStatus(500);
             }
-            if (Array.isArray(result) && result.length > 0) {
+            if (!await utils.isQueryResultEmpty(result)) {
                 const uuidToken = uuidv4();
                 const isTokenAdded = await utils.addAccessToken({
                     table: 'students',
