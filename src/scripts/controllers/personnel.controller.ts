@@ -36,10 +36,8 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
     try {
 
         const { username, password } = req.body
-        const result = await utils.executeDatabaseQuery(
-            "SELECT * FROM personnel WHERE username = ? AND password = ?", 
-            [username, password]
-        )
+        const queryString = "SELECT * FROM personnel WHERE username = ? AND password = ?"
+        const result = await utils.executeDatabaseQuery(queryString, [username, password])
         
         if (await utils.isQueryError(result)) {
             
