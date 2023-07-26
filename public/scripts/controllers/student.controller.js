@@ -21,58 +21,59 @@ export const studentLogin = async (req, res) => {
     }
 };
 export const studentLoginAuth = async (req, res) => {
-    const { studentOrPhoneNum, password } = req.body;
-    const queryArgs = [studentOrPhoneNum.toString(), password.toString()];
     let queryString;
-    studentOrPhoneNum[0] === 'R'
-        ? queryString = "SELECT * FROM students WHERE student_number = ? AND password = ?"
-        : queryString = "SELECT * FROM students WHERE phone_number = ? AND password = ?";
     try {
-        await utils.executeDatabaseQuery(queryString, queryArgs, async (result) => {
-            if (await utils.isQueryError(result)) {
-                console.error(result);
-                res.sendStatus(500);
-            }
-            if (!await utils.isQueryResultEmpty(result)) {
-                const uuidToken = uuidv4();
-                const isTokenAdded = await utils.addAccessToken({
-                    table: 'students',
-                    column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
-                    token: uuidToken,
-                    identifier: studentOrPhoneNum,
-                    password: password
-                });
-                isTokenAdded
-                    ? (res
-                        .cookie("sMemory", uuidToken, {
-                        maxAge: 30 * 24 * 60 * 60 * 1000,
-                        sameSite: "strict",
-                        httpOnly: true,
-                        secure: true
-                    })
-                        .cookie("sAccess", uuidToken, {
-                        maxAge: 30 * 24 * 60 * 60 * 1000,
-                        sameSite: "strict",
-                        httpOnly: true,
-                        secure: true
-                    })
-                        .cookie("sData", uuidToken, {
-                        maxAge: 30 * 24 * 60 * 60 * 1000,
-                        sameSite: "strict",
-                        httpOnly: true,
-                        secure: true
-                    })
-                        .sendStatus(200))
-                    : res.sendStatus(500);
-            }
-            else {
-                res.sendStatus(403);
-            }
-        });
+        const { studentOrPhoneNum, password } = req.body;
+        studentOrPhoneNum[0] === 'R'
+            ? queryString = "SELECT * FROM students WHERE student_number = ? AND password = ?"
+            : queryString = "SELECT * FROM students WHERE phone_number = ? AND password = ?";
+        const result = await utils.executeDatabaseQuery(queryString, [studentOrPhoneNum, password]);
+        if (await utils.isQueryError(result)) {
+            console.error(result);
+            res.sendStatus(500);
+        }
+        if (!await utils.isQueryResultEmpty(result)) {
+            const uuidToken = uuidv4();
+            const isTokenAdded = await utils.addAccessToken({
+                table: 'students',
+                column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
+                token: uuidToken,
+                identifier: studentOrPhoneNum,
+                password: password
+            });
+            !isTokenAdded
+                ? res.sendStatus(500)
+                : res
+                    .cookie("sMemory", uuidToken, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    sameSite: "strict",
+                    httpOnly: true,
+                    secure: true
+                })
+                    .cookie("sAccess", uuidToken, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    sameSite: "strict",
+                    httpOnly: true,
+                    secure: true
+                })
+                    .cookie("sData", uuidToken, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                    sameSite: "strict",
+                    httpOnly: true,
+                    secure: true
+                })
+                    .sendStatus(200);
+        }
+        else {
+            res.sendStatus(403);
+        }
     }
     catch (err) {
-        console.error(err);
-        res.sendStatus(500);
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: "Internal Server Error",
+            body: err.message
+        });
     }
 };
 export const studentDashboard = async (req, res) => {
