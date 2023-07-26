@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
 
-                const response: Response = await fetch('/personnel/logout', {
+                const response: Response = await fetch('/student/logout', {
         
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 !response.ok
                 ? window.location.href = `/error?${ await response.text() }`
-                : window.location.href = '/'
+                : window.location.href = '/student'
 
             } catch(err) {
             

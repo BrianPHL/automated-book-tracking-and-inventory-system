@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         setTimeout(async () => {
             try {
-                const response = await fetch('/personnel/logout', {
+                const response = await fetch('/student/logout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
                 !response.ok
                     ? window.location.href = `/error?${await response.text()}`
-                    : window.location.href = '/';
+                    : window.location.href = '/student';
             }
             catch (err) {
                 const { name, message } = err;
