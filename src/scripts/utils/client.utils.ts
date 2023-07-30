@@ -217,7 +217,7 @@ export const setDashboardData = async (type: string, tab?: string) => {
                         const overview = main.querySelector('.overview')
                         const registeredCount = overview.querySelector('.registered > h1 > .count')
 
-                        registeredCount.textContent = overviewData['studentsCount']
+                        registeredCount.textContent = overviewData['studentCount']
                         
                         resolve()
 
@@ -282,7 +282,6 @@ export const setDashboardData = async (type: string, tab?: string) => {
                             })
 
                         }
-
                         const setEntriesData = async (): Promise<void> => {
 
                             return new Promise((resolve) => {
@@ -292,13 +291,13 @@ export const setDashboardData = async (type: string, tab?: string) => {
                                 Object.values(tableData).forEach(async (data) => {
                                     
                                     const title = data['title']
-                                    const status = data['status']
                                     const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
                                     const publicationDate = data['date_publicized']
                                     const acquisitionDate = data['date_added']
                                     let borrowerAndBorrowerNumber = ``
                                     let borrowDateAndDuration = ``
                                     let visibility = ``
+                                    let status = ``
 
                                     data['borrower'] === null 
                                     ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
@@ -308,14 +307,20 @@ export const setDashboardData = async (type: string, tab?: string) => {
                                     ? borrowDateAndDuration = `<h2>No data</h2>`
                                     : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
 
-                                    borrowDateAndDuration.includes('past due') ? visibility = 'visible' : visibility = 'hidden'
+                                    data['status'] === 'Available' 
+                                    ? status = `<h2>${data['status']}</h2>` 
+                                    : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+
+                                    status.includes('Past Due') 
+                                    ? visibility = 'visible' 
+                                    : visibility = 'hidden'
 
                                     const entry =
                                     `
                                     <div class="entry">
                                         <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
                                         <div class="title"><h2>${ title }</h2></div>
-                                        <div class="status"><h2>${ status }</h2></div>
+                                        <div class="status">${ status }</div>
                                         <div class="borrower">${ borrowerAndBorrowerNumber }</div>
                                         <div class="borrowDate">${ borrowDateAndDuration }</div>
                                         <div class="dueDate"><h2>${ dueDate }</h2></div>
@@ -363,7 +368,149 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
             return new Promise(async (resolve) => {
 
-                await setAccountData()
+                const main = document.querySelector('main[data-tab="inventory"]')
+                const setOverviewAvailable = async (): Promise<void> => {
+
+                    return new Promise((resolve) => {
+
+                        const overview = main.querySelector('.overview')
+                        const available = overview.querySelector('.available')
+                        const availableCount = available.querySelector('h1 > .count')
+                        const availableHeaderCount = available.querySelector('.header > h3 > .count')
+                        const availableHeaderPercentage = available.querySelector('.header > h3 > .percentage')
+        
+                        availableCount.textContent = overviewData['availableBookCount']
+                        availableHeaderCount.textContent = overviewData['bookCount']
+                        availableHeaderPercentage.textContent = overviewData['availableBookCountPercentage']
+
+                        resolve()
+
+                    })
+
+                }
+                const setOverviewBorrowed = async (): Promise<void> => {
+
+                    return new Promise((resolve) => {
+
+                        const overview = main.querySelector('.overview')
+                        const borrowed = overview.querySelector('.borrowed')
+                        const borrowedCount = borrowed.querySelector('h1 > .count')
+                        const borrowedHeaderCount = borrowed.querySelector('.header > h3 > .count')
+                        const borrowedHeaderPercentage = borrowed.querySelector('.header > h3 > .percentage')
+        
+                        borrowedCount.textContent = overviewData['borrowedBookCount']
+                        borrowedHeaderCount.textContent = overviewData['bookCount']
+                        borrowedHeaderPercentage.textContent = overviewData['borrowedBookCountPercentage']
+
+                        resolve()
+
+                    })
+
+                }
+                const setOverviewDue = async (): Promise<void> => {
+
+                    return new Promise((resolve) => {
+
+                        const overview = main.querySelector('.overview')
+                        const due = overview.querySelector('.pastDue')
+                        const dueCount = due.querySelector('h1 > .count')
+                        const dueHeaderCount = due.querySelector('.header > h3 > .count')
+                        const dueHeaderPercentage = due.querySelector('.header > h3 > .percentage')
+        
+                        dueCount.textContent = overviewData['dueBookCount']
+                        dueHeaderCount.textContent = overviewData['bookCount']
+                        dueHeaderPercentage.textContent = overviewData['dueBookCountPercentage']
+
+                        resolve()
+
+                    })
+
+                }
+                const setTableData = async (): Promise<void> => {
+
+                    return new Promise(async (resolve) => {
+
+                        const table = main.querySelector('.table')
+
+                        const setPaginationData = async (): Promise<void> => {
+
+                            return new Promise((resolve) => {
+
+                                const pagination = table.querySelector('.data > .pagination')
+                                const paginationMax = pagination.querySelector('.maxCount')
+
+                                paginationMax.textContent = overviewData['bookCount']
+
+                                resolve()
+
+                            })
+
+                        }
+                        const setEntriesData = async (): Promise<void> => {
+                            
+                            return new Promise((resolve) => {
+
+                                const entries = table.querySelector('.data > .entries')
+
+                                Object.values(tableData).forEach(async (data) => {
+                                    
+                                    const title = data['title']
+                                    const author = data['author']
+                                    const genre = data['genre']
+                                    const publicationDate = data['date_publicized']
+                                    const acquisitionDate = data['date_added']
+                                    let visibility = ``
+                                    let status = ``
+
+                                    data['status'] === 'Available' 
+                                    ? status = `<h2>${data['status']}</h2>` 
+                                    : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+
+                                    status.includes('Past Due') 
+                                    ? visibility = 'visible' 
+                                    : visibility = 'hidden'
+
+                                    const entry =
+                                    `
+                                    <div class="entry">
+                                        <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                                        <div class="title"><h2>${ title }</h2></div>
+                                        <div class="status"><h2>${ status }</h2></div>
+                                        <div class="author"><h2>${ author }</h2></div>
+                                        <div class="genre"><h2>${ genre }</h2></div>
+                                        <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                                        <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                                        <div class="actions">
+                                            <i class="fa-regular fa-arrow-right-from-arc"></i>
+                                            <i class="fa-regular fa-message"></i>
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </div>
+                                    </div>
+                                    `
+
+                                    entries.innerHTML += entry
+        
+                                })
+
+                                resolve()
+
+                            })
+
+                        }
+
+                        await setPaginationData()
+                        await setEntriesData()
+
+                        resolve()
+
+                    })
+
+                }
+
+                await setOverviewAvailable()
+                await setOverviewBorrowed()
+                await setOverviewDue()
+                await setTableData()
 
                 resolve()
 
