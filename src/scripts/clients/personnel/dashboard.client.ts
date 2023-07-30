@@ -99,12 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
             navTab.classList.add('active')
             mainTab.style.display = 'grid'
 
-            utils.retrieveDashboardData('personnel', navTab.classList[0])
+            utils.setDashboardData('personnel', navTab.classList[0])
 
         })
 
     })
 
-    utils.retrieveDashboardData('personnel', 'dashboard')
+    utils.setDashboardData('personnel')
 
 })
