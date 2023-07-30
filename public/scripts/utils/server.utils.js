@@ -88,10 +88,10 @@ export const retrieveOverviewData = async (type, tab) => {
             const [students, books, availableBooks, unavailableBooks] = await Promise.all([
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM students'),
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM books'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "available"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "due" OR status = "borrowed"')
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Available"'),
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Past Due" OR status = "Borrowed"')
             ]);
-            Object.assign(result, { studentsCount: students[0].count }, { bookCount: books[0].count }, { availableBookCount: availableBooks[0].count }, { availableBookCountPercentage: Math.floor(availableBooks[0].count / books[0].count * 100) }, { unavailableBookCount: unavailableBooks[0].count }, { unavailableBookCountPercentage: Math.floor(unavailableBooks[0].count / books[0].count * 100) });
+            Object.assign(result, { studentCount: students[0].count }, { bookCount: books[0].count }, { availableBookCount: availableBooks[0].count }, { availableBookCountPercentage: Math.floor(availableBooks[0].count / books[0].count * 100) }, { unavailableBookCount: unavailableBooks[0].count }, { unavailableBookCountPercentage: Math.floor(unavailableBooks[0].count / books[0].count * 100) });
         }
         catch (err) {
             console.error(err.name, err.message);
@@ -102,11 +102,11 @@ export const retrieveOverviewData = async (type, tab) => {
         try {
             const [books, availableBooks, borrowedBooks, dueBooks] = await Promise.all([
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM books'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "available"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "borrowed"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "due"')
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Available"'),
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Borrowed"'),
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Past Due"')
             ]);
-            Object.assign(result, { booksCount: books[0].count }, { availableBooksCount: availableBooks[0].count }, { availableBooksPercentage: Math.floor(availableBooks[0].count / books[0].count * 100) }, { borrowedBooksCount: borrowedBooks[0].count }, { borrowedBooksPercentage: Math.floor(borrowedBooks[0].count / books[0].count * 100) }, { dueBooksCount: dueBooks[0].count }, { dueBooksPercentage: Math.floor(dueBooks[0].count / books[0].count * 100) });
+            Object.assign(result, { bookCount: books[0].count }, { availableBookCount: availableBooks[0].count }, { availableBookCountPercentage: Math.floor(availableBooks[0].count / books[0].count * 100) }, { borrowedBookCount: borrowedBooks[0].count }, { borrowedBookCountPercentage: Math.floor(borrowedBooks[0].count / books[0].count * 100) }, { dueBookCount: dueBooks[0].count }, { dueBookCountPercentage: Math.floor(dueBooks[0].count / books[0].count * 100) });
         }
         catch (err) {
             console.error(err.name, err.message);
@@ -121,7 +121,7 @@ export const retrieveOverviewData = async (type, tab) => {
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "borrowed"'),
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "due"')
             ]);
-            Object.assign(result, { studentsCount: students[0].count }, { vacantStudentsCount: vacantStudents[0].count }, { vacantStudentsPercentage: Math.floor(vacantStudents[0].count / students[0].count * 100) }, { borrowerStudentsCount: borrowerStudents[0].count }, { borrowerStudentsPercentage: Math.floor(borrowerStudents[0].count / students[0].count * 100) }, { dueStudentsCount: dueStudents[0].count }, { dueStudentsPercentage: Math.floor(dueStudents[0].count / students[0].count * 100) });
+            Object.assign(result, { studentCount: students[0].count }, { vacantStudentCount: vacantStudents[0].count }, { vacantStudentPercentage: Math.floor(vacantStudents[0].count / students[0].count * 100) }, { borrowerStudentCount: borrowerStudents[0].count }, { borrowerStudentPercentage: Math.floor(borrowerStudents[0].count / students[0].count * 100) }, { dueStudentCount: dueStudents[0].count }, { dueStudentPercentage: Math.floor(dueStudents[0].count / students[0].count * 100) });
         }
         catch (err) {
             console.error(err.name, err.message);

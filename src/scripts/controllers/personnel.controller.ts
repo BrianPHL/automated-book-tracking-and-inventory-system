@@ -131,12 +131,11 @@ export const personnelDashboardData = async (req: Request, res: Response): Promi
 
     try {
 
-        const { tab } = req.body
         const token = req.cookies['pData']
         const [ accountData, overviewData, tableData ] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', tab),
-            utils.retrieveTableData('personnel', tab)
+            utils.retrieveOverviewData('personnel', 'dashboard'),
+            utils.retrieveTableData('personnel', 'dashboard')
         ]);
 
         Object.assign(
@@ -183,6 +182,37 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
             title: 'Internal Server Error',
             body: err.message
         })
+
+    }
+
+}
+
+export const personnelInventoryData = async (req: Request, res: Response): Promise<void> => {
+
+    let resultData: object = {}
+
+    try {
+
+        const token = req.cookies['pData']
+        const [ accountData, overviewData, tableData ] = await Promise.all([
+            utils.retrieveAccountData('personnel', token),
+            utils.retrieveOverviewData('personnel', 'inventory'),
+            utils.retrieveTableData('personnel', 'inventory')
+        ]);
+
+        Object.assign(
+            resultData, 
+            { accountData: accountData }, 
+            { overviewData: overviewData }, 
+            { tableData: tableData }
+        )
+
+        res.json(resultData)
+
+    } catch(err) {
+
+        console.error(err.name, err.message)
+        throw err
 
     }
 
