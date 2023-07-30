@@ -102,11 +102,9 @@ export const getDaysBetween = (firstDate, secondDate) => {
 };
 export const retrieveDashboardData = async (type, tab) => {
     try {
-        const data = { tab: tab };
-        const response = await fetch(`/${type}/dashboard/retrieve`, {
+        const response = await fetch(`/${type}/${tab}/retrieve`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            headers: { 'Content-Type': 'application/json' }
         });
         return response;
     }
