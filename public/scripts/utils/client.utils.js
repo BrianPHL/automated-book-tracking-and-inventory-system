@@ -452,20 +452,84 @@ export const setDashboardData = async (type, tab) => {
                 const main = document.querySelector('main[data-tab="users"]');
                 const setOverviewPersonnel = async () => {
                     return new Promise((resolve) => {
+                        const overview = main.querySelector('.overview');
+                        const personnel = overview.querySelector('.personnel');
+                        const personnelCount = personnel.querySelector('h1 > .count');
+                        personnelCount.textContent = overviewData['personnelCount'];
                         resolve();
                     });
                 };
                 const setOverviewIT = async () => {
                     return new Promise((resolve) => {
+                        const overview = main.querySelector('.overview');
+                        const it = overview.querySelector('.it');
+                        const itCount = it.querySelector('h1 > .count');
+                        const itHeaderCount = it.querySelector('.header > h3 > .count');
+                        const itHeaderPercentage = it.querySelector('.header > h3 > .percentage');
+                        itCount.textContent = overviewData['itPersonnelCount'];
+                        itHeaderCount.textContent = overviewData['personnelCount'];
+                        itHeaderPercentage.textContent = overviewData['itPersonnelCountPercentage'];
                         resolve();
                     });
                 };
                 const setOverviewLibrarian = async () => {
                     return new Promise((resolve) => {
+                        const overview = main.querySelector('.overview');
+                        const librarian = overview.querySelector('.librarian');
+                        const librarianCount = librarian.querySelector('h1 > .count');
+                        const librarianHeaderCount = librarian.querySelector('.header > h3 > .count');
+                        const librarianHeaderPercentage = librarian.querySelector('.header > h3 > .percentage');
+                        librarianCount.textContent = overviewData['librarianPersonnelCount'];
+                        librarianHeaderCount.textContent = overviewData['personnelCount'];
+                        librarianHeaderPercentage.textContent = overviewData['librarianPersonnelCountPercentage'];
                         resolve();
                     });
                 };
                 const setTableData = async () => {
+                    return new Promise(async (resolve) => {
+                        const table = main.querySelector('.table');
+                        const setPaginationData = async () => {
+                            return new Promise((resolve) => {
+                                const pagination = table.querySelector('.data > .pagination');
+                                const paginationMax = pagination.querySelector('.maxCount');
+                                paginationMax.textContent = overviewData['personnelCount'];
+                                resolve();
+                            });
+                        };
+                        const setEntriesData = async () => {
+                            return new Promise((resolve) => {
+                                const entries = table.querySelector('.data > .entries');
+                                Object.values(tableData).forEach(async (data) => {
+                                    const fullName = `${data['first_name']} ${data['last_name']}`;
+                                    const username = data['username'];
+                                    const role = data['role'];
+                                    let privilege = ``;
+                                    data['role'] === 'Librarian'
+                                        ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
+                                        : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`;
+                                    const entry = `
+                                    <div class="entry">
+                                        <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
+                                        <div class="fullName"><h2>${fullName}</h2></div>
+                                        <div class="username"><h2>${username}</h2></div>
+                                        <div class="role"><h2>${role}</h2></div>
+                                        <div class="privilege">${privilege}</div>
+                                        <div class="emailAddress"><h2>${username}</h2><h3>@feuroosevelt.edu.ph</h3></div>
+                                        <div class="actions">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        <i class="fa-regular fa-xmark"></i>
+                                        </div>
+                                    </div>
+                                    `;
+                                    entries.innerHTML += entry;
+                                });
+                                resolve();
+                            });
+                        };
+                        await setPaginationData();
+                        await setEntriesData();
+                        resolve();
+                    });
                 };
                 await setAccountData();
                 await setOverviewPersonnel();
