@@ -174,10 +174,10 @@ html[data-site=dashboard] > body > header > nav > .actions > div {
 html[data-site=dashboard] > body > header > nav > .actions > div > i, html[data-site=dashboard] > body > header > nav > .actions > div h2 {
   transition: 0.2s all ease;
 }
-html[data-site=dashboard] > body > header > nav > .actions > div:first-child:hover {
+html[data-site=dashboard] > body > header > nav > .actions > div:hover {
   cursor: pointer;
 }
-html[data-site=dashboard] > body > header > nav > .actions > div:first-child:hover > i, html[data-site=dashboard] > body > header > nav > .actions > div:first-child:hover h2 {
+html[data-site=dashboard] > body > header > nav > .actions > div:hover > i, html[data-site=dashboard] > body > header > nav > .actions > div:hover h2 {
   color: var(--accent-primary);
 }
 html[data-site=dashboard] > body > header > nav > .actions > div:last-child:hover {
