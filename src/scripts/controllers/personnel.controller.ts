@@ -311,6 +311,38 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 
 }
 
+export const personnelUsersData = async (req: Request, res: Response): Promise<void> => {
+
+    let resultData: object = {}
+
+    try {
+
+        const token = req.cookies['pData']
+        const [ accountData, overviewData, tableData ] = await Promise.all([
+            utils.retrieveAccountData('personnel', token),
+            utils.retrieveOverviewData('personnel', 'users'),
+            utils.retrieveTableData('personnel', 'users')
+        ]);
+
+        Object.assign(
+            resultData, 
+            { accountData: accountData }, 
+            { overviewData: overviewData }, 
+            { tableData: tableData }
+        )
+
+        res.json(resultData)
+
+    } catch(err) {
+
+        console.error(err.name, err.message)
+        throw err
+
+    }
+
+}
+
+
 // * export function status: complete
 export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
     

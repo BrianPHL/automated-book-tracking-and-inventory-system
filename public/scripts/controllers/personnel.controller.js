@@ -196,6 +196,7 @@ export const personnelStudentsData = async (req, res) => {
         console.error(err.name, err.message);
         throw err;
     }
+};
 // * export function status: complete
 export const personnelUsers = async (req, res) => {
     try {
@@ -218,6 +219,23 @@ export const personnelUsers = async (req, res) => {
             title: 'Internal Server Error',
             body: err.message
         });
+    }
+};
+export const personnelUsersData = async (req, res) => {
+    let resultData = {};
+    try {
+        const token = req.cookies['pData'];
+        const [accountData, overviewData, tableData] = await Promise.all([
+            utils.retrieveAccountData('personnel', token),
+            utils.retrieveOverviewData('personnel', 'users'),
+            utils.retrieveTableData('personnel', 'users')
+        ]);
+        Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
+        res.json(resultData);
+    }
+    catch (err) {
+        console.error(err.name, err.message);
+        throw err;
     }
 };
 // * export function status: complete

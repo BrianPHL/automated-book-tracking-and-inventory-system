@@ -257,9 +257,9 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
                 result,
                 { personnelCount: personnel[0].count },
                 { itPersonnelCount: itPersonnel[0].count },
-                { itPersonnelPercentage: Math.floor(itPersonnel[0].count / personnel[0].count * 100) },
+                { itPersonnelCountPercentage: Math.floor(itPersonnel[0].count / personnel[0].count * 100) },
                 { librarianPersonnelCount: librarianPersonnel[0].count },
-                { librarianPersonnelPercentage: Math.floor(librarianPersonnel[0].count / personnel[0].count * 100) }
+                { librarianPersonnelCountPercentage: Math.floor(librarianPersonnel[0].count / personnel[0].count * 100) }
             )
 
         } catch(err) {

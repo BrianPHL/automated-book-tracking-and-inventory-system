@@ -135,7 +135,7 @@ export const retrieveOverviewData = async (type, tab) => {
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM personnel WHERE role = "IT"'),
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM personnel WHERE role = "Librarian"')
             ]);
-            Object.assign(result, { personnelCount: personnel[0].count }, { itPersonnelCount: itPersonnel[0].count }, { itPersonnelPercentage: Math.floor(itPersonnel[0].count / personnel[0].count * 100) }, { librarianPersonnelCount: librarianPersonnel[0].count }, { librarianPersonnelPercentage: Math.floor(librarianPersonnel[0].count / personnel[0].count * 100) });
+            Object.assign(result, { personnelCount: personnel[0].count }, { itPersonnelCount: itPersonnel[0].count }, { itPersonnelCountPercentage: Math.floor(itPersonnel[0].count / personnel[0].count * 100) }, { librarianPersonnelCount: librarianPersonnel[0].count }, { librarianPersonnelCountPercentage: Math.floor(librarianPersonnel[0].count / personnel[0].count * 100) });
         }
         catch (err) {
             console.error(err.name, err.message);

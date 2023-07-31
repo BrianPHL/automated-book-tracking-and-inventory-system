@@ -1,5 +1,6 @@
 import express from "express";
-import { personnelUsers } from "../../controllers/personnel.controller.js";
+import * as controller from "../../controllers/personnel.controller.js";
 const personnelUsersRoute = express.Router();
-personnelUsersRoute.get("/", personnelUsers);
+personnelUsersRoute.get("/", controller.personnelUsers);
+personnelUsersRoute.post("/retrieve", controller.personnelUsersData);
 export default personnelUsersRoute;
