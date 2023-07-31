@@ -91,7 +91,7 @@
 
         </header>
     
-        <main data-tab="dashboard" style="display: none;">
+        <main data-tab="dashboard">
 
             <div class="overview">
 
@@ -185,7 +185,7 @@
 
                             </div>
 
-                            <h3>Showing page <input type="text"> of <span class="maxPage">0</span></h3>
+                            <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
 
                             <div class="forward">
 
@@ -276,7 +276,7 @@
 
         </main>
     
-        <main data-tab="inventory">
+        <main data-tab="inventory" style="display: none;">
 
             <div class="overview">
 
@@ -375,7 +375,7 @@
 
                             </div>
 
-                            <h3>Showing page <input type="text"> of 0</h3>
+                            <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
 
                             <div class="forward">
 
@@ -730,7 +730,7 @@
 
                     <div class="pagination">
 
-                        <h3>Showing 0 of 0 books</h3>
+                        <h3>Showing <span class="currentCount">0</span> of <span class="maxCount"></span> books</h3>
 
                         <div class="controls">
 
@@ -741,7 +741,7 @@
 
                             </div>
 
-                            <h3>Showing page <input type="text"> of 0</h3>
+                            <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
 
                             <div class="forward">
 
@@ -759,6 +759,13 @@
 
                         <i class="warning fa-regular fa-triangle-exclamation"></i>
 
+                        <div class="fullName">
+                            
+                            <h2>Full Name</h2>
+                            <i class="fa-solid fa-caret-down"></i>
+
+                        </div>
+
                         <div class="username">
                             
                             <h2>Username</h2>
@@ -769,13 +776,6 @@
                         <div class="role">
                             
                             <h2>Role</h2>
-                            <i class="fa-solid fa-caret-down"></i>
-
-                        </div>
-
-                        <div class="password">
-                            
-                            <h2>Password</h2>
                             <i class="fa-solid fa-caret-down"></i>
 
                         </div>
@@ -803,53 +803,7 @@
 
                     </div>
                     
-                    <div class="entries">
-
-                        <div class="entry">
-                            
-                            <i class="warning fa-solid fa-triangle-exclamation"></i>
-    
-                            <div class="username">
-                            
-                                <h2>brian</h2>
-    
-                            </div>
-    
-                            <div class="role">
-                                
-                                <h2>IT personnel</h2>
-    
-                            </div>
-    
-                            <div class="password">
-                                
-                                <h2>$2y$16$dLMdiOrCm79PgF9iK4M3Le0bfyJNO1Ql/W4bC54ZwjBIew4kK2hiy</h2>
-    
-                            </div>
-    
-                            <div class="privilege">
-                                
-                                <h2>Dashboard, Inventory, Students, Users</h2>
-    
-                            </div>
-    
-                            <div class="emailAddress">
-                                
-                                <h2>brian</h2>
-                                <h3>@feuroosevelt.edu.ph</h3>
-    
-                            </div>
-    
-                            <div class="actions">
-    
-                                <i class="fa-regular fa-pen-to-square"></i>
-                                <i class="fa-regular fa-xmark"></i>
-    
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <div class="entries"></div>
 
                 </div>
 
