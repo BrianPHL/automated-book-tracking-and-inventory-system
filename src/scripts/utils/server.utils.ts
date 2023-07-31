@@ -212,26 +212,26 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
 
     }
 
-    const retrieveStudentsData = async () => {
+    const retrieveStudentsData = async (): Promise<void> => {
 
         try {
 
             const [ students, vacantStudents, borrowerStudents, dueStudents ] = await Promise.all([
                 executeDatabaseQuery('SELECT COUNT(*) AS count FROM students'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "available"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "borrowed"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "due"')    
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Available"'),
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Borrowed"'),
+                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Past Due"')    
             ])
 
             Object.assign(
                 result,
                 { studentCount: students[0].count },
                 { vacantStudentCount: vacantStudents[0].count },
-                { vacantStudentPercentage: Math.floor( vacantStudents[0].count / students[0].count * 100 ) },
+                { vacantStudentCountPercentage: Math.floor( vacantStudents[0].count / students[0].count * 100 ) },
                 { borrowerStudentCount: borrowerStudents[0].count },
-                { borrowerStudentPercentage: Math.floor( borrowerStudents[0].count / students[0].count * 100 ) },
+                { borrowerStudentCountPercentage: Math.floor( borrowerStudents[0].count / students[0].count * 100 ) },
                 { dueStudentCount: dueStudents[0].count },
-                { dueStudentPercentage: Math.floor( dueStudents[0].count / students[0].count * 100 ) }
+                { dueStudentCountPercentage: Math.floor( dueStudents[0].count / students[0].count * 100 ) }
             )
 
         } catch(err) {

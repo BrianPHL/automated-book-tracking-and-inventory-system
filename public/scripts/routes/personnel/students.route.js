@@ -1,5 +1,6 @@
 import express from "express";
-import { personnelStudents } from "../../controllers/personnel.controller.js";
+import * as controller from "../../controllers/personnel.controller.js";
 const personnelStudentsRoute = express.Router();
-personnelStudentsRoute.get("/", personnelStudents);
+personnelStudentsRoute.get("/", controller.personnelStudents);
+personnelStudentsRoute.post("/retrieve", controller.personnelStudentsData);
 export default personnelStudentsRoute;
