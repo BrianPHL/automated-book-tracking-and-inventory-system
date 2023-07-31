@@ -345,7 +345,105 @@ export const setDashboardData = async (type, tab) => {
         };
         const setPersonnelStudentsData = async () => {
             return new Promise(async (resolve) => {
+                const main = document.querySelector('main[data-tab="students"]');
+                const setOverviewVacant = async () => {
+                    return new Promise((resolve) => {
+                        const overview = main.querySelector('.overview');
+                        const vacant = overview.querySelector('.vacant');
+                        const vacantCount = vacant.querySelector('h1 > .count');
+                        const vacantHeaderCount = vacant.querySelector('.header > h3 > .count');
+                        const vacantHeaderPercentage = vacant.querySelector('.header > h3 > .percentage');
+                        vacantCount.textContent = overviewData['vacantStudentCount'];
+                        vacantHeaderCount.textContent = overviewData['studentCount'];
+                        vacantHeaderPercentage.textContent = overviewData['vacantStudentCountPercentage'];
+                        resolve();
+                    });
+                };
+                const setOverviewBorrower = async () => {
+                    return new Promise((resolve) => {
+                        const overview = main.querySelector('.overview');
+                        const borrower = overview.querySelector('.borrower');
+                        const borrowerCount = borrower.querySelector('h1 > .count');
+                        const borrowerHeaderCount = borrower.querySelector('.header > h3 > .count');
+                        const borrowerHeaderPercentage = borrower.querySelector('.header > h3 > .percentage');
+                        borrowerCount.textContent = overviewData['borrowerStudentCount'];
+                        borrowerHeaderCount.textContent = overviewData['studentCount'];
+                        borrowerHeaderPercentage.textContent = overviewData['borrowerStudentCountPercentage'];
+                        resolve();
+                    });
+                };
+                const setOverviewDue = async () => {
+                    return new Promise((resolve) => {
+                        const overview = main.querySelector('.overview');
+                        const due = overview.querySelector('.pastDue');
+                        const dueCount = due.querySelector('h1 > .count');
+                        const dueHeaderCount = due.querySelector('.header > h3 > .count');
+                        const dueHeaderPercentage = due.querySelector('.header > h3 > .percentage');
+                        dueCount.textContent = overviewData['dueStudentCount'];
+                        dueHeaderCount.textContent = overviewData['studentCount'];
+                        dueHeaderPercentage.textContent = overviewData['dueStudentCountPercentage'];
+                        resolve();
+                    });
+                };
+                const setTableData = async () => {
+                    return new Promise(async (resolve) => {
+                        const table = main.querySelector('.table');
+                        const setPaginationData = async () => {
+                            return new Promise((resolve) => {
+                                const pagination = table.querySelector('.data > .pagination');
+                                const paginationMax = pagination.querySelector('.maxCount');
+                                paginationMax.textContent = overviewData['studentCount'];
+                                resolve();
+                            });
+                        };
+                        const setEntriesData = async () => {
+                            return new Promise((resolve) => {
+                                const entries = table.querySelector('.data > .entries');
+                                Object.values(tableData).forEach(async (data) => {
+                                    const studentName = `${data['first_name']} ${data['last_name']}`;
+                                    const studentNumber = data['student_number'];
+                                    const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book'];
+                                    const phoneNumber = data['phone_number'];
+                                    const emailAddress = data['email'];
+                                    let studentStatus = ``;
+                                    let visibility = ``;
+                                    data['status'] === 'Vacant'
+                                        ? studentStatus = `<h2>${data['status']}</h2>`
+                                        : studentStatus = `<h2>Unavailable</h2><h3>${data['status']}</h3>`;
+                                    studentStatus.includes('Past Due')
+                                        ? visibility = 'visible'
+                                        : visibility = 'hidden';
+                                    const entry = `
+                                    <div class="entry">
+                                        <i style="visibility: ${visibility};" class="warning fa-solid fa-triangle-exclamation"></i>
+                                        <div class="name"><h2>${studentName}</h2></div>
+                                        <div class="studentNumber"><h2>${studentNumber}</h2></div>
+                                        <div class="status">${studentStatus}</div>
+                                        <div class="borrowedBook"><h2>${borrowedBook}</h2></div>
+                                        <div class="phoneNumber"><h2>${phoneNumber}</h2></div>
+                                        <div class="emailAddress"><h2>${emailAddress}</h2></div>
+                                        <div class="actions">
+                                            <i class="fa-regular fa-message"></i>
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                            <i class="fa-regular fa-xmark"></i>
+                                        </div>
+                                    </div>
+                                    `;
+                                    entries.innerHTML += entry;
+                                });
+                                resolve();
+                            });
+                        };
+                        await setPaginationData();
+                        await setEntriesData();
+                        resolve();
+                    });
+                };
                 await setAccountData();
+                await setOverviewVacant();
+                await setOverviewBorrower();
+                await setOverviewDue();
+                await setTableData();
                 resolve();
             });
         };
