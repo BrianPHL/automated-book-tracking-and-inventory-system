@@ -288,6 +288,8 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                                 const entries = table.querySelector('.data > .entries')
 
+                                entries.innerHTML = ''
+
                                 Object.values(tableData).forEach(async (data) => {
                                     
                                     const title = data['title']
@@ -452,6 +454,8 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                                 const entries = table.querySelector('.data > .entries')
 
+                                entries.innerHTML = ''
+
                                 Object.values(tableData).forEach(async (data) => {
                                     
                                     const title = data['title']
@@ -606,6 +610,8 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                                 const entries = table.querySelector('.data > .entries')
 
+                                entries.innerHTML = ''
+
                                 Object.values(tableData).forEach(async (data) => {
 
                                     const studentName = `${data['first_name']} ${data['last_name']}`
@@ -756,6 +762,8 @@ export const setDashboardData = async (type: string, tab?: string) => {
                             return new Promise((resolve) => {
 
                                 const entries = table.querySelector('.data > .entries')
+
+                                entries.innerHTML = ''
 
                                 Object.values(tableData).forEach(async (data) => {
 

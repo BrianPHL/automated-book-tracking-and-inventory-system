@@ -185,6 +185,7 @@ export const setDashboardData = async (type, tab) => {
                         const setEntriesData = async () => {
                             return new Promise((resolve) => {
                                 const entries = table.querySelector('.data > .entries');
+                                entries.innerHTML = '';
                                 Object.values(tableData).forEach(async (data) => {
                                     const title = data['title'];
                                     const dueDate = data['date_due'] === null ? 'No data' : data['date_due'];
@@ -296,6 +297,7 @@ export const setDashboardData = async (type, tab) => {
                         const setEntriesData = async () => {
                             return new Promise((resolve) => {
                                 const entries = table.querySelector('.data > .entries');
+                                entries.innerHTML = '';
                                 Object.values(tableData).forEach(async (data) => {
                                     const title = data['title'];
                                     const author = data['author'];
@@ -399,6 +401,7 @@ export const setDashboardData = async (type, tab) => {
                         const setEntriesData = async () => {
                             return new Promise((resolve) => {
                                 const entries = table.querySelector('.data > .entries');
+                                entries.innerHTML = '';
                                 Object.values(tableData).forEach(async (data) => {
                                     const studentName = `${data['first_name']} ${data['last_name']}`;
                                     const studentNumber = data['student_number'];
@@ -499,6 +502,7 @@ export const setDashboardData = async (type, tab) => {
                         const setEntriesData = async () => {
                             return new Promise((resolve) => {
                                 const entries = table.querySelector('.data > .entries');
+                                entries.innerHTML = '';
                                 Object.values(tableData).forEach(async (data) => {
                                     const fullName = `${data['first_name']} ${data['last_name']}`;
                                     const username = data['username'];
