@@ -3,7 +3,6 @@ import * as utils from "../../utils/client.utils.js"
 document.addEventListener('DOMContentLoaded', () => {
 
     const bodyElement: HTMLBodyElement = document.querySelector('body')
-    const nav: HTMLElement = bodyElement.querySelector('header > nav')
 
     utils.setPreferredTheme((cbData) => {
 
@@ -27,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const navTabs = () => {
 
+        const nav: HTMLElement = bodyElement.querySelector('header > nav')
         const navTabs: NodeListOf<HTMLDivElement> = nav.querySelectorAll('.tabs > div')
         const mainTabs: NodeListOf<HTMLElement> = bodyElement.querySelectorAll('main')
 
@@ -35,13 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
             tab.addEventListener('click', (event: MouseEvent) => {
                 
                 const navTab = event.target as HTMLElement
-                const mainTab: HTMLDivElement = bodyElement.querySelector(`main[data-tab="${ navTab.classList[0] }"]`)
+                const activeTab: HTMLDivElement = bodyElement.querySelector(`main[data-tab="${ navTab.classList[0] }"]`)
                 
                 navTabs.forEach(tab => { tab.classList.remove('active') })
-                mainTabs.forEach(tab => { tab.style.display = 'none' })
+                mainTabs.forEach(tab => { 
+                
+                    tab.setAttribute('data-active', 'false')
+                    tab.style.display = 'none' 
+                
+                })
                 
                 navTab.classList.add('active')
-                mainTab.style.display = 'grid'
+                activeTab.style.display = 'grid'
+                activeTab.setAttribute('data-active', 'true')
     
                 utils.setDashboardData('personnel', navTab.classList[0])
     
@@ -54,12 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const navActions = () => {
 
+        const nav: HTMLElement = bodyElement.querySelector('header > nav')
         const navActions: HTMLDivElement = nav.querySelector('.actions')
         const navRefresh: HTMLButtonElement = navActions.querySelector('.refresh')
         const navthemeSwitch: HTMLButtonElement = navActions.querySelector('.themeSwitch')
         const navLogout: HTMLButtonElement = navActions.querySelector('.logout')
 
         navRefresh.addEventListener('click', (event) => {
+
+            const activeTab = bodyElement.querySelector('main[data-active="true"]')
 
             event.preventDefault()
 
@@ -76,8 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fa-regular fa-redo"></i>
                     <h2>Refresh</h2>
                 `
-                
-                utils.setDashboardData('personnel')
+
+                utils.setDashboardData('personnel', activeTab.getAttribute('data-tab'))
                 
             }, 2500)
 

@@ -1,7 +1,6 @@
 import * as utils from "../../utils/client.utils.js";
 document.addEventListener('DOMContentLoaded', () => {
     const bodyElement = document.querySelector('body');
-    const nav = bodyElement.querySelector('header > nav');
     utils.setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
@@ -12,27 +11,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 : utils.setDarkTheme());
     });
     const navTabs = () => {
+        const nav = bodyElement.querySelector('header > nav');
         const navTabs = nav.querySelectorAll('.tabs > div');
         const mainTabs = bodyElement.querySelectorAll('main');
         navTabs.forEach(tab => {
             tab.addEventListener('click', (event) => {
                 const navTab = event.target;
-                const mainTab = bodyElement.querySelector(`main[data-tab="${navTab.classList[0]}"]`);
+                const activeTab = bodyElement.querySelector(`main[data-tab="${navTab.classList[0]}"]`);
                 navTabs.forEach(tab => { tab.classList.remove('active'); });
-                mainTabs.forEach(tab => { tab.style.display = 'none'; });
+                mainTabs.forEach(tab => {
+                    tab.setAttribute('data-active', 'false');
+                    tab.style.display = 'none';
+                });
                 navTab.classList.add('active');
-                mainTab.style.display = 'grid';
+                activeTab.style.display = 'grid';
+                activeTab.setAttribute('data-active', 'true');
                 utils.setDashboardData('personnel', navTab.classList[0]);
             });
         });
     };
     navTabs();
     const navActions = () => {
+        const nav = bodyElement.querySelector('header > nav');
         const navActions = nav.querySelector('.actions');
         const navRefresh = navActions.querySelector('.refresh');
         const navthemeSwitch = navActions.querySelector('.themeSwitch');
         const navLogout = navActions.querySelector('.logout');
         navRefresh.addEventListener('click', (event) => {
+            const activeTab = bodyElement.querySelector('main[data-active="true"]');
             event.preventDefault();
             navRefresh.innerHTML =
                 `
@@ -45,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fa-regular fa-redo"></i>
                     <h2>Refresh</h2>
                 `;
-                utils.setDashboardData('personnel');
+                utils.setDashboardData('personnel', activeTab.getAttribute('data-tab'));
             }, 2500);
         });
         navthemeSwitch.addEventListener('click', (event) => {
