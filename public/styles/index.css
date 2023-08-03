@@ -106,7 +106,7 @@ html[data-site=dashboard] i {
 html[data-site=dashboard] > body {
   background-color: var(--background-secondary);
   grid-template-columns: 100%;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto auto 1fr auto;
   display: grid;
   height: 100vh;
 }
@@ -117,7 +117,7 @@ html[data-site=dashboard] > body > header {
 }
 html[data-site=dashboard] > body > header > .heading {
   justify-content: space-between;
-  padding: 2rem 16rem;
+  padding: 1rem 16rem;
   display: flex;
 }
 html[data-site=dashboard] > body > header > .heading > .info {
@@ -127,9 +127,9 @@ html[data-site=dashboard] > body > header > .heading > .info > h2 {
   color: var(--typography-primary);
 }
 html[data-site=dashboard] > body > header > nav {
+  padding: 0rem 16rem;
   justify-content: space-between;
   display: flex;
-  padding: 0 16rem;
 }
 html[data-site=dashboard] > body > header > nav > .tabs {
   display: flex;
@@ -186,91 +186,75 @@ html[data-site=dashboard] > body > header > nav > .actions > div:last-child:hove
 html[data-site=dashboard] > body > header > nav > .actions > div:last-child:hover > i, html[data-site=dashboard] > body > header > nav > .actions > div:last-child:hover h2 {
   color: var(--warning);
 }
-html[data-site=dashboard] > body > main {
-  grid-template-columns: 100%;
-  grid-template-rows: auto 1fr auto;
-  min-height: 0;
-  padding: 2rem 16rem;
-  display: grid;
-  height: 100%;
-  width: 100vw;
-  gap: 2rem;
-}
-html[data-site=dashboard] > body > main > .overview {
+html[data-site=dashboard] > body > .overview {
   grid-template-columns: 1fr 1fr 1fr;
-  grid-row: 1;
   display: grid;
-  gap: 1.5rem;
+  padding: 2rem 16rem;
+  gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .overview > div {
+html[data-site=dashboard] > body > .overview > div {
   flex-direction: column;
   padding: 1.5rem;
   display: flex;
   border: 1px solid var(--background-tertiary);
   gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .overview > div > .header {
+html[data-site=dashboard] > body > .overview > div > .header {
   justify-content: space-between;
   align-items: flex-start;
   display: flex;
 }
-html[data-site=dashboard] > body > main > .overview > div > h1 {
+html[data-site=dashboard] > body > .overview > div > h1 {
   font-size: 1.25rem;
 }
-html[data-site=dashboard] > body > main > .table {
-  flex-direction: column;
-  min-height: 0;
-  grid-row: 2;
-  display: flex;
-  gap: 2rem;
-}
-html[data-site=dashboard] > body > main > .table > .controls {
+html[data-site=dashboard] > body > .controls {
   justify-content: space-between;
+  padding: 0rem 16rem;
   display: flex;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .filter {
+html[data-site=dashboard] > body > .controls > .filter {
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .filter > i {
+html[data-site=dashboard] > body > .controls > .filter > i {
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .filter > .container {
+html[data-site=dashboard] > body > .controls > .filter > .container {
   align-items: center;
   display: flex;
   gap: 0.25rem;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .filter > .container > h2, html[data-site=dashboard] > body > main > .table > .controls > .filter > .container i {
+html[data-site=dashboard] > body > .controls > .filter > .container > h2, html[data-site=dashboard] > body > .controls > .filter > .container i {
   transition: 0.2s all ease;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .filter > .container:hover {
+html[data-site=dashboard] > body > .controls > .filter > .container:hover {
   cursor: pointer;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .filter > .container:hover > h2, html[data-site=dashboard] > body > main > .table > .controls > .filter > .container:hover i {
+html[data-site=dashboard] > body > .controls > .filter > .container:hover > h2, html[data-site=dashboard] > body > .controls > .filter > .container:hover i {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions {
+html[data-site=dashboard] > body > .controls > .actions {
   align-items: center;
   display: flex;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > i {
+html[data-site=dashboard] > body > .controls > .actions > i {
   transition: 0.2s all ease;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > i:hover {
+html[data-site=dashboard] > body > .controls > .actions > i:hover {
   cursor: pointer;
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search {
+html[data-site=dashboard] > body > .controls > .actions > .search {
   position: relative;
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > input {
+html[data-site=dashboard] > body > .controls > .actions > .search > input {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -282,7 +266,7 @@ html[data-site=dashboard] > body > main > .table > .controls > .actions > .searc
   width: 100%;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > label {
+html[data-site=dashboard] > body > .controls > .actions > .search > label {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -296,41 +280,55 @@ html[data-site=dashboard] > body > main > .table > .controls > .actions > .searc
   left: 0.5rem;
   top: 0.8rem;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:hover, html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:focus {
+html[data-site=dashboard] > body > .controls > .actions > .search .input:hover, html[data-site=dashboard] > body > .controls > .actions > .search .input:focus {
   border-color: var(--accent-primary);
   outline: none;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:hover ~ .label, html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:focus ~ .label {
+html[data-site=dashboard] > body > .controls > .actions > .search .input:hover ~ .label, html[data-site=dashboard] > body > .controls > .actions > .search .input:focus ~ .label {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .controls > .actions > .search .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:focus ~ .label,
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .controls > .actions > .search .input:focus ~ .label,
+html[data-site=dashboard] > body > .controls > .actions > .search .input:not(:placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > i[aria-disabled=true] {
+html[data-site=dashboard] > body > .controls > .actions > .search > i[aria-disabled=true] {
   cursor: not-allowed;
   color: var(--typography-secondary);
 }
-html[data-site=dashboard] > body > main > .table > .controls > .actions > .search > i[aria-disabled=false] {
+html[data-site=dashboard] > body > .controls > .actions > .search > i[aria-disabled=false] {
   cursor: pointer;
   color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > main {
+  grid-template-columns: 100%;
+  grid-template-rows: auto 1fr auto;
+  min-height: 0;
+  padding: 2rem 16rem;
+  display: grid;
+  height: 100%;
+  width: 100vw;
+}
+html[data-site=dashboard] > body > main > .table {
+  flex-direction: column;
+  min-height: 0;
+  grid-row: 2;
+  display: flex;
 }
 html[data-site=dashboard] > body > main > .table > .data {
   grid-template-columns: 100%;
   grid-template-rows: auto auto 1fr;
-  min-height: 0;
+  height: 100%;
   display: grid;
   border: 1px solid var(--background-tertiary);
-  height: 100%;
 }
 html[data-site=dashboard] > body > main > .table > .data > .pagination {
   justify-content: space-between;
@@ -462,10 +460,10 @@ html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .
   cursor: pointer;
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > main > footer {
+html[data-site=dashboard] > body > footer {
   justify-content: space-between;
-  grid-row: 3;
   display: flex;
+  padding: 0rem 16rem 2rem 16rem;
 }
 html[data-site=dashboard] > body > main[data-tab=users] > .table > .data > .headers,
 html[data-site=dashboard] > body > main[data-tab=users] .entries > .entry {
@@ -485,11 +483,23 @@ html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
 }
 
 @media only screen and (max-width: 1700px) {
+  html[data-site=dashboard] > body > header > nav > .actions > div > h2 {
+    display: none;
+  }
   html[data-site=dashboard] > body > header > .heading {
     padding: 2rem 8rem;
   }
   html[data-site=dashboard] > body > header > nav {
     padding: 0rem 8rem;
+  }
+  html[data-site=dashboard] > body > .controls {
+    padding: 0rem 8rem;
+  }
+  html[data-site=dashboard] > body > .overview {
+    padding: 2rem 8rem;
+  }
+  html[data-site=dashboard] > body > footer {
+    padding: 0rem 8rem 2rem 8rem;
   }
   html[data-site=dashboard] > body > main {
     padding: 2rem 8rem;
@@ -502,6 +512,15 @@ html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
   html[data-site=dashboard] > body > header > nav {
     padding: 0rem 4rem;
   }
+  html[data-site=dashboard] > body > .controls {
+    padding: 0rem 4rem;
+  }
+  html[data-site=dashboard] > body > .overview {
+    padding: 2rem 4rem;
+  }
+  html[data-site=dashboard] > body > footer {
+    padding: 0rem 4rem 2rem 4rem;
+  }
   html[data-site=dashboard] > body > main {
     padding: 2rem 4rem;
   }
@@ -513,8 +532,51 @@ html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
   html[data-site=dashboard] > body > header > nav {
     padding: 0rem 2rem;
   }
+  html[data-site=dashboard] > body > .controls {
+    padding: 0rem 2rem;
+  }
+  html[data-site=dashboard] > body > .overview {
+    padding: 2rem 2rem;
+  }
+  html[data-site=dashboard] > body > footer {
+    padding: 0rem 2rem 2rem 2rem;
+  }
   html[data-site=dashboard] > body > main {
     padding: 2rem 2rem;
+  }
+}
+@media only screen and (max-width: 800px) {
+  html[data-site=dashboard] > body > header > nav > .tabs > div > h2 {
+    display: none;
+  }
+  html[data-site=dashboard] > body > header > .heading {
+    padding: 1rem 1rem;
+  }
+  html[data-site=dashboard] > body > header > nav {
+    padding: 0rem 1rem;
+  }
+  html[data-site=dashboard] > body > .controls {
+    padding: 0rem 1rem;
+  }
+  html[data-site=dashboard] > body > .overview {
+    flex-direction: column;
+    padding: 1rem 1rem;
+    display: flex;
+  }
+  html[data-site=dashboard] > body > footer {
+    padding: 0rem 1rem 1rem 1rem;
+  }
+  html[data-site=dashboard] > body > main {
+    padding: 1rem 1rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  html[data-site=dashboard] > body > header > .heading {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  html[data-site=dashboard] > body > header > .heading > .info {
+    text-align: left;
   }
 }
 html[data-site=login] h1 {

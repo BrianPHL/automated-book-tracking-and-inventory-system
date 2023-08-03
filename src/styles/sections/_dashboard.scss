@@ -12,20 +12,20 @@ html[data-site="dashboard"] {
 
         background-color: var(--background-secondary);
         grid-template-columns: 100%;
-        grid-template-rows: auto 1fr;
+        grid-template-rows: auto auto auto 1fr auto;
         display: grid;
         height: 100vh;
 
         & > header {
 
             background-color: var(--background-primary);
-            flex-direction: column;  
+            flex-direction: column;
             display: flex;
 
             & > .heading {
 
                 justify-content: space-between;
-                padding: 2rem 16rem;
+                padding: 1rem 16rem;
                 display: flex;
 
                 & > .info {
@@ -40,10 +40,9 @@ html[data-site="dashboard"] {
 
             & > nav {
 
-
+                padding: 0rem 16rem;
                 justify-content: space-between;
                 display: flex;
-                padding: 0 16rem;
 
                 & > .tabs {
 
@@ -135,6 +134,129 @@ html[data-site="dashboard"] {
 
         }
 
+        & > .overview {
+
+            grid-template-columns: 1fr 1fr 1fr;
+            display: grid;
+            padding: 2rem 16rem;
+            gap: 1rem;
+
+            & > div {
+
+                flex-direction: column;
+                padding: 1.5rem;
+                display: flex;
+                border: 1px solid var(--background-tertiary);
+                gap: 1rem;
+                // height: auto;
+
+                & > .header {
+
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    display: flex;
+
+                }
+
+                & > h1 { font-size: 1.25rem; }
+
+            }
+
+        }
+
+        & > .controls {
+
+            justify-content: space-between;
+            padding: 0rem 16rem;
+            display: flex;
+
+            & > .filter {
+
+                align-items: center;
+                display: flex;
+                gap: 0.5rem;
+
+                & > i { color: var(--typography-primary); }
+
+                & > .container {
+
+                    align-items: center;
+                    display: flex;
+                    gap: 0.25rem;
+
+                    & > h2, i { 
+                    
+                        transition: 0.2s all ease;
+                        color: var(--typography-primary); 
+                    
+                    }
+
+                    &:hover {
+
+                        cursor: pointer;
+                        
+                        & > h2, i { color: var(--accent-primary); }
+
+                    }
+
+                }
+
+            }
+
+            & > .actions {
+
+                align-items: center;
+                display: flex;
+                gap: 1rem;
+
+                & > i { 
+                    
+                    transition: 0.2s all ease;
+                    color: var(--typography-primary); 
+                    
+                    &:hover {
+
+                        cursor: pointer;
+                        color: var(--accent-primary)
+
+                    }
+                    
+                }
+                
+                & > .search { 
+
+                    @include input-styles(); 
+                
+                    align-items: center;
+                    display: flex;
+                    gap: 0.5rem;
+
+                    & > i {
+
+                        &[aria-disabled=true] {
+
+                            cursor: not-allowed;
+                            color: var(--typography-secondary); 
+
+                        }
+                        
+                        &[aria-disabled=false] {
+
+                            cursor: pointer;
+                            color: var(--typography-primary); 
+                            
+                        }
+
+                        
+                    
+                    }
+
+                }
+
+            }
+
+        }
+
         & > main {
 
             grid-template-columns: 100%;
@@ -144,36 +266,6 @@ html[data-site="dashboard"] {
             display: grid;
             height: 100%;
             width: 100vw;
-            gap: 2rem;
-
-            & > .overview {
-
-                grid-template-columns: 1fr 1fr 1fr;
-                grid-row: 1;
-                display: grid;
-                gap: 1.5rem;
-
-                & > div {
-
-                    flex-direction: column;
-                    padding: 1.5rem;
-                    display: flex;
-                    border: 1px solid var(--background-tertiary);
-                    gap: 1rem;
-
-                    & > .header {
-
-                        justify-content: space-between;
-                        align-items: flex-start;
-                        display: flex;
-
-                    }
-
-                    & > h1 { font-size: 1.25rem; }
-
-                }
-
-            }
 
             & > .table {
 
@@ -181,108 +273,14 @@ html[data-site="dashboard"] {
                 min-height: 0;
                 grid-row: 2;
                 display: flex;
-                gap: 2rem;
-
-                & > .controls {
-
-                    justify-content: space-between;
-                    display: flex;
-
-                    & > .filter {
-
-                        align-items: center;
-                        display: flex;
-                        gap: 0.5rem;
-
-                        & > i { color: var(--typography-primary); }
-
-                        & > .container {
-
-                            align-items: center;
-                            display: flex;
-                            gap: 0.25rem;
-
-                            & > h2, i { 
-                            
-                                transition: 0.2s all ease;
-                                color: var(--typography-primary); 
-                            
-                            }
-
-                            &:hover {
-
-                                cursor: pointer;
-                                
-                                & > h2, i { color: var(--accent-primary); }
-
-                            }
-
-                        }
-
-                    }
-
-                    & > .actions {
-
-                        align-items: center;
-                        display: flex;
-                        gap: 1rem;
-
-                        & > i { 
-                            
-                            transition: 0.2s all ease;
-                            color: var(--typography-primary); 
-                            
-                            &:hover {
-
-                                cursor: pointer;
-                                color: var(--accent-primary)
-
-                            }
-                            
-                        }
-                        
-                        & > .search { 
-
-                            @include input-styles(); 
-                        
-                            align-items: center;
-                            display: flex;
-                            gap: 0.5rem;
-
-                            & > i {
-
-                                &[aria-disabled=true] {
-
-                                    cursor: not-allowed;
-                                    color: var(--typography-secondary); 
-
-                                }
-                                
-                                &[aria-disabled=false] {
-
-                                    cursor: pointer;
-                                    color: var(--typography-primary); 
-                                    
-                                }
-
-                                
-                            
-                            }
-
-                        }
-
-                    }
-
-                }
 
                 & > .data {
 
                     grid-template-columns: 100%;
                     grid-template-rows: auto auto 1fr;
-                    min-height: 0;
+                    height: 100%;
                     display: grid;
                     border: 1px solid var(--background-tertiary);
-                    height: 100%;
 
                     & > .pagination {
 
@@ -485,13 +483,13 @@ html[data-site="dashboard"] {
                 
             }
 
-            & > footer {
+        }
 
-                justify-content: space-between;
-                grid-row: 3;
-                display: flex;
+        & > footer {
 
-            }
+            justify-content: space-between;
+            display: flex;
+            padding: 0rem 16rem 2rem 16rem;
 
         }
 
@@ -541,93 +539,85 @@ html[data-site="dashboard"] {
 }
 
 @media only screen and (max-width: 1700px) {
-    
+
     html[data-site="dashboard"] {
 
-        & > body
-          > header
-          > .heading { 
-            
-            padding: 2rem 8rem; 
-        
-        }
-
-        & > body
-        > header
-        > nav { 
-          
-          padding: 0rem 8rem; 
-      
-        }
-
-        & > body
-        > main { 
-          
-          padding: 2rem 8rem; 
-      
-        }
+        & > body > header > nav > .actions > div > h2 { display: none; }
+        & > body > header > .heading { padding: 2rem 8rem; }
+        & > body > header > nav { padding: 0rem 8rem; }
+        & > body > .controls { padding: 0rem 8rem; }
+        & > body > .overview { padding: 2rem 8rem; }
+        & > body > footer { padding: 0rem 8rem 2rem 8rem; }
+        & > body > main { padding: 2rem 8rem; }
 
     }
 
 }
 
 @media only screen and (max-width: 1480px) {
-    
+
     html[data-site="dashboard"] {
 
-        & > body
-          > header
-          > .heading { 
-            
-            padding: 2rem 4rem; 
-        
-        }
-
-        & > body
-        > header
-        > nav { 
-          
-          padding: 0rem 4rem; 
-      
-        }
-
-        & > body
-        > main { 
-          
-          padding: 2rem 4rem; 
-      
-        }
+        & > body > header > .heading { padding: 2rem 4rem; }
+        & > body > header > nav { padding: 0rem 4rem; }
+        & > body > .controls { padding: 0rem 4rem; }
+        & > body > .overview { padding: 2rem 4rem; }
+        & > body > footer { padding: 0rem 4rem 2rem 4rem; }
+        & > body > main { padding: 2rem 4rem; }
 
     }
 
 }
 
 @media only screen and (max-width: 1300px) {
-    
+
     html[data-site="dashboard"] {
 
-        & > body
-          > header
-          > .heading { 
-            
-            padding: 2rem 2rem; 
-        
+        & > body > header > .heading { padding: 2rem 2rem; }
+        & > body > header > nav { padding: 0rem 2rem; }
+        & > body > .controls { padding: 0rem 2rem; }
+        & > body > .overview { padding: 2rem 2rem; }
+        & > body > footer { padding: 0rem 2rem 2rem 2rem; }
+        & > body > main { padding: 2rem 2rem; }
+
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+
+    html[data-site="dashboard"] {
+
+        & > body > header > nav > .tabs > div > h2 { display: none; }
+        & > body > header > .heading { padding: 1rem 1rem; }
+        & > body > header > nav { padding: 0rem 1rem; }
+        & > body > .controls { padding: 0rem 1rem; }
+        & > body > .overview {
+
+            flex-direction: column;
+            padding: 1rem 1rem;
+            display: flex;
+
+        }
+        & > body > footer { padding: 0rem 1rem 1rem 1rem; }
+        & > body > main { padding: 1rem 1rem; }
+
+    }
+
+}
+
+@media only screen and (max-width: 640px) {
+
+    html[data-site="dashboard"] {
+
+        & > body > header > .heading {
+
+            flex-direction: column;
+            gap: 2rem;
+
         }
 
-        & > body
-        > header
-        > nav { 
-          
-          padding: 0rem 2rem; 
-      
-        }
-
-        & > body
-        > main { 
-          
-          padding: 2rem 2rem; 
-      
-        }
+        & > body > header > .heading > .info { text-align: left; }
 
     }
 
