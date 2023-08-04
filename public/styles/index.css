@@ -158,7 +158,6 @@ html[data-site=dashboard] > body > header > nav > .tabs > .active {
   border-bottom: 2px solid var(--accent-primary);
 }
 html[data-site=dashboard] > body > header > nav > .tabs > .active > h2, html[data-site=dashboard] > body > header > nav > .tabs > .active i {
-  font-weight: 500;
   color: var(--accent-primary);
 }
 html[data-site=dashboard] > body > header > nav > .actions {
@@ -308,64 +307,52 @@ html[data-site=dashboard] > body > .controls > .actions > .search > i[aria-disab
   cursor: pointer;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > main {
+html[data-site=dashboard] > body > .table {
   grid-template-columns: 100%;
   grid-template-rows: auto 1fr auto;
-  min-height: 0;
+  flex-direction: column;
+  min-height: 50vh;
   padding: 2rem 16rem;
   display: grid;
-  height: 100%;
-  width: 100vw;
 }
-html[data-site=dashboard] > body > main > .table {
-  flex-direction: column;
-  min-height: 0;
-  grid-row: 2;
-  display: flex;
-}
-html[data-site=dashboard] > body > main > .table > .data {
-  grid-template-columns: 100%;
-  grid-template-rows: auto auto 1fr;
-  height: 100%;
-  display: grid;
-  border: 1px solid var(--background-tertiary);
-}
-html[data-site=dashboard] > body > main > .table > .data > .pagination {
+html[data-site=dashboard] > body > .table > .pagination {
   justify-content: space-between;
-  border-bottom: 1px solid var(--background-tertiary);
+  border-right: 1px solid var(--background-tertiary);
+  border-left: 1px solid var(--background-tertiary);
   align-items: center;
+  border-top: 1px solid var(--background-tertiary);
   grid-row: 1;
   display: flex;
   padding: 1rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls {
+html[data-site=dashboard] > body > .table > .pagination > .controls {
   align-items: center;
   display: flex;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div {
+html[data-site=dashboard] > body > .table > .pagination > .controls > div {
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div > i[aria-disabled=true] {
+html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=true] {
   cursor: not-allowed;
   color: var(--typography-secondary);
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div > i[aria-disabled=false] {
+html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=false] {
   transition: 0.2s all ease;
   cursor: pointer;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > div > i[aria-disabled=false]:hover {
+html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=false]:hover {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 {
+html[data-site=dashboard] > body > .table > .pagination > .controls > h3 {
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 > input {
+html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -379,52 +366,74 @@ html[data-site=dashboard] > body > main > .table > .data > .pagination > .contro
   color: var(--typography-primary);
   width: 2rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 > input:hover, html[data-site=dashboard] > body > main > .table > .data > .pagination > .controls > h3 > input:focus {
+html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input:hover, html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input:focus {
   border-color: var(--accent-primary);
   outline: none;
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers {
+html[data-site=dashboard] > body > .table > .data {
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto 1fr;
+  min-height: 0;
+  display: grid;
+  height: 100%;
+  border: 1px solid var(--background-tertiary);
+}
+html[data-site=dashboard] > body > .table > .data > .headers {
   grid-template-rows: 100%;
   border-bottom: 1px solid var(--background-tertiary);
   padding-right: 2rem;
+  border-right: 1px solid var(--background-tertiary);
+  border-left: 1px solid var(--background-tertiary);
   align-items: center;
   grid-row: 2;
   display: grid;
   padding: 1rem;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers > div {
+html[data-site=dashboard] > body > .table > .data > .headers > div {
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers > div > h2, html[data-site=dashboard] > body > main > .table > .data > .headers > div i {
+html[data-site=dashboard] > body > .table > .data > .headers > div > i {
+  transition: 0.2s ease;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > .table > .data > .headers > div > div > h2 {
+  pointer-events: none;
   transition: 0.2s all ease;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers > div:hover {
+html[data-site=dashboard] > body > .table > .data > .headers > div > div > h3 {
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+html[data-site=dashboard] > body > .table > .data > .headers > div:hover {
   cursor: pointer;
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers > div:hover > h2, html[data-site=dashboard] > body > main > .table > .data > .headers > div:hover i {
+html[data-site=dashboard] > body > .table > .data > .headers > div:hover > i {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers > .warning {
+html[data-site=dashboard] > body > .table > .data > .headers > div:hover > div > h2, html[data-site=dashboard] > body > .table > .data > .headers > div:hover h3 {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > .table > .data > .headers > .warning {
   font-size: 1.25rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers > .actions {
+html[data-site=dashboard] > body > .table > .data > .headers > .actions {
   margin-right: 1vw;
 }
-html[data-site=dashboard] > body > main > .table > .data > .headers > .warning, html[data-site=dashboard] > body > main > .table > .data > .headers .actions {
+html[data-site=dashboard] > body > .table > .data > .headers > .warning, html[data-site=dashboard] > body > .table > .data > .headers .actions {
   align-items: center;
   visibility: hidden;
   display: flex;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries {
+html[data-site=dashboard] > body > .table > .data > .entries {
   overflow-y: scroll;
   grid-row: 3;
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries > .entry {
+html[data-site=dashboard] > body > .table > .data > .entries > .entry {
   grid-template-rows: 100%;
   border-bottom: 1px solid var(--background-tertiary);
   align-items: center;
@@ -432,54 +441,51 @@ html[data-site=dashboard] > body > main > .table > .data > .entries > .entry {
   padding: 1rem;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > div {
+html[data-site=dashboard] > body > .table > .data > .entries > .entry > div {
   flex-direction: column;
   display: flex;
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > div > h2, html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > div h3 {
+html[data-site=dashboard] > body > .table > .data > .entries > .entry > div > h2, html[data-site=dashboard] > body > .table > .data > .entries > .entry > div h3 {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .warning {
+html[data-site=dashboard] > body > .table > .data > .entries > .entry > .warning {
   font-size: 1.25rem;
   color: var(--warning);
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .actions {
+html[data-site=dashboard] > body > .table > .data > .entries > .entry > .actions {
   flex-direction: row;
   align-items: center;
   display: flex;
   width: auto;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .actions > i {
+html[data-site=dashboard] > body > .table > .data > .entries > .entry > .actions > i {
   transition: 0.2s all ease;
 }
-html[data-site=dashboard] > body > main > .table > .data > .entries > .entry > .actions > i:hover {
+html[data-site=dashboard] > body > .table > .data > .entries > .entry > .actions > i:hover {
   cursor: pointer;
   color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > .table[data-tab=dashboard] > .data > .headers, html[data-site=dashboard] > body > .table[data-tab=dashboard] .entries > .entry {
+  grid-template-columns: auto repeat(7, minmax(0, 1fr)) auto;
+}
+html[data-site=dashboard] > body > .table[data-tab=users] > .data > .headers, html[data-site=dashboard] > body > .table[data-tab=users] .entries > .entry {
+  grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
+}
+html[data-site=dashboard] > body > .table[data-tab=inventory] > .table > .data > .headers, html[data-site=dashboard] > body > .table[data-tab=inventory] .entries > .entry,
+html[data-site=dashboard] > body .table[data-tab=students] > .table > .data > .headers,
+html[data-site=dashboard] > body .table[data-tab=students] .entries > .entry,
+html[data-site=dashboard] > body .table[data-tab=studentDashboard] > .table > .data > .headers,
+html[data-site=dashboard] > body .table[data-tab=studentDashboard] .entries > .entry {
+  grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
 }
 html[data-site=dashboard] > body > footer {
   justify-content: space-between;
   display: flex;
   padding: 0rem 16rem 2rem 16rem;
-}
-html[data-site=dashboard] > body > main[data-tab=users] > .table > .data > .headers,
-html[data-site=dashboard] > body > main[data-tab=users] .entries > .entry {
-  grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
-}
-html[data-site=dashboard] > body > main[data-tab=inventory] > .table > .data > .headers,
-html[data-site=dashboard] > body > main[data-tab=inventory] .entries > .entry,
-html[data-site=dashboard] > body main[data-tab=students] > .table > .data > .headers,
-html[data-site=dashboard] > body main[data-tab=students] .entries > .entry,
-html[data-site=dashboard] > body main[data-tab=studentDashboard] > .table > .data > .headers,
-html[data-site=dashboard] > body main[data-tab=studentDashboard] .entries > .entry {
-  grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
-}
-html[data-site=dashboard] > body > main[data-tab=dashboard] > .table > .data > .headers,
-html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
-  grid-template-columns: auto repeat(7, minmax(0, 1fr)) auto;
 }
 
 @media only screen and (max-width: 1700px) {
@@ -501,7 +507,7 @@ html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
   html[data-site=dashboard] > body > footer {
     padding: 0rem 8rem 2rem 8rem;
   }
-  html[data-site=dashboard] > body > main {
+  html[data-site=dashboard] > body > .table {
     padding: 2rem 8rem;
   }
 }
@@ -521,7 +527,7 @@ html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
   html[data-site=dashboard] > body > footer {
     padding: 0rem 4rem 2rem 4rem;
   }
-  html[data-site=dashboard] > body > main {
+  html[data-site=dashboard] > body > .table {
     padding: 2rem 4rem;
   }
 }
@@ -541,7 +547,7 @@ html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
   html[data-site=dashboard] > body > footer {
     padding: 0rem 2rem 2rem 2rem;
   }
-  html[data-site=dashboard] > body > main {
+  html[data-site=dashboard] > body > .table {
     padding: 2rem 2rem;
   }
 }
@@ -566,7 +572,7 @@ html[data-site=dashboard] > body > main[data-tab=dashboard] .entries > .entry {
   html[data-site=dashboard] > body > footer {
     padding: 0rem 1rem 1rem 1rem;
   }
-  html[data-site=dashboard] > body > main {
+  html[data-site=dashboard] > body > .table {
     padding: 1rem 1rem;
   }
 }
