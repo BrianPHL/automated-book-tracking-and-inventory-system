@@ -475,10 +475,10 @@ html[data-site=dashboard] > body > .table[data-tab=dashboard] > .data > .headers
 html[data-site=dashboard] > body > .table[data-tab=users] > .data > .headers, html[data-site=dashboard] > body > .table[data-tab=users] .entries > .entry {
   grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
 }
-html[data-site=dashboard] > body > .table[data-tab=inventory] > .table > .data > .headers, html[data-site=dashboard] > body > .table[data-tab=inventory] .entries > .entry,
-html[data-site=dashboard] > body .table[data-tab=students] > .table > .data > .headers,
+html[data-site=dashboard] > body > .table[data-tab=inventory] > .data > .headers, html[data-site=dashboard] > body > .table[data-tab=inventory] .entries > .entry,
+html[data-site=dashboard] > body .table[data-tab=students] > .data > .headers,
 html[data-site=dashboard] > body .table[data-tab=students] .entries > .entry,
-html[data-site=dashboard] > body .table[data-tab=studentDashboard] > .table > .data > .headers,
+html[data-site=dashboard] > body .table[data-tab=studentDashboard] > .data > .headers,
 html[data-site=dashboard] > body .table[data-tab=studentDashboard] .entries > .entry {
   grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
 }

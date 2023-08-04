@@ -505,7 +505,7 @@ html[data-site="dashboard"] {
         }
 
         & > .table[data-tab="users"] {
-
+            
             & > .data > .headers, .entries > .entry { 
                 
                 grid-template-columns: auto repeat(5, minmax(0, 1fr)) auto;
@@ -518,7 +518,8 @@ html[data-site="dashboard"] {
         .table[data-tab="students"], 
         .table[data-tab="studentDashboard"] {
 
-            & > .table > .data > .headers, .entries > .entry {
+            
+            & > .data > .headers, .entries > .entry {
 
                 grid-template-columns: auto repeat(6, minmax(0, 1fr)) auto;
 
