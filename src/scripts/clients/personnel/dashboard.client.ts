@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h2>Refresh</h2>
                 `
 
-                utils.setDashboardData('personnel', activeTab.getAttribute('data-tab'))
+                utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
                 
             }, 2500)
 
