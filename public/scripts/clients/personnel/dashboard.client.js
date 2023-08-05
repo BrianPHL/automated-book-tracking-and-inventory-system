@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const navigationActions = navigation.querySelector('.actions');
         const navigationRefresh = navigationActions.querySelector('.refresh');
         const navigationTheme = navigationActions.querySelector('.themeSwitch');
+        const navigationLogout = navigationActions.querySelector('.logout');
         navigationRefresh.addEventListener('click', (event) => {
             const activeTable = bodyElement.querySelector('.table[data-active="true"]');
             event.preventDefault();
@@ -59,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? utils.setDarkTheme()
                 : utils.setLightTheme();
         });
-        navLogout.addEventListener('click', (event) => {
+        navigationLogout.addEventListener('click', (event) => {
             event.preventDefault();
-            navLogout.innerHTML =
+            navigationLogout.innerHTML =
                 `
                 <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                 <h2>Logging out...</h2>
@@ -72,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' }
                     });
-                    navLogout.innerHTML =
+                    navigationLogout.innerHTML =
                         `
                         <i class="fa-regular fa-right-from-bracket"></i>
                         <h2>Logout</h2>
@@ -88,6 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2500);
         });
     };
-    navActions();
+    navigationActions();
     utils.setDashboardData('personnel');
 });

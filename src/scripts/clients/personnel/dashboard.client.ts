@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const navigationActions: HTMLDivElement = navigation.querySelector('.actions')
         const navigationRefresh: HTMLButtonElement = navigationActions.querySelector('.refresh')
         const navigationTheme: HTMLButtonElement = navigationActions.querySelector('.themeSwitch')
+        const navigationLogout: HTMLButtonElement = navigationActions.querySelector('.logout')
 
         navigationRefresh.addEventListener('click', (event) => {
 
@@ -100,12 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
             : utils.setLightTheme()
 
         })
-        
-        navLogout.addEventListener('click', (event) => {
-    
+
+        navigationLogout.addEventListener('click', (event) => {
+
             event.preventDefault()
     
-            navLogout.innerHTML =
+            navigationLogout.innerHTML =
             `
                 <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                 <h2>Logging out...</h2>
@@ -122,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     })
 
-                    navLogout.innerHTML =
+                    navigationLogout.innerHTML =
                     `
                         <i class="fa-regular fa-right-from-bracket"></i>
                         <h2>Logout</h2>
@@ -141,11 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
     
             }, 2500)
-    
+
         })
 
     }
-    navActions()
+    navigationActions()
 
     utils.setDashboardData('personnel')
 
