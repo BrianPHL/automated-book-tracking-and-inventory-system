@@ -136,49 +136,69 @@ export const setDashboardData = async (type, tab) => {
         };
         const setPersonnelDashboardData = async () => {
             return new Promise(async (resolve) => {
-                const main = document.querySelector('main[data-tab="dashboard"]');
+                const bodyElement = document.querySelector('body');
                 const setOverviewRegistered = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const registeredCount = overview.querySelector('.registered > h1 > .count');
-                        registeredCount.textContent = overviewData['studentCount'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.first');
+                        const overviewCount = overviewData['studentCount'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Registered</h2>
+                            </div>
+                            <h1>${overviewCount} students</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewAvailable = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const available = overview.querySelector('.available');
-                        const availableCount = available.querySelector('h1 > .count');
-                        const availableHeaderCount = available.querySelector('.header > h3 > .count');
-                        const availableHeaderPercentage = available.querySelector('.header > h3 > .percentage');
-                        availableCount.textContent = overviewData['availableBookCount'];
-                        availableHeaderCount.textContent = overviewData['bookCount'];
-                        availableHeaderPercentage.textContent = overviewData['availableBookCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.second');
+                        const overviewCount = overviewData['availableBookCount'];
+                        const overviewHeaderCount = overviewData['bookCount'];
+                        const overviewHeaderCountPercentage = overviewData['availableBookCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Available</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} books</h3>
+                            </div>
+                            <h1>${overviewCount} books</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewUnavailable = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const unavailable = overview.querySelector('.unavailable');
-                        const unavailableCount = unavailable.querySelector('h1 > .count');
-                        const unavailableHeaderCount = unavailable.querySelector('.header > h3 > .count');
-                        const unavailableHeaderPercentage = unavailable.querySelector('.header > h3 > .percentage');
-                        unavailableCount.textContent = overviewData['unavailableBookCount'];
-                        unavailableHeaderCount.textContent = overviewData['bookCount'];
-                        unavailableHeaderPercentage.textContent = overviewData['unavailableBookCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.third');
+                        const overviewCount = overviewData['unavailableBookCount'];
+                        const overviewHeaderCount = overviewData['bookCount'];
+                        const overviewHeaderCountPercentage = overviewData['unavailableBookCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Unavailable</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} books</h3>
+                            </div>
+                            <h1>${overviewCount} books</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setTableData = async () => {
                     return new Promise(async (resolve) => {
-                        const table = main.querySelector('.table');
+                        const table = document.querySelector('.table[data-tab="dashboard"]');
                         const setPaginationData = async () => {
                             return new Promise((resolve) => {
-                                const pagination = table.querySelector('.data > .pagination');
-                                const paginationMax = pagination.querySelector('.maxCount');
-                                paginationMax.textContent = overviewData['bookCount'];
+                                const pagination = table.querySelector('.pagination');
+                                const maxPage = pagination.querySelector('.maxCount');
+                                maxPage.textContent = overviewData['bookCount'];
                                 resolve();
                             });
                         };
