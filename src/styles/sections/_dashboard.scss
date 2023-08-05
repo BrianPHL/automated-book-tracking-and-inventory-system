@@ -25,7 +25,7 @@ html[data-site="dashboard"] {
             & > .heading {
 
                 justify-content: space-between;
-                padding: 1rem 16rem;
+                padding: 2rem 16rem;
                 display: flex;
 
                 & > .info {
@@ -545,7 +545,6 @@ html[data-site="dashboard"] {
 
     html[data-site="dashboard"] {
 
-        & > body > header > nav > .actions > div > h2 { display: none; }
         & > body > header > .heading { padding: 2rem 8rem; }
         & > body > header > nav { padding: 0rem 8rem; }
         & > body > .controls { padding: 0rem 8rem; }
@@ -576,6 +575,7 @@ html[data-site="dashboard"] {
 
     html[data-site="dashboard"] {
 
+        & > body > header > nav > .actions > div > h2 { display: none; }
         & > body > header > .heading { padding: 2rem 2rem; }
         & > body > header > nav { padding: 0rem 2rem; }
         & > body > .controls { padding: 0rem 2rem; }
