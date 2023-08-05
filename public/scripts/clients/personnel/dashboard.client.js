@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const navigation = bodyElement.querySelector('header > nav');
         const navigationActions = navigation.querySelector('.actions');
         const navigationRefresh = navigationActions.querySelector('.refresh');
+        const navigationTheme = navigationActions.querySelector('.themeSwitch');
         navigationRefresh.addEventListener('click', (event) => {
             const activeTable = bodyElement.querySelector('.table[data-active="true"]');
             event.preventDefault();
@@ -51,9 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
             }, 2500);
         });
-        navthemeSwitch.addEventListener('click', (event) => {
-            event.preventDefault();
+        navigationTheme.addEventListener('click', (event) => {
             const currentTheme = localStorage.getItem('theme');
+            event.preventDefault();
             currentTheme === 'light'
                 ? utils.setDarkTheme()
                 : utils.setLightTheme();

@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const navigation: HTMLElement = bodyElement.querySelector('header > nav')
         const navigationActions: HTMLDivElement = navigation.querySelector('.actions')
         const navigationRefresh: HTMLButtonElement = navigationActions.querySelector('.refresh')
+        const navigationTheme: HTMLButtonElement = navigationActions.querySelector('.themeSwitch')
 
         navigationRefresh.addEventListener('click', (event) => {
 
@@ -88,16 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
 
-        navthemeSwitch.addEventListener('click', (event) => {
+        navigationTheme.addEventListener('click', (event) => {
 
-            event.preventDefault()
-    
             const currentTheme = localStorage.getItem('theme')
+            
+            event.preventDefault()
     
             currentTheme === 'light'
             ? utils.setDarkTheme()
             : utils.setLightTheme()
-    
+
         })
         
         navLogout.addEventListener('click', (event) => {
