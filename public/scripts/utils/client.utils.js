@@ -263,54 +263,72 @@ export const setDashboardData = async (type, tab) => {
         };
         const setPersonnelInventoryData = async () => {
             return new Promise(async (resolve) => {
-                const main = document.querySelector('main[data-tab="inventory"]');
+                const bodyElement = document.querySelector('body');
                 const setOverviewAvailable = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const available = overview.querySelector('.available');
-                        const availableCount = available.querySelector('h1 > .count');
-                        const availableHeaderCount = available.querySelector('.header > h3 > .count');
-                        const availableHeaderPercentage = available.querySelector('.header > h3 > .percentage');
-                        availableCount.textContent = overviewData['availableBookCount'];
-                        availableHeaderCount.textContent = overviewData['bookCount'];
-                        availableHeaderPercentage.textContent = overviewData['availableBookCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.first');
+                        const overviewCount = overviewData['availableBookCount'];
+                        const overviewHeaderCount = overviewData['bookCount'];
+                        const overviewHeaderCountPercentage = overviewData['availableBookCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Available</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} books</h3>
+                            </div>
+                            <h1>${overviewCount} books</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewBorrowed = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const borrowed = overview.querySelector('.borrowed');
-                        const borrowedCount = borrowed.querySelector('h1 > .count');
-                        const borrowedHeaderCount = borrowed.querySelector('.header > h3 > .count');
-                        const borrowedHeaderPercentage = borrowed.querySelector('.header > h3 > .percentage');
-                        borrowedCount.textContent = overviewData['borrowedBookCount'];
-                        borrowedHeaderCount.textContent = overviewData['bookCount'];
-                        borrowedHeaderPercentage.textContent = overviewData['borrowedBookCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.second');
+                        const overviewCount = overviewData['borrowedBookCount'];
+                        const overviewHeaderCount = overviewData['bookCount'];
+                        const overviewHeaderCountPercentage = overviewData['borrowedBookCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Borrowed</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} books</h3>
+                            </div>
+                            <h1>${overviewCount} books</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewDue = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const due = overview.querySelector('.pastDue');
-                        const dueCount = due.querySelector('h1 > .count');
-                        const dueHeaderCount = due.querySelector('.header > h3 > .count');
-                        const dueHeaderPercentage = due.querySelector('.header > h3 > .percentage');
-                        dueCount.textContent = overviewData['dueBookCount'];
-                        dueHeaderCount.textContent = overviewData['bookCount'];
-                        dueHeaderPercentage.textContent = overviewData['dueBookCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.third');
+                        const overviewCount = overviewData['dueBookCount'];
+                        const overviewHeaderCount = overviewData['bookCount'];
+                        const overviewHeaderCountPercentage = overviewData['dueBookCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Past Due</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} books</h3>
+                            </div>
+                            <h1>${overviewCount} books</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setTableData = async () => {
                     return new Promise(async (resolve) => {
-                        const table = main.querySelector('.table');
+                        const table = document.querySelector('.table[data-tab="inventory"]');
                         const setPaginationData = async () => {
                             return new Promise((resolve) => {
-                                const pagination = table.querySelector('.data > .pagination');
-                                const paginationMax = pagination.querySelector('.maxCount');
-                                paginationMax.textContent = overviewData['bookCount'];
+                                const pagination = table.querySelector('.pagination');
+                                const maxPage = pagination.querySelector('.maxCount');
+                                maxPage.textContent = overviewData['bookCount'];
                                 resolve();
                             });
                         };
