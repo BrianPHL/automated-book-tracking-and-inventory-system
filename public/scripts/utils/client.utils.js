@@ -1,5 +1,4 @@
 import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
-// * export function status: complete
 export const checkFormInputs = async (form) => {
     const formInputs = form.querySelectorAll('input');
     const formSubmit = form.querySelector('button[type="submit"]');
@@ -11,7 +10,6 @@ export const checkFormInputs = async (form) => {
     }
     formSubmit.disabled = false;
 };
-// * export function status: complete
 export const errorPrompt = async (data) => {
     const params = new URLSearchParams();
     for (let [key, value] of Object.entries(data)) {
@@ -19,7 +17,6 @@ export const errorPrompt = async (data) => {
     }
     return params;
 };
-// * export function status: complete
 export const manipulateURL = async (data) => {
     const params = new URLSearchParams();
     for (let [key, value] of Object.entries(data)) {
@@ -28,7 +25,6 @@ export const manipulateURL = async (data) => {
     const queryString = params.toString();
     window.history.pushState(data, document.title, `?${queryString}`);
 };
-// * export function status: complete
 export const sanitizeURL = async () => {
     const href = window.location.href;
     if (href.split("?").length > 1) {
@@ -36,17 +32,14 @@ export const sanitizeURL = async () => {
         history.pushState({}, document.title, previousUrl);
     }
 };
-// * export function status: complete
 export const getPreferredTheme = () => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
 };
-// * export function status: complete
 export const setPreferredTheme = (cb) => {
     const savedTheme = localStorage.getItem('theme');
     const preferredTheme = getPreferredTheme();
     cb({ savedTheme: savedTheme, preferredTheme: preferredTheme });
 };
-// * export function status: complete
 export const setLightTheme = () => {
     const htmlElement = document.querySelector('html');
     const bodyElement = htmlElement.querySelector('body');
@@ -64,7 +57,6 @@ export const setLightTheme = () => {
     htmlElement.setAttribute('data-theme', 'light');
     localStorage.setItem('theme', 'light');
 };
-// * export function status: complete
 export const setDarkTheme = () => {
     const htmlElement = document.querySelector('html');
     const bodyElement = htmlElement.querySelector('body');
@@ -82,7 +74,6 @@ export const setDarkTheme = () => {
     htmlElement.setAttribute('data-theme', 'dark');
     localStorage.setItem('theme', 'dark');
 };
-// * export function status: complete
 export const getURLData = async (url, identifier) => {
     return new URLSearchParams(url).get(identifier);
 };

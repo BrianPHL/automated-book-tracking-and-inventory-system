@@ -1,6 +1,5 @@
 import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
-// * export function status: complete
 export const personnelLogin = async (req, res) => {
     try {
         const memoryCookie = req.cookies['pMemory'];
@@ -20,7 +19,6 @@ export const personnelLogin = async (req, res) => {
         });
     }
 };
-// * export function status: complete
 export const personnelLoginAuth = async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -74,7 +72,6 @@ export const personnelLoginAuth = async (req, res) => {
         });
     }
 };
-// * export function status: complete
 export const personnelDashboard = async (req, res) => {
     try {
         const accessCookie = req.cookies['pAccess'];
@@ -115,7 +112,6 @@ export const personnelDashboardData = async (req, res) => {
         throw err;
     }
 };
-// * export function status: complete
 export const personnelInventory = async (req, res) => {
     try {
         const accessCookie = req.cookies['pAccess'];
@@ -156,7 +152,6 @@ export const personnelInventoryData = async (req, res) => {
         throw err;
     }
 };
-// * export function status: complete
 export const personnelStudents = async (req, res) => {
     try {
         const accessCookie = req.cookies['pAccess'];
@@ -197,7 +192,6 @@ export const personnelStudentsData = async (req, res) => {
         throw err;
     }
 };
-// * export function status: complete
 export const personnelUsers = async (req, res) => {
     try {
         const accessCookie = req.cookies['pAccess'];
@@ -238,7 +232,6 @@ export const personnelUsersData = async (req, res) => {
         throw err;
     }
 };
-// * export function status: complete
 export const personnelLogout = async (req, res) => {
     try {
         const dataCookie = req.cookies['pData'];
@@ -262,7 +255,6 @@ export const personnelLogout = async (req, res) => {
         });
     }
 };
-// TODO: export function status: partial, could be improved.
 export const error = async (req, res) => {
     res.sendFile("error.html", { root: "public/views" });
 };

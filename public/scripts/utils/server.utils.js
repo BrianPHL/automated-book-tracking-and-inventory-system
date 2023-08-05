@@ -1,5 +1,4 @@
 import { pool } from "../app.js";
-// TODO: export function status: partial, could be improved.
 export const executeDatabaseQuery = async (query, argument, callback) => {
     try {
         if (!callback) {
@@ -15,11 +14,9 @@ export const executeDatabaseQuery = async (query, argument, callback) => {
         throw err;
     }
 };
-// * export function status: complete
 export const isQueryError = async (result) => {
     return result && result.constructor && result.constructor.name === "QueryError";
 };
-// * export function status: complete
 export const errorPrompt = async (data) => {
     const params = new URLSearchParams();
     for (let [key, value] of Object.entries(data)) {
@@ -27,17 +24,14 @@ export const errorPrompt = async (data) => {
     }
     return params;
 };
-// TODO: export function status: partial, could be improved. (Let the controller handle the response. Only return the string; It might be feasible to merge this with errorPromptURL())
 export const errorPromptRedirect = async (res, data) => {
     const params = await errorPrompt(data);
     res.redirect(`/error?${params.toString()}`);
 };
-// * export function status: complete
 export const errorPromptURL = async (res, data) => {
     const params = await errorPrompt(data);
     return params.toString();
 };
-// TODO: export function status: partial, could be improved.
 export const validateAccessToken = async (data) => {
     try {
         const result = await executeDatabaseQuery(`SELECT access_token FROM ${data.table} WHERE access_token = ?`, [data.token]);
@@ -48,7 +42,6 @@ export const validateAccessToken = async (data) => {
         throw err;
     }
 };
-// * export function status: complete
 export const addAccessToken = async (data) => {
     try {
         const result = await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`, [data.token, data.identifier, data.password]);
@@ -59,7 +52,6 @@ export const addAccessToken = async (data) => {
         throw err;
     }
 };
-// * export function status: complete
 export const removeAccessToken = async (data) => {
     try {
         const result = await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = NULL WHERE access_token = ?`, [data.token]);

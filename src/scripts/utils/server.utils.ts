@@ -2,7 +2,6 @@ import { pool } from "../app.js";
 import { Response } from "express";
 import { UUID } from "crypto";
 
-// TODO: export function status: partial, could be improved.
 export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
     try {
@@ -25,14 +24,12 @@ export const executeDatabaseQuery = async (query: string, argument?: string | st
     
 }
 
-// * export function status: complete
 export const isQueryError = async (result: any) => { 
     
     return result && result.constructor && result.constructor.name === "QueryError" 
 
 }
 
-// * export function status: complete
 export const errorPrompt = async (data: object): Promise<URLSearchParams> => {
 
     const params = new URLSearchParams()
@@ -43,7 +40,6 @@ export const errorPrompt = async (data: object): Promise<URLSearchParams> => {
 
 }
 
-// TODO: export function status: partial, could be improved. (Let the controller handle the response. Only return the string; It might be feasible to merge this with errorPromptURL())
 export const errorPromptRedirect = async (res: Response, data: {status: number, title: string, body: string}): Promise<void> => {
 
     const params = await errorPrompt(data)
@@ -52,7 +48,6 @@ export const errorPromptRedirect = async (res: Response, data: {status: number, 
 
 }
 
-// * export function status: complete
 export const errorPromptURL = async (res: Response, data: { status: number, title: string, body: string }): Promise<string> => {
 
     const params = await errorPrompt(data)
@@ -61,7 +56,6 @@ export const errorPromptURL = async (res: Response, data: { status: number, titl
 
 }
 
-// TODO: export function status: partial, could be improved.
 export const validateAccessToken = async (data: { table: string, token: UUID }): Promise<boolean> => {
 
     try {
@@ -82,7 +76,6 @@ export const validateAccessToken = async (data: { table: string, token: UUID }):
 
 }
 
-// * export function status: complete
 export const addAccessToken = async (data: { table: string, column: string, token: UUID, identifier: string, password: string }): Promise<boolean> => {
 
     try {
@@ -103,7 +96,6 @@ export const addAccessToken = async (data: { table: string, column: string, toke
 
 }
 
-// * export function status: complete
 export const removeAccessToken = async (data: { table: string, token: UUID }): Promise<boolean> => {
 
     try {

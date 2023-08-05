@@ -1,6 +1,5 @@
 import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js"
 
-// * export function status: complete
 export const checkFormInputs = async (form: HTMLFormElement) => {
 
     const formInputs: NodeListOf<HTMLInputElement> = form.querySelectorAll('input');
@@ -21,7 +20,6 @@ export const checkFormInputs = async (form: HTMLFormElement) => {
 
 }
 
-// * export function status: complete
 export const errorPrompt = async (data: object): Promise<URLSearchParams> => {
 
     const params = new URLSearchParams()
@@ -32,7 +30,6 @@ export const errorPrompt = async (data: object): Promise<URLSearchParams> => {
 
 }
 
-// * export function status: complete
 export const manipulateURL = async (data: object) => {
 
     const params = new URLSearchParams()
@@ -45,7 +42,6 @@ export const manipulateURL = async (data: object) => {
 
 }
 
-// * export function status: complete
 export const sanitizeURL = async () => {
 
     const href = window.location.href
@@ -59,14 +55,12 @@ export const sanitizeURL = async () => {
 
 }
 
-// * export function status: complete
 export const getPreferredTheme = (): boolean => {
 
     return window.matchMedia('(prefers-color-scheme: dark)').matches
 
 }
 
-// * export function status: complete
 export const setPreferredTheme = (cb: (cbData: { savedTheme?: string, preferredTheme: boolean }) => void): void => {
 
     const savedTheme: string = localStorage.getItem('theme')
@@ -76,7 +70,6 @@ export const setPreferredTheme = (cb: (cbData: { savedTheme?: string, preferredT
 
 }
 
-// * export function status: complete
 export const setLightTheme = (): void => {
 
     const htmlElement: HTMLElement = document.querySelector('html')
@@ -103,7 +96,6 @@ export const setLightTheme = (): void => {
 
 }
 
-// * export function status: complete
 export const setDarkTheme = () => {
 
     const htmlElement: HTMLElement = document.querySelector('html')
@@ -129,7 +121,6 @@ export const setDarkTheme = () => {
 
 }
 
-// * export function status: complete
 export const getURLData = async (url: string, identifier: string): Promise<string> => {
 
     return new URLSearchParams(url).get(identifier)

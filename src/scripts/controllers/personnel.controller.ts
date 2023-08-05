@@ -3,7 +3,6 @@ import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 import { UUID } from "crypto";
 
-// * export function status: complete
 export const personnelLogin = async (req: Request, res: Response): Promise<void> => {
     
     try {
@@ -30,7 +29,6 @@ export const personnelLogin = async (req: Request, res: Response): Promise<void>
 
 }
 
-// * export function status: complete
 export const personnelLoginAuth = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -94,7 +92,6 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 }
 
-// * export function status: complete
 export const personnelDashboard = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -156,7 +153,6 @@ export const personnelDashboardData = async (req: Request, res: Response): Promi
 
 }
 
-// * export function status: complete
 export const personnelInventory = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -218,7 +214,6 @@ export const personnelInventoryData = async (req: Request, res: Response): Promi
 
 }
 
-// * export function status: complete
 export const personnelStudents = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -280,7 +275,6 @@ export const personnelStudentsData = async (req: Request, res: Response): Promis
 
 }
 
-// * export function status: complete
 export const personnelUsers = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -342,8 +336,6 @@ export const personnelUsersData = async (req: Request, res: Response): Promise<v
 
 }
 
-
-// * export function status: complete
 export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
     
     try {
@@ -374,7 +366,6 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
 
 }
 
-// TODO: export function status: partial, could be improved.
 export const error = async (req: Request, res: Response): Promise<void> => {
 
     res.sendFile("error.html", { root: "public/views" })
