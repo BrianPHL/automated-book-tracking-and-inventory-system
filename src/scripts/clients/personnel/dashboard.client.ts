@@ -56,21 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     navigationTabs()
 
-    const navActions = () => {
+    const navigationActions = () => {
 
-        const nav: HTMLElement = bodyElement.querySelector('header > nav')
-        const navActions: HTMLDivElement = nav.querySelector('.actions')
-        const navRefresh: HTMLButtonElement = navActions.querySelector('.refresh')
-        const navthemeSwitch: HTMLButtonElement = navActions.querySelector('.themeSwitch')
-        const navLogout: HTMLButtonElement = navActions.querySelector('.logout')
+        const navigation: HTMLElement = bodyElement.querySelector('header > nav')
+        const navigationActions: HTMLDivElement = navigation.querySelector('.actions')
+        const navigationRefresh: HTMLButtonElement = navigationActions.querySelector('.refresh')
 
-        navRefresh.addEventListener('click', (event) => {
+        navigationRefresh.addEventListener('click', (event) => {
 
-            const activeTab = bodyElement.querySelector('main[data-active="true"]')
-
+            const activeTable = bodyElement.querySelector('.table[data-active="true"]')
+            
             event.preventDefault()
 
-            navRefresh.innerHTML =
+            navigationRefresh.innerHTML =
             `
                 <i class="fa-regular fa-redo fa-spin-pulse"></i>
                 <h2>Refreshing...</h2>
@@ -78,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(async () => {
 
-                navRefresh.innerHTML =
+                navigationRefresh.innerHTML =
                 `
                     <i class="fa-regular fa-redo"></i>
                     <h2>Refresh</h2>

@@ -30,19 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     navigationTabs();
+    const navigationActions = () => {
+        const navigation = bodyElement.querySelector('header > nav');
+        const navigationActions = navigation.querySelector('.actions');
+        const navigationRefresh = navigationActions.querySelector('.refresh');
+        navigationRefresh.addEventListener('click', (event) => {
+            const activeTable = bodyElement.querySelector('.table[data-active="true"]');
             event.preventDefault();
-            navRefresh.innerHTML =
+            navigationRefresh.innerHTML =
                 `
                 <i class="fa-regular fa-redo fa-spin-pulse"></i>
                 <h2>Refreshing...</h2>
             `;
             setTimeout(async () => {
-                navRefresh.innerHTML =
+                navigationRefresh.innerHTML =
                     `
                     <i class="fa-regular fa-redo"></i>
                     <h2>Refresh</h2>
                 `;
-                utils.setDashboardData('personnel', activeTab.getAttribute('data-tab'));
+                utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
             }, 2500);
         });
         navthemeSwitch.addEventListener('click', (event) => {
