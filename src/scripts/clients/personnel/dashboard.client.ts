@@ -24,39 +24,37 @@ document.addEventListener('DOMContentLoaded', () => {
         
     })
 
-    const navTabs = () => {
+    const navigationTabs = () => {
 
-        const nav: HTMLElement = bodyElement.querySelector('header > nav')
-        const navTabs: NodeListOf<HTMLDivElement> = nav.querySelectorAll('.tabs > div')
-        const mainTabs: NodeListOf<HTMLElement> = bodyElement.querySelectorAll('main')
+        const tables: NodeListOf<HTMLDivElement> = bodyElement.querySelectorAll('.table')
+        const navigation: HTMLElement = bodyElement.querySelector('header > nav')
+        const navigationTabs: NodeListOf<HTMLDivElement> = navigation.querySelectorAll('.tabs > div')
 
-        navTabs.forEach(tab => {
+        navigationTabs.forEach(navigationTab => {
 
-            tab.addEventListener('click', (event: MouseEvent) => {
-                
-                const navTab = event.target as HTMLElement
-                const activeTab: HTMLDivElement = bodyElement.querySelector(`main[data-tab="${ navTab.classList[0] }"]`)
-                
-                navTabs.forEach(tab => { tab.classList.remove('active') })
-                mainTabs.forEach(tab => { 
-                
-                    tab.setAttribute('data-active', 'false')
-                    tab.style.display = 'none' 
-                
+            navigationTab.addEventListener('click', (event: MouseEvent) => {
+
+                const targetTable = event.target as HTMLElement
+                const activeTable: HTMLDivElement = bodyElement.querySelector(`.table[data-tab="${ targetTable.classList[0] }"]`)
+
+                navigationTabs.forEach(navigationTab => { navigationTab.classList.remove('active') })
+                navigationTab.classList.add('active')
+
+                tables.forEach(table => {
+
+                    table.setAttribute('data-active', 'false')
+                    table.style.display = 'none'
+
                 })
-                
-                navTab.classList.add('active')
-                activeTab.style.display = 'grid'
-                activeTab.setAttribute('data-active', 'true')
-    
-                utils.setDashboardData('personnel', navTab.classList[0])
-    
+                activeTable.style.display = 'grid'
+                activeTable.setAttribute('data-active', 'true')
+
             })
-    
+
         })
 
     }
-    navTabs()
+    navigationTabs()
 
     const navActions = () => {
 

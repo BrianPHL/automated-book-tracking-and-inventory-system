@@ -10,35 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? utils.setLightTheme()
                 : utils.setDarkTheme());
     });
-    const navTabs = () => {
-        const nav = bodyElement.querySelector('header > nav');
-        const navTabs = nav.querySelectorAll('.tabs > div');
-        const mainTabs = bodyElement.querySelectorAll('main');
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', (event) => {
-                const navTab = event.target;
-                const activeTab = bodyElement.querySelector(`main[data-tab="${navTab.classList[0]}"]`);
-                navTabs.forEach(tab => { tab.classList.remove('active'); });
-                mainTabs.forEach(tab => {
-                    tab.setAttribute('data-active', 'false');
-                    tab.style.display = 'none';
+    const navigationTabs = () => {
+        const tables = bodyElement.querySelectorAll('.table');
+        const navigation = bodyElement.querySelector('header > nav');
+        const navigationTabs = navigation.querySelectorAll('.tabs > div');
+        navigationTabs.forEach(navigationTab => {
+            navigationTab.addEventListener('click', (event) => {
+                const targetTable = event.target;
+                const activeTable = bodyElement.querySelector(`.table[data-tab="${targetTable.classList[0]}"]`);
+                navigationTabs.forEach(navigationTab => { navigationTab.classList.remove('active'); });
+                navigationTab.classList.add('active');
+                tables.forEach(table => {
+                    table.setAttribute('data-active', 'false');
+                    table.style.display = 'none';
                 });
-                navTab.classList.add('active');
-                activeTab.style.display = 'grid';
-                activeTab.setAttribute('data-active', 'true');
-                utils.setDashboardData('personnel', navTab.classList[0]);
+                activeTable.style.display = 'grid';
+                activeTable.setAttribute('data-active', 'true');
             });
         });
     };
-    navTabs();
-    const navActions = () => {
-        const nav = bodyElement.querySelector('header > nav');
-        const navActions = nav.querySelector('.actions');
-        const navRefresh = navActions.querySelector('.refresh');
-        const navthemeSwitch = navActions.querySelector('.themeSwitch');
-        const navLogout = navActions.querySelector('.logout');
-        navRefresh.addEventListener('click', (event) => {
-            const activeTab = bodyElement.querySelector('main[data-active="true"]');
+    navigationTabs();
             event.preventDefault();
             navRefresh.innerHTML =
                 `
