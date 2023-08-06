@@ -498,50 +498,69 @@ export const setDashboardData = async (type, tab) => {
         };
         const setPersonnelUsersData = async () => {
             return new Promise(async (resolve) => {
-                const main = document.querySelector('main[data-tab="users"]');
+                const bodyElement = document.querySelector('body');
                 const setOverviewPersonnel = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const personnel = overview.querySelector('.personnel');
-                        const personnelCount = personnel.querySelector('h1 > .count');
-                        personnelCount.textContent = overviewData['personnelCount'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.first');
+                        const overviewCount = overviewData['personnelCount'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Personnel</h2>
+                            </div>
+                            <h1>${overviewCount} personnel</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewIT = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const it = overview.querySelector('.it');
-                        const itCount = it.querySelector('h1 > .count');
-                        const itHeaderCount = it.querySelector('.header > h3 > .count');
-                        const itHeaderPercentage = it.querySelector('.header > h3 > .percentage');
-                        itCount.textContent = overviewData['itPersonnelCount'];
-                        itHeaderCount.textContent = overviewData['personnelCount'];
-                        itHeaderPercentage.textContent = overviewData['itPersonnelCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.second');
+                        const overviewCount = overviewData['itPersonnelCount'];
+                        const overviewHeaderCount = overviewData['personnelCount'];
+                        const overviewHeaderCountPercentage = overviewData['itPersonnelCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>IT</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} personnel</h3>
+                            </div>
+                            <h1>${overviewCount} personnel</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewLibrarian = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const librarian = overview.querySelector('.librarian');
-                        const librarianCount = librarian.querySelector('h1 > .count');
-                        const librarianHeaderCount = librarian.querySelector('.header > h3 > .count');
-                        const librarianHeaderPercentage = librarian.querySelector('.header > h3 > .percentage');
-                        librarianCount.textContent = overviewData['librarianPersonnelCount'];
-                        librarianHeaderCount.textContent = overviewData['personnelCount'];
-                        librarianHeaderPercentage.textContent = overviewData['librarianPersonnelCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.third');
+                        const overviewCount = overviewData['librarianPersonnelCount'];
+                        const overviewHeaderCount = overviewData['personnelCount'];
+                        const overviewHeaderCountPercentage = overviewData['librarianPersonnelCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Librarian</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} personnel</h3>
+                            </div>
+                            <h1>${overviewCount} personnel</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setTableData = async () => {
                     return new Promise(async (resolve) => {
-                        const table = main.querySelector('.table');
+                        const table = document.querySelector('.table[data-tab="users"]');
                         const setPaginationData = async () => {
                             return new Promise((resolve) => {
-                                const pagination = table.querySelector('.data > .pagination');
-                                const paginationMax = pagination.querySelector('.maxCount');
-                                paginationMax.textContent = overviewData['personnelCount'];
+                                const pagination = table.querySelector('.pagination');
+                                const maxPage = pagination.querySelector('.maxCount');
+                                maxPage.textContent = overviewData['personnelCount'];
                                 resolve();
                             });
                         };
@@ -581,7 +600,6 @@ export const setDashboardData = async (type, tab) => {
                         resolve();
                     });
                 };
-                await setAccountData();
                 await setOverviewPersonnel();
                 await setOverviewIT();
                 await setOverviewLibrarian();

@@ -735,20 +735,28 @@ export const setDashboardData = async (type: string, tab?: string) => {
         }
 
         const setPersonnelUsersData = async (): Promise<void> => {
-
+            
             return new Promise(async (resolve) => {
 
-                const main = document.querySelector('main[data-tab="users"]')
+                const bodyElement: HTMLBodyElement = document.querySelector('body')
                 const setOverviewPersonnel = async (): Promise<void> => {
 
                     return new Promise((resolve) => {
+                        
+                        const overview: HTMLBodyElement = bodyElement.querySelector('.overview')
+                        const modal: HTMLDivElement = overview.querySelector('.first')
+                        const overviewCount: number = overviewData['personnelCount']
+                        const modalOverview: string =
+                        `
+                            <div class="header">
+                                <h2>Personnel</h2>
+                            </div>
+                            <h1>${ overviewCount } personnel</h1>
+                        `
 
-                        const overview = main.querySelector('.overview')
-                        const personnel = overview.querySelector('.personnel')
-                        const personnelCount = personnel.querySelector('h1 > .count')
-        
-                        personnelCount.textContent = overviewData['personnelCount']
-
+                        modal.innerHTML = ''
+                        modal.innerHTML = modalOverview
+                        
                         resolve()
 
                     })
@@ -758,15 +766,22 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                     return new Promise((resolve) => {
 
-                        const overview = main.querySelector('.overview')
-                        const it = overview.querySelector('.it')
-                        const itCount = it.querySelector('h1 > .count')
-                        const itHeaderCount = it.querySelector('.header > h3 > .count')
-                        const itHeaderPercentage = it.querySelector('.header > h3 > .percentage')
-        
-                        itCount.textContent = overviewData['itPersonnelCount']
-                        itHeaderCount.textContent = overviewData['personnelCount']
-                        itHeaderPercentage.textContent = overviewData['itPersonnelCountPercentage']
+                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                        const modal: HTMLDivElement = overview.querySelector('.second')
+                        const overviewCount: number = overviewData['itPersonnelCount']
+                        const overviewHeaderCount: number = overviewData['personnelCount']
+                        const overviewHeaderCountPercentage: number = overviewData['itPersonnelCountPercentage']
+                        const modalOverview: string = 
+                        `
+                            <div class="header">
+                                <h2>IT</h2>
+                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
+                            </div>
+                            <h1>${ overviewCount } personnel</h1>
+                        `
+
+                        modal.innerHTML = ''
+                        modal.innerHTML = modalOverview
 
                         resolve()
 
@@ -777,15 +792,22 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                     return new Promise((resolve) => {
 
-                        const overview = main.querySelector('.overview')
-                        const librarian = overview.querySelector('.librarian')
-                        const librarianCount = librarian.querySelector('h1 > .count')
-                        const librarianHeaderCount = librarian.querySelector('.header > h3 > .count')
-                        const librarianHeaderPercentage = librarian.querySelector('.header > h3 > .percentage')
-        
-                        librarianCount.textContent = overviewData['librarianPersonnelCount']
-                        librarianHeaderCount.textContent = overviewData['personnelCount']
-                        librarianHeaderPercentage.textContent = overviewData['librarianPersonnelCountPercentage']
+                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                        const modal: HTMLDivElement = overview.querySelector('.third')
+                        const overviewCount: number = overviewData['librarianPersonnelCount']
+                        const overviewHeaderCount: number = overviewData['personnelCount']
+                        const overviewHeaderCountPercentage: number = overviewData['librarianPersonnelCountPercentage']
+                        const modalOverview: string = 
+                        `
+                            <div class="header">
+                                <h2>Librarian</h2>
+                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
+                            </div>
+                            <h1>${ overviewCount } personnel</h1>
+                        `
+
+                        modal.innerHTML = ''
+                        modal.innerHTML = modalOverview
 
                         resolve()
 
@@ -796,16 +818,16 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                     return new Promise(async (resolve) => {
 
-                        const table = main.querySelector('.table')
+                        const table: HTMLDivElement = document.querySelector('.table[data-tab="users"]')
 
                         const setPaginationData = async (): Promise<void> => {
 
                             return new Promise((resolve) => {
 
-                                const pagination = table.querySelector('.data > .pagination')
-                                const paginationMax = pagination.querySelector('.maxCount')
+                                const pagination = table.querySelector('.pagination')
+                                const maxPage = pagination.querySelector('.maxCount')
 
-                                paginationMax.textContent = overviewData['personnelCount']
+                                maxPage.textContent = overviewData['personnelCount']
 
                                 resolve()
 
@@ -815,13 +837,13 @@ export const setDashboardData = async (type: string, tab?: string) => {
                         const setEntriesData = async (): Promise<void> => {
                             
                             return new Promise((resolve) => {
-
+                
                                 const entries = table.querySelector('.data > .entries')
 
                                 entries.innerHTML = ''
-
+                
                                 Object.values(tableData).forEach(async (data) => {
-
+                
                                     const fullName = `${data['first_name']} ${data['last_name']}`
                                     const username = data['username']
                                     const role = data['role']
@@ -846,15 +868,15 @@ export const setDashboardData = async (type: string, tab?: string) => {
                                         </div>
                                     </div>
                                     `
-
+                
                                     entries.innerHTML += entry
-        
+                        
                                 })
-
+                
                                 resolve()
-
+                
                             })
-
+                
                         }
 
                         await setPaginationData()
@@ -866,7 +888,6 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                 }
 
-                await setAccountData()
                 await setOverviewPersonnel()
                 await setOverviewIT()
                 await setOverviewLibrarian()
