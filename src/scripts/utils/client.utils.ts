@@ -561,20 +561,27 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
             return new Promise(async (resolve) => {
 
-                const main = document.querySelector('main[data-tab="students"]')
+                const bodyElement: HTMLBodyElement = document.querySelector('body')
                 const setOverviewVacant = async (): Promise<void> => {
 
                     return new Promise((resolve) => {
 
-                        const overview = main.querySelector('.overview')
-                        const vacant = overview.querySelector('.vacant')
-                        const vacantCount = vacant.querySelector('h1 > .count')
-                        const vacantHeaderCount = vacant.querySelector('.header > h3 > .count')
-                        const vacantHeaderPercentage = vacant.querySelector('.header > h3 > .percentage')
-        
-                        vacantCount.textContent = overviewData['vacantStudentCount']
-                        vacantHeaderCount.textContent = overviewData['studentCount']
-                        vacantHeaderPercentage.textContent = overviewData['vacantStudentCountPercentage']
+                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                        const modal: HTMLDivElement = overview.querySelector('.first')
+                        const overviewCount: number = overviewData['vacantStudentCount']
+                        const overviewHeaderCount: number = overviewData['studentCount']
+                        const overviewHeaderCountPercentage: number = overviewData['vacantStudentCountPercentage']
+                        const modalOverview: string = 
+                        `
+                            <div class="header">
+                                <h2>Vacant</h2>
+                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                            </div>
+                            <h1>${ overviewCount } students</h1>
+                        `
+
+                        modal.innerHTML = ''
+                        modal.innerHTML = modalOverview
 
                         resolve()
 
@@ -582,18 +589,25 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                 }
                 const setOverviewBorrower = async (): Promise<void> => {
-                    
+
                     return new Promise((resolve) => {
 
-                        const overview = main.querySelector('.overview')
-                        const borrower = overview.querySelector('.borrower')
-                        const borrowerCount = borrower.querySelector('h1 > .count')
-                        const borrowerHeaderCount = borrower.querySelector('.header > h3 > .count')
-                        const borrowerHeaderPercentage = borrower.querySelector('.header > h3 > .percentage')
-        
-                        borrowerCount.textContent = overviewData['borrowerStudentCount']
-                        borrowerHeaderCount.textContent = overviewData['studentCount']
-                        borrowerHeaderPercentage.textContent = overviewData['borrowerStudentCountPercentage']
+                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                        const modal: HTMLDivElement = overview.querySelector('.second')
+                        const overviewCount: number = overviewData['borrowerStudentCount']
+                        const overviewHeaderCount: number = overviewData['studentCount']
+                        const overviewHeaderCountPercentage: number = overviewData['borrowerStudentCountPercentage']
+                        const modalOverview: string = 
+                        `
+                            <div class="header">
+                                <h2>Borrower</h2>
+                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                            </div>
+                            <h1>${ overviewCount } students</h1>
+                        `
+
+                        modal.innerHTML = ''
+                        modal.innerHTML = modalOverview
 
                         resolve()
 
@@ -601,18 +615,25 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                 }
                 const setOverviewDue = async (): Promise<void> => {
-                    
+
                     return new Promise((resolve) => {
 
-                        const overview = main.querySelector('.overview')
-                        const due = overview.querySelector('.pastDue')
-                        const dueCount = due.querySelector('h1 > .count')
-                        const dueHeaderCount = due.querySelector('.header > h3 > .count')
-                        const dueHeaderPercentage = due.querySelector('.header > h3 > .percentage')
-        
-                        dueCount.textContent = overviewData['dueStudentCount']
-                        dueHeaderCount.textContent = overviewData['studentCount']
-                        dueHeaderPercentage.textContent = overviewData['dueStudentCountPercentage']
+                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                        const modal: HTMLDivElement = overview.querySelector('.third')
+                        const overviewCount: number = overviewData['dueStudentCount']
+                        const overviewHeaderCount: number = overviewData['studentCount']
+                        const overviewHeaderCountPercentage: number = overviewData['dueStudentCountPercentage']
+                        const modalOverview: string = 
+                        `
+                            <div class="header">
+                                <h2>Past Due</h2>
+                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                            </div>
+                            <h1>${ overviewCount } students</h1>
+                        `
+
+                        modal.innerHTML = ''
+                        modal.innerHTML = modalOverview
 
                         resolve()
 
@@ -623,16 +644,16 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                     return new Promise(async (resolve) => {
 
-                        const table = main.querySelector('.table')
+                        const table: HTMLDivElement = document.querySelector('.table[data-tab="students"]')
 
                         const setPaginationData = async (): Promise<void> => {
 
                             return new Promise((resolve) => {
 
-                                const pagination = table.querySelector('.data > .pagination')
-                                const paginationMax = pagination.querySelector('.maxCount')
+                                const pagination = table.querySelector('.pagination')
+                                const maxPage = pagination.querySelector('.maxCount')
 
-                                paginationMax.textContent = overviewData['studentCount']
+                                maxPage.textContent = overviewData['studentCount']
 
                                 resolve()
 
@@ -642,13 +663,13 @@ export const setDashboardData = async (type: string, tab?: string) => {
                         const setEntriesData = async (): Promise<void> => {
                             
                             return new Promise((resolve) => {
-
+                
                                 const entries = table.querySelector('.data > .entries')
 
                                 entries.innerHTML = ''
 
                                 Object.values(tableData).forEach(async (data) => {
-
+                
                                     const studentName = `${data['first_name']} ${data['last_name']}`
                                     const studentNumber = data['student_number']
                                     const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
@@ -684,13 +705,13 @@ export const setDashboardData = async (type: string, tab?: string) => {
                                     `
 
                                     entries.innerHTML += entry
-        
+                        
                                 })
-
+                
                                 resolve()
-
+                
                             })
-
+                
                         }
 
                         await setPaginationData()
@@ -702,7 +723,6 @@ export const setDashboardData = async (type: string, tab?: string) => {
 
                 }
 
-                await setAccountData()
                 await setOverviewVacant()
                 await setOverviewBorrower()
                 await setOverviewDue()

@@ -376,54 +376,72 @@ export const setDashboardData = async (type, tab) => {
         };
         const setPersonnelStudentsData = async () => {
             return new Promise(async (resolve) => {
-                const main = document.querySelector('main[data-tab="students"]');
+                const bodyElement = document.querySelector('body');
                 const setOverviewVacant = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const vacant = overview.querySelector('.vacant');
-                        const vacantCount = vacant.querySelector('h1 > .count');
-                        const vacantHeaderCount = vacant.querySelector('.header > h3 > .count');
-                        const vacantHeaderPercentage = vacant.querySelector('.header > h3 > .percentage');
-                        vacantCount.textContent = overviewData['vacantStudentCount'];
-                        vacantHeaderCount.textContent = overviewData['studentCount'];
-                        vacantHeaderPercentage.textContent = overviewData['vacantStudentCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.first');
+                        const overviewCount = overviewData['vacantStudentCount'];
+                        const overviewHeaderCount = overviewData['studentCount'];
+                        const overviewHeaderCountPercentage = overviewData['vacantStudentCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Vacant</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} students</h3>
+                            </div>
+                            <h1>${overviewCount} students</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewBorrower = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const borrower = overview.querySelector('.borrower');
-                        const borrowerCount = borrower.querySelector('h1 > .count');
-                        const borrowerHeaderCount = borrower.querySelector('.header > h3 > .count');
-                        const borrowerHeaderPercentage = borrower.querySelector('.header > h3 > .percentage');
-                        borrowerCount.textContent = overviewData['borrowerStudentCount'];
-                        borrowerHeaderCount.textContent = overviewData['studentCount'];
-                        borrowerHeaderPercentage.textContent = overviewData['borrowerStudentCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.second');
+                        const overviewCount = overviewData['borrowerStudentCount'];
+                        const overviewHeaderCount = overviewData['studentCount'];
+                        const overviewHeaderCountPercentage = overviewData['borrowerStudentCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Borrower</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} students</h3>
+                            </div>
+                            <h1>${overviewCount} students</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setOverviewDue = async () => {
                     return new Promise((resolve) => {
-                        const overview = main.querySelector('.overview');
-                        const due = overview.querySelector('.pastDue');
-                        const dueCount = due.querySelector('h1 > .count');
-                        const dueHeaderCount = due.querySelector('.header > h3 > .count');
-                        const dueHeaderPercentage = due.querySelector('.header > h3 > .percentage');
-                        dueCount.textContent = overviewData['dueStudentCount'];
-                        dueHeaderCount.textContent = overviewData['studentCount'];
-                        dueHeaderPercentage.textContent = overviewData['dueStudentCountPercentage'];
+                        const overview = bodyElement.querySelector('.overview');
+                        const modal = overview.querySelector('.third');
+                        const overviewCount = overviewData['dueStudentCount'];
+                        const overviewHeaderCount = overviewData['studentCount'];
+                        const overviewHeaderCountPercentage = overviewData['dueStudentCountPercentage'];
+                        const modalOverview = `
+                            <div class="header">
+                                <h2>Past Due</h2>
+                                <h3>${overviewHeaderCountPercentage}% of ${overviewHeaderCount} students</h3>
+                            </div>
+                            <h1>${overviewCount} students</h1>
+                        `;
+                        modal.innerHTML = '';
+                        modal.innerHTML = modalOverview;
                         resolve();
                     });
                 };
                 const setTableData = async () => {
                     return new Promise(async (resolve) => {
-                        const table = main.querySelector('.table');
+                        const table = document.querySelector('.table[data-tab="students"]');
                         const setPaginationData = async () => {
                             return new Promise((resolve) => {
-                                const pagination = table.querySelector('.data > .pagination');
-                                const paginationMax = pagination.querySelector('.maxCount');
-                                paginationMax.textContent = overviewData['studentCount'];
+                                const pagination = table.querySelector('.pagination');
+                                const maxPage = pagination.querySelector('.maxCount');
+                                maxPage.textContent = overviewData['studentCount'];
                                 resolve();
                             });
                         };
@@ -471,7 +489,6 @@ export const setDashboardData = async (type, tab) => {
                         resolve();
                     });
                 };
-                await setAccountData();
                 await setOverviewVacant();
                 await setOverviewBorrower();
                 await setOverviewDue();
