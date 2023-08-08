@@ -62,6 +62,22 @@ export const removeAccessToken = async (data) => {
         throw err;
     }
 };
+export const retrieveDashboardData = async (type, tab, token) => {
+    let resultData = {};
+    try {
+        const [accountData, overviewData, tableData] = await Promise.all([
+            retrieveAccountData(type, token),
+            retrieveOverviewData(type, tab),
+            retrieveTableData(type, tab)
+        ]);
+        Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
+        return resultData;
+    }
+    catch (err) {
+        console.error(err.name, err.message);
+        throw err;
+    }
+};
 export const retrieveAccountData = async (type, token) => {
     let result = {};
     try {
