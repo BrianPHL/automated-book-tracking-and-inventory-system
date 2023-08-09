@@ -206,54 +206,26 @@ html[data-site=dashboard] > body > .overview > div > .header {
 html[data-site=dashboard] > body > .overview > div > h1 {
   font-size: 1.25rem;
 }
-html[data-site=dashboard] > body > .controls {
-  justify-content: space-between;
+html[data-site=dashboard] > body > .actions {
+  grid-template-columns: 1fr auto;
   padding: 0rem 16rem;
-  display: flex;
+  display: grid;
+  width: auto;
 }
-html[data-site=dashboard] > body > .controls > .filter {
+html[data-site=dashboard] > body > .actions > .search {
   align-items: center;
-  display: flex;
-  gap: 0.5rem;
-}
-html[data-site=dashboard] > body > .controls > .filter > i {
-  color: var(--typography-primary);
-}
-html[data-site=dashboard] > body > .controls > .filter > .container {
-  align-items: center;
-  display: flex;
-  gap: 0.25rem;
-}
-html[data-site=dashboard] > body > .controls > .filter > .container > h2, html[data-site=dashboard] > body > .controls > .filter > .container i {
-  transition: 0.2s all ease;
-  color: var(--typography-primary);
-}
-html[data-site=dashboard] > body > .controls > .filter > .container:hover {
-  cursor: pointer;
-}
-html[data-site=dashboard] > body > .controls > .filter > .container:hover > h2, html[data-site=dashboard] > body > .controls > .filter > .container:hover i {
-  color: var(--accent-primary);
-}
-html[data-site=dashboard] > body > .controls > .actions {
-  align-items: center;
+  grid-column: 1;
   display: flex;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > .controls > .actions > i {
-  transition: 0.2s all ease;
-  color: var(--typography-primary);
-}
-html[data-site=dashboard] > body > .controls > .actions > i:hover {
-  cursor: pointer;
-  color: var(--accent-primary);
-}
-html[data-site=dashboard] > body > .controls > .actions > .search {
+html[data-site=dashboard] > body > .actions > .search > .input {
   position: relative;
   align-items: center;
   display: flex;
+  width: 100%;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > .controls > .actions > .search > input {
+html[data-site=dashboard] > body > .actions > .search > .input > input {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -265,7 +237,7 @@ html[data-site=dashboard] > body > .controls > .actions > .search > input {
   width: 100%;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > .controls > .actions > .search > label {
+html[data-site=dashboard] > body > .actions > .search > .input > label {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -279,33 +251,37 @@ html[data-site=dashboard] > body > .controls > .actions > .search > label {
   left: 0.5rem;
   top: 0.8rem;
 }
-html[data-site=dashboard] > body > .controls > .actions > .search .input:hover, html[data-site=dashboard] > body > .controls > .actions > .search .input:focus {
+html[data-site=dashboard] > body > .actions > .search > .input .input:hover, html[data-site=dashboard] > body > .actions > .search > .input .input:focus {
   border-color: var(--accent-primary);
   outline: none;
 }
-html[data-site=dashboard] > body > .controls > .actions > .search .input:hover ~ .label, html[data-site=dashboard] > body > .controls > .actions > .search .input:focus ~ .label {
+html[data-site=dashboard] > body > .actions > .search > .input .input:hover ~ .label, html[data-site=dashboard] > body > .actions > .search > .input .input:focus ~ .label {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > .controls > .actions > .search .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .actions > .search > .input .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > .controls > .actions > .search .input:focus ~ .label,
-html[data-site=dashboard] > body > .controls > .actions > .search .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .actions > .search > .input .input:focus ~ .label,
+html[data-site=dashboard] > body > .actions > .search > .input .input:not(:placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > .controls > .actions > .search > i[aria-disabled=true] {
+html[data-site=dashboard] > body > .actions > .search > i[aria-disabled=true] {
   cursor: not-allowed;
   color: var(--typography-secondary);
 }
-html[data-site=dashboard] > body > .controls > .actions > .search > i[aria-disabled=false] {
+html[data-site=dashboard] > body > .actions > .search > i[aria-disabled=false] {
   cursor: pointer;
   color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > .actions > .tableAction {
+  grid-column: 2;
+  margin-left: 2rem;
 }
 html[data-site=dashboard] > body > .table {
   grid-template-columns: 100%;
@@ -495,11 +471,11 @@ html[data-site=dashboard] > body > footer {
   html[data-site=dashboard] > body > header > nav {
     padding: 0rem 8rem;
   }
-  html[data-site=dashboard] > body > .controls {
-    padding: 0rem 8rem;
-  }
   html[data-site=dashboard] > body > .overview {
     padding: 2rem 8rem;
+  }
+  html[data-site=dashboard] > body > .actions {
+    padding: 0rem 8rem;
   }
   html[data-site=dashboard] > body > footer {
     padding: 0rem 8rem 2rem 8rem;
@@ -515,11 +491,11 @@ html[data-site=dashboard] > body > footer {
   html[data-site=dashboard] > body > header > nav {
     padding: 0rem 4rem;
   }
-  html[data-site=dashboard] > body > .controls {
-    padding: 0rem 4rem;
-  }
   html[data-site=dashboard] > body > .overview {
     padding: 2rem 4rem;
+  }
+  html[data-site=dashboard] > body > .actions {
+    padding: 0rem 4rem;
   }
   html[data-site=dashboard] > body > footer {
     padding: 0rem 4rem 2rem 4rem;
@@ -538,11 +514,11 @@ html[data-site=dashboard] > body > footer {
   html[data-site=dashboard] > body > header > nav {
     padding: 0rem 2rem;
   }
-  html[data-site=dashboard] > body > .controls {
-    padding: 0rem 2rem;
-  }
   html[data-site=dashboard] > body > .overview {
     padding: 2rem 2rem;
+  }
+  html[data-site=dashboard] > body > .actions {
+    padding: 0rem 2rem;
   }
   html[data-site=dashboard] > body > footer {
     padding: 0rem 2rem 2rem 2rem;
@@ -561,13 +537,13 @@ html[data-site=dashboard] > body > footer {
   html[data-site=dashboard] > body > header > nav {
     padding: 0rem 1rem;
   }
-  html[data-site=dashboard] > body > .controls {
-    padding: 0rem 1rem;
-  }
   html[data-site=dashboard] > body > .overview {
     flex-direction: column;
     padding: 1rem 1rem;
     display: flex;
+  }
+  html[data-site=dashboard] > body > .actions {
+    padding: 0rem 1rem;
   }
   html[data-site=dashboard] > body > footer {
     padding: 0rem 1rem 1rem 1rem;
