@@ -18,53 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
             navigationTab.addEventListener('click', (event) => {
                 const targetTable = event.target;
                 const activeTable = bodyElement.querySelector(`.table[data-tab="${targetTable.classList[0]}"]`);
-                const tableActionsBtn = bodyElement.querySelector('.actions > button');
-                const setTableAction = async (tab) => {
-                    tableActionsBtn.innerHTML = '';
-                    try {
-                        switch (tab) {
-                            case 'dashboard':
-                                tableActionsBtn.style.display = 'none';
-                                break;
-                            case 'inventory':
-                                tableActionsBtn.style.display = 'flex';
-                                tableActionsBtn.outerHTML =
-                                    `
-                                    <button class="tableAction" data-tab="inventory">
-                                        <i class="fa-regular fa-plus"></i>
-                                        Register a book
-                                    </button>
-                                `;
-                                break;
-                            case 'students':
-                                tableActionsBtn.style.display = 'flex';
-                                tableActionsBtn.outerHTML =
-                                    `
-                                    <button class="tableAction" data-tab="students">
-                                        <i class="fa-regular fa-plus"></i>
-                                        Enroll a student
-                                    </button>
-                                `;
-                                break;
-                            case 'users':
-                                tableActionsBtn.style.display = 'flex';
-                                tableActionsBtn.outerHTML =
-                                    `
-                                    <button class="tableAction" data-tab="users">
-                                        <i class="fa-regular fa-plus"></i>
-                                        Register a library or IT personnel
-                                    </button>
-                                `;
-                                break;
-                            default:
-                                throw `Error in switch-case; passed argument: ${tab} did not match any case.`;
-                        }
-                    }
-                    catch (err) {
-                        const { name, message } = err;
-                        window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
-                    }
-                };
                 navigationTabs.forEach(navigationTab => { navigationTab.classList.remove('active'); });
                 navigationTab.classList.add('active');
                 tables.forEach(table => {
@@ -73,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 activeTable.style.display = 'grid';
                 activeTable.setAttribute('data-active', 'true');
-                setTableAction(activeTable.getAttribute('data-tab'));
+                utils.setTableAction(activeTable.getAttribute('data-tab'));
                 utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
             });
         });
@@ -140,4 +93,5 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     navigationActions();
     utils.setDashboardData('personnel');
+    utils.setTableAction('dashboard');
 });

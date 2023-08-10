@@ -967,4 +967,64 @@ export const paginateTable = async (totalEntries: number, currentPage: number = 
     
     return { currentPage, totalPages, entriesPerPage, startIndex, endIndex }
 
+export const setTableAction = async (tab: string) => {
+
+    const bodyElement: HTMLBodyElement = document.querySelector('body')
+    const tableActionsBtn: HTMLDivElement = bodyElement.querySelector('.actions > button')
+
+    try {
+
+        tableActionsBtn.innerHTML = ''
+
+        switch (tab) {
+
+            case 'dashboard':
+                tableActionsBtn.style.display = 'none'
+                break;
+
+            case 'inventory':
+                tableActionsBtn.style.display = 'flex'
+                tableActionsBtn.outerHTML =
+                `
+                    <button class="tableAction" data-tab="inventory">
+                        <i class="fa-regular fa-plus"></i>
+                        Register a book
+                    </button>
+                `
+                break;
+        
+            case 'students':
+                tableActionsBtn.style.display = 'flex'
+                tableActionsBtn.outerHTML =
+                `
+                    <button class="tableAction" data-tab="students">
+                        <i class="fa-regular fa-plus"></i>
+                        Enroll a student
+                    </button>
+                `
+                break;
+
+            case 'users':
+                tableActionsBtn.style.display = 'flex'    
+                tableActionsBtn.outerHTML =
+                `
+                    <button class="tableAction" data-tab="users">
+                        <i class="fa-regular fa-plus"></i>
+                        Register a library or IT personnel
+                    </button>
+                `
+                break;
+
+            default:
+            throw `Error in switch-case; passed argument: ${tab} did not match any case.`
+        }
+
+    } catch(err) {
+
+        const { name, message } = err
+
+        window.location.href = `/error?${ (await errorPrompt({title: name, body: message})).toString() }`
+
+    }
+
 }
