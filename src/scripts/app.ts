@@ -46,4 +46,4 @@ app.use("/student/logout", studentLogoutRoute)
 
 app.use("/error", errorRoute)
 
-httpServer.listen(process.env.EXPRESS_PORT)
+httpServer.listen(process.env.EXPRESS_PORT || 3000)
