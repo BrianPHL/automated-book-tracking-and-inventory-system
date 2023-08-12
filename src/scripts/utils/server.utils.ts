@@ -467,7 +467,10 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
         try {
         
-            const queryResult = await executeDatabaseQuery(
+            let queryResult: string = ''
+
+            !query
+            ? queryResult = await executeDatabaseQuery(
                 `
                 SELECT
                     title, status, author, genre, 
@@ -476,8 +479,64 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     books
                 `
             )
+            : queryResult = await executeDatabaseQuery(
+                `
+                SELECT
+                    title, status, author, genre, 
+                    date_publicized, date_added 
+                FROM
+                    books
+                WHERE
+                    LOWER(title) LIKE LOWER('%${query}%')
+                    OR LOWER(status) LIKE LOWER('%${query}%')
+                    OR LOWER(author) LIKE LOWER('%${query}%')
+                    OR LOWER(genre) LIKE LOWER('%${query}%')
+                    OR LOWER(date_publicized) LIKE LOWER('%${query}%')
+                    OR LOWER(date_added) LIKE LOWER('%${query}%')
+                `
+            )
 
-            Object.assign(result, queryResult)
+            Object.values(queryResult).forEach(async (data) => {
+
+                const title = data['title']
+                const author = data['author']
+                const genre = data['genre']
+                const publicationDate = data['date_publicized']
+                const acquisitionDate = data['date_added']
+                let visibility = ``
+                let status = ``
+
+                data['status'] === 'Available' 
+                ? status = `<h2>${data['status']}</h2>` 
+                : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+
+                status.includes('Past Due') 
+                ? visibility = 'visible' 
+                : visibility = 'hidden'
+
+                const entry =
+                `
+                <div class="entry">
+                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                    <div class="title"><h2>${ title }</h2></div>
+                    <div class="status"><h2>${ status }</h2></div>
+                    <div class="author"><h2>${ author }</h2></div>
+                    <div class="genre"><h2>${ genre }</h2></div>
+                    <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                    <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                    <div class="actions">
+                        <i class="fa-regular fa-arrow-right-from-arc"></i>
+                        <i class="fa-regular fa-message"></i>
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </div>
+                </div>
+                `
+
+                entries.push(entry)
+
+            })
+
+            Object.assign(result, entries)
 
         } catch(err) {
 
