@@ -715,46 +715,18 @@ export const setDashboardData = async (type: string, tab?: string, data?: object
     
                             }
                             const setEntriesData = async (): Promise<void> => {
-                                
+
                                 return new Promise((resolve) => {
-                    
+    
                                     const entries = table.querySelector('.data > .entries')
     
                                     entries.innerHTML = ''
-                    
-                                    Object.values(tableData).forEach(async (data) => {
-                    
-                                        const fullName = `${data['first_name']} ${data['last_name']}`
-                                        const username = data['username']
-                                        const role = data['role']
-                                        let privilege = ``
     
-                                        data['role'] === 'Librarian'
-                                        ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
-                                        : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`
+                                    Object.values(tableData).forEach(async (data) => { entries.innerHTML += data })
     
-                                        const entry =
-                                        `
-                                        <div class="entry">
-                                            <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
-                                            <div class="fullName"><h2>${ fullName }</h2></div>
-                                            <div class="username"><h2>${ username }</h2></div>
-                                            <div class="role"><h2>${ role }</h2></div>
-                                            <div class="privilege">${ privilege }</div>
-                                            <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
-                                            <div class="actions">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                            <i class="fa-regular fa-xmark"></i>
-                                            </div>
-                                        </div>
-                                        `
-                    
-                                        entries.innerHTML += entry
-                            
-                                    })
-                    
+    
                                     resolve()
-                    
+    
                                 })
                     
                             }
