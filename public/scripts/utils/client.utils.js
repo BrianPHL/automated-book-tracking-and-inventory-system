@@ -381,38 +381,7 @@ export const setDashboardData = async (type, tab, data) => {
                                 return new Promise((resolve) => {
                                     const entries = table.querySelector('.data > .entries');
                                     entries.innerHTML = '';
-                                    Object.values(tableData).forEach(async (data) => {
-                                        const studentName = `${data['first_name']} ${data['last_name']}`;
-                                        const studentNumber = data['student_number'];
-                                        const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book'];
-                                        const phoneNumber = data['phone_number'];
-                                        const emailAddress = data['email'];
-                                        let studentStatus = ``;
-                                        let visibility = ``;
-                                        data['status'] === 'Vacant'
-                                            ? studentStatus = `<h2>${data['status']}</h2>`
-                                            : studentStatus = `<h2>Unavailable</h2><h3>${data['status']}</h3>`;
-                                        studentStatus.includes('Past Due')
-                                            ? visibility = 'visible'
-                                            : visibility = 'hidden';
-                                        const entry = `
-                                        <div class="entry">
-                                            <i style="visibility: ${visibility};" class="warning fa-solid fa-triangle-exclamation"></i>
-                                            <div class="name"><h2>${studentName}</h2></div>
-                                            <div class="studentNumber"><h2>${studentNumber}</h2></div>
-                                            <div class="status">${studentStatus}</div>
-                                            <div class="borrowedBook"><h2>${borrowedBook}</h2></div>
-                                            <div class="phoneNumber"><h2>${phoneNumber}</h2></div>
-                                            <div class="emailAddress"><h2>${emailAddress}</h2></div>
-                                            <div class="actions">
-                                                <i class="fa-regular fa-message"></i>
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                                <i class="fa-regular fa-xmark"></i>
-                                            </div>
-                                        </div>
-                                        `;
-                                        entries.innerHTML += entry;
-                                    });
+                                    Object.values(tableData).forEach(async (data) => { entries.innerHTML += data; });
                                     resolve();
                                 });
                             };

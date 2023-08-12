@@ -338,15 +338,65 @@ export const retrieveTableData = async (type, tab, query) => {
         }
     };
     const retrieveStudentsData = async () => {
+        let entries = [];
         try {
-            const queryResult = await executeDatabaseQuery(`
+            let queryResult = '';
+            !query
+                ? queryResult = await executeDatabaseQuery(`
                 SELECT
                     first_name, last_name, student_number, 
                     status, borrowed_book, phone_number, email
                 FROM
                     students
+                `)
+                : queryResult = await executeDatabaseQuery(`
+                SELECT
+                    first_name, last_name, student_number, 
+                    status, borrowed_book, phone_number, email
+                FROM
+                    students
+                WHERE
+                    LOWER(first_name) LIKE LOWER('%${query}%')
+                    OR LOWER(last_name) LIKE LOWER('%${query}%')
+                    OR LOWER(student_number) LIKE LOWER('%${query}%')
+                    OR LOWER(status) LIKE LOWER('%${query}%')
+                    OR LOWER(borrowed_book) LIKE LOWER('%${query}%')
+                    OR LOWER(phone_number) LIKE LOWER('%${query}%')
+                    OR LOWER(email) LIKE LOWER('%${query}%')
                 `);
-            Object.assign(result, queryResult);
+            Object.values(queryResult).forEach(async (data) => {
+                const studentName = `${data['first_name']} ${data['last_name']}`;
+                const studentNumber = data['student_number'];
+                const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book'];
+                const phoneNumber = data['phone_number'];
+                const emailAddress = data['email'];
+                let studentStatus = ``;
+                let visibility = ``;
+                data['status'] === 'Vacant'
+                    ? studentStatus = `<h2>${data['status']}</h2>`
+                    : studentStatus = `<h2>Unavailable</h2><h3>${data['status']}</h3>`;
+                studentStatus.includes('Past Due')
+                    ? visibility = 'visible'
+                    : visibility = 'hidden';
+                const entry = `
+                <div class="entry">
+                    <i style="visibility: ${visibility};" class="warning fa-solid fa-triangle-exclamation"></i>
+                    <div class="name"><h2>${studentName}</h2></div>
+                    <div class="studentNumber"><h2>${studentNumber}</h2></div>
+                    <div class="status">${studentStatus}</div>
+                    <div class="borrowedBook"><h2>${borrowedBook}</h2></div>
+                    <div class="phoneNumber"><h2>${phoneNumber}</h2></div>
+                    <div class="emailAddress"><h2>${emailAddress}</h2></div>
+                    <div class="actions">
+                        <i class="fa-regular fa-message"></i>
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        <i class="fa-regular fa-xmark"></i>
+                    </div>
+                </div>
+                `;
+                entries.push(entry);
+            });
+            Object.assign(result, entries);
         }
         catch (err) {
             console.error(err.name, err.message);
