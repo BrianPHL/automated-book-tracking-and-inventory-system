@@ -410,23 +410,23 @@ export const retrieveTableData = async (type, tab, query) => {
             !query
                 ? queryResult = await executeDatabaseQuery(`
                 SELECT
-                    first_name, last_name, username, role
+                    CONCAT(first_name, ' ', last_name) AS full_name, username, role
                 FROM
                     personnel
                 `)
                 : queryResult = await executeDatabaseQuery(`
                 SELECT
-                    first_name, last_name, username, role
+                    CONCAT(first_name, ' ', last_name) AS full_name, username, role
                 FROM
                     personnel
                 WHERE
-                    LOWER(first_name) LIKE LOWER('%${query}%')
+                    LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER('%${query}%')
                     OR LOWER(last_name) LIKE LOWER('%${query}%')
                     OR LOWER(username) LIKE LOWER('%${query}%')
                     OR LOWER(role) LIKE LOWER('%${query}%')
                 `);
             Object.values(queryResult).forEach(async (data) => {
-                const fullName = `${data['first_name']} ${data['last_name']}`;
+                const fullName = data['full_name'];
                 const username = data['username'];
                 const role = data['role'];
                 let privilege = ``;
