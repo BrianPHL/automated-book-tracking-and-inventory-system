@@ -152,6 +152,84 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     navigationActions()
 
+    const tableActions = () => {
+
+        const bodyElement: HTMLBodyElement = document.querySelector('body')
+        const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
+        const tableControls: HTMLDivElement = bodyElement.querySelector('.controls')
+        const tableSearch: HTMLDivElement = tableControls.querySelector('.search')
+        const tableSearchInput: HTMLInputElement = tableSearch.querySelector('.input > input[type="text"]')
+        const tableSearchSubmit: HTMLButtonElement = tableControls.querySelector('button[data-type="search"]')
+
+        const tableControlsAction = () => {
+
+        }
+        tableControlsAction()
+
+        const tableControlsSearch = () => {
+
+            tableSearchInput.value = ''
+            tableSearchSubmit.disabled = true
+            
+            tableSearchInput.addEventListener('input', (event) => {
+    
+                event.preventDefault()
+    
+                tableSearchInput.value.trim() === ''
+                ? tableSearchSubmit.disabled = true
+                : tableSearchSubmit.disabled = false
+
+                if (tableSearchInput.value.trim() === '') {
+
+                    tableSearchSubmit.disabled = true
+                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
+
+                } else { tableSearchSubmit.disabled = false }
+    
+            })
+
+            tableSearchSubmit.addEventListener('click', async (event) => {
+
+                try {
+                
+                    event.preventDefault()
+
+                    const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
+                    const activeTab: string = activeTable.getAttribute('data-tab')
+                    const tableEntries: HTMLDivElement = activeTable.querySelector('.data > .entries')
+                    const query = tableSearchInput.value.trim()
+                    const response: Response = await fetch(`/personnel/table/${ activeTab }/search/${ query }`, {
+            
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    
+                    })
+                    const tableData = await response.json()
+                    
+                    tableEntries.innerHTML = ''
+
+                    Object.values(tableData).forEach(async (data: string) => {
+
+                        tableEntries.innerHTML += data
+
+                    })
+
+                } catch(err) {
+                
+                    const { name, message } = err
+    
+                    window.location.href = `/error?${ (await utils.errorPrompt({title: name, body: message})).toString() }`
+    
+                }
+
+            })
+
+        }
+        tableControlsSearch()
+
+    }
+    tableActions()
+
     utils.setDashboardData('personnel')
     utils.setTableAction('dashboard')
 

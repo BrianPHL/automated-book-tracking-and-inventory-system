@@ -92,6 +92,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     navigationActions();
+    const tableActions = () => {
+        const bodyElement = document.querySelector('body');
+        const activeTable = bodyElement.querySelector('.table[data-active="true"]');
+        const tableControls = bodyElement.querySelector('.controls');
+        const tableSearch = tableControls.querySelector('.search');
+        const tableSearchInput = tableSearch.querySelector('.input > input[type="text"]');
+        const tableSearchSubmit = tableControls.querySelector('button[data-type="search"]');
+        const tableControlsAction = () => {
+        };
+        tableControlsAction();
+        const tableControlsSearch = () => {
+            tableSearchInput.value = '';
+            tableSearchSubmit.disabled = true;
+            tableSearchInput.addEventListener('input', (event) => {
+                event.preventDefault();
+                tableSearchInput.value.trim() === ''
+                    ? tableSearchSubmit.disabled = true
+                    : tableSearchSubmit.disabled = false;
+                if (tableSearchInput.value.trim() === '') {
+                    tableSearchSubmit.disabled = true;
+                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
+                }
+                else {
+                    tableSearchSubmit.disabled = false;
+                }
+            });
+            tableSearchSubmit.addEventListener('click', async (event) => {
+                try {
+                    event.preventDefault();
+                    const activeTable = bodyElement.querySelector('.table[data-active="true"]');
+                    const activeTab = activeTable.getAttribute('data-tab');
+                    const tableEntries = activeTable.querySelector('.data > .entries');
+                    const query = tableSearchInput.value.trim();
+                    const response = await fetch(`/personnel/table/${activeTab}/search/${query}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const tableData = await response.json();
+                    tableEntries.innerHTML = '';
+                    Object.values(tableData).forEach(async (data) => {
+                        tableEntries.innerHTML += data;
+                    });
+                }
+                catch (err) {
+                    const { name, message } = err;
+                    window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
+                }
+            });
+        };
+        tableControlsSearch();
+    };
+    tableActions();
     utils.setDashboardData('personnel');
     utils.setTableAction('dashboard');
 });

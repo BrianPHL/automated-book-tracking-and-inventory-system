@@ -72,6 +72,10 @@ export const personnelLoginAuth = async (req, res) => {
         });
     }
 };
+export const personnelTableSearch = async (req, res) => {
+    const tableData = await utils.retrieveTableData('personnel', req.params.table, req.params.query);
+    res.json(tableData);
+};
 export const personnelDashboard = async (req, res) => {
     try {
         const accessCookie = req.cookies['pAccess'];

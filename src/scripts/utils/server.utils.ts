@@ -1,6 +1,7 @@
 import { pool } from "../app.js";
 import { Response } from "express";
 import { UUID } from "crypto";
+import { DateTime } from "luxon";
 
 export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
@@ -357,15 +358,20 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
 
 }
 
-export const retrieveTableData = async (type: string, tab: string): Promise<object | boolean> => {
+export const retrieveTableData = async (type: string, tab: string, query?: string): Promise<object | boolean> => {
 
-    let result: object = {}
+    let result = {}
 
     const retrieveDashboardData = async (): Promise<void> => {
 
+        let entries: string[] = []
+
         try {
 
-            const queryResult = await executeDatabaseQuery(
+            let queryResult: string = ''
+
+            !query
+            ? queryResult = await executeDatabaseQuery(
                 `
                 SELECT 
                     title, status, borrower, borrower_number, 
@@ -375,8 +381,76 @@ export const retrieveTableData = async (type: string, tab: string): Promise<obje
                     books
                 `
             )
+            : queryResult = await executeDatabaseQuery(
+                `
+                SELECT 
+                    title, status, borrower, borrower_number, 
+                    date_borrowed, date_due, date_publicized, 
+                    date_added
+                FROM 
+                    books
+                WHERE
+                    LOWER(title) LIKE LOWER('%${query}%') 
+                    OR LOWER(status) LIKE LOWER('%${query}%')
+                    OR LOWER(borrower) LIKE LOWER('%${query}%')
+                    OR LOWER(borrower_number) LIKE LOWER('%${query}%')
+                    OR LOWER(date_borrowed) LIKE LOWER('%${query}%')
+                    OR LOWER(date_due) LIKE LOWER('%${query}%')
+                    OR LOWER(date_publicized) LIKE LOWER('%${query}%')
+                    OR LOWER(date_added) LIKE LOWER('%${query}%')
+                `
+            )
 
-            Object.assign(result, queryResult)
+            Object.values(queryResult).forEach(async (data) => {
+
+                const title = data['title']
+                const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
+                const publicationDate = data['date_publicized']
+                const acquisitionDate = data['date_added']
+                let borrowerAndBorrowerNumber = ``
+                let borrowDateAndDuration = ``
+                let visibility = ``
+                let status = ``
+
+                data['borrower'] === null 
+                ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
+                : borrowerAndBorrowerNumber = `<h2>${ data['borrower'] }</h2><h3>${ data['borrower_number'] }</h3>`
+                
+                data['date_borrowed'] === null
+                ? borrowDateAndDuration = `<h2>No data</h2>`
+                : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
+
+                data['status'] === 'Available' 
+                ? status = `<h2>${data['status']}</h2>` 
+                : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+
+                status.includes('Past Due') 
+                ? visibility = 'visible' 
+                : visibility = 'hidden'
+
+                const entry =
+                `
+                <div class="entry">
+                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                    <div class="title"><h2>${ title }</h2></div>
+                    <div class="status">${ status }</div>
+                    <div class="borrower">${ borrowerAndBorrowerNumber }</div>
+                    <div class="borrowDate">${ borrowDateAndDuration }</div>
+                    <div class="dueDate"><h2>${ dueDate }</h2></div>
+                    <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                    <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                    <div class="actions">
+                        <i class="fa-regular fa-message"></i>
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </div>
+                </div>
+                `
+
+                entries.push(entry)
+
+            })
+
+            Object.assign(result, entries)
 
         } catch(err) {
 
@@ -388,6 +462,8 @@ export const retrieveTableData = async (type: string, tab: string): Promise<obje
     }
 
     const retrieveInventoryData = async (): Promise<void> => {
+
+        let entries: string[] = []
 
         try {
         
@@ -526,5 +602,22 @@ export const retrieveTableData = async (type: string, tab: string): Promise<obje
 export const isQueryResultEmpty = async (queryResult: any) => {
 
     return !(Array.isArray(queryResult) && queryResult.length > 0)
+
+}
+
+export const getDaysBetween = (firstDate: string, secondDate: string,): string => {
+
+    if (!firstDate && !secondDate) { return; }
+
+    const dateFormat = "yyyy-MM-dd HH:mm:ss"
+    const fFirstDate = DateTime.fromFormat(firstDate, dateFormat)
+    const fSecondDate = DateTime.fromFormat(secondDate, dateFormat)
+    const dateNow = DateTime.now()
+    const borrowDateDiff = Math.abs(Math.floor(fSecondDate.diff(fFirstDate).as('days')))
+    const dueDateDiff = Math.abs(Math.floor(dateNow.diff(fSecondDate).as('days')))
+
+    return fFirstDate > fSecondDate
+    ? `${ dueDateDiff } ${ dueDateDiff === 1 ? 'day' : 'days' } past due`
+    : `${ borrowDateDiff } ${ borrowDateDiff === 1 ? 'day' : 'days' } remaining`
 
 }

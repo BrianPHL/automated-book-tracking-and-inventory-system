@@ -92,6 +92,14 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 }
 
+export const personnelTableSearch = async (req: Request, res: Response) => {
+
+    const tableData = await utils.retrieveTableData('personnel', req.params.table, req.params.query)
+    
+    res.json(tableData)
+    
+}
+
 export const personnelDashboard = async (req: Request, res: Response): Promise<void> => {
 
     try {

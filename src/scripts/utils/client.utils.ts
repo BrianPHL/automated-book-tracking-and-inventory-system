@@ -166,780 +166,1509 @@ export const retrieveDashboardData = async (type: string, tab: string) => {
     
 }
 
-export const setDashboardData = async (type: string, tab?: string) => {
+export const setDashboardData = async (type: string, tab?: string, data?: object) => {
 
     try {
 
         if (!tab) { tab = 'dashboard' }
+        if (!data) {
 
-        const response: Response = await retrieveDashboardData(type, tab)
-        const responseBody: JSON = await response.json()
-        const accountData: JSON = responseBody['accountData']
-        const overviewData: JSON = responseBody['overviewData']
-        const tableData: JSON = responseBody['tableData']
-
-        const setAccountData = async (): Promise<void> => {
-
-            return new Promise((resolve) => {
-
-                const header = document.querySelector('header')
-                const headerInfo = header.querySelector('.info')
-                const headerInfoName = headerInfo.querySelector('.name')
-                const headerInfoRole = headerInfo.querySelector('.role')
-                
-                headerInfoName.textContent = `${ accountData['first_name'] } ${ accountData['last_name'] }`
-                headerInfoRole.textContent = accountData['role']
-
-                resolve()
-
-            })
-
-        }
-
-        const setPersonnelDashboardData = async (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                const bodyElement: HTMLBodyElement = document.querySelector('body')
-                const setOverviewRegistered = async (): Promise<void> => {
+            const response: Response = await retrieveDashboardData(type, tab)
+            const responseBody: JSON = await response.json()
+            const accountData: JSON = responseBody['accountData']
+            const overviewData: JSON = responseBody['overviewData']
+            const tableData: JSON = responseBody['tableData']
+    
+            const setAccountData = async (): Promise<void> => {
+    
+                return new Promise((resolve) => {
+    
+                    const header = document.querySelector('header')
+                    const headerInfo = header.querySelector('.info')
+                    const headerInfoName = headerInfo.querySelector('.name')
+                    const headerInfoRole = headerInfo.querySelector('.role')
                     
-                    return new Promise((resolve) => {
+                    headerInfoName.textContent = `${ accountData['first_name'] } ${ accountData['last_name'] }`
+                    headerInfoRole.textContent = accountData['role']
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelDashboardData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewRegistered = async (): Promise<void> => {
                         
-                        const overview: HTMLBodyElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.first')
-                        const overviewCount: number = overviewData['studentCount']
-                        const modalOverview: string =
-                        `
-                            <div class="header">
-                                <h2>Registered</h2>
-                            </div>
-                            <h1>${ overviewCount } students</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
+                        return new Promise((resolve) => {
+                            
+                            const overview: HTMLBodyElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['studentCount']
+                            const modalOverview: string =
+                            `
+                                <div class="header">
+                                    <h2>Registered</h2>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+                            
+                            resolve()
+    
+                        })
                         
-                        resolve()
-
-                    })
+                    }
+                    const setOverviewAvailable = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['availableBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['availableBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Available</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewUnavailable = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['unavailableBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['unavailableBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Unavailable</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="dashboard"]')
+                            
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['bookCount']
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+    
+                                    Object.values(tableData).forEach(async (data) => { entries.innerHTML += data })
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+    
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
                     
-                }
-                const setOverviewAvailable = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.second')
-                        const overviewCount: number = overviewData['availableBookCount']
-                        const overviewHeaderCount: number = overviewData['bookCount']
-                        const overviewHeaderCountPercentage: number = overviewData['availableBookCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Available</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
-                            </div>
-                            <h1>${ overviewCount } books</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setOverviewUnavailable = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.third')
-                        const overviewCount: number = overviewData['unavailableBookCount']
-                        const overviewHeaderCount: number = overviewData['bookCount']
-                        const overviewHeaderCountPercentage: number = overviewData['unavailableBookCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Unavailable</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
-                            </div>
-                            <h1>${ overviewCount } books</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setTableData = async (): Promise<void> => {
-
-                    return new Promise(async (resolve) => {
-
-                        const table: HTMLDivElement = document.querySelector('.table[data-tab="dashboard"]')
-                        
-                        const setPaginationData = async (): Promise<void> => {
-
-                            return new Promise((resolve) => {
-
-                                const pagination = table.querySelector('.pagination')
-                                const maxPage = pagination.querySelector('.maxCount')
-
-                                maxPage.textContent = overviewData['bookCount']
-
-                                resolve()
-
-                            })
-
-                        }
-                        const setEntriesData = async (): Promise<void> => {
-
-                            return new Promise((resolve) => {
-
-                                const entries = table.querySelector('.data > .entries')
-
-                                entries.innerHTML = ''
-
-                                Object.values(tableData).forEach(async (data) => {
-                                    
-                                    const title = data['title']
-                                    const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
-                                    const publicationDate = data['date_publicized']
-                                    const acquisitionDate = data['date_added']
-                                    let borrowerAndBorrowerNumber = ``
-                                    let borrowDateAndDuration = ``
-                                    let visibility = ``
-                                    let status = ``
-
-                                    data['borrower'] === null 
-                                    ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
-                                    : borrowerAndBorrowerNumber = `<h2>${ data['borrower'] }</h2><h3>${ data['borrower_number'] }</h3>`
-                                    
-                                    data['date_borrowed'] === null
-                                    ? borrowDateAndDuration = `<h2>No data</h2>`
-                                    : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
-
-                                    data['status'] === 'Available' 
-                                    ? status = `<h2>${data['status']}</h2>` 
-                                    : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
-
-                                    status.includes('Past Due') 
-                                    ? visibility = 'visible' 
-                                    : visibility = 'hidden'
-
-                                    const entry =
-                                    `
-                                    <div class="entry">
-                                        <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
-                                        <div class="title"><h2>${ title }</h2></div>
-                                        <div class="status">${ status }</div>
-                                        <div class="borrower">${ borrowerAndBorrowerNumber }</div>
-                                        <div class="borrowDate">${ borrowDateAndDuration }</div>
-                                        <div class="dueDate"><h2>${ dueDate }</h2></div>
-                                        <div class="publicationDate"><h2>${ publicationDate }</h2></div>
-                                        <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
-                                        <div class="actions">
-                                            <i class="fa-regular fa-message"></i>
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </div>
-                                    </div>
-                                    `
-
-                                    entries.innerHTML += entry
-        
+                    await setAccountData()
+                    await setOverviewRegistered()
+                    await setOverviewAvailable()
+                    await setOverviewUnavailable()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelInventoryData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewAvailable = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['availableBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['availableBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Available</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewBorrowed = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['borrowedBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['borrowedBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Borrowed</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewDue = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['dueBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['dueBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Past Due</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="inventory"]')
+    
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['bookCount']
+    
+                                    resolve()
+    
                                 })
-
-                                resolve()
-
-                            })
-
-                        }
-
-                        await setPaginationData()
-                        await setEntriesData()
-
-                        resolve()
-
-                    })
-
-                }
-                
-                await setAccountData()
-                await setOverviewRegistered()
-                await setOverviewAvailable()
-                await setOverviewUnavailable()
-                await setTableData()
-
-                resolve()
-
-            })
-
-        }
-
-        const setPersonnelInventoryData = async (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                const bodyElement: HTMLBodyElement = document.querySelector('body')
-                const setOverviewAvailable = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.first')
-                        const overviewCount: number = overviewData['availableBookCount']
-                        const overviewHeaderCount: number = overviewData['bookCount']
-                        const overviewHeaderCountPercentage: number = overviewData['availableBookCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Available</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
-                            </div>
-                            <h1>${ overviewCount } books</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setOverviewBorrowed = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.second')
-                        const overviewCount: number = overviewData['borrowedBookCount']
-                        const overviewHeaderCount: number = overviewData['bookCount']
-                        const overviewHeaderCountPercentage: number = overviewData['borrowedBookCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Borrowed</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
-                            </div>
-                            <h1>${ overviewCount } books</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setOverviewDue = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.third')
-                        const overviewCount: number = overviewData['dueBookCount']
-                        const overviewHeaderCount: number = overviewData['bookCount']
-                        const overviewHeaderCountPercentage: number = overviewData['dueBookCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Past Due</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
-                            </div>
-                            <h1>${ overviewCount } books</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setTableData = async (): Promise<void> => {
-
-                    return new Promise(async (resolve) => {
-
-                        const table: HTMLDivElement = document.querySelector('.table[data-tab="inventory"]')
-
-                        const setPaginationData = async (): Promise<void> => {
-
-                            return new Promise((resolve) => {
-
-                                const pagination = table.querySelector('.pagination')
-                                const maxPage = pagination.querySelector('.maxCount')
-
-                                maxPage.textContent = overviewData['bookCount']
-
-                                resolve()
-
-                            })
-
-                        }
-                        const setEntriesData = async (): Promise<void> => {
-                            
-                            return new Promise((resolve) => {
-
-                                const entries = table.querySelector('.data > .entries')
-
-                                entries.innerHTML = ''
-
-                                Object.values(tableData).forEach(async (data) => {
-                                    
-                                    const title = data['title']
-                                    const author = data['author']
-                                    const genre = data['genre']
-                                    const publicationDate = data['date_publicized']
-                                    const acquisitionDate = data['date_added']
-                                    let visibility = ``
-                                    let status = ``
-
-                                    data['status'] === 'Available' 
-                                    ? status = `<h2>${data['status']}</h2>` 
-                                    : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
-
-                                    status.includes('Past Due') 
-                                    ? visibility = 'visible' 
-                                    : visibility = 'hidden'
-
-                                    const entry =
-                                    `
-                                    <div class="entry">
-                                        <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
-                                        <div class="title"><h2>${ title }</h2></div>
-                                        <div class="status"><h2>${ status }</h2></div>
-                                        <div class="author"><h2>${ author }</h2></div>
-                                        <div class="genre"><h2>${ genre }</h2></div>
-                                        <div class="publicationDate"><h2>${ publicationDate }</h2></div>
-                                        <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
-                                        <div class="actions">
-                                            <i class="fa-regular fa-arrow-right-from-arc"></i>
-                                            <i class="fa-regular fa-message"></i>
-                                            <i class="fa-regular fa-pen-to-square"></i>
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+                                
+                                return new Promise((resolve) => {
+    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+    
+                                    Object.values(tableData).forEach(async (data) => {
+                                        
+                                        const title = data['title']
+                                        const author = data['author']
+                                        const genre = data['genre']
+                                        const publicationDate = data['date_publicized']
+                                        const acquisitionDate = data['date_added']
+                                        let visibility = ``
+                                        let status = ``
+    
+                                        data['status'] === 'Available' 
+                                        ? status = `<h2>${data['status']}</h2>` 
+                                        : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                                        status.includes('Past Due') 
+                                        ? visibility = 'visible' 
+                                        : visibility = 'hidden'
+    
+                                        const entry =
+                                        `
+                                        <div class="entry">
+                                            <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                                            <div class="title"><h2>${ title }</h2></div>
+                                            <div class="status"><h2>${ status }</h2></div>
+                                            <div class="author"><h2>${ author }</h2></div>
+                                            <div class="genre"><h2>${ genre }</h2></div>
+                                            <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                                            <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                                            <div class="actions">
+                                                <i class="fa-regular fa-arrow-right-from-arc"></i>
+                                                <i class="fa-regular fa-message"></i>
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    `
-
-                                    entries.innerHTML += entry
-        
+                                        `
+    
+                                        entries.innerHTML += entry
+            
+                                    })
+    
+                                    resolve()
+    
                                 })
-
-                                resolve()
-
-                            })
-
-                        }
-
-                        await setPaginationData()
-                        await setEntriesData()
-
-                        resolve()
-
-                    })
-
-                }
-
-                await setOverviewAvailable()
-                await setOverviewBorrowed()
-                await setOverviewDue()
-                await setTableData()
-
-                resolve()
-
-            })
-
-        }
-
-        const setPersonnelStudentsData = async (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                const bodyElement: HTMLBodyElement = document.querySelector('body')
-                const setOverviewVacant = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.first')
-                        const overviewCount: number = overviewData['vacantStudentCount']
-                        const overviewHeaderCount: number = overviewData['studentCount']
-                        const overviewHeaderCountPercentage: number = overviewData['vacantStudentCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Vacant</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
-                            </div>
-                            <h1>${ overviewCount } students</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setOverviewBorrower = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.second')
-                        const overviewCount: number = overviewData['borrowerStudentCount']
-                        const overviewHeaderCount: number = overviewData['studentCount']
-                        const overviewHeaderCountPercentage: number = overviewData['borrowerStudentCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Borrower</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
-                            </div>
-                            <h1>${ overviewCount } students</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setOverviewDue = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.third')
-                        const overviewCount: number = overviewData['dueStudentCount']
-                        const overviewHeaderCount: number = overviewData['studentCount']
-                        const overviewHeaderCountPercentage: number = overviewData['dueStudentCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Past Due</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
-                            </div>
-                            <h1>${ overviewCount } students</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setTableData = async (): Promise<void> => {
-
-                    return new Promise(async (resolve) => {
-
-                        const table: HTMLDivElement = document.querySelector('.table[data-tab="students"]')
-
-                        const setPaginationData = async (): Promise<void> => {
-
-                            return new Promise((resolve) => {
-
-                                const pagination = table.querySelector('.pagination')
-                                const maxPage = pagination.querySelector('.maxCount')
-
-                                maxPage.textContent = overviewData['studentCount']
-
-                                resolve()
-
-                            })
-
-                        }
-                        const setEntriesData = async (): Promise<void> => {
+    
+                            }
+    
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
+    
+                    await setOverviewAvailable()
+                    await setOverviewBorrowed()
+                    await setOverviewDue()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelStudentsData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewVacant = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['vacantStudentCount']
+                            const overviewHeaderCount: number = overviewData['studentCount']
+                            const overviewHeaderCountPercentage: number = overviewData['vacantStudentCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Vacant</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewBorrower = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['borrowerStudentCount']
+                            const overviewHeaderCount: number = overviewData['studentCount']
+                            const overviewHeaderCountPercentage: number = overviewData['borrowerStudentCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Borrower</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewDue = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['dueStudentCount']
+                            const overviewHeaderCount: number = overviewData['studentCount']
+                            const overviewHeaderCountPercentage: number = overviewData['dueStudentCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Past Due</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="students"]')
+    
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['studentCount']
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+                                
+                                return new Promise((resolve) => {
+                    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+    
+                                    Object.values(tableData).forEach(async (data) => {
+                    
+                                        const studentName = `${data['first_name']} ${data['last_name']}`
+                                        const studentNumber = data['student_number']
+                                        const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
+                                        const phoneNumber = data['phone_number']
+                                        const emailAddress = data['email']
+                                        let studentStatus = ``
+                                        let visibility = ``
+    
+                                        data['status'] === 'Vacant' 
+                                        ? studentStatus = `<h2>${data['status']}</h2>` 
+                                        : studentStatus = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                                        studentStatus.includes('Past Due') 
+                                        ? visibility = 'visible' 
+                                        : visibility = 'hidden'
+    
+                                        const entry =
+                                        `
+                                        <div class="entry">
+                                            <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                                            <div class="name"><h2>${ studentName }</h2></div>
+                                            <div class="studentNumber"><h2>${ studentNumber }</h2></div>
+                                            <div class="status">${ studentStatus }</div>
+                                            <div class="borrowedBook"><h2>${ borrowedBook }</h2></div>
+                                            <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
+                                            <div class="emailAddress"><h2>${ emailAddress }</h2></div>
+                                            <div class="actions">
+                                                <i class="fa-regular fa-message"></i>
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                                <i class="fa-regular fa-xmark"></i>
+                                            </div>
+                                        </div>
+                                        `
+    
+                                        entries.innerHTML += entry
                             
-                            return new Promise((resolve) => {
+                                    })
+                    
+                                    resolve()
+                    
+                                })
+                    
+                            }
+    
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
+    
+                    await setOverviewVacant()
+                    await setOverviewBorrower()
+                    await setOverviewDue()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelUsersData = async (): Promise<void> => {
                 
-                                const entries = table.querySelector('.data > .entries')
-
-                                entries.innerHTML = ''
-
-                                Object.values(tableData).forEach(async (data) => {
-                
-                                    const studentName = `${data['first_name']} ${data['last_name']}`
-                                    const studentNumber = data['student_number']
-                                    const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
-                                    const phoneNumber = data['phone_number']
-                                    const emailAddress = data['email']
-                                    let studentStatus = ``
-                                    let visibility = ``
-
-                                    data['status'] === 'Vacant' 
-                                    ? studentStatus = `<h2>${data['status']}</h2>` 
-                                    : studentStatus = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
-
-                                    studentStatus.includes('Past Due') 
-                                    ? visibility = 'visible' 
-                                    : visibility = 'hidden'
-
-                                    const entry =
-                                    `
-                                    <div class="entry">
-                                        <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
-                                        <div class="name"><h2>${ studentName }</h2></div>
-                                        <div class="studentNumber"><h2>${ studentNumber }</h2></div>
-                                        <div class="status">${ studentStatus }</div>
-                                        <div class="borrowedBook"><h2>${ borrowedBook }</h2></div>
-                                        <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
-                                        <div class="emailAddress"><h2>${ emailAddress }</h2></div>
-                                        <div class="actions">
-                                            <i class="fa-regular fa-message"></i>
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewPersonnel = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+                            
+                            const overview: HTMLBodyElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['personnelCount']
+                            const modalOverview: string =
+                            `
+                                <div class="header">
+                                    <h2>Personnel</h2>
+                                </div>
+                                <h1>${ overviewCount } personnel</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+                            
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewIT = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['itPersonnelCount']
+                            const overviewHeaderCount: number = overviewData['personnelCount']
+                            const overviewHeaderCountPercentage: number = overviewData['itPersonnelCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>IT</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
+                                </div>
+                                <h1>${ overviewCount } personnel</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewLibrarian = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['librarianPersonnelCount']
+                            const overviewHeaderCount: number = overviewData['personnelCount']
+                            const overviewHeaderCountPercentage: number = overviewData['librarianPersonnelCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Librarian</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
+                                </div>
+                                <h1>${ overviewCount } personnel</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="users"]')
+    
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['personnelCount']
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+                                
+                                return new Promise((resolve) => {
+                    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+                    
+                                    Object.values(tableData).forEach(async (data) => {
+                    
+                                        const fullName = `${data['first_name']} ${data['last_name']}`
+                                        const username = data['username']
+                                        const role = data['role']
+                                        let privilege = ``
+    
+                                        data['role'] === 'Librarian'
+                                        ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
+                                        : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`
+    
+                                        const entry =
+                                        `
+                                        <div class="entry">
+                                            <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
+                                            <div class="fullName"><h2>${ fullName }</h2></div>
+                                            <div class="username"><h2>${ username }</h2></div>
+                                            <div class="role"><h2>${ role }</h2></div>
+                                            <div class="privilege">${ privilege }</div>
+                                            <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
+                                            <div class="actions">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                             <i class="fa-regular fa-xmark"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    `
-
-                                    entries.innerHTML += entry
-                        
-                                })
-                
-                                resolve()
-                
-                            })
-                
-                        }
-
-                        await setPaginationData()
-                        await setEntriesData()
-
-                        resolve()
-
-                    })
-
-                }
-
-                await setOverviewVacant()
-                await setOverviewBorrower()
-                await setOverviewDue()
-                await setTableData()
-
-                resolve()
-
-            })
-
-        }
-
-        const setPersonnelUsersData = async (): Promise<void> => {
-            
-            return new Promise(async (resolve) => {
-
-                const bodyElement: HTMLBodyElement = document.querySelector('body')
-                const setOverviewPersonnel = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-                        
-                        const overview: HTMLBodyElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.first')
-                        const overviewCount: number = overviewData['personnelCount']
-                        const modalOverview: string =
-                        `
-                            <div class="header">
-                                <h2>Personnel</h2>
-                            </div>
-                            <h1>${ overviewCount } personnel</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-                        
-                        resolve()
-
-                    })
-
-                }
-                const setOverviewIT = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.second')
-                        const overviewCount: number = overviewData['itPersonnelCount']
-                        const overviewHeaderCount: number = overviewData['personnelCount']
-                        const overviewHeaderCountPercentage: number = overviewData['itPersonnelCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>IT</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
-                            </div>
-                            <h1>${ overviewCount } personnel</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setOverviewLibrarian = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        const overview: HTMLDivElement = bodyElement.querySelector('.overview')
-                        const modal: HTMLDivElement = overview.querySelector('.third')
-                        const overviewCount: number = overviewData['librarianPersonnelCount']
-                        const overviewHeaderCount: number = overviewData['personnelCount']
-                        const overviewHeaderCountPercentage: number = overviewData['librarianPersonnelCountPercentage']
-                        const modalOverview: string = 
-                        `
-                            <div class="header">
-                                <h2>Librarian</h2>
-                                <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
-                            </div>
-                            <h1>${ overviewCount } personnel</h1>
-                        `
-
-                        modal.innerHTML = ''
-                        modal.innerHTML = modalOverview
-
-                        resolve()
-
-                    })
-
-                }
-                const setTableData = async (): Promise<void> => {
-
-                    return new Promise(async (resolve) => {
-
-                        const table: HTMLDivElement = document.querySelector('.table[data-tab="users"]')
-
-                        const setPaginationData = async (): Promise<void> => {
-
-                            return new Promise((resolve) => {
-
-                                const pagination = table.querySelector('.pagination')
-                                const maxPage = pagination.querySelector('.maxCount')
-
-                                maxPage.textContent = overviewData['personnelCount']
-
-                                resolve()
-
-                            })
-
-                        }
-                        const setEntriesData = async (): Promise<void> => {
-                            
-                            return new Promise((resolve) => {
-                
-                                const entries = table.querySelector('.data > .entries')
-
-                                entries.innerHTML = ''
-                
-                                Object.values(tableData).forEach(async (data) => {
-                
-                                    const fullName = `${data['first_name']} ${data['last_name']}`
-                                    const username = data['username']
-                                    const role = data['role']
-                                    let privilege = ``
-
-                                    data['role'] === 'Librarian'
-                                    ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
-                                    : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`
-
-                                    const entry =
-                                    `
-                                    <div class="entry">
-                                        <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
-                                        <div class="fullName"><h2>${ fullName }</h2></div>
-                                        <div class="username"><h2>${ username }</h2></div>
-                                        <div class="role"><h2>${ role }</h2></div>
-                                        <div class="privilege">${ privilege }</div>
-                                        <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
-                                        <div class="actions">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                        <i class="fa-regular fa-xmark"></i>
-                                        </div>
-                                    </div>
-                                    `
-                
-                                    entries.innerHTML += entry
-                        
-                                })
-                
-                                resolve()
-                
-                            })
-                
-                        }
-
-                        await setPaginationData()
-                        await setEntriesData()
-
-                        resolve()
-
-                    })
-
-                }
-
-                await setOverviewPersonnel()
-                await setOverviewIT()
-                await setOverviewLibrarian()
-                await setTableData()
-
-                resolve()
-
-            })
-
-        }
-
-        const setStudentDashboardData = async (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                await setAccountData()
-
-                resolve()
-
-            })
-
-        }
-
-        try {
-
-            if (type !== 'students') {
-
-                switch (tab) {
+                                        `
                     
-                    case 'dashboard': 
-                        await setPersonnelDashboardData()
-                        break
-                    case 'inventory': 
-                        await setPersonnelInventoryData()
-                        break
-                    case 'students': 
-                        await setPersonnelStudentsData()
-                        break
-                    case 'users': 
-                        await setPersonnelUsersData()
-                        break
-                    default: 
-                        throw `Error in switch-case; passed argument: ${tab} did not match any case.`
-                
-                }
+                                        entries.innerHTML += entry
+                            
+                                    })
+                    
+                                    resolve()
+                    
+                                })
+                    
+                            }
     
-            } else { await setStudentDashboardData() }
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
+    
+                    await setOverviewPersonnel()
+                    await setOverviewIT()
+                    await setOverviewLibrarian()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setStudentDashboardData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    await setAccountData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            try {
+    
+                if (type !== 'students') {
+    
+                    switch (tab) {
+                        
+                        case 'dashboard': 
+                            await setPersonnelDashboardData()
+                            break
+                        case 'inventory': 
+                            await setPersonnelInventoryData()
+                            break
+                        case 'students': 
+                            await setPersonnelStudentsData()
+                            break
+                        case 'users': 
+                            await setPersonnelUsersData()
+                            break
+                        default: 
+                            throw `Error in switch-case; passed argument: ${tab} did not match any case.`
+                    
+                    }
+        
+                } else { await setStudentDashboardData() }
+    
+            } catch(err) {
+    
+                console.error(err.name, err.message)
+                throw err
+    
+            }
 
-        } catch(err) {
+        } else {
 
-            console.error(err.name, err.message)
-            throw err
+            const response: Response = await retrieveDashboardData(type, tab)
+            const responseBody: JSON = await response.json()
+            const accountData: JSON = responseBody['accountData']
+            const overviewData: JSON = responseBody['overviewData']
+            const tableData: JSON = responseBody['tableData']
+    
+            const setAccountData = async (): Promise<void> => {
+    
+                return new Promise((resolve) => {
+    
+                    const header = document.querySelector('header')
+                    const headerInfo = header.querySelector('.info')
+                    const headerInfoName = headerInfo.querySelector('.name')
+                    const headerInfoRole = headerInfo.querySelector('.role')
+                    
+                    headerInfoName.textContent = `${ accountData['first_name'] } ${ accountData['last_name'] }`
+                    headerInfoRole.textContent = accountData['role']
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelDashboardData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewRegistered = async (): Promise<void> => {
+                        
+                        return new Promise((resolve) => {
+                            
+                            const overview: HTMLBodyElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['studentCount']
+                            const modalOverview: string =
+                            `
+                                <div class="header">
+                                    <h2>Registered</h2>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+                            
+                            resolve()
+    
+                        })
+                        
+                    }
+                    const setOverviewAvailable = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['availableBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['availableBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Available</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewUnavailable = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['unavailableBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['unavailableBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Unavailable</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="dashboard"]')
+                            
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['bookCount']
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+    
+                                    Object.values(tableData).forEach(async (data) => {
+                                        
+                                        const title = data['title']
+                                        const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
+                                        const publicationDate = data['date_publicized']
+                                        const acquisitionDate = data['date_added']
+                                        let borrowerAndBorrowerNumber = ``
+                                        let borrowDateAndDuration = ``
+                                        let visibility = ``
+                                        let status = ``
+    
+                                        data['borrower'] === null 
+                                        ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
+                                        : borrowerAndBorrowerNumber = `<h2>${ data['borrower'] }</h2><h3>${ data['borrower_number'] }</h3>`
+                                        
+                                        data['date_borrowed'] === null
+                                        ? borrowDateAndDuration = `<h2>No data</h2>`
+                                        : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
+    
+                                        data['status'] === 'Available' 
+                                        ? status = `<h2>${data['status']}</h2>` 
+                                        : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                                        status.includes('Past Due') 
+                                        ? visibility = 'visible' 
+                                        : visibility = 'hidden'
+    
+                                        const entry =
+                                        `
+                                        <div class="entry">
+                                            <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                                            <div class="title"><h2>${ title }</h2></div>
+                                            <div class="status">${ status }</div>
+                                            <div class="borrower">${ borrowerAndBorrowerNumber }</div>
+                                            <div class="borrowDate">${ borrowDateAndDuration }</div>
+                                            <div class="dueDate"><h2>${ dueDate }</h2></div>
+                                            <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                                            <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                                            <div class="actions">
+                                                <i class="fa-regular fa-message"></i>
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </div>
+                                        </div>
+                                        `
+    
+                                        entries.innerHTML += entry
+            
+                                    })
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+    
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    
+                    await setAccountData()
+                    await setOverviewRegistered()
+                    await setOverviewAvailable()
+                    await setOverviewUnavailable()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelInventoryData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewAvailable = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['availableBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['availableBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Available</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewBorrowed = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['borrowedBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['borrowedBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Borrowed</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewDue = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['dueBookCount']
+                            const overviewHeaderCount: number = overviewData['bookCount']
+                            const overviewHeaderCountPercentage: number = overviewData['dueBookCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Past Due</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } books</h3>
+                                </div>
+                                <h1>${ overviewCount } books</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="inventory"]')
+    
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['bookCount']
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+                                
+                                return new Promise((resolve) => {
+    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+    
+                                    Object.values(tableData).forEach(async (data) => {
+                                        
+                                        const title = data['title']
+                                        const author = data['author']
+                                        const genre = data['genre']
+                                        const publicationDate = data['date_publicized']
+                                        const acquisitionDate = data['date_added']
+                                        let visibility = ``
+                                        let status = ``
+    
+                                        data['status'] === 'Available' 
+                                        ? status = `<h2>${data['status']}</h2>` 
+                                        : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                                        status.includes('Past Due') 
+                                        ? visibility = 'visible' 
+                                        : visibility = 'hidden'
+    
+                                        const entry =
+                                        `
+                                        <div class="entry">
+                                            <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                                            <div class="title"><h2>${ title }</h2></div>
+                                            <div class="status"><h2>${ status }</h2></div>
+                                            <div class="author"><h2>${ author }</h2></div>
+                                            <div class="genre"><h2>${ genre }</h2></div>
+                                            <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                                            <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                                            <div class="actions">
+                                                <i class="fa-regular fa-arrow-right-from-arc"></i>
+                                                <i class="fa-regular fa-message"></i>
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </div>
+                                        </div>
+                                        `
+    
+                                        entries.innerHTML += entry
+            
+                                    })
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+    
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
+    
+                    await setOverviewAvailable()
+                    await setOverviewBorrowed()
+                    await setOverviewDue()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelStudentsData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewVacant = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['vacantStudentCount']
+                            const overviewHeaderCount: number = overviewData['studentCount']
+                            const overviewHeaderCountPercentage: number = overviewData['vacantStudentCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Vacant</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewBorrower = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['borrowerStudentCount']
+                            const overviewHeaderCount: number = overviewData['studentCount']
+                            const overviewHeaderCountPercentage: number = overviewData['borrowerStudentCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Borrower</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewDue = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['dueStudentCount']
+                            const overviewHeaderCount: number = overviewData['studentCount']
+                            const overviewHeaderCountPercentage: number = overviewData['dueStudentCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Past Due</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } students</h3>
+                                </div>
+                                <h1>${ overviewCount } students</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="students"]')
+    
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['studentCount']
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+                                
+                                return new Promise((resolve) => {
+                    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+    
+                                    Object.values(tableData).forEach(async (data) => {
+                    
+                                        const studentName = `${data['first_name']} ${data['last_name']}`
+                                        const studentNumber = data['student_number']
+                                        const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
+                                        const phoneNumber = data['phone_number']
+                                        const emailAddress = data['email']
+                                        let studentStatus = ``
+                                        let visibility = ``
+    
+                                        data['status'] === 'Vacant' 
+                                        ? studentStatus = `<h2>${data['status']}</h2>` 
+                                        : studentStatus = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                                        studentStatus.includes('Past Due') 
+                                        ? visibility = 'visible' 
+                                        : visibility = 'hidden'
+    
+                                        const entry =
+                                        `
+                                        <div class="entry">
+                                            <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                                            <div class="name"><h2>${ studentName }</h2></div>
+                                            <div class="studentNumber"><h2>${ studentNumber }</h2></div>
+                                            <div class="status">${ studentStatus }</div>
+                                            <div class="borrowedBook"><h2>${ borrowedBook }</h2></div>
+                                            <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
+                                            <div class="emailAddress"><h2>${ emailAddress }</h2></div>
+                                            <div class="actions">
+                                                <i class="fa-regular fa-message"></i>
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                                <i class="fa-regular fa-xmark"></i>
+                                            </div>
+                                        </div>
+                                        `
+    
+                                        entries.innerHTML += entry
+                            
+                                    })
+                    
+                                    resolve()
+                    
+                                })
+                    
+                            }
+    
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
+    
+                    await setOverviewVacant()
+                    await setOverviewBorrower()
+                    await setOverviewDue()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setPersonnelUsersData = async (): Promise<void> => {
+                
+                return new Promise(async (resolve) => {
+    
+                    const bodyElement: HTMLBodyElement = document.querySelector('body')
+                    const setOverviewPersonnel = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+                            
+                            const overview: HTMLBodyElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.first')
+                            const overviewCount: number = overviewData['personnelCount']
+                            const modalOverview: string =
+                            `
+                                <div class="header">
+                                    <h2>Personnel</h2>
+                                </div>
+                                <h1>${ overviewCount } personnel</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+                            
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewIT = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.second')
+                            const overviewCount: number = overviewData['itPersonnelCount']
+                            const overviewHeaderCount: number = overviewData['personnelCount']
+                            const overviewHeaderCountPercentage: number = overviewData['itPersonnelCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>IT</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
+                                </div>
+                                <h1>${ overviewCount } personnel</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setOverviewLibrarian = async (): Promise<void> => {
+    
+                        return new Promise((resolve) => {
+    
+                            const overview: HTMLDivElement = bodyElement.querySelector('.overview')
+                            const modal: HTMLDivElement = overview.querySelector('.third')
+                            const overviewCount: number = overviewData['librarianPersonnelCount']
+                            const overviewHeaderCount: number = overviewData['personnelCount']
+                            const overviewHeaderCountPercentage: number = overviewData['librarianPersonnelCountPercentage']
+                            const modalOverview: string = 
+                            `
+                                <div class="header">
+                                    <h2>Librarian</h2>
+                                    <h3>${ overviewHeaderCountPercentage }% of ${ overviewHeaderCount } personnel</h3>
+                                </div>
+                                <h1>${ overviewCount } personnel</h1>
+                            `
+    
+                            modal.innerHTML = ''
+                            modal.innerHTML = modalOverview
+    
+                            resolve()
+    
+                        })
+    
+                    }
+                    const setTableData = async (): Promise<void> => {
+    
+                        return new Promise(async (resolve) => {
+    
+                            const table: HTMLDivElement = document.querySelector('.table[data-tab="users"]')
+    
+                            const setPaginationData = async (): Promise<void> => {
+    
+                                return new Promise((resolve) => {
+    
+                                    const pagination = table.querySelector('.pagination')
+                                    const maxPage = pagination.querySelector('.maxCount')
+    
+                                    maxPage.textContent = overviewData['personnelCount']
+    
+                                    resolve()
+    
+                                })
+    
+                            }
+                            const setEntriesData = async (): Promise<void> => {
+                                
+                                return new Promise((resolve) => {
+                    
+                                    const entries = table.querySelector('.data > .entries')
+    
+                                    entries.innerHTML = ''
+                    
+                                    Object.values(tableData).forEach(async (data) => {
+                    
+                                        const fullName = `${data['first_name']} ${data['last_name']}`
+                                        const username = data['username']
+                                        const role = data['role']
+                                        let privilege = ``
+    
+                                        data['role'] === 'Librarian'
+                                        ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
+                                        : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`
+    
+                                        const entry =
+                                        `
+                                        <div class="entry">
+                                            <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
+                                            <div class="fullName"><h2>${ fullName }</h2></div>
+                                            <div class="username"><h2>${ username }</h2></div>
+                                            <div class="role"><h2>${ role }</h2></div>
+                                            <div class="privilege">${ privilege }</div>
+                                            <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
+                                            <div class="actions">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                            <i class="fa-regular fa-xmark"></i>
+                                            </div>
+                                        </div>
+                                        `
+                    
+                                        entries.innerHTML += entry
+                            
+                                    })
+                    
+                                    resolve()
+                    
+                                })
+                    
+                            }
+    
+                            await setPaginationData()
+                            await setEntriesData()
+    
+                            resolve()
+    
+                        })
+    
+                    }
+    
+                    await setOverviewPersonnel()
+                    await setOverviewIT()
+                    await setOverviewLibrarian()
+                    await setTableData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            const setStudentDashboardData = async (): Promise<void> => {
+    
+                return new Promise(async (resolve) => {
+    
+                    await setAccountData()
+    
+                    resolve()
+    
+                })
+    
+            }
+    
+            try {
+    
+                if (type !== 'students') {
+    
+                    switch (tab) {
+                        
+                        case 'dashboard': 
+                            await setPersonnelDashboardData()
+                            break
+                        case 'inventory': 
+                            await setPersonnelInventoryData()
+                            break
+                        case 'students': 
+                            await setPersonnelStudentsData()
+                            break
+                        case 'users': 
+                            await setPersonnelUsersData()
+                            break
+                        default: 
+                            throw `Error in switch-case; passed argument: ${tab} did not match any case.`
+                    
+                    }
+        
+                } else { await setStudentDashboardData() }
+    
+            } catch(err) {
+    
+                console.error(err.name, err.message)
+                throw err
+    
+            }
 
         }
 
@@ -967,26 +1696,35 @@ export const paginateTable = async (totalEntries: number, currentPage: number = 
     
     return { currentPage, totalPages, entriesPerPage, startIndex, endIndex }
 
+}
+
+export const sortTableData = async () => {
+
+
+
+}
+
 export const setTableAction = async (tab: string) => {
 
     const bodyElement: HTMLBodyElement = document.querySelector('body')
-    const tableActionsBtn: HTMLDivElement = bodyElement.querySelector('.actions > button')
+    const tableControls: HTMLDivElement = bodyElement.querySelector('.controls')
+    const tableAction: HTMLButtonElement = tableControls.querySelector('button[data-type="action"]')
 
     try {
 
-        tableActionsBtn.innerHTML = ''
+        tableAction.innerHTML = ''
 
         switch (tab) {
 
             case 'dashboard':
-                tableActionsBtn.style.display = 'none'
+                tableAction.style.display = 'none'
                 break;
 
             case 'inventory':
-                tableActionsBtn.style.display = 'flex'
-                tableActionsBtn.outerHTML =
+                tableAction.style.display = 'flex'
+                tableAction.outerHTML =
                 `
-                    <button class="tableAction" data-tab="inventory">
+                    <button data-type="action" type="submit" enabled>
                         <i class="fa-regular fa-plus"></i>
                         Register a book
                     </button>
@@ -994,10 +1732,10 @@ export const setTableAction = async (tab: string) => {
                 break;
         
             case 'students':
-                tableActionsBtn.style.display = 'flex'
-                tableActionsBtn.outerHTML =
+                tableAction.style.display = 'flex'
+                tableAction.outerHTML =
                 `
-                    <button class="tableAction" data-tab="students">
+                    <button data-type="action" type="submit" enabled>
                         <i class="fa-regular fa-plus"></i>
                         Enroll a student
                     </button>
@@ -1005,10 +1743,10 @@ export const setTableAction = async (tab: string) => {
                 break;
 
             case 'users':
-                tableActionsBtn.style.display = 'flex'    
-                tableActionsBtn.outerHTML =
+                tableAction.style.display = 'flex'    
+                tableAction.outerHTML =
                 `
-                    <button class="tableAction" data-tab="users">
+                    <button data-type="action" type="submit" enabled>
                         <i class="fa-regular fa-plus"></i>
                         Register a library or IT personnel
                     </button>

@@ -206,26 +206,26 @@ html[data-site=dashboard] > body > .overview > div > .header {
 html[data-site=dashboard] > body > .overview > div > h1 {
   font-size: 1.25rem;
 }
-html[data-site=dashboard] > body > .actions {
+html[data-site=dashboard] > body > .controls {
   grid-template-columns: 1fr auto;
   padding: 0rem 16rem;
   display: grid;
   width: auto;
 }
-html[data-site=dashboard] > body > .actions > .search {
+html[data-site=dashboard] > body > .controls > .search {
   align-items: center;
   grid-column: 1;
   display: flex;
-  gap: 1rem;
+  gap: 0rem;
 }
-html[data-site=dashboard] > body > .actions > .search > .input {
+html[data-site=dashboard] > body > .controls > .search > .input {
   position: relative;
   align-items: center;
   display: flex;
   width: 100%;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > .actions > .search > .input > input {
+html[data-site=dashboard] > body > .controls > .search > .input > input {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -237,7 +237,7 @@ html[data-site=dashboard] > body > .actions > .search > .input > input {
   width: 100%;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > .actions > .search > .input > label {
+html[data-site=dashboard] > body > .controls > .search > .input > label {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -251,37 +251,35 @@ html[data-site=dashboard] > body > .actions > .search > .input > label {
   left: 0.5rem;
   top: 0.8rem;
 }
-html[data-site=dashboard] > body > .actions > .search > .input .input:hover, html[data-site=dashboard] > body > .actions > .search > .input .input:focus {
+html[data-site=dashboard] > body > .controls > .search > .input .input:hover, html[data-site=dashboard] > body > .controls > .search > .input .input:focus {
   border-color: var(--accent-primary);
   outline: none;
 }
-html[data-site=dashboard] > body > .actions > .search > .input .input:hover ~ .label, html[data-site=dashboard] > body > .actions > .search > .input .input:focus ~ .label {
+html[data-site=dashboard] > body > .controls > .search > .input .input:hover ~ .label, html[data-site=dashboard] > body > .controls > .search > .input .input:focus ~ .label {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > .actions > .search > .input .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .controls > .search > .input .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > .actions > .search > .input .input:focus ~ .label,
-html[data-site=dashboard] > body > .actions > .search > .input .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .controls > .search > .input .input:focus ~ .label,
+html[data-site=dashboard] > body > .controls > .search > .input .input:not(:placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > .actions > .search > i[aria-disabled=true] {
-  cursor: not-allowed;
-  color: var(--typography-secondary);
+html[data-site=dashboard] > body > .controls > .search > button[type=submit] {
+  padding: 0rem 1rem 0rem 1rem;
+  height: 100%;
 }
-html[data-site=dashboard] > body > .actions > .search > i[aria-disabled=false] {
-  cursor: pointer;
-  color: var(--typography-primary);
-}
-html[data-site=dashboard] > body > .actions > .tableAction {
+html[data-site=dashboard] > body > .controls > button[type=submit] {
   grid-column: 2;
-  margin-left: 2rem;
+  margin-left: 1rem;
+  padding: 0rem 2rem 0rem 2rem;
+  height: 100%;
 }
 html[data-site=dashboard] > body > .table {
   grid-template-columns: 100%;
@@ -474,7 +472,7 @@ html[data-site=dashboard] > body > footer {
   html[data-site=dashboard] > body > .overview {
     padding: 2rem 8rem;
   }
-  html[data-site=dashboard] > body > .actions {
+  html[data-site=dashboard] > body > .controls {
     padding: 0rem 8rem;
   }
   html[data-site=dashboard] > body > footer {
@@ -494,7 +492,7 @@ html[data-site=dashboard] > body > footer {
   html[data-site=dashboard] > body > .overview {
     padding: 2rem 4rem;
   }
-  html[data-site=dashboard] > body > .actions {
+  html[data-site=dashboard] > body > .controls {
     padding: 0rem 4rem;
   }
   html[data-site=dashboard] > body > footer {
@@ -517,7 +515,7 @@ html[data-site=dashboard] > body > footer {
   html[data-site=dashboard] > body > .overview {
     padding: 2rem 2rem;
   }
-  html[data-site=dashboard] > body > .actions {
+  html[data-site=dashboard] > body > .controls {
     padding: 0rem 2rem;
   }
   html[data-site=dashboard] > body > footer {
@@ -542,7 +540,7 @@ html[data-site=dashboard] > body > footer {
     padding: 1rem 1rem;
     display: flex;
   }
-  html[data-site=dashboard] > body > .actions {
+  html[data-site=dashboard] > body > .controls {
     padding: 0rem 1rem;
   }
   html[data-site=dashboard] > body > footer {
