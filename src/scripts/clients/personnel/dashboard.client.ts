@@ -167,29 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const tableControlsSearch = () => {
 
-            tableSearchInput.value = ''
-            tableSearchSubmit.disabled = true
-            
-            tableSearchInput.addEventListener('input', (event) => {
-
-                const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
-    
-                event.preventDefault()
-
-                if (tableSearchInput.value.trim() === '') {
-
-                    tableSearchSubmit.disabled = true
-                    utils.setDashboardData('personnel', activeTable)
-
-                } else { tableSearchSubmit.disabled = false }
-    
-            })
-
-            tableSearchSubmit.addEventListener('click', async (event) => {
+            const searchFunction = async () => {
 
                 try {
-                
-                    event.preventDefault()
 
                     const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
                     const activeTab: string = activeTable.getAttribute('data-tab')
@@ -218,6 +198,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = `/error?${ (await utils.errorPrompt({title: name, body: message})).toString() }`
     
                 }
+
+            }
+
+            tableSearchInput.value = ''
+            tableSearchSubmit.disabled = true
+            
+            tableSearchInput.addEventListener('keydown', async (event) => {
+
+                if (event.key === 'Enter' && tableSearchInput.value.trim() !== '') { await searchFunction() }
+
+            })
+
+            tableSearchInput.addEventListener('input', (event) => {
+
+                const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
+    
+                event.preventDefault()
+
+                if (tableSearchInput.value.trim() === '') {
+
+                    tableSearchSubmit.disabled = true
+                    utils.setDashboardData('personnel', activeTable)
+
+                } else { tableSearchSubmit.disabled = false }
+    
+            })
+
+            tableSearchSubmit.addEventListener('click', async (event) => {
+                
+                event.preventDefault()
+                
+                await searchFunction()
 
             })
 

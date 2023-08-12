@@ -102,22 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         tableControlsAction();
         const tableControlsSearch = () => {
-            tableSearchInput.value = '';
-            tableSearchSubmit.disabled = true;
-            tableSearchInput.addEventListener('input', (event) => {
-                const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
-                event.preventDefault();
-                if (tableSearchInput.value.trim() === '') {
-                    tableSearchSubmit.disabled = true;
-                    utils.setDashboardData('personnel', activeTable);
-                }
-                else {
-                    tableSearchSubmit.disabled = false;
-                }
-            });
-            tableSearchSubmit.addEventListener('click', async (event) => {
+            const searchFunction = async () => {
                 try {
-                    event.preventDefault();
                     const activeTable = bodyElement.querySelector('.table[data-active="true"]');
                     const activeTab = activeTable.getAttribute('data-tab');
                     const tableEntries = activeTable.querySelector('.data > .entries');
@@ -136,6 +122,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     const { name, message } = err;
                     window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
                 }
+            };
+            tableSearchInput.value = '';
+            tableSearchSubmit.disabled = true;
+            tableSearchInput.addEventListener('keydown', async (event) => {
+                if (event.key === 'Enter' && tableSearchInput.value.trim() !== '') {
+                    await searchFunction();
+                }
+            });
+            tableSearchInput.addEventListener('input', (event) => {
+                const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
+                event.preventDefault();
+                if (tableSearchInput.value.trim() === '') {
+                    tableSearchSubmit.disabled = true;
+                    utils.setDashboardData('personnel', activeTable);
+                }
+                else {
+                    tableSearchSubmit.disabled = false;
+                }
+            });
+            tableSearchSubmit.addEventListener('click', async (event) => {
+                event.preventDefault();
+                await searchFunction();
             });
         };
         tableControlsSearch();
