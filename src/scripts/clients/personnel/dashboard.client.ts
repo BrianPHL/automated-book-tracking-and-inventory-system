@@ -155,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableActions = () => {
 
         const bodyElement: HTMLBodyElement = document.querySelector('body')
-        const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
         const tableControls: HTMLDivElement = bodyElement.querySelector('.controls')
         const tableSearch: HTMLDivElement = tableControls.querySelector('.search')
         const tableSearchInput: HTMLInputElement = tableSearch.querySelector('.input > input[type="text"]')
@@ -172,17 +171,15 @@ document.addEventListener('DOMContentLoaded', () => {
             tableSearchSubmit.disabled = true
             
             tableSearchInput.addEventListener('input', (event) => {
+
+                const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
     
                 event.preventDefault()
-    
-                tableSearchInput.value.trim() === ''
-                ? tableSearchSubmit.disabled = true
-                : tableSearchSubmit.disabled = false
 
                 if (tableSearchInput.value.trim() === '') {
 
                     tableSearchSubmit.disabled = true
-                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
+                    utils.setDashboardData('personnel', activeTable)
 
                 } else { tableSearchSubmit.disabled = false }
     

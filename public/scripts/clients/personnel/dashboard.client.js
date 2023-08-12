@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navigationActions();
     const tableActions = () => {
         const bodyElement = document.querySelector('body');
-        const activeTable = bodyElement.querySelector('.table[data-active="true"]');
         const tableControls = bodyElement.querySelector('.controls');
         const tableSearch = tableControls.querySelector('.search');
         const tableSearchInput = tableSearch.querySelector('.input > input[type="text"]');
@@ -106,13 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
             tableSearchInput.value = '';
             tableSearchSubmit.disabled = true;
             tableSearchInput.addEventListener('input', (event) => {
+                const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
                 event.preventDefault();
-                tableSearchInput.value.trim() === ''
-                    ? tableSearchSubmit.disabled = true
-                    : tableSearchSubmit.disabled = false;
                 if (tableSearchInput.value.trim() === '') {
                     tableSearchSubmit.disabled = true;
-                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
+                    utils.setDashboardData('personnel', activeTable);
                 }
                 else {
                     tableSearchSubmit.disabled = false;
