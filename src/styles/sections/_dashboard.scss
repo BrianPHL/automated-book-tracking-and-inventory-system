@@ -185,8 +185,13 @@ html[data-site="dashboard"] {
 
                 & > button[type="submit"] {
 
+                    align-items: center;
                     padding: 0rem 1rem 0rem 1rem;
+                    display: flex;
                     height: 100%;
+                    gap: 0.5rem;
+
+                    & > i, h2 { transition: 0.2s ease; }
 
                 }
 

@@ -272,8 +272,14 @@ html[data-site=dashboard] > body > .controls > .search > .input .input:not(:plac
   top: -0.5rem;
 }
 html[data-site=dashboard] > body > .controls > .search > button[type=submit] {
+  align-items: center;
   padding: 0rem 1rem 0rem 1rem;
+  display: flex;
   height: 100%;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > .controls > .search > button[type=submit] > i, html[data-site=dashboard] > body > .controls > .search > button[type=submit] h2 {
+  transition: 0.2s ease;
 }
 html[data-site=dashboard] > body > .controls > button[type=submit] {
   grid-column: 2;

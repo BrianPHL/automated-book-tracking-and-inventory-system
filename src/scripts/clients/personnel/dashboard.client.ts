@@ -182,14 +182,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     })
                     const tableData = await response.json()
-                    
+            
                     tableEntries.innerHTML = ''
+                    tableSearchSubmit.disabled = true
+                    tableSearchSubmit.innerHTML = 
+                    `
+                    <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                    Searching...
+                    `
 
-                    Object.values(tableData).forEach(async (data: string) => {
+                    setTimeout(() => {
 
-                        tableEntries.innerHTML += data
+                        tableSearchSubmit.disabled = false
+                        tableSearchSubmit.innerHTML = 
+                        `
+                        <i class="fa-regular fa-magnifying-glass"></i>
+                        Search
+                        `
 
-                    })
+                        Object.values(tableData).forEach(async (data: string) => {
+
+                            tableEntries.innerHTML += data
+    
+                        })
+
+                    }, 2500)
 
                 } catch(err) {
                 
