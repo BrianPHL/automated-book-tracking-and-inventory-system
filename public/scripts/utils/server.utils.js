@@ -344,20 +344,19 @@ export const retrieveTableData = async (type, tab, query) => {
             !query
                 ? queryResult = await executeDatabaseQuery(`
                 SELECT
-                    first_name, last_name, student_number, 
+                    CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
                     status, borrowed_book, phone_number, email
                 FROM
                     students
                 `)
                 : queryResult = await executeDatabaseQuery(`
                 SELECT
-                    first_name, last_name, student_number, 
+                    CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
                     status, borrowed_book, phone_number, email
                 FROM
                     students
                 WHERE
-                    LOWER(first_name) LIKE LOWER('%${query}%')
-                    OR LOWER(last_name) LIKE LOWER('%${query}%')
+                    LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER('%${query}%')
                     OR LOWER(student_number) LIKE LOWER('%${query}%')
                     OR LOWER(status) LIKE LOWER('%${query}%')
                     OR LOWER(borrowed_book) LIKE LOWER('%${query}%')
@@ -365,7 +364,7 @@ export const retrieveTableData = async (type, tab, query) => {
                     OR LOWER(email) LIKE LOWER('%${query}%')
                 `);
             Object.values(queryResult).forEach(async (data) => {
-                const studentName = `${data['first_name']} ${data['last_name']}`;
+                const studentName = data['full_name'];
                 const studentNumber = data['student_number'];
                 const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book'];
                 const phoneNumber = data['phone_number'];
