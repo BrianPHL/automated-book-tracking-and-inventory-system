@@ -382,15 +382,6 @@ html[data-site=dashboard] > body > .table > .data > .headers > div > div > h3 {
   pointer-events: none;
   transition: 0.2s ease;
 }
-html[data-site=dashboard] > body > .table > .data > .headers > div:hover {
-  cursor: pointer;
-}
-html[data-site=dashboard] > body > .table > .data > .headers > div:hover > i {
-  color: var(--accent-primary);
-}
-html[data-site=dashboard] > body > .table > .data > .headers > div:hover > div > h2, html[data-site=dashboard] > body > .table > .data > .headers > div:hover h3 {
-  color: var(--accent-primary);
-}
 html[data-site=dashboard] > body > .table > .data > .headers > .warning {
   font-size: 1.25rem;
 }

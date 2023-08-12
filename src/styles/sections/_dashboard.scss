@@ -345,15 +345,6 @@ html[data-site="dashboard"] {
 
                         }
 
-                        &:hover {
-    
-                            cursor: pointer;
-
-                            & > i { color: var(--accent-primary); }
-                            & > div > h2, h3 { color: var(--accent-primary); }
-
-                        }
-
                     }
 
                     & > .warning { font-size: 1.25rem; }
