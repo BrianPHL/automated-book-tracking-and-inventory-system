@@ -440,7 +440,6 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     <div class="publicationDate"><h2>${ publicationDate }</h2></div>
                     <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
                     <div class="actions">
-                        <i class="fa-regular fa-message"></i>
                         <i class="fa-regular fa-pen-to-square"></i>
                     </div>
                 </div>
@@ -526,8 +525,8 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
                     <div class="actions">
                         <i class="fa-regular fa-arrow-right-from-arc"></i>
-                        <i class="fa-regular fa-message"></i>
                         <i class="fa-regular fa-pen-to-square"></i>
+                        <i class="fa-regular fa-xmark"></i>
                     </div>
                 </div>
                 `
