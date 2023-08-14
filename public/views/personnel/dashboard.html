@@ -15,7 +15,7 @@
     
     <body>
 
-        <div class="modal">
+        <div class="modal" style="display: none;">
 
             <div class="inventory" style="display: none;">
 
@@ -78,7 +78,7 @@
 
             </div>
 
-            <div class="students">
+            <div class="students" style="display: none;">
 
                 <div class="action">
 
@@ -123,6 +123,60 @@
 
                             <input type="email" name="email" class="input" placeholder=" ">
                             <label for="email" class="label">Email address</label>
+        
+                        </div>
+
+                        <div class="actions">
+
+                            <button type="submit">Submit</button>
+                            <button type="reset"><i class="fa-regular fa-redo"></i></button>    
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="users" style="display: none;">
+
+                <div class="action">
+
+                    <div class="header">
+
+                        <h3>Personnel registration form</h3>
+                        <i class="fa-regular fa-xmark"></i>
+
+                    </div>
+
+                    <form action="POST">
+
+                        <div class="firstName">
+
+                            <input type="text" name="firstName" class="input" placeholder=" ">
+                            <label for="firstName" class="label">First name</label>
+        
+                        </div>
+
+                        <div class="lastName">
+
+                            <input type="text" name="lastName" class="input" placeholder=" ">
+                            <label for="lastName" class="label">Last name</label>
+        
+                        </div>
+
+                        <div class="username">
+
+                            <input type="text" name="username" class="input" placeholder=" ">
+                            <label for="username" class="label">Username</label>
+        
+                        </div>
+
+                        <div class="role">
+
+                            <input type="text" name="role" class="input" placeholder=" ">
+                            <label for="role" class="label">Role</label>
         
                         </div>
 
