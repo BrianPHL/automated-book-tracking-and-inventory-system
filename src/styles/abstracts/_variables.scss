@@ -12,7 +12,8 @@ html[data-theme="light"] {
     --accent-primary: #347542;
     --accent-secondary: #D3F6DB;
 
-    --warning: #D02020;
+    --warning-primary: #D02020;
+    --warning-secondary: #FF5050;
 
 }
 
@@ -28,6 +29,7 @@ html[data-theme="dark"] {
     --accent-primary: #347542;
     --accent-secondary: #18271C;
 
-    --warning: #FF5050;
+    --warning-primary: #FF5050;
+    --warning-secondary: #D02020;
 
 }

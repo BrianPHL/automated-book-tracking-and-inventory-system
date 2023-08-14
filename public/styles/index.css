@@ -8,7 +8,8 @@ html[data-theme=light] {
   --typography-secondary: #606060;
   --accent-primary: #347542;
   --accent-secondary: #D3F6DB;
-  --warning: #D02020;
+  --warning-primary: #D02020;
+  --warning-secondary: #FF5050;
 }
 
 html[data-theme=dark] {
@@ -19,7 +20,8 @@ html[data-theme=dark] {
   --typography-secondary: #A0A0A0;
   --accent-primary: #347542;
   --accent-secondary: #18271C;
-  --warning: #FF5050;
+  --warning-primary: #FF5050;
+  --warning-secondary: #D02020;
 }
 
 * {
@@ -109,6 +111,114 @@ html[data-site=dashboard] > body {
   grid-template-rows: auto auto auto 1fr auto;
   display: grid;
   height: 100vh;
+}
+html[data-site=dashboard] > body .modal {
+  background-color: rgba(24, 39, 28, 0.8);
+  place-content: center;
+  position: absolute;
+  display: grid;
+  z-index: 999;
+  height: 100vh;
+  width: 100%;
+}
+html[data-site=dashboard] > body .modal > div > div {
+  background-color: var(--background-secondary);
+  flex-direction: column;
+  display: flex;
+  padding: 2rem;
+  width: 320px;
+  gap: 2rem;
+}
+html[data-site=dashboard] > body .modal > div > div > .header {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+html[data-site=dashboard] > body .modal > div > div > .header > i {
+  transition: 0.2s ease;
+}
+html[data-site=dashboard] > body .modal > div > div > .header > i:hover {
+  cursor: pointer;
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body .modal > div > div > form {
+  flex-direction: column;
+  display: flex;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body .modal > div > div > form > div {
+  position: relative;
+}
+html[data-site=dashboard] > body .modal > div > div > form > div > input {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  transition: 0.2s all ease;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid var(--background-tertiary);
+  width: 100%;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > div > label {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  pointer-events: none;
+  transition: 0.2s all ease;
+  position: absolute;
+  padding: 0 0.5rem;
+  cursor: text;
+  color: var(--typography-secondary);
+  left: 0.5rem;
+  top: 0.8rem;
+}
+html[data-site=dashboard] > body .modal > div > div > form > div .input:hover, html[data-site=dashboard] > body .modal > div > div > form > div .input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+html[data-site=dashboard] > body .modal > div > div > form > div .input:hover ~ .label, html[data-site=dashboard] > body .modal > div > div > form > div .input:focus ~ .label {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > div .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=dashboard] > body .modal > div > div > form > div .input:focus ~ .label,
+html[data-site=dashboard] > body .modal > div > div > form > div .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+  background-color: var(--background-secondary);
+  font-size: 0.65rem;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions {
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1.5rem;
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit] {
+  width: 100%;
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=reset] {
+  background-color: var(--warning-primary);
+  transition: 0.2s ease;
+  padding: 1rem 1rem 1rem 1rem;
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=reset] > i {
+  transition: 0.2s ease;
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=reset]:hover {
+  background-color: var(--warning-secondary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=reset]:hover > i {
+  color: var(--typography-primary);
 }
 html[data-site=dashboard] > body > header {
   background-color: var(--background-primary);

@@ -16,6 +16,92 @@ html[data-site="dashboard"] {
         display: grid;
         height: 100vh;
 
+        .modal {
+
+            background-color: rgba($color: #18271C, $alpha: 0.8);
+            place-content: center;
+            position: absolute;
+            display: grid;
+            z-index: 999;
+            height: 100vh;
+            width: 100%;
+
+            & > div {
+
+                & > div {
+
+                    background-color: var(--background-secondary);
+                    flex-direction: column;
+                    display: flex;
+                    padding: 2rem;
+                    width: 320px;
+                    gap: 2rem;
+
+                    & > .header {
+
+                        justify-content: space-between;
+                        align-items: center;
+                        display: flex;
+
+                        & > i {
+
+                            transition: 0.2s ease;
+
+                            &:hover {
+
+                                cursor: pointer;
+                                color: var(--accent-primary);
+
+                            }
+
+                        }
+
+                    }
+
+                    & > form {
+
+                        flex-direction: column;
+                        display: flex;
+                        gap: 1rem;
+
+                        & > div { @include input-styles(); }
+
+                        & > .actions {
+
+                            flex-direction: row;
+                            align-items: center;
+                            margin-top: 1.5rem;
+                            display: flex;
+                            width: 100%;
+                            gap: 0.5rem;
+                        
+                            & > button[type="submit"] { width: 100%; }
+                            
+                            & > button[type="reset"] {
+                            
+                                background-color: var(--warning-primary);
+                                transition: 0.2s ease;
+                                padding: 1rem 1rem 1rem 1rem;
+                            
+                                & > i { transition: 0.2s ease; }
+                                &:hover {
+                                    & > i { color: var(--typography-primary); }
+                                    background-color: var(--warning-secondary);
+                                }
+                                
+                            }
+
+                        }
+
+                    }
+
+                }
+
+
+            }
+
+        }
+
         & > header {
 
             background-color: var(--background-primary);
