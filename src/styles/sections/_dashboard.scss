@@ -203,7 +203,7 @@ html[data-site="dashboard"] {
 
                             cursor: pointer;
 
-                            & > i, h2 { color: var(--warning); }
+                            & > i, h2 { color: var(--warning-primary); }
 
                         }
 
@@ -490,7 +490,7 @@ html[data-site="dashboard"] {
                         & > .warning {
 
                             font-size: 1.25rem;
-                            color: var(--warning);
+                            color: var(--warning-primary);
 
                         }
 
