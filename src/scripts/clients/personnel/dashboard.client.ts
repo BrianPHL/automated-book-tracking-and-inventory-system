@@ -155,13 +155,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableActions = () => {
 
         const bodyElement: HTMLBodyElement = document.querySelector('body')
-        const tableControls: HTMLDivElement = bodyElement.querySelector('.controls')
-        const tableSearch: HTMLDivElement = tableControls.querySelector('.search')
+        const tableActions: HTMLDivElement = bodyElement.querySelector('.controls')
+        const tableSearch: HTMLDivElement = tableActions.querySelector('.search')
         const tableSearchInput: HTMLInputElement = tableSearch.querySelector('.input > input[type="text"]')
-        const tableSearchSubmit: HTMLButtonElement = tableControls.querySelector('button[data-type="search"]')
+        const tableSearchSubmit: HTMLButtonElement = tableActions.querySelector('button[data-type="search"]')
+        const modal: HTMLDivElement = bodyElement.querySelector('.modal')
+        const closeTableActions: NodeListOf<HTMLButtonElement> = modal.querySelectorAll('div > div > .header > i')
+        let prevTargetModal: HTMLDivElement
 
         const tableControlsAction = () => {
 
+            tableActions.addEventListener('click', () => {
+
+                const target = event.target as HTMLElement
+
+                if (target && target.matches('button[data-type="action"]')) {
+
+                    const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
+                    const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTable } > .action`)
+
+                    prevTargetModal = targetModal
+                    modal.style.display = 'grid'
+                    targetModal.style.display = 'flex'
+                    
+                }
+
+            })
+
+            closeTableActions.forEach((closeTableAction) => {
+
+                closeTableAction.addEventListener('click', () => {
+
+                    modal.style.display = 'none'
+                    prevTargetModal.style.display = 'none'
+
+                })
+
+            })
+            
         }
         tableControlsAction()
 
@@ -255,6 +286,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
     tableActions()
+
+    const tableControls = () => {
+
+
+
+    }
+    tableControls()
 
     utils.setDashboardData('personnel')
     utils.setTableAction('dashboard')

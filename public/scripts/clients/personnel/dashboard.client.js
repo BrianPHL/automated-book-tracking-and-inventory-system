@@ -94,11 +94,30 @@ document.addEventListener('DOMContentLoaded', () => {
     navigationActions();
     const tableActions = () => {
         const bodyElement = document.querySelector('body');
-        const tableControls = bodyElement.querySelector('.controls');
-        const tableSearch = tableControls.querySelector('.search');
+        const tableActions = bodyElement.querySelector('.controls');
+        const tableSearch = tableActions.querySelector('.search');
         const tableSearchInput = tableSearch.querySelector('.input > input[type="text"]');
-        const tableSearchSubmit = tableControls.querySelector('button[data-type="search"]');
+        const tableSearchSubmit = tableActions.querySelector('button[data-type="search"]');
+        const modal = bodyElement.querySelector('.modal');
+        const closeTableActions = modal.querySelectorAll('div > div > .header > i');
+        let prevTargetModal;
         const tableControlsAction = () => {
+            tableActions.addEventListener('click', () => {
+                const target = event.target;
+                if (target && target.matches('button[data-type="action"]')) {
+                    const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
+                    const targetModal = modal.querySelector(`.${activeTable} > .action`);
+                    prevTargetModal = targetModal;
+                    modal.style.display = 'grid';
+                    targetModal.style.display = 'flex';
+                }
+            });
+            closeTableActions.forEach((closeTableAction) => {
+                closeTableAction.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                    prevTargetModal.style.display = 'none';
+                });
+            });
         };
         tableControlsAction();
         const tableControlsSearch = () => {
@@ -163,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
         tableControlsSearch();
     };
     tableActions();
+    const tableControls = () => {
+    };
+    tableControls();
     utils.setDashboardData('personnel');
     utils.setTableAction('dashboard');
 });
