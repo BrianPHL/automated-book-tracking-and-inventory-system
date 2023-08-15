@@ -1058,19 +1058,6 @@ export const setDashboardData = async (type, tab, data) => {
         window.location.href = `/error?${(await errorPrompt({ title: name, body: message })).toString()}`;
     }
 };
-export const paginateTable = async (totalEntries, currentPage = 1, entriesPerPage = 15) => {
-    let totalPages = 0;
-    let startIndex = 0;
-    let endIndex = 0;
-    currentPage = Math.max(1, currentPage);
-    totalPages = Math.ceil(totalEntries / entriesPerPage);
-    currentPage = Math.min(currentPage, totalPages);
-    startIndex = (currentPage - 1) * entriesPerPage;
-    endIndex = Math.min(startIndex + entriesPerPage - 1, totalEntries - 1);
-    return { currentPage, totalPages, entriesPerPage, startIndex, endIndex };
-};
-export const sortTableData = async () => {
-};
 export const setTableAction = async (tab) => {
     const bodyElement = document.querySelector('body');
     const tableControls = bodyElement.querySelector('.controls');

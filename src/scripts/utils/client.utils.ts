@@ -1580,28 +1580,6 @@ export const setDashboardData = async (type: string, tab?: string, data?: object
 
 }
 
-export const paginateTable = async (totalEntries: number, currentPage: number = 1, entriesPerPage: number = 15): Promise<object> => {
-
-    let totalPages: number = 0
-    let startIndex: number = 0
-    let endIndex: number = 0
-
-    currentPage = Math.max(1, currentPage); 
-    totalPages = Math.ceil(totalEntries / entriesPerPage);    
-    currentPage = Math.min(currentPage, totalPages);    
-    startIndex = (currentPage - 1) * entriesPerPage;
-    endIndex = Math.min(startIndex + entriesPerPage - 1, totalEntries - 1);   
-    
-    return { currentPage, totalPages, entriesPerPage, startIndex, endIndex }
-
-}
-
-export const sortTableData = async () => {
-
-
-
-}
-
 export const setTableAction = async (tab: string) => {
 
     const bodyElement: HTMLBodyElement = document.querySelector('body')
