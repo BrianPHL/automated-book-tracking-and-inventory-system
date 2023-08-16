@@ -156,47 +156,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const bodyElement: HTMLBodyElement = document.querySelector('body')
         const tableActions: HTMLDivElement = bodyElement.querySelector('.controls')
-        const tableSearch: HTMLDivElement = tableActions.querySelector('.search')
-        const tableSearchInput: HTMLInputElement = tableSearch.querySelector('.input > input[type="text"]')
-        const tableSearchSubmit: HTMLButtonElement = tableActions.querySelector('button[data-type="search"]')
         const modal: HTMLDivElement = bodyElement.querySelector('.modal')
-        const closeTableActions: NodeListOf<HTMLButtonElement> = modal.querySelectorAll('div > div > .header > i')
         let prevTargetModal: HTMLDivElement
 
-        const tableControlsAction = () => {
+        tableActions.addEventListener('click', () => {
 
-            tableActions.addEventListener('click', () => {
+            const target = event.target as HTMLElement
 
-                const target = event.target as HTMLElement
+            if (target && target.matches('button[data-type="action"]')) {
 
-                if (target && target.matches('button[data-type="action"]')) {
+                const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
+                const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTable } > .action`)
 
-                    const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
-                    const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTable } > .action`)
+                prevTargetModal = targetModal
+                modal.style.display = 'grid'
+                targetModal.style.display = 'flex'
+                
+            }
 
-                    prevTargetModal = targetModal
-                    modal.style.display = 'grid'
-                    targetModal.style.display = 'flex'
-                    
-                }
-
-            })
-
-            closeTableActions.forEach((closeTableAction) => {
-
-                closeTableAction.addEventListener('click', () => {
-
-                    modal.style.display = 'none'
-                    prevTargetModal.style.display = 'none'
-
-                })
-
-            })
-            
-        }
-        tableControlsAction()
+        })
 
         const tableControlsSearch = () => {
+
+            const tableSearch: HTMLDivElement = tableActions.querySelector('.search')
+            const tableSearchInput: HTMLInputElement = tableSearch.querySelector('.input > input[type="text"]')
+            const tableSearchSubmit: HTMLButtonElement = tableActions.querySelector('button[data-type="search"]')
 
             const searchFunction = async () => {
 
@@ -283,6 +267,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
         tableControlsSearch()
+
+        const modalActions = () => {
+
+            const closeModalBtns: NodeListOf<HTMLButtonElement> = modal.querySelectorAll('div > div > .header > i')
+            const modalForm: HTMLFormElement = modal.querySelector('div > div > form')
+            const modalFormInputs: NodeListOf<HTMLInputElement> = modalForm.querySelectorAll('div > input')
+            const resetFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="reset"]')
+
+            closeModalBtns.forEach((closeModalBtn: HTMLButtonElement) => {
+
+                closeModalBtn.addEventListener('click', () => {
+
+                    modal.style.display = 'none'
+                    prevTargetModal.style.display = 'none'
+
+                })
+
+            })
+
+            resetFormBtns.forEach((resetFormBtn: HTMLButtonElement) => {
+
+                resetFormBtn.addEventListener('click', () => {
+
+                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { 
+                        
+                        modalFormInput.value = '' 
+                    
+                    })
+
+                })
+
+            })
+
+        }
+        modalActions()
 
     }
     tableActions()

@@ -95,32 +95,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableActions = () => {
         const bodyElement = document.querySelector('body');
         const tableActions = bodyElement.querySelector('.controls');
-        const tableSearch = tableActions.querySelector('.search');
-        const tableSearchInput = tableSearch.querySelector('.input > input[type="text"]');
-        const tableSearchSubmit = tableActions.querySelector('button[data-type="search"]');
         const modal = bodyElement.querySelector('.modal');
-        const closeTableActions = modal.querySelectorAll('div > div > .header > i');
         let prevTargetModal;
-        const tableControlsAction = () => {
-            tableActions.addEventListener('click', () => {
-                const target = event.target;
-                if (target && target.matches('button[data-type="action"]')) {
-                    const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
-                    const targetModal = modal.querySelector(`.${activeTable} > .action`);
-                    prevTargetModal = targetModal;
-                    modal.style.display = 'grid';
-                    targetModal.style.display = 'flex';
-                }
-            });
-            closeTableActions.forEach((closeTableAction) => {
-                closeTableAction.addEventListener('click', () => {
-                    modal.style.display = 'none';
-                    prevTargetModal.style.display = 'none';
-                });
-            });
-        };
-        tableControlsAction();
+        tableActions.addEventListener('click', () => {
+            const target = event.target;
+            if (target && target.matches('button[data-type="action"]')) {
+                const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
+                const targetModal = modal.querySelector(`.${activeTable} > .action`);
+                prevTargetModal = targetModal;
+                modal.style.display = 'grid';
+                targetModal.style.display = 'flex';
+            }
+        });
         const tableControlsSearch = () => {
+            const tableSearch = tableActions.querySelector('.search');
+            const tableSearchInput = tableSearch.querySelector('.input > input[type="text"]');
+            const tableSearchSubmit = tableActions.querySelector('button[data-type="search"]');
             const searchFunction = async () => {
                 try {
                     const activeTable = bodyElement.querySelector('.table[data-active="true"]');
@@ -180,6 +170,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
         tableControlsSearch();
+        const modalActions = () => {
+            const closeModalBtns = modal.querySelectorAll('div > div > .header > i');
+            const modalForm = modal.querySelector('div > div > form');
+            const modalFormInputs = modalForm.querySelectorAll('div > input');
+            const resetFormBtns = modalForm.querySelectorAll('.actions > button[type="reset"]');
+            closeModalBtns.forEach((closeModalBtn) => {
+                closeModalBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                    prevTargetModal.style.display = 'none';
+                });
+            });
+            resetFormBtns.forEach((resetFormBtn) => {
+                resetFormBtn.addEventListener('click', () => {
+                    modalFormInputs.forEach((modalFormInput) => {
+                        modalFormInput.value = '';
+                    });
+                });
+            });
+        };
+        modalActions();
     };
     tableActions();
     const tableControls = () => {
