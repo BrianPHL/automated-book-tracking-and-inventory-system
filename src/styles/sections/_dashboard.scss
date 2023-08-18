@@ -34,7 +34,7 @@ html[data-site="dashboard"] {
                     flex-direction: column;
                     display: flex;
                     padding: 2rem;
-                    width: 320px;
+                    width: 360px;
                     gap: 2rem;
 
                     & > .header {
@@ -50,7 +50,7 @@ html[data-site="dashboard"] {
                             &:hover {
 
                                 cursor: pointer;
-                                color: var(--accent-primary);
+                                color: var(--warning-primary);
 
                             }
 
@@ -68,28 +68,50 @@ html[data-site="dashboard"] {
 
                         & > .actions {
 
+                            justify-content: flex-end;
                             flex-direction: row;
                             align-items: center;
                             margin-top: 1.5rem;
                             display: flex;
                             width: 100%;
-                            gap: 0.5rem;
-                        
-                            & > button[type="submit"] { width: 100%; }
-                            
+                            gap: 1rem;
+
                             & > button[type="reset"] {
-                            
-                                background-color: var(--warning-primary);
-                                transition: 0.2s ease;
-                                padding: 1rem 1rem 1rem 1rem;
-                            
-                                & > i { transition: 0.2s ease; }
-                                &:hover {
-                                    & > i { color: var(--typography-primary); }
-                                    background-color: var(--warning-secondary);
-                                }
+
+                                @include anchor-styles;
                                 
+                                background-color: transparent;
+                                padding: 0;
+                                color: var(--accent-primary);
+
+                                &:hover { color: var(--warning-primary); }
+
                             }
+
+                            & > button[type="submit"] {
+
+                                @include anchor-styles;
+
+                                padding: 0.5rem 1rem 0.5rem 1rem;
+                                color: var(--background-secondary);
+
+                            }
+                        
+                            // & > button[type="submit"] { width: 100%; }
+                            
+                            // & > button[type="reset"] {
+                            
+                            //     background-color: var(--warning-primary);
+                            //     transition: 0.2s ease;
+                            //     padding: 1rem 1rem 1rem 1rem;
+                            
+                            //     & > i { transition: 0.2s ease; }
+                            //     &:hover {
+                            //         & > i { color: var(--typography-primary); }
+                            //         background-color: var(--warning-secondary);
+                            //     }
+                                
+                            // }
 
                         }
 
