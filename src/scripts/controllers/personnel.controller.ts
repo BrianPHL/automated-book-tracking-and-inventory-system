@@ -21,7 +21,7 @@ export const personnelLogin = async (req: Request, res: Response): Promise<void>
 
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 
@@ -84,7 +84,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
         
         await utils.errorPromptURL(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
     
@@ -94,9 +94,21 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 export const personnelTableSearch = async (req: Request, res: Response) => {
 
-    const tableData = await utils.retrieveTableData('personnel', req.params.table, req.params.query)
+    try {
+
+        const tableData = await utils.retrieveTableData('personnel', req.params.tab, req.params.query)
     
-    res.json(tableData)
+        res.json(tableData)
+
+    } catch (err) {
+
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: `Internal Server Error - ${ err.name }`,
+            body: err.message
+        })
+
+    }
     
 }
 
@@ -122,7 +134,7 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
 
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 
@@ -170,7 +182,7 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
 
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 
@@ -218,7 +230,7 @@ export const personnelStudents = async (req: Request, res: Response): Promise<vo
 
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 
@@ -266,7 +278,7 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 
@@ -314,7 +326,7 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
 
         await utils.errorPromptURL(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 

@@ -14,7 +14,7 @@ export const personnelLogin = async (req, res) => {
     catch (err) {
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${err.name}`,
             body: err.message
         });
     }
@@ -67,14 +67,24 @@ export const personnelLoginAuth = async (req, res) => {
     catch (err) {
         await utils.errorPromptURL(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${err.name}`,
             body: err.message
         });
     }
 };
 export const personnelTableSearch = async (req, res) => {
-    const tableData = await utils.retrieveTableData('personnel', req.params.table, req.params.query);
-    res.json(tableData);
+    try {
+        const tableData = await utils.retrieveTableData('personnel', req.params.tab, req.params.query);
+        res.json(tableData);
+    }
+    catch (err) {
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: `Internal Server Error - ${err.name}`,
+            body: err.message
+        });
+    }
+};
 };
 export const personnelDashboard = async (req, res) => {
     try {
@@ -94,7 +104,7 @@ export const personnelDashboard = async (req, res) => {
     catch (err) {
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${err.name}`,
             body: err.message
         });
     }
@@ -128,7 +138,7 @@ export const personnelInventory = async (req, res) => {
     catch (err) {
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${err.name}`,
             body: err.message
         });
     }
@@ -162,7 +172,7 @@ export const personnelStudents = async (req, res) => {
     catch (err) {
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${err.name}`,
             body: err.message
         });
     }
@@ -196,7 +206,7 @@ export const personnelUsers = async (req, res) => {
     catch (err) {
         await utils.errorPromptRedirect(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${err.name}`,
             body: err.message
         });
     }
@@ -230,7 +240,7 @@ export const personnelLogout = async (req, res) => {
     catch (err) {
         await utils.errorPromptURL(res, {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${err.name}`,
             body: err.message
         });
     }
