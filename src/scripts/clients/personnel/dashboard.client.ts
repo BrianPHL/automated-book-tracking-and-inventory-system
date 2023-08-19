@@ -158,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableActions: HTMLDivElement = bodyElement.querySelector('.controls')
         const modal: HTMLDivElement = bodyElement.querySelector('.modal')
         let prevTargetModal: HTMLDivElement
+        let isModalOpen: boolean = false
 
         tableActions.addEventListener('click', () => {
 
@@ -171,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 prevTargetModal = targetModal
                 modal.style.display = 'grid'
                 targetModal.style.display = 'flex'
+                isModalOpen = true
                 
             }
 
@@ -281,22 +283,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     modal.style.display = 'none'
                     prevTargetModal.style.display = 'none'
+                    isModalOpen = false
+
+                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { modalFormInput.value = '' })
 
                 })
 
             })
 
-            cancelFormBtns.forEach((cancelFormBtn: HTMLButtonElement) => {
+            document.addEventListener('keydown', (event) => {
 
-                cancelFormBtn.addEventListener('click', () => {
+                if (event.key === 'Escape' && isModalOpen) {
 
-                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { 
-                        
-                        modalFormInput.value = '' 
-                        modal.style.display = 'none'
-                        prevTargetModal.style.display = 'none'
+                    modal.style.display = 'none'
+                    prevTargetModal.style.display = 'none'
+                    isModalOpen = false
                     
-                    })
+                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { modalFormInput.value = '' })
+
+                }
+
+            })
+
 
                 })
 

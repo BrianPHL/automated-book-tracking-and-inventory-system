@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableActions = bodyElement.querySelector('.controls');
         const modal = bodyElement.querySelector('.modal');
         let prevTargetModal;
+        let isModalOpen = false;
         tableActions.addEventListener('click', () => {
             const target = event.target;
             if (target && target.matches('button[data-type="action"]')) {
@@ -105,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 prevTargetModal = targetModal;
                 modal.style.display = 'grid';
                 targetModal.style.display = 'flex';
+                isModalOpen = true;
             }
         });
         const tableControlsSearch = () => {
@@ -179,15 +181,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeModalBtn.addEventListener('click', () => {
                     modal.style.display = 'none';
                     prevTargetModal.style.display = 'none';
+                    isModalOpen = false;
+                    modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
                 });
             });
-            cancelFormBtns.forEach((cancelFormBtn) => {
-                cancelFormBtn.addEventListener('click', () => {
-                    modalFormInputs.forEach((modalFormInput) => {
-                        modalFormInput.value = '';
-                        modal.style.display = 'none';
-                        prevTargetModal.style.display = 'none';
-                    });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && isModalOpen) {
+                    modal.style.display = 'none';
+                    prevTargetModal.style.display = 'none';
+                    isModalOpen = false;
+                    modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
+                }
+            });
                 });
             });
         };
