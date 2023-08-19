@@ -223,14 +223,45 @@ html[data-site=dashboard] > body .modal > div > div > form > .actions > button[t
 html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit] {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  display: flex;
+  gap: 0.5rem;
+  transition: 0.2s all ease;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
   font-size: 0.75rem;
   color: var(--typography-secondary);
-  transition: 0.2s all ease;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  color: var(--background-secondary);
 }
-html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit]:hover {
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit]:enabled {
+  background-color: var(--accent-primary);
+  color: var(--background-primary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit]:enabled > i {
+  transition: 0.2s all ease;
+  color: var(--background-primary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit]:enabled:hover {
+  background-color: var(--typography-primary);
+  cursor: pointer;
   color: var(--accent-primary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit]:enabled:hover > i {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit]:disabled {
+  background-color: var(--accent-secondary);
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] > body .modal > div > div > form > .actions > button[type=submit]:disabled:hover {
+  cursor: not-allowed;
 }
 html[data-site=dashboard] > body > header {
   background-color: var(--background-primary);
@@ -400,14 +431,14 @@ html[data-site=dashboard] > body > .controls > .search > button[type=submit] {
   height: 100%;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > .controls > .search > button[type=submit] > i, html[data-site=dashboard] > body > .controls > .search > button[type=submit] h2 {
-  transition: 0.2s ease;
-}
 html[data-site=dashboard] > body > .controls > button[type=submit] {
   grid-column: 2;
   margin-left: 1rem;
   padding: 0rem 2rem 0rem 2rem;
   height: 100%;
+}
+html[data-site=dashboard] > body > .controls > button[type=submit] > i {
+  pointer-events: none;
 }
 html[data-site=dashboard] > body > .table {
   grid-template-columns: 100%;

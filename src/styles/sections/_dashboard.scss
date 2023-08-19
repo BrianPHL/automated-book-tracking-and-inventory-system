@@ -90,28 +90,12 @@ html[data-site="dashboard"] {
 
                             & > button[type="submit"] {
 
-                                @include anchor-styles;
+                                @include primary-button-styles;
+                                @include h3-styles;
 
                                 padding: 0.5rem 1rem 0.5rem 1rem;
-                                color: var(--background-secondary);
 
                             }
-                        
-                            // & > button[type="submit"] { width: 100%; }
-                            
-                            // & > button[type="reset"] {
-                            
-                            //     background-color: var(--warning-primary);
-                            //     transition: 0.2s ease;
-                            //     padding: 1rem 1rem 1rem 1rem;
-                            
-                            //     & > i { transition: 0.2s ease; }
-                            //     &:hover {
-                            //         & > i { color: var(--typography-primary); }
-                            //         background-color: var(--warning-secondary);
-                            //     }
-                                
-                            // }
 
                         }
 
@@ -299,8 +283,6 @@ html[data-site="dashboard"] {
                     height: 100%;
                     gap: 0.5rem;
 
-                    & > i, h2 { transition: 0.2s ease; }
-
                 }
 
             }
@@ -311,6 +293,8 @@ html[data-site="dashboard"] {
                 margin-left: 1rem;
                 padding: 0rem 2rem 0rem 2rem;
                 height: 100%;
+
+                & > i { pointer-events: none; }
 
             }
                 
