@@ -127,7 +127,7 @@ html[data-site=dashboard] > body .modal > div > div {
   display: flex;
   padding: 2rem;
   width: 360px;
-  gap: 2rem;
+  gap: 3rem;
 }
 html[data-site=dashboard] > body .modal > div > div > .header {
   justify-content: space-between;
@@ -199,7 +199,7 @@ html[data-site=dashboard] > body .modal > div > div > form > .actions {
   justify-content: flex-end;
   flex-direction: row;
   align-items: center;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   display: flex;
   width: 100%;
   gap: 1rem;
@@ -770,7 +770,7 @@ html[data-site=login] > body > .modal {
   padding: 2rem;
   display: flex;
   width: 20rem;
-  gap: 2rem;
+  gap: 3rem;
 }
 html[data-site=login] > body > .modal > .header {
   justify-content: space-between;
@@ -809,12 +809,11 @@ html[data-site=login] > body > .modal > form {
   flex-direction: column;
   display: flex;
   width: 100%;
-  gap: 2rem;
 }
 html[data-site=login] > body > .modal > form > .inputs {
   flex-direction: column;
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 html[data-site=login] > body > .modal > form > .inputs > .username, html[data-site=login] > body > .modal > form > .inputs > .phoneNumber {
   position: relative;
@@ -924,7 +923,8 @@ html[data-site=login] > body > .modal > form > .actions {
   flex-direction: column;
   align-items: center;
   display: flex;
-  gap: 0.25rem;
+  margin-top: 3rem;
+  gap: 1rem;
 }
 html[data-site=login] > body > .modal > form > .actions > button {
   width: 100%;
