@@ -174,17 +174,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const closeModalBtns = modal.querySelectorAll('div > div > .header > i');
             const modalForm = modal.querySelector('div > div > form');
             const modalFormInputs = modalForm.querySelectorAll('div > input');
-            const resetFormBtns = modalForm.querySelectorAll('.actions > button[type="reset"]');
+            const cancelFormBtns = modalForm.querySelectorAll('.actions > button[type="reset"]');
             closeModalBtns.forEach((closeModalBtn) => {
                 closeModalBtn.addEventListener('click', () => {
                     modal.style.display = 'none';
                     prevTargetModal.style.display = 'none';
                 });
             });
-            resetFormBtns.forEach((resetFormBtn) => {
-                resetFormBtn.addEventListener('click', () => {
+            cancelFormBtns.forEach((cancelFormBtn) => {
+                cancelFormBtn.addEventListener('click', () => {
                     modalFormInputs.forEach((modalFormInput) => {
                         modalFormInput.value = '';
+                        modal.style.display = 'none';
+                        prevTargetModal.style.display = 'none';
                     });
                 });
             });
