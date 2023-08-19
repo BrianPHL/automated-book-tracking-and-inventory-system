@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const closeModalBtns: NodeListOf<HTMLButtonElement> = modal.querySelectorAll('div > div > .header > i')
             const modalForm: HTMLFormElement = modal.querySelector('div > div > form')
             const modalFormInputs: NodeListOf<HTMLInputElement> = modalForm.querySelectorAll('div > input')
-            const cancelFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="reset"]')
+            const resetFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="reset"]')
 
             closeModalBtns.forEach((closeModalBtn: HTMLButtonElement) => {
 
@@ -305,6 +305,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             })
 
+            resetFormBtns.forEach((resetFormBtn: HTMLButtonElement) => {
+
+                resetFormBtn.addEventListener('click', () => {
+
+                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { modalFormInput.value = '' })
 
                 })
 

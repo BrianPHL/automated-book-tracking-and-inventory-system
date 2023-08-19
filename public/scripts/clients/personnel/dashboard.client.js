@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const closeModalBtns = modal.querySelectorAll('div > div > .header > i');
             const modalForm = modal.querySelector('div > div > form');
             const modalFormInputs = modalForm.querySelectorAll('div > input');
-            const cancelFormBtns = modalForm.querySelectorAll('.actions > button[type="reset"]');
+            const resetFormBtns = modalForm.querySelectorAll('.actions > button[type="reset"]');
             closeModalBtns.forEach((closeModalBtn) => {
                 closeModalBtn.addEventListener('click', () => {
                     modal.style.display = 'none';
@@ -193,6 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
                 }
             });
+            resetFormBtns.forEach((resetFormBtn) => {
+                resetFormBtn.addEventListener('click', () => {
+                    modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
                 });
             });
         };
