@@ -767,6 +767,110 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
     
 }
 
+export const setTableData = async (type: string, tab: string, data: {}): Promise<void> => {
+
+    return new Promise(async (resolve): Promise<void> => {
+
+        const registerTableData = async () => {
+
+            let sqlString: string = ''
+            let sqlArgs: string = ''
+            let sqlData: string[] = []
+            
+            try {
+    
+                if (tab === 'inventory') { tab = 'books' }
+                if (tab === 'users') { tab = 'personnel' }
+    
+                const dateFormat = "dd LLLL yyyy"
+                const setVariablesData = async (): Promise<void> => {
+    
+                    return new Promise((resolve) => {
+    
+                        if (tab === 'books') {
+    
+                            sqlString = `title, author, genre, date_publicized, date_added`
+                            sqlArgs = '?, ?, ?, ?, ?'
+                            sqlData = 
+                            [ 
+                                data['title'], data['author'], data['genre'], 
+                                DateTime.fromFormat(data['dPublicized'], 'yyyy-MM-dd').toFormat(dateFormat), 
+                                DateTime.now().toFormat(dateFormat)
+                            ]
+    
+                        } else if (tab === 'students') {
+    
+                            sqlString = 'student_number, phone_number, email, status, first_name, last_name'
+                            sqlArgs = '?, ?, ?, ?, ?, ?'
+                            sqlData = 
+                            [
+                                data['studentNumber'], data['phoneNumber'], data['email'], 
+                                'Vacant', data['firstName'], data['lastName']
+                            ]
+            
+                        } else if (tab === 'personnel') {
+    
+                            sqlString = 'first_name, last_name, username, role'
+                            sqlArgs = '?, ?, ?, ?'
+                            sqlData = [ 
+                                data['firstName'], data['lastName'], 
+                                data['username'], data['role'] 
+                            ]
+            
+                        }
+    
+                        resolve()
+    
+                    })
+    
+                }
+                await setVariablesData()
+                await executeDatabaseQuery( `INSERT INTO ${ tab } (${ sqlString }) VALUES (${ sqlArgs })`, sqlData )
+    
+            } catch (err) {
+    
+                console.error(err.name, err.message)
+                throw err
+    
+            }
+    
+        }
+    
+        const editTableData = async () => {
+    
+            
+        }
+    
+        try {
+    
+            switch (type) {
+    
+                case 'register':
+                    await registerTableData()
+                    break;
+        
+                case 'edit':
+                    await editTableData()
+                    break;
+            
+                default:
+                    throw `Error in switch-case; passed argument: ${type} did not match any case.`
+            
+            }
+    
+        } catch(err) {
+    
+            console.error(err.name, err.message)
+            throw err
+            
+        }
+
+        resolve()
+
+    })
+
+}
+
 export const isQueryResultEmpty = async (queryResult: any) => {
 
     return !(Array.isArray(queryResult) && queryResult.length > 0)

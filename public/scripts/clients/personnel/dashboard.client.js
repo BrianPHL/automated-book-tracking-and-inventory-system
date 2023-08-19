@@ -174,29 +174,65 @@ document.addEventListener('DOMContentLoaded', () => {
         tableControlsSearch();
         const modalActions = () => {
             const closeModalBtns = modal.querySelectorAll('div > div > .header > i');
-            const modalForm = modal.querySelector('div > div > form');
-            const modalFormInputs = modalForm.querySelectorAll('div > input');
-            const resetFormBtns = modalForm.querySelectorAll('.actions > button[type="reset"]');
-            closeModalBtns.forEach((closeModalBtn) => {
-                closeModalBtn.addEventListener('click', () => {
-                    modal.style.display = 'none';
-                    prevTargetModal.style.display = 'none';
-                    isModalOpen = false;
-                    modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
+            const modalForms = modal.querySelectorAll('div > div > form');
+            modalForms.forEach((modalForm) => {
+                const modalFormInputs = modalForm.querySelectorAll('div > input');
+                const resetFormBtns = modalForm.querySelectorAll('.actions > button[type="reset"]');
+                const submitFormBtns = modalForm.querySelectorAll('.actions > button[type="submit"]');
+                const resetForm = async () => {
+                    return new Promise((resolve) => {
+                        modalFormInputs.forEach((modalFormInput) => {
+                            modalFormInput.value = '';
+                            utils.checkFormInputs(modalForm);
+                        });
+                        resolve();
+                    });
+                };
+                const closeModal = async () => {
+                    return new Promise((resolve) => {
+                        modal.style.display = 'none';
+                        prevTargetModal.style.display = 'none';
+                        isModalOpen = false;
+                        modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
+                        resolve();
+                    });
+                };
+                closeModalBtns.forEach((closeModalBtn) => {
+                    closeModalBtn.addEventListener('click', () => { closeModal(); });
                 });
-            });
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && isModalOpen) {
-                    modal.style.display = 'none';
-                    prevTargetModal.style.display = 'none';
-                    isModalOpen = false;
-                    modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
-                }
-            });
-            resetFormBtns.forEach((resetFormBtn) => {
-                resetFormBtn.addEventListener('click', () => {
-                    modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
+                modalFormInputs.forEach((modalFormInput) => {
+                    modalFormInput.addEventListener('input', () => { utils.checkFormInputs(modalForm); });
                 });
+                resetFormBtns.forEach((resetFormBtn) => {
+                    resetFormBtn.addEventListener('click', () => { resetForm(); });
+                });
+                submitFormBtns.forEach((submitFormBtn) => {
+                    submitFormBtn.addEventListener('click', async (event) => {
+                        const activeTable = bodyElement.querySelector('.table[data-active="true"]');
+                        const activeTab = activeTable.getAttribute('data-tab');
+                        try {
+                            event.preventDefault();
+                            const formData = new FormData(modalForm);
+                            let registrationData = {};
+                            for (const [name, value] of formData.entries()) {
+                                registrationData[name] = value.toString();
+                            }
+                            await fetch(`/personnel/table/${activeTab}/actions/register`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(registrationData)
+                            });
+                            await resetForm();
+                            await closeModal();
+                            await utils.setDashboardData('personnel', activeTab);
+                        }
+                        catch (err) {
+                            const { name, message } = err;
+                            window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
+                        }
+                    });
+                });
+                utils.checkFormInputs(modalForm);
             });
         };
         modalActions();

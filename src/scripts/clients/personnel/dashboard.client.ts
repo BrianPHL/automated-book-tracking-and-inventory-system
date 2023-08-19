@@ -273,45 +273,104 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalActions = () => {
 
             const closeModalBtns: NodeListOf<HTMLButtonElement> = modal.querySelectorAll('div > div > .header > i')
-            const modalForm: HTMLFormElement = modal.querySelector('div > div > form')
-            const modalFormInputs: NodeListOf<HTMLInputElement> = modalForm.querySelectorAll('div > input')
-            const resetFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="reset"]')
+            const modalForms: NodeListOf<HTMLFormElement> = modal.querySelectorAll('div > div > form')
+            
+            modalForms.forEach((modalForm: HTMLFormElement) => {
 
-            closeModalBtns.forEach((closeModalBtn: HTMLButtonElement) => {
+                const modalFormInputs: NodeListOf<HTMLInputElement> = modalForm.querySelectorAll('div > input')
+                const resetFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="reset"]')
+                const submitFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="submit"]')
+                const resetForm = async (): Promise<void> => {
 
-                closeModalBtn.addEventListener('click', () => {
+                    return new Promise((resolve) => {
 
-                    modal.style.display = 'none'
-                    prevTargetModal.style.display = 'none'
-                    isModalOpen = false
+                        modalFormInputs.forEach((modalFormInput) => {
 
-                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { modalFormInput.value = '' })
+                            modalFormInput.value = '' 
+                            utils.checkFormInputs(modalForm)
+    
+                        })
 
-                })
+                        resolve()
 
-            })
+                    })
 
-            document.addEventListener('keydown', (event) => {
+                }
+                const closeModal = async (): Promise<void> => {
 
-                if (event.key === 'Escape' && isModalOpen) {
+                    return new Promise((resolve) => {
 
-                    modal.style.display = 'none'
-                    prevTargetModal.style.display = 'none'
-                    isModalOpen = false
-                    
-                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { modalFormInput.value = '' })
+                        modal.style.display = 'none'
+                        prevTargetModal.style.display = 'none'
+                        isModalOpen = false
+    
+                        modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { modalFormInput.value = '' })
+                        
+                        resolve()
+                        
+                    })
 
                 }
 
-            })
+                closeModalBtns.forEach((closeModalBtn: HTMLButtonElement) => {
 
-            resetFormBtns.forEach((resetFormBtn: HTMLButtonElement) => {
+                    closeModalBtn.addEventListener('click', () => { closeModal() })
+    
+                })
 
-                resetFormBtn.addEventListener('click', () => {
+                modalFormInputs.forEach((modalFormInput: HTMLInputElement) => {
 
-                    modalFormInputs.forEach((modalFormInput: HTMLInputElement) => { modalFormInput.value = '' })
+                    modalFormInput.addEventListener('input', () => { utils.checkFormInputs(modalForm) })
 
                 })
+
+                resetFormBtns.forEach((resetFormBtn: HTMLButtonElement) => {
+
+                    resetFormBtn.addEventListener('click', () => { resetForm() })
+
+                })
+
+                submitFormBtns.forEach((submitFormBtn: HTMLButtonElement) => {
+
+                    submitFormBtn.addEventListener('click', async (event) => {
+
+                        const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
+                        const activeTab: string = activeTable.getAttribute('data-tab')
+                                
+                        try {
+    
+                            event.preventDefault()
+    
+                            const formData = new FormData(modalForm)
+                            let registrationData = {}
+    
+                            for (const [name, value] of formData.entries()) { registrationData[name] = value.toString() }
+    
+                            await fetch(`/personnel/table/${activeTab}/actions/register`, {
+    
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(registrationData)
+    
+                            })
+
+                            await resetForm()
+                            await closeModal()
+                            await utils.setDashboardData('personnel', activeTab)
+    
+                        } catch(err) {
+                    
+                            const { name, message } = err
+            
+                            window.location.href = `/error?${ (await utils.errorPrompt({title: name, body: message})).toString() }`
+            
+                        }
+            
+                    })
+
+                })
+
+                utils.checkFormInputs(modalForm)
 
             })
 

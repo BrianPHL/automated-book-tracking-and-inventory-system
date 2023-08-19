@@ -85,6 +85,18 @@ export const personnelTableSearch = async (req, res) => {
         });
     }
 };
+export const personnelTableActions = async (req, res) => {
+    try {
+        await utils.setTableData(req.params.type, req.params.tab, req.body);
+        res.sendStatus(200);
+    }
+    catch (err) {
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: `Internal Server Error - ${err.name}`,
+            body: err.message
+        });
+    }
 };
 export const personnelDashboard = async (req, res) => {
     try {

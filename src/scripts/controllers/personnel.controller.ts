@@ -112,6 +112,26 @@ export const personnelTableSearch = async (req: Request, res: Response) => {
     
 }
 
+export const personnelTableActions = async (req: Request, res: Response) => {
+
+    try {
+
+        await utils.setTableData(req.params.type, req.params.tab, req.body)
+
+        res.sendStatus(200)
+        
+    } catch (err) {
+
+        await utils.errorPromptURL(res, {
+            status: 500,
+            title: `Internal Server Error - ${ err.name }`,
+            body: err.message
+        })
+
+    }
+
+}
+
 export const personnelDashboard = async (req: Request, res: Response): Promise<void> => {
 
     try {
