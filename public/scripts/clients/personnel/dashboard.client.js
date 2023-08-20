@@ -197,6 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         resolve();
                     });
                 };
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && isModalOpen) {
+                        closeModal();
+                    }
+                });
                 closeModalBtns.forEach((closeModalBtn) => {
                     closeModalBtn.addEventListener('click', () => { closeModal(); });
                 });

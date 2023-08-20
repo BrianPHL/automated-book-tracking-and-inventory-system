@@ -312,6 +312,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }
 
+                document.addEventListener('keydown', (event) => {
+
+                    if (event.key === 'Escape' && isModalOpen) { closeModal() }
+
+                })
+
                 closeModalBtns.forEach((closeModalBtn: HTMLButtonElement) => {
 
                     closeModalBtn.addEventListener('click', () => { closeModal() })
