@@ -1,6 +1,7 @@
 import * as utils from "../../utils/client.utils.js";
 document.addEventListener('DOMContentLoaded', () => {
     const bodyElement = document.querySelector('body');
+    let activeTable;
     utils.setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navigationTabs.forEach(navigationTab => {
             navigationTab.addEventListener('click', (event) => {
                 const targetTable = event.target;
-                const activeTable = bodyElement.querySelector(`.table[data-tab="${targetTable.classList[0]}"]`);
+                activeTable = bodyElement.querySelector(`.table[data-tab="${targetTable.classList[0]}"]`);
                 navigationTabs.forEach(navigationTab => { navigationTab.classList.remove('active'); });
                 navigationTab.classList.add('active');
                 tables.forEach(table => {
@@ -39,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const navigationTheme = navigationActions.querySelector('.themeSwitch');
         const navigationLogout = navigationActions.querySelector('.logout');
         navigationRefresh.addEventListener('click', (event) => {
-            const activeTable = bodyElement.querySelector('.table[data-active="true"]');
             event.preventDefault();
             navigationRefresh.innerHTML =
                 `
@@ -98,11 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = bodyElement.querySelector('.modal');
         let prevTargetModal;
         let isModalOpen = false;
+        let currentTable;
         tableActions.addEventListener('click', () => {
             const target = event.target;
             if (target && target.matches('button[data-type="action"]')) {
-                const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
-                const targetModal = modal.querySelector(`.${activeTable} > .action`);
+                const activeTab = activeTable.getAttribute('data-tab');
+                const targetModal = modal.querySelector(`.${activeTab} > .action`);
                 prevTargetModal = targetModal;
                 modal.style.display = 'grid';
                 targetModal.style.display = 'grid';
@@ -115,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const tableSearchSubmit = tableActions.querySelector('button[data-type="search"]');
             const searchFunction = async () => {
                 try {
-                    const activeTable = bodyElement.querySelector('.table[data-active="true"]');
                     const activeTab = activeTable.getAttribute('data-tab');
                     const tableEntries = activeTable.querySelector('.data > .entries');
                     const query = tableSearchInput.value.trim();
@@ -156,11 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             tableSearchInput.addEventListener('input', (event) => {
-                const activeTable = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab');
+                const activeTab = activeTable.getAttribute('data-tab');
                 event.preventDefault();
                 if (tableSearchInput.value.trim() === '') {
                     tableSearchSubmit.disabled = true;
-                    utils.setDashboardData('personnel', activeTable);
+                    utils.setDashboardData('personnel', activeTab);
                 }
                 else {
                     tableSearchSubmit.disabled = false;
@@ -213,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 submitFormBtns.forEach((submitFormBtn) => {
                     submitFormBtn.addEventListener('click', async (event) => {
-                        const activeTable = bodyElement.querySelector('.table[data-active="true"]');
                         const activeTab = activeTable.getAttribute('data-tab');
                         const successPrompts = modal.querySelectorAll('div[data-type="success"]');
                         const errorPrompts = modal.querySelectorAll('div[data-type="error"]');

@@ -3,6 +3,7 @@ import * as utils from "../../utils/client.utils.js"
 document.addEventListener('DOMContentLoaded', () => {
 
     const bodyElement: HTMLBodyElement = document.querySelector('body')
+    let activeTable: HTMLDivElement
 
     utils.setPreferredTheme((cbData) => {
 
@@ -35,9 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             navigationTab.addEventListener('click', (event: MouseEvent) => {
 
                 const targetTable = event.target as HTMLElement
-                const activeTable: HTMLDivElement = bodyElement.querySelector(`.table[data-tab="${ targetTable.classList[0] }"]`)
-
-
+                
+                activeTable = bodyElement.querySelector(`.table[data-tab="${ targetTable.classList[0] }"]`)
                 navigationTabs.forEach(navigationTab => { navigationTab.classList.remove('active') })
                 navigationTab.classList.add('active')
 
@@ -69,8 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const navigationLogout: HTMLButtonElement = navigationActions.querySelector('.logout')
 
         navigationRefresh.addEventListener('click', (event) => {
-
-            const activeTable = bodyElement.querySelector('.table[data-active="true"]')
             
             event.preventDefault()
 
@@ -159,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal: HTMLDivElement = bodyElement.querySelector('.modal')
         let prevTargetModal: HTMLDivElement
         let isModalOpen: boolean = false
+        let currentTable: HTMLDivElement
 
         tableActions.addEventListener('click', () => {
 
@@ -166,8 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (target && target.matches('button[data-type="action"]')) {
 
-                const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
-                const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTable } > .action`)
+                const activeTab: string = activeTable.getAttribute('data-tab')
+                const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
 
                 prevTargetModal = targetModal
                 modal.style.display = 'grid'
@@ -188,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 try {
 
-                    const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
                     const activeTab: string = activeTable.getAttribute('data-tab')
                     const tableEntries: HTMLDivElement = activeTable.querySelector('.data > .entries')
                     const query = tableSearchInput.value.trim()
@@ -246,14 +244,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             tableSearchInput.addEventListener('input', (event) => {
 
-                const activeTable: string = bodyElement.querySelector('.table[data-active="true"]').getAttribute('data-tab')
+                const activeTab: string = activeTable.getAttribute('data-tab')
     
                 event.preventDefault()
 
                 if (tableSearchInput.value.trim() === '') {
 
                     tableSearchSubmit.disabled = true
-                    utils.setDashboardData('personnel', activeTable)
+                    utils.setDashboardData('personnel', activeTab)
 
                 } else { tableSearchSubmit.disabled = false }
     
@@ -340,7 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     submitFormBtn.addEventListener('click', async (event) => {
 
-                        const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
                         const activeTab: string = activeTable.getAttribute('data-tab')
                         const successPrompts: NodeListOf<HTMLDivElement> = modal.querySelectorAll('div[data-type="success"]')
                         const errorPrompts: NodeListOf<HTMLDivElement> = modal.querySelectorAll('div[data-type="error"]')
