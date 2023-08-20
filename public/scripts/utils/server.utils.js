@@ -550,10 +550,21 @@ export const setTableData = async (type, tab, data) => {
                                 ];
                         }
                         else if (tab === 'personnel') {
+                            const splitName = data['personnelName'].split(' ');
+                            let firstName;
+                            let lastName;
+                            if (splitName.length > 2) {
+                                firstName = `${splitName[0]} ${splitName[1]}`;
+                                lastName = splitName[2];
+                            }
+                            else {
+                                firstName = splitName[0];
+                                lastName = splitName[1];
+                            }
                             sqlString = 'first_name, last_name, username, role';
                             sqlArgs = '?, ?, ?, ?';
                             sqlData = [
-                                data['firstName'], data['lastName'],
+                                firstName, lastName,
                                 data['username'], data['role']
                             ];
                         }
