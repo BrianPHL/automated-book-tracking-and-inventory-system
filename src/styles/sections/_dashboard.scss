@@ -30,75 +30,151 @@ html[data-site="dashboard"] {
 
                 & > div {
 
+                    grid-template-columns: 100%;
                     background-color: var(--background-secondary);
                     flex-direction: column;
-                    display: flex;
-                    padding: 2rem;
+                    display: grid;
                     width: 360px;
-                    gap: 3rem;
 
-                    & > .header {
+                    .prompt {
 
-                        justify-content: space-between;
+                        background-color: var(--background-secondary);
                         align-items: center;
-                        display: flex;
+                        grid-column: 1;
+                        grid-row: 1;
+                        position: relative;
+                        z-index: 9999;
+                        height: auto;
+                        width: 360px;
+                        gap: 3rem;
 
-                        & > i {
+                        &[data-type="success"] {
 
-                            transition: 0.2s ease;
+                            justify-content: center;
+                            flex-direction: column;
+                            display: flex;
 
-                            &:hover {
+                            & > i {
 
-                                cursor: pointer;
-                                color: var(--warning-primary);
+                                font-size: 6rem;
+                                color: var(--accent-primary);
 
+                            }
+
+                            & > .context {
+
+                                flex-direction: column;
+                                align-items: center;
+                                text-align: center;
+                                padding: 0rem 1rem 0rem 1rem;
+                                display: flex;
+    
+                                & > h2 { color: var(--accent-primary); }
+    
+                            }
+
+                        }
+
+                        &[data-type="error"] {
+
+                            justify-content: center;
+                            flex-direction: column;
+                            display: flex;
+
+                            & > i {
+
+                                font-size: 6rem;
+                                color: var(--warning-secondary);
+
+                            }
+
+                            & > .context {
+
+                                flex-direction: column;
+                                align-items: center;
+                                text-align: center;
+                                padding: 0rem 1rem 0rem 1rem;
+                                display: flex;
+    
+                                & > h2 { color: var(--warning-primary); }
+    
                             }
 
                         }
 
                     }
 
-                    & > form {
+                    .form {
 
-                        flex-direction: column;
-                        display: flex;
-                        gap: 1rem;
+                        grid-column: 1;
+                        grid-row: 1;
 
-                        & > div { @include input-styles(); }
+                        & > .header {
 
-                        & > .actions {
-
-                            justify-content: flex-end;
-                            flex-direction: row;
+                            justify-content: space-between;
                             align-items: center;
-                            margin-top: 2rem;
                             display: flex;
-                            width: 100%;
-                            gap: 1rem;
-
-                            & > button[type="reset"] {
-
-                                @include anchor-styles;
-                                
-                                background-color: transparent;
-                                padding: 0;
-                                color: var(--accent-primary);
-
-                                &:hover { color: var(--warning-primary); }
-
+                            padding: 2rem 2rem 1rem 2rem;
+    
+                            & > i {
+    
+                                transition: 0.2s ease;
+    
+                                &:hover {
+    
+                                    cursor: pointer;
+                                    color: var(--warning-primary);
+    
+                                }
+    
                             }
-
-                            & > button[type="submit"] {
-
-                                @include primary-button-styles;
-                                @include h3-styles;
-
-                                padding: 0.5rem 1rem 0.5rem 1rem;
-
-                            }
-
+    
                         }
-
+    
+                        & > form {
+    
+                            flex-direction: column;
+                            display: flex;
+                            padding: 2rem;
+                            gap: 1rem;
+    
+                            & > div { @include input-styles(); }
+    
+                            & > .actions {
+    
+                                justify-content: flex-end;
+                                flex-direction: row;
+                                align-items: center;
+                                margin-top: 2rem;
+                                display: flex;
+                                width: 100%;
+                                gap: 1rem;
+    
+                                & > button[type="reset"] {
+    
+                                    @include anchor-styles;
+                                    
+                                    background-color: transparent;
+                                    padding: 0;
+                                    color: var(--accent-primary);
+    
+                                    &:hover { color: var(--warning-primary); }
+    
+                                }
+    
+                                & > button[type="submit"] {
+    
+                                    @include primary-button-styles;
+                                    @include h3-styles;
+    
+                                    padding: 0.5rem 1rem 0.5rem 1rem;
+    
+                                }
+    
+                            }
+    
+                        }
+                        
                     }
 
                 }

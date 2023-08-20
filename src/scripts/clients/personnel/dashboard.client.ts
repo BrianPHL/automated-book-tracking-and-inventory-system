@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 prevTargetModal = targetModal
                 modal.style.display = 'grid'
-                targetModal.style.display = 'flex'
+                targetModal.style.display = 'grid'
                 isModalOpen = true
                 
             }
@@ -342,7 +342,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
                         const activeTab: string = activeTable.getAttribute('data-tab')
-                                
+                        const successPrompts: NodeListOf<HTMLDivElement> = modal.querySelectorAll('div[data-type="success"]')
+                        const errorPrompts: NodeListOf<HTMLDivElement> = modal.querySelectorAll('div[data-type="error"]')
+
                         try {
     
                             event.preventDefault()
@@ -360,16 +362,38 @@ document.addEventListener('DOMContentLoaded', () => {
     
                             })
 
-                            await resetForm()
-                            await closeModal()
-                            await utils.setDashboardData('personnel', activeTab)
-    
+                            successPrompts.forEach((successPrompt: HTMLDivElement) => {
+
+                                successPrompt.style.display = 'flex' 
+                        
+                                setTimeout(async () => {
+                                
+                                    await resetForm()
+                                    await closeModal()
+                                    await utils.setDashboardData('personnel', activeTab)
+                                    
+                                    successPrompt.style.display = 'none'
+                                
+                                }, 2500)
+
+                            })
+
+
+
                         } catch(err) {
-                    
-                            const { name, message } = err
-            
-                            window.location.href = `/error?${ (await utils.errorPrompt({title: name, body: message})).toString() }`
-            
+
+                            errorPrompts.forEach((errorPrompt) => {
+
+                                errorPrompt.style.display = 'flex'
+
+                                setTimeout(() => {
+
+                                    errorPrompt.style.display = 'none'
+
+                                }, 2500)
+
+                            })
+                        
                         }
             
                     })

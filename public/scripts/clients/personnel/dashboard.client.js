@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetModal = modal.querySelector(`.${activeTable} > .action`);
                 prevTargetModal = targetModal;
                 modal.style.display = 'grid';
-                targetModal.style.display = 'flex';
+                targetModal.style.display = 'grid';
                 isModalOpen = true;
             }
         });
@@ -215,6 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitFormBtn.addEventListener('click', async (event) => {
                         const activeTable = bodyElement.querySelector('.table[data-active="true"]');
                         const activeTab = activeTable.getAttribute('data-tab');
+                        const successPrompts = modal.querySelectorAll('div[data-type="success"]');
+                        const errorPrompts = modal.querySelectorAll('div[data-type="error"]');
                         try {
                             event.preventDefault();
                             const formData = new FormData(modalForm);
@@ -227,13 +229,23 @@ document.addEventListener('DOMContentLoaded', () => {
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(registrationData)
                             });
-                            await resetForm();
-                            await closeModal();
-                            await utils.setDashboardData('personnel', activeTab);
+                            successPrompts.forEach((successPrompt) => {
+                                successPrompt.style.display = 'flex';
+                                setTimeout(async () => {
+                                    await resetForm();
+                                    await closeModal();
+                                    await utils.setDashboardData('personnel', activeTab);
+                                    successPrompt.style.display = 'none';
+                                }, 2500);
+                            });
                         }
                         catch (err) {
-                            const { name, message } = err;
-                            window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
+                            errorPrompts.forEach((errorPrompt) => {
+                                errorPrompt.style.display = 'flex';
+                                setTimeout(() => {
+                                    errorPrompt.style.display = 'none';
+                                }, 2500);
+                            });
                         }
                     });
                 });
