@@ -804,12 +804,28 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
     
                         } else if (tab === 'students') {
     
+                            const splitName = data['studentName'].split(' ')
+                            let firstName: string
+                            let lastName: string
+
+                            if (splitName.length > 2) {
+                                
+                                firstName = `${ splitName[0] } ${splitName[1]}`
+                                lastName = splitName[2]
+
+                            } else {
+
+                                firstName = splitName[0]
+                                lastName = splitName[1]
+
+                            }
+
                             sqlString = 'student_number, phone_number, email, status, first_name, last_name'
                             sqlArgs = '?, ?, ?, ?, ?, ?'
                             sqlData = 
                             [
                                 data['studentNumber'], data['phoneNumber'], data['email'], 
-                                'Vacant', data['firstName'], data['lastName']
+                                'Vacant', firstName, lastName
                             ]
             
                         } else if (tab === 'personnel') {
