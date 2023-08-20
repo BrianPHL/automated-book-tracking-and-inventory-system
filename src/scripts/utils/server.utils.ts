@@ -374,7 +374,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             ? queryResult = await executeDatabaseQuery(
                 `
                 SELECT 
-                    title, status, borrower, borrower_number, 
+                    id, title, status, borrower, borrower_number, 
                     date_borrowed, date_due, date_publicized, 
                     date_added
                 FROM 
@@ -384,7 +384,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             : queryResult = await executeDatabaseQuery(
                 `
                 SELECT 
-                    title, status, borrower, borrower_number, 
+                    id, title, status, borrower, borrower_number, 
                     date_borrowed, date_due, date_publicized, 
                     date_added
                 FROM 
@@ -403,6 +403,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
             Object.values(queryResult).forEach(async (data) => {
 
+                const identifier = data['id']
                 const title = data['title']
                 const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
                 const publicationDate = data['date_publicized']
@@ -430,7 +431,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
                 const entry =
                 `
-                <div class="entry">
+                <div class="entry" data-identifier="${ identifier }">
                     <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
                     <div class="title"><h2>${ title }</h2></div>
                     <div class="status">${ status }</div>
@@ -472,7 +473,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             ? queryResult = await executeDatabaseQuery(
                 `
                 SELECT
-                    title, status, author, genre, 
+                    id, title, status, author, genre, 
                     date_publicized, date_added 
                 FROM
                     books
@@ -481,7 +482,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             : queryResult = await executeDatabaseQuery(
                 `
                 SELECT
-                    title, status, author, genre, 
+                    id, title, status, author, genre, 
                     date_publicized, date_added 
                 FROM
                     books
@@ -497,6 +498,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
             Object.values(queryResult).forEach(async (data) => {
 
+                const identifier = data['id']
                 const title = data['title']
                 const author = data['author']
                 const genre = data['genre']
@@ -515,7 +517,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
                 const entry =
                 `
-                <div class="entry">
+                <div class="entry" data-identifier="${ identifier }">
                     <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
                     <div class="title"><h2>${ title }</h2></div>
                     <div class="status"><h2>${ status }</h2></div>
@@ -558,7 +560,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             ? queryResult = await executeDatabaseQuery(
                 `
                 SELECT
-                    CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
+                    id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
                     status, borrowed_book, phone_number, email
                 FROM
                     students
@@ -567,7 +569,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             : queryResult = await executeDatabaseQuery(
                 `
                 SELECT
-                    CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
+                    id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
                     status, borrowed_book, phone_number, email
                 FROM
                     students
@@ -583,6 +585,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
             Object.values(queryResult).forEach(async (data) => {
 
+                const identifier = data['id']
                 const studentName = data['full_name']
                 const studentNumber = data['student_number']
                 const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
@@ -601,7 +604,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
                 const entry =
                 `
-                <div class="entry">
+                <div class="entry" data-identifier="${ identifier }">
                     <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
                     <div class="name"><h2>${ studentName }</h2></div>
                     <div class="studentNumber"><h2>${ studentNumber }</h2></div>
@@ -644,7 +647,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             ? queryResult = await executeDatabaseQuery(
                 `
                 SELECT
-                    CONCAT(first_name, ' ', last_name) AS full_name, username, role
+                    id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
                 FROM
                     personnel
                 `
@@ -652,7 +655,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             : queryResult = await executeDatabaseQuery(
                 `
                 SELECT
-                    CONCAT(first_name, ' ', last_name) AS full_name, username, role
+                    id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
                 FROM
                     personnel
                 WHERE
@@ -665,6 +668,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
             Object.values(queryResult).forEach(async (data) => {
 
+                const identifier = data['id']
                 const fullName = data['full_name']
                 const username = data['username']
                 const role = data['role']
@@ -676,7 +680,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
                 const entry =
                 `
-                <div class="entry">
+                <div class="entry" data-identifier="${ identifier }">
                     <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
                     <div class="fullName"><h2>${ fullName }</h2></div>
                     <div class="username"><h2>${ username }</h2></div>
@@ -712,7 +716,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
             const queryResult = await executeDatabaseQuery(
                 `
                 SELECT
-                    title, status, author, genre, 
+                    id, title, status, author, genre, 
                     date_publicized, date_added 
                 FROM
                     books
