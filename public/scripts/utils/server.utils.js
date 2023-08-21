@@ -258,9 +258,7 @@ export const retrieveTableData = async (type, tab, query) => {
                     <div class="dueDate"><h2>${dueDate}</h2></div>
                     <div class="publicationDate"><h2>${publicationDate}</h2></div>
                     <div class="acquisitionDate"><h2>${acquisitionDate}</h2></div>
-                    <div class="actions">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                    </div>
+                    <div class="actions"><i class="fa-regular fa-pen-to-square" style="visibility: hidden;"></i></div>
                 </div>
                 `;
                 entries.push(entry);
