@@ -1,7 +1,7 @@
 import * as utils from "../../utils/client.utils.js";
 document.addEventListener('DOMContentLoaded', () => {
     const bodyElement = document.querySelector('body');
-    let activeTable;
+    let activeTable = bodyElement.querySelector('.table[data-active="true"]');
     utils.setPreferredTheme((cbData) => {
         !cbData.savedTheme
             ? (!cbData.preferredTheme
@@ -34,20 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     navigationTabs();
     const navigationActions = () => {
-        const navigation = bodyElement.querySelector('header > nav');
-        const navigationActions = navigation.querySelector('.actions');
-        const navigationRefresh = navigationActions.querySelector('.refresh');
-        const navigationTheme = navigationActions.querySelector('.themeSwitch');
-        const navigationLogout = navigationActions.querySelector('.logout');
-        navigationRefresh.addEventListener('click', (event) => {
+        const nav = bodyElement.querySelector('header > nav');
+        const navActions = nav.querySelector('.actions');
+        const navRefresh = navActions.querySelector('.refresh');
+        const navTheme = navActions.querySelector('.themeSwitch');
+        const navLogout = navActions.querySelector('.logout');
+        navRefresh.addEventListener('click', (event) => {
             event.preventDefault();
-            navigationRefresh.innerHTML =
+            navRefresh.innerHTML =
                 `
                 <i class="fa-regular fa-redo fa-spin-pulse"></i>
                 <h2>Refreshing...</h2>
             `;
             setTimeout(async () => {
-                navigationRefresh.innerHTML =
+                navRefresh.innerHTML =
                     `
                     <i class="fa-regular fa-redo"></i>
                     <h2>Refresh</h2>
@@ -55,16 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
             }, 2500);
         });
-        navigationTheme.addEventListener('click', (event) => {
+        navTheme.addEventListener('click', (event) => {
             const currentTheme = localStorage.getItem('theme');
             event.preventDefault();
             currentTheme === 'light'
                 ? utils.setDarkTheme()
                 : utils.setLightTheme();
         });
-        navigationLogout.addEventListener('click', (event) => {
+        navLogout.addEventListener('click', (event) => {
             event.preventDefault();
-            navigationLogout.innerHTML =
+            navLogout.innerHTML =
                 `
                 <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                 <h2>Logging out...</h2>
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' }
                     });
-                    navigationLogout.innerHTML =
+                    navLogout.innerHTML =
                         `
                         <i class="fa-regular fa-right-from-bracket"></i>
                         <h2>Logout</h2>
@@ -94,19 +94,29 @@ document.addEventListener('DOMContentLoaded', () => {
     navigationActions();
     const tableActions = () => {
         const bodyElement = document.querySelector('body');
-        const tableActions = bodyElement.querySelector('.controls');
         const modal = bodyElement.querySelector('.modal');
+        const tableActions = bodyElement.querySelector('.controls');
         let prevTargetModal;
         let isModalOpen = false;
-        let currentTable;
         tableActions.addEventListener('click', () => {
             const target = event.target;
             if (target && target.matches('button[data-type="action"]')) {
                 const activeTab = activeTable.getAttribute('data-tab');
                 const targetModal = modal.querySelector(`.${activeTab} > .action`);
-                prevTargetModal = targetModal;
+                const targetModalHeading = targetModal.querySelector('.header > h3');
+                if (activeTab === 'inventory') {
+                    targetModalHeading.textContent = 'Book Registration Form';
+                }
+                if (activeTab === 'students') {
+                    targetModalHeading.textContent = 'Student Registration Form';
+                }
+                if (activeTab === 'users') {
+                    targetModalHeading.textContent = 'Personnel Registration Form';
+                }
+                targetModal.setAttribute('data-type', 'register');
                 modal.style.display = 'grid';
                 targetModal.style.display = 'grid';
+                prevTargetModal = targetModal;
                 isModalOpen = true;
             }
         });

@@ -3,7 +3,7 @@ import * as utils from "../../utils/client.utils.js"
 document.addEventListener('DOMContentLoaded', () => {
 
     const bodyElement: HTMLBodyElement = document.querySelector('body')
-    let activeTable: HTMLDivElement
+    let activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
 
     utils.setPreferredTheme((cbData) => {
 
@@ -62,17 +62,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const navigationActions = () => {
 
-        const navigation: HTMLElement = bodyElement.querySelector('header > nav')
-        const navigationActions: HTMLDivElement = navigation.querySelector('.actions')
-        const navigationRefresh: HTMLButtonElement = navigationActions.querySelector('.refresh')
-        const navigationTheme: HTMLButtonElement = navigationActions.querySelector('.themeSwitch')
-        const navigationLogout: HTMLButtonElement = navigationActions.querySelector('.logout')
+        const nav: HTMLElement = bodyElement.querySelector('header > nav')
+        const navActions: HTMLDivElement = nav.querySelector('.actions')
+        const navRefresh: HTMLButtonElement = navActions.querySelector('.refresh')
+        const navTheme: HTMLButtonElement = navActions.querySelector('.themeSwitch')
+        const navLogout: HTMLButtonElement = navActions.querySelector('.logout')
 
-        navigationRefresh.addEventListener('click', (event) => {
+        navRefresh.addEventListener('click', (event) => {
             
             event.preventDefault()
 
-            navigationRefresh.innerHTML =
+            navRefresh.innerHTML =
             `
                 <i class="fa-regular fa-redo fa-spin-pulse"></i>
                 <h2>Refreshing...</h2>
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(async () => {
 
-                navigationRefresh.innerHTML =
+                navRefresh.innerHTML =
                 `
                     <i class="fa-regular fa-redo"></i>
                     <h2>Refresh</h2>
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
 
-        navigationTheme.addEventListener('click', (event) => {
+        navTheme.addEventListener('click', (event) => {
 
             const currentTheme = localStorage.getItem('theme')
             
@@ -104,11 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
 
-        navigationLogout.addEventListener('click', (event) => {
+        navLogout.addEventListener('click', (event) => {
 
             event.preventDefault()
     
-            navigationLogout.innerHTML =
+            navLogout.innerHTML =
             `
                 <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                 <h2>Logging out...</h2>
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     })
 
-                    navigationLogout.innerHTML =
+                    navLogout.innerHTML =
                     `
                         <i class="fa-regular fa-right-from-bracket"></i>
                         <h2>Logout</h2>
@@ -153,11 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableActions = () => {
 
         const bodyElement: HTMLBodyElement = document.querySelector('body')
-        const tableActions: HTMLDivElement = bodyElement.querySelector('.controls')
         const modal: HTMLDivElement = bodyElement.querySelector('.modal')
+        const tableActions: HTMLDivElement = bodyElement.querySelector('.controls')
         let prevTargetModal: HTMLDivElement
         let isModalOpen: boolean = false
-        let currentTable: HTMLDivElement
 
         tableActions.addEventListener('click', () => {
 
@@ -167,10 +166,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const activeTab: string = activeTable.getAttribute('data-tab')
                 const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
+                const targetModalHeading: HTMLHeadingElement = targetModal.querySelector('.header > h3')
 
-                prevTargetModal = targetModal
+                if (activeTab === 'inventory') { targetModalHeading.textContent = 'Book Registration Form' }
+                if (activeTab === 'students') { targetModalHeading.textContent = 'Student Registration Form' }
+                if (activeTab === 'users') { targetModalHeading.textContent = 'Personnel Registration Form' }
+
+                targetModal.setAttribute('data-type', 'register')
                 modal.style.display = 'grid'
                 targetModal.style.display = 'grid'
+                prevTargetModal = targetModal
                 isModalOpen = true
                 
             }
