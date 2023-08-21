@@ -526,9 +526,9 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     <div class="publicationDate"><h2>${ publicationDate }</h2></div>
                     <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
                     <div class="actions">
-                        <i class="fa-regular fa-arrow-right-from-arc"></i>
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        <i class="fa-regular fa-xmark"></i>
+                        <i class="pInventoryActionsLend fa-regular fa-arrow-right-from-arc"></i>
+                        <i class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
+                        <i class="pInventoryActionsDelete fa-regular fa-xmark"></i>
                     </div>
                 </div>
                 `
@@ -613,9 +613,9 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
                     <div class="emailAddress"><h2>${ emailAddress }</h2></div>
                     <div class="actions">
-                        <i class="fa-regular fa-message"></i>
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        <i class="fa-regular fa-xmark"></i>
+                        <i class="pStudentsActionsNotify fa-regular fa-message"></i>
+                        <i class="pStudentsActionsEdit fa-regular fa-pen-to-square"></i>
+                        <i class="pStudentsActionsDelete fa-regular fa-xmark"></i>
                     </div>
                 </div>
                 `
@@ -688,8 +688,8 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     <div class="privilege">${ privilege }</div>
                     <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
                     <div class="actions">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    <i class="fa-regular fa-xmark"></i>
+                    <i class="pUsersActionsEdit fa-regular fa-pen-to-square"></i>
+                    <i class="pUsersActionsDelete fa-regular fa-xmark"></i>
                     </div>
                 </div>
                 `
