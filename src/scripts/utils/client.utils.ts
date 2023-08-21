@@ -1642,3 +1642,66 @@ export const setTableAction = async (tab: string) => {
     }
 
 }
+
+export const openEditModal = async (
+    editData: { modal: HTMLDivElement, target: HTMLElement, active: string }, entryData: {}, modalData: {}
+): Promise<void> => {
+
+    return new Promise((resolve) => {
+
+        const targetEntry: HTMLElement = editData.target.parentElement.parentElement
+        const targetModal: HTMLDivElement = editData.modal.querySelector(`.${ editData.active } > .action`)
+        const targetModalHeading: HTMLHeadingElement = targetModal.querySelector('.header > .heading')
+
+        targetModal.setAttribute('data-type', 'edit')
+
+        if (editData.active === 'inventory') {
+
+            targetModalHeading.innerHTML =
+            `
+                <h3>Book Entry Edit Form</h3>
+                <h4>
+                    Currently editing book entry
+                    <strong>#<span class="entryIdentifier">${targetEntry.getAttribute('data-identifier')}</span></strong>
+                </h4>
+            `
+
+        }
+
+        if (editData.active === 'students') {
+
+            targetModalHeading.innerHTML =
+            `
+                <h3>Student Entry Edit Form</h3>
+                <h4>
+                    Currently editing student entry
+                    <strong>#<span class="entryIdentifier">${targetEntry.getAttribute('data-identifier')}</span></strong>
+                </h4>
+            `
+
+        }
+
+        if (editData.active === 'users') {
+
+            targetModalHeading.innerHTML =
+            `
+                <h3>Personnel Entry Edit Form</h3>
+                <h4>
+                    Currently editing personnel entry
+                    <strong>#<span class="entryIdentifier">${targetEntry.getAttribute('data-identifier')}</span></strong>
+                </h4>
+            `
+
+        }
+
+        editData.modal.style.display = 'grid'
+        targetModal.style.display = 'grid'
+
+        setTimeout(() => { for (const key in entryData) { modalData[key].value = entryData[key] } }, 500);
+
+
+        resolve()
+
+    })
+
+}
