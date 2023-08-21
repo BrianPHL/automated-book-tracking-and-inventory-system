@@ -115,6 +115,13 @@ html[data-site="dashboard"] {
                             align-items: center;
                             display: flex;
                             padding: 2rem 2rem 1rem 2rem;
+
+                            & > .heading {
+
+                                flex-direction: column;
+                                display: flex;
+
+                            }
     
                             & > i {
     

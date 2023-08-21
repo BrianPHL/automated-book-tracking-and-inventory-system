@@ -224,8 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitFormBtns.forEach((submitFormBtn) => {
                     submitFormBtn.addEventListener('click', async (event) => {
                         const activeTab = activeTable.getAttribute('data-tab');
+                        const targetModal = modal.querySelector(`.${activeTab} > .action`);
                         const successPrompts = modal.querySelectorAll('div[data-type="success"]');
                         const errorPrompts = modal.querySelectorAll('div[data-type="error"]');
+                        const operationType = targetModal.getAttribute('data-type');
                         try {
                             event.preventDefault();
                             const formData = new FormData(modalForm);
@@ -233,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             for (const [name, value] of formData.entries()) {
                                 registrationData[name] = value.toString();
                             }
-                            await fetch(`/personnel/table/${activeTab}/actions/register`, {
+                            await fetch(`/personnel/table/${activeTab}/actions/${operationType}`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(registrationData)
@@ -262,6 +264,92 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
         modalActions();
+        const entryActions = () => {
+            bodyElement.addEventListener('click', async (event) => {
+                const activeTab = activeTable.getAttribute('data-tab');
+                const target = event.target;
+                const targetEntry = target.parentElement.parentElement;
+                const targetModal = modal.querySelector(`.${activeTab} > .action`);
+                const targetAction = target.classList[0];
+                const targetModalHeading = targetModal.querySelector('.header');
+                const inventoryEntryEdit = async () => {
+                    const modalPath = '.action > .form > form';
+                    const entryData = {
+                        title: targetEntry.querySelector('.title > h2').textContent,
+                        author: targetEntry.querySelector('.author > h2').textContent,
+                        genre: targetEntry.querySelector('.genre > h2').textContent,
+                        datePublicized: targetEntry.querySelector('.publicationDate > h2').textContent
+                    };
+                    const modalData = {
+                        title: targetModal.querySelector(`${modalPath} > .title > input`),
+                        author: targetModal.querySelector(`${modalPath} > .author > input`),
+                        genre: targetModal.querySelector(`${modalPath} > .genre > input`),
+                        datePublicized: targetModal.querySelector(`${modalPath} > .dPublicized > input`),
+                    };
+                    await utils.openEditModal({
+                        modal: modal,
+                        target: target,
+                        active: activeTable.getAttribute('data-tab'),
+                    }, entryData, modalData);
+                    prevTargetModal = targetModal;
+                    isModalOpen = true;
+                };
+                const studentsEntryEdit = async () => {
+                    const modalPath = '.action > .form > form';
+                    const entryData = {
+                        studentName: targetEntry.querySelector('.name > h2').textContent,
+                        studentNumber: targetEntry.querySelector('.studentNumber > h2').textContent,
+                        phoneNumber: targetEntry.querySelector('.phoneNumber > h2').textContent,
+                        emailAddress: targetEntry.querySelector('.emailAddress > h2').textContent
+                    };
+                    const modalData = {
+                        studentName: targetModal.querySelector(`${modalPath} > .studentName > input`),
+                        studentNumber: targetModal.querySelector(`${modalPath} > .studentNumber > input`),
+                        phoneNumber: targetModal.querySelector(`${modalPath} > .phoneNumber > input`),
+                        emailAddress: targetModal.querySelector(`${modalPath} > .email > input`)
+                    };
+                    await utils.openEditModal({
+                        modal: modal,
+                        target: target,
+                        active: activeTable.getAttribute('data-tab'),
+                    }, entryData, modalData);
+                    prevTargetModal = targetModal;
+                    isModalOpen = true;
+                };
+                const usersEntryEdit = async () => {
+                    const modalPath = '.action > .form > form';
+                    const entryData = {
+                        fullName: targetEntry.querySelector('.fullName > h2').textContent,
+                        userName: targetEntry.querySelector('.username > h2').textContent,
+                        role: targetEntry.querySelector('.role > h2').textContent
+                    };
+                    const modalData = {
+                        fullName: targetModal.querySelector(`${modalPath} > .personnelName > input`),
+                        userName: targetModal.querySelector(`${modalPath} > .username > input`),
+                        role: targetModal.querySelector(`${modalPath} > .role > input`)
+                    };
+                    await utils.openEditModal({
+                        modal: modal,
+                        target: target,
+                        active: activeTable.getAttribute('data-tab'),
+                    }, entryData, modalData);
+                    prevTargetModal = targetModal;
+                    isModalOpen = true;
+                };
+                switch (targetAction) {
+                    case 'pInventoryActionsEdit':
+                        await inventoryEntryEdit();
+                        break;
+                    case 'pStudentsActionsEdit':
+                        await studentsEntryEdit();
+                        break;
+                    case 'pUsersActionsEdit':
+                        await usersEntryEdit();
+                        break;
+                }
+            });
+        };
+        entryActions();
     };
     tableActions();
     const tableControls = () => {

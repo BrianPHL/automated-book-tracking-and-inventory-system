@@ -187,6 +187,10 @@ html[data-site=dashboard] > body .modal > div > div .form > .header {
   display: flex;
   padding: 2rem 2rem 1rem 2rem;
 }
+html[data-site=dashboard] > body .modal > div > div .form > .header > .heading {
+  flex-direction: column;
+  display: flex;
+}
 html[data-site=dashboard] > body .modal > div > div .form > .header > i {
   transition: 0.2s ease;
 }
