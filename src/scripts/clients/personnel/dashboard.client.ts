@@ -167,11 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const activeTab: string = activeTable.getAttribute('data-tab')
                 const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
-                const targetModalHeading: HTMLHeadingElement = targetModal.querySelector('.header > h3')
+                const targetModalHeading: HTMLHeadingElement = targetModal.querySelector('.header > .heading')
 
-                if (activeTab === 'inventory') { targetModalHeading.textContent = 'Book Registration Form' }
-                if (activeTab === 'students') { targetModalHeading.textContent = 'Student Registration Form' }
-                if (activeTab === 'users') { targetModalHeading.textContent = 'Personnel Registration Form' }
+                if (activeTab === 'inventory') { targetModalHeading.innerHTML = '<h3>Book Registration Form</h3>' }
+                if (activeTab === 'students') { targetModalHeading.innerHTML = '<h3>Student Registration Form</h3>' }
+                if (activeTab === 'users') { targetModalHeading.innerHTML = '<h3>Personnel Registration Form</h3>' }
 
                 targetModal.setAttribute('data-type', 'register')
                 modal.style.display = 'grid'

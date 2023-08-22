@@ -103,15 +103,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target && target.matches('button[data-type="action"]')) {
                 const activeTab = activeTable.getAttribute('data-tab');
                 const targetModal = modal.querySelector(`.${activeTab} > .action`);
-                const targetModalHeading = targetModal.querySelector('.header > h3');
+                const targetModalHeading = targetModal.querySelector('.header > .heading');
                 if (activeTab === 'inventory') {
-                    targetModalHeading.textContent = 'Book Registration Form';
+                    targetModalHeading.innerHTML = '<h3>Book Registration Form</h3>';
                 }
                 if (activeTab === 'students') {
-                    targetModalHeading.textContent = 'Student Registration Form';
+                    targetModalHeading.innerHTML = '<h3>Student Registration Form</h3>';
                 }
                 if (activeTab === 'users') {
-                    targetModalHeading.textContent = 'Personnel Registration Form';
+                    targetModalHeading.innerHTML = '<h3>Personnel Registration Form</h3>';
                 }
                 targetModal.setAttribute('data-type', 'register');
                 modal.style.display = 'grid';
