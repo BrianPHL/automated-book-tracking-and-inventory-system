@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target && target.matches('button[data-type="action"]')) {
                 const activeTab = activeTable.getAttribute('data-tab');
                 const targetModal = modal.querySelector(`.${activeTab} > .action`);
+                const targetModalForm = targetModal.querySelector('.form > form');
+                const targetModalInputs = targetModalForm.querySelectorAll('.input');
                 const targetModalHeading = targetModal.querySelector('.header > .heading');
                 if (activeTab === 'inventory') {
                     targetModalHeading.innerHTML = '<h3>Book Registration Form</h3>';
@@ -113,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (activeTab === 'users') {
                     targetModalHeading.innerHTML = '<h3>Personnel Registration Form</h3>';
                 }
+                targetModalInputs.forEach((targetModalInput) => { targetModalInput.value = ''; });
                 targetModal.setAttribute('data-type', 'register');
                 modal.style.display = 'grid';
                 targetModal.style.display = 'grid';

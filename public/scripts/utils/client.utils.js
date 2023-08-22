@@ -1111,8 +1111,9 @@ export const openEditModal = async (editData, entryData, modalData) => {
     return new Promise((resolve) => {
         const targetEntry = editData.target.parentElement.parentElement;
         const targetModal = editData.modal.querySelector(`.${editData.active} > .action`);
+        const targetModalForm = targetModal.querySelector('.form > form');
+        const targetModalInputs = targetModalForm.querySelectorAll('input');
         const targetModalHeading = targetModal.querySelector('.header > .heading');
-        targetModal.setAttribute('data-type', 'edit');
         if (editData.active === 'inventory') {
             targetModalHeading.innerHTML =
                 `
@@ -1143,8 +1144,10 @@ export const openEditModal = async (editData, entryData, modalData) => {
                 </h4>
             `;
         }
+        targetModalInputs.forEach((targetModalInput) => { targetModalInput.value = ''; });
         editData.modal.style.display = 'grid';
         targetModal.style.display = 'grid';
+        targetModal.setAttribute('data-type', 'edit');
         setTimeout(() => { for (const key in entryData) {
             modalData[key].value = entryData[key];
         } }, 250);
