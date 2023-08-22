@@ -1147,7 +1147,7 @@ export const openEditModal = async (editData, entryData, modalData) => {
         targetModal.style.display = 'grid';
         setTimeout(() => { for (const key in entryData) {
             modalData[key].value = entryData[key];
-        } }, 500);
+        } }, 250);
         resolve();
     });
 };

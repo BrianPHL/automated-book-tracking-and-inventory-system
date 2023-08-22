@@ -1697,7 +1697,7 @@ export const openEditModal = async (
         editData.modal.style.display = 'grid'
         targetModal.style.display = 'grid'
 
-        setTimeout(() => { for (const key in entryData) { modalData[key].value = entryData[key] } }, 500);
+        setTimeout(() => { for (const key in entryData) { modalData[key].value = entryData[key] } }, 250);
 
 
         resolve()
