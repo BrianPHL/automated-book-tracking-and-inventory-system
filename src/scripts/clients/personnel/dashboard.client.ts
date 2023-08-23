@@ -349,8 +349,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const activeTab: string = activeTable.getAttribute('data-tab')
                         const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
-                        const successPrompts: NodeListOf<HTMLDivElement> = modal.querySelectorAll('div[data-type="success"]')
-                        const errorPrompts: NodeListOf<HTMLDivElement> = modal.querySelectorAll('div[data-type="error"]')
+                        const successPrompt: HTMLDivElement = targetModal.querySelector('div[data-type="success"]')
+                        const errorPrompt: HTMLDivElement = targetModal.querySelector('div[data-type="error"]')
                         const operationType: string = targetModal.getAttribute('data-type')
 
                         try {
@@ -370,37 +370,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
                             })
 
-                            successPrompts.forEach((successPrompt: HTMLDivElement) => {
+                            successPrompt.style.display = 'flex'
 
-                                successPrompt.style.display = 'flex' 
-                        
-                                setTimeout(async () => {
-                                
-                                    await resetForm()
-                                    await closeModal()
-                                    await utils.setDashboardData('personnel', activeTab)
-                                    
-                                    successPrompt.style.display = 'none'
-                                
-                                }, 2500)
+                            setTimeout(async () => {
 
-                            })
+                                await resetForm()
+                                await closeModal()
+                                await utils.setDashboardData('personnel', activeTab)
 
+                                successPrompt.style.display = 'none'
 
+                            }, 2500)
 
                         } catch(err) {
 
-                            errorPrompts.forEach((errorPrompt) => {
+                            errorPrompt.style.display = 'flex'
 
-                                errorPrompt.style.display = 'flex'
-
-                                setTimeout(() => {
-
-                                    errorPrompt.style.display = 'none'
-
-                                }, 2500)
-
-                            })
+                            setTimeout(() => { errorPrompt.style.display = 'none' }, 2500)
                         
                         }
             

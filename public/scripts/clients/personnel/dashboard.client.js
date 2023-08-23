@@ -228,8 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitFormBtn.addEventListener('click', async (event) => {
                         const activeTab = activeTable.getAttribute('data-tab');
                         const targetModal = modal.querySelector(`.${activeTab} > .action`);
-                        const successPrompts = modal.querySelectorAll('div[data-type="success"]');
-                        const errorPrompts = modal.querySelectorAll('div[data-type="error"]');
+                        const successPrompt = targetModal.querySelector('div[data-type="success"]');
+                        const errorPrompt = targetModal.querySelector('div[data-type="error"]');
                         const operationType = targetModal.getAttribute('data-type');
                         try {
                             event.preventDefault();
@@ -243,23 +243,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(registrationData)
                             });
-                            successPrompts.forEach((successPrompt) => {
-                                successPrompt.style.display = 'flex';
-                                setTimeout(async () => {
-                                    await resetForm();
-                                    await closeModal();
-                                    await utils.setDashboardData('personnel', activeTab);
-                                    successPrompt.style.display = 'none';
-                                }, 2500);
-                            });
+                            successPrompt.style.display = 'flex';
+                            setTimeout(async () => {
+                                await resetForm();
+                                await closeModal();
+                                await utils.setDashboardData('personnel', activeTab);
+                                successPrompt.style.display = 'none';
+                            }, 2500);
                         }
                         catch (err) {
-                            errorPrompts.forEach((errorPrompt) => {
-                                errorPrompt.style.display = 'flex';
-                                setTimeout(() => {
-                                    errorPrompt.style.display = 'none';
-                                }, 2500);
-                            });
+                            errorPrompt.style.display = 'flex';
+                            setTimeout(() => { errorPrompt.style.display = 'none'; }, 2500);
                         }
                     });
                 });

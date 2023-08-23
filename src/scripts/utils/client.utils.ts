@@ -1701,7 +1701,6 @@ export const openEditModal = async (
 
         setTimeout(() => { for (const key in entryData) { modalData[key].value = entryData[key] } }, 250);
 
-
         resolve()
 
     })
