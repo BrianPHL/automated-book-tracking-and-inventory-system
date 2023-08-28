@@ -12,7 +12,7 @@ export const personnelLogin = async (req, res) => {
             : res.redirect("/personnel/dashboard");
     }
     catch (err) {
-        await utils.errorPromptRedirect(res, {
+        await utils.errorPrompt(res, 'redirect', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -63,7 +63,7 @@ export const personnelLoginAuth = async (req, res) => {
         }
     }
     catch (err) {
-        await utils.errorPromptURL(res, {
+        await utils.errorPrompt(res, 'url', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -76,7 +76,7 @@ export const personnelTableSearch = async (req, res) => {
         res.json(tableData);
     }
     catch (err) {
-        await utils.errorPromptURL(res, {
+        await utils.errorPrompt(res, 'url', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -89,7 +89,7 @@ export const personnelTableActions = async (req, res) => {
         res.sendStatus(200);
     }
     catch (err) {
-        await utils.errorPromptURL(res, {
+        await utils.errorPrompt(res, 'url', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -104,15 +104,15 @@ export const personnelDashboard = async (req, res) => {
             token: accessCookie
         });
         !isTokenValid
-            ? utils.errorPromptRedirect(res, {
+            ? await utils.errorPrompt(res, 'redirect', {
                 status: 401,
-                title: "Unauthorized",
-                body: "You are not authorized to enter this webpage!"
+                title: 'Unauthorized',
+                body: 'You are not authorized to enter this webpage!'
             })
             : res.sendFile("dashboard.html", { root: "public/views/personnel" });
     }
     catch (err) {
-        await utils.errorPromptRedirect(res, {
+        await utils.errorPrompt(res, 'redirect', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -144,15 +144,15 @@ export const personnelInventory = async (req, res) => {
             token: accessCookie
         });
         !isTokenValid
-            ? utils.errorPromptRedirect(res, {
+            ? await utils.errorPrompt(res, 'redirect', {
                 status: 401,
-                title: "Unauthorized",
-                body: "You are not authorized to enter this webpage!"
+                title: 'Unauthorized',
+                body: 'You are not authorized to enter this webpage!'
             })
             : res.sendFile("inventory.html", { root: "public/views/personnel" });
     }
     catch (err) {
-        await utils.errorPromptRedirect(res, {
+        await utils.errorPrompt(res, 'redirect', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -184,15 +184,15 @@ export const personnelStudents = async (req, res) => {
             token: accessCookie
         });
         !isTokenValid
-            ? utils.errorPromptRedirect(res, {
+            ? await utils.errorPrompt(res, 'redirect', {
                 status: 401,
-                title: "Unauthorized",
-                body: "You are not authorized to enter this webpage!"
+                title: 'Unauthorized',
+                body: 'You are not authorized to enter this webpage!'
             })
             : res.sendFile("students.html", { root: "public/views/personnel" });
     }
     catch (err) {
-        await utils.errorPromptRedirect(res, {
+        await utils.errorPrompt(res, 'redirect', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -224,15 +224,15 @@ export const personnelUsers = async (req, res) => {
             token: accessCookie
         });
         !isTokenValid
-            ? utils.errorPromptRedirect(res, {
+            ? await utils.errorPrompt(res, 'redirect', {
                 status: 401,
-                title: "Unauthorized",
-                body: "You are not authorized to enter this webpage!"
+                title: 'Unauthorized',
+                body: 'You are not authorized to enter this webpage!'
             })
             : res.sendFile("users.html", { root: "public/views/personnel" });
     }
     catch (err) {
-        await utils.errorPromptRedirect(res, {
+        await utils.errorPrompt(res, 'redirect', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message
@@ -270,7 +270,7 @@ export const personnelLogout = async (req, res) => {
             .sendStatus(200);
     }
     catch (err) {
-        await utils.errorPromptURL(res, {
+        await utils.errorPrompt(res, 'url', {
             status: 500,
             title: `Internal Server Error - ${err.name}`,
             body: err.message

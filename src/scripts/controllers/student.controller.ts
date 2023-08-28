@@ -19,11 +19,9 @@ export const studentLogin = async (req: Request, res: Response): Promise<void> =
 
     } catch(err) {
 
-        console.error(err.name, err.message)
-
-        await utils.errorPromptRedirect(res, {
+        await utils.errorPrompt(res, 'redirect', {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 
@@ -89,9 +87,9 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
 
     } catch (err) { 
         
-        await utils.errorPromptURL(res, {
+        await utils.errorPrompt(res, 'url', {
             status: 500,
-            title: "Internal Server Error",
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
     
@@ -110,18 +108,18 @@ export const studentDashboard = async (req: Request, res: Response): Promise<voi
         })
 
         !isTokenValid
-        ? utils.errorPromptRedirect(res, {
+        ? await utils.errorPrompt(res, 'redirect', {
             status: 401,
-            title: "Unauthorized",
-            body: "You are not authorized to enter this webpage!"
+            title: 'Unauthorized',
+            body: 'You are not authorized to enter this webpage!'
         })
         : res.sendFile("dashboard.html", { root: "public/views/student" })
 
     } catch(err) {
 
-        await utils.errorPromptURL(res, {
+        await utils.errorPrompt(res, 'url', {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 
@@ -148,9 +146,9 @@ export const studentLogout = async (req: Request, res: Response): Promise<void> 
     
     } catch(err) {
 
-        await utils.errorPromptURL(res, {
+        await utils.errorPrompt(res, 'url', {
             status: 500,
-            title: 'Internal Server Error',
+            title: `Internal Server Error - ${ err.name }`,
             body: err.message
         })
 

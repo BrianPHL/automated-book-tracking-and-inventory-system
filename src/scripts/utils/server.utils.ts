@@ -31,29 +31,25 @@ export const isQueryError = async (result: any) => {
 
 }
 
-export const errorPrompt = async (data: object): Promise<URLSearchParams> => {
+export const errorPrompt = async (res: Response, type: string, data: { status: number, title: string, body: string }): Promise<void | string> => {
 
     const params = new URLSearchParams()
 
-    for (let [key, value] of Object.entries(data)) { params.append(key, value) }
+    for (let [key, value] of Object.entries(data)) { 
+        
+        params.append(key.toString(), value.toString()) 
     
-    return params
+    }
 
-}
+    if (type === 'redirect') {
+    
+        res.redirect(`/error?${ params.toString() }`)
+    
+    } else if (type === 'url') {
 
-export const errorPromptRedirect = async (res: Response, data: {status: number, title: string, body: string}): Promise<void> => {
+        return params.toString()
 
-    const params = await errorPrompt(data)
-
-    res.redirect(`/error?${params.toString()}`)
-
-}
-
-export const errorPromptURL = async (res: Response, data: { status: number, title: string, body: string }): Promise<string> => {
-
-    const params = await errorPrompt(data)
-
-    return params.toString()
+    }
 
 }
 

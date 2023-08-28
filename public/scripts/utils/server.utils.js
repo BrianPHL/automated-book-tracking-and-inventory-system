@@ -18,20 +18,17 @@ export const executeDatabaseQuery = async (query, argument, callback) => {
 export const isQueryError = async (result) => {
     return result && result.constructor && result.constructor.name === "QueryError";
 };
-export const errorPrompt = async (data) => {
+export const errorPrompt = async (res, type, data) => {
     const params = new URLSearchParams();
     for (let [key, value] of Object.entries(data)) {
-        params.append(key, value);
+        params.append(key.toString(), value.toString());
     }
-    return params;
-};
-export const errorPromptRedirect = async (res, data) => {
-    const params = await errorPrompt(data);
-    res.redirect(`/error?${params.toString()}`);
-};
-export const errorPromptURL = async (res, data) => {
-    const params = await errorPrompt(data);
-    return params.toString();
+    if (type === 'redirect') {
+        res.redirect(`/error?${params.toString()}`);
+    }
+    else if (type === 'url') {
+        return params.toString();
+    }
 };
 export const modifyAccessToken = async (type, data) => {
     return new Promise(async (resolve) => {
