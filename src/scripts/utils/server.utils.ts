@@ -85,18 +85,12 @@ export const accessToken = async (type: string, data: {table: string, token: UUI
 
             if (type === 'add') {
     
-                console.log('ADDING ACCESS TOKEN')
-                console.log(data.table, data.column, data.token, data.identifier, data.password)
-
                 await executeDatabaseQuery(
                     `UPDATE ${ data.table } SET access_token = ? WHERE ${ data.column } = ? AND password = ?`,
                     [ data.token, data.identifier, data.password ]
                 )
     
             } else if (type === 'remove') {
-        
-                console.log('REMOVING ACCESS TOKEN')
-                console.log(data.table, data.token)
 
                 await executeDatabaseQuery(
                     `UPDATE ${ data.table } SET access_token = NULL WHERE access_token = ?`,
