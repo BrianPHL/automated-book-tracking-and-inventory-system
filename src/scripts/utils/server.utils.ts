@@ -77,44 +77,45 @@ export const validateAccessToken = async (data: { table: string, token: UUID }):
 
 }
 
-export const addAccessToken = async (data: { table: string, column: string, token: UUID, identifier: string, password: string }): Promise<boolean> => {
+export const accessToken = async (type: string, data: {table: string, token: UUID, column?: string, identifier?: string, password?: string}): Promise<void> => {
 
-    try {
+    return new Promise(async (resolve) => {
 
-        const result = await executeDatabaseQuery(
-            `UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`,
-            [ data.token, data.identifier, data.password ]
-        )
+        try {
 
-        return !result ? false : true
+            if (type === 'add') {
+    
+                console.log('ADDING ACCESS TOKEN')
+                console.log(data.table, data.column, data.token, data.identifier, data.password)
 
-    } catch(err) {
+                await executeDatabaseQuery(
+                    `UPDATE ${ data.table } SET access_token = ? WHERE ${ data.column } = ? AND password = ?`,
+                    [ data.token, data.identifier, data.password ]
+                )
+    
+            } else if (type === 'remove') {
+        
+                console.log('REMOVING ACCESS TOKEN')
+                console.log(data.table, data.token)
 
-        console.error(err.name, err.message)
-        throw err
+                await executeDatabaseQuery(
+                    `UPDATE ${ data.table } SET access_token = NULL WHERE access_token = ?`,
+                    [ data.token ]
+                )
+    
+            }
+    
+        } catch (err) {
+    
+            console.error(err.name, err.message)
+            throw err
+    
+        }
 
-    }
+        resolve()
 
-}
-
-export const removeAccessToken = async (data: { table: string, token: UUID }): Promise<boolean> => {
-
-    try {
-
-        const result = await executeDatabaseQuery(
-            `UPDATE ${ data.table } SET access_token = NULL WHERE access_token = ?`,
-            [ data.token ]
-        )
-
-        return !result ? false : true
-
-    } catch(err) {
-
-        console.error(err.name, err.message)
-        throw err
-
-    }
-
+    })
+    
 }
 
 export const retrieveDashboardData = async (type: string, tab: string, token: UUID) => {

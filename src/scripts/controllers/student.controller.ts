@@ -55,7 +55,8 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
         if (!await utils.isQueryResultEmpty(result)) {
 
             const uuidToken: UUID = uuidv4()
-            const isTokenAdded: boolean = await utils.addAccessToken({
+            
+            await utils.accessToken('add', {
                 table: 'students',
                 column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
                 token: uuidToken,
@@ -63,9 +64,7 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
                 password: password
             })
 
-            !isTokenAdded
-            ? res.sendStatus(500)
-            : res
+            res
             .cookie("sMemory", uuidToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 sameSite: "strict",
@@ -135,18 +134,17 @@ export const studentLogout = async (req: Request, res: Response): Promise<void> 
     try {
 
         const dataCookie = req.cookies['sData']
-        const isTokenRemoved: boolean = await utils.removeAccessToken({
+
+        await utils.accessToken('remove', {
             table: 'students',
             token: dataCookie
         })
-    
-        !isTokenRemoved
-        ? await utils.errorPromptURL(res, {
-            status: 500,
-            title: 'Internal Server Error',
-            body: 'Contact the server administrator.'
-        })
-        : res.clearCookie('sMemory').clearCookie('sAccess').clearCookie('sData').sendStatus(200)
+
+        res
+        .clearCookie('sMemory')
+        .clearCookie('sAccess')
+        .clearCookie('sData')
+        .sendStatus(200)
     
     } catch(err) {
 

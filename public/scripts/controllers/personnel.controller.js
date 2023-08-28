@@ -30,35 +30,33 @@ export const personnelLoginAuth = async (req, res) => {
         }
         if (!await utils.isQueryResultEmpty(result)) {
             const uuidToken = uuidv4();
-            const isTokenAdded = await utils.addAccessToken({
+            await utils.accessToken('add', {
                 table: 'personnel',
                 column: 'username',
                 token: uuidToken,
                 identifier: username,
                 password: password
             });
-            !isTokenAdded
-                ? res.sendStatus(500)
-                : res
-                    .cookie("pMemory", uuidToken, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    sameSite: "strict",
-                    httpOnly: true,
-                    secure: true
-                })
-                    .cookie("pAccess", uuidToken, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    sameSite: "strict",
-                    httpOnly: true,
-                    secure: true
-                })
-                    .cookie("pData", uuidToken, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    sameSite: "strict",
-                    httpOnly: true,
-                    secure: true
-                })
-                    .sendStatus(200);
+            res
+                .cookie("pMemory", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+                .cookie("pAccess", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+                .cookie("pData", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+                .sendStatus(200);
         }
         else {
             res.sendStatus(403);
@@ -237,17 +235,15 @@ export const personnelUsersData = async (req, res) => {
 export const personnelLogout = async (req, res) => {
     try {
         const dataCookie = req.cookies['pData'];
-        const isTokenRemoved = await utils.removeAccessToken({
+        await utils.accessToken('remove', {
             table: 'personnel',
             token: dataCookie
         });
-        !isTokenRemoved
-            ? await utils.errorPromptURL(res, {
-                status: 500,
-                title: 'Internal Server Error',
-                body: 'The server was unable to handle your request'
-            })
-            : res.clearCookie('pMemory').clearCookie('pAccess').clearCookie('pData').sendStatus(200);
+        res
+            .clearCookie('pMemory')
+            .clearCookie('pAccess')
+            .clearCookie('pData')
+            .sendStatus(200);
     }
     catch (err) {
         await utils.errorPromptURL(res, {

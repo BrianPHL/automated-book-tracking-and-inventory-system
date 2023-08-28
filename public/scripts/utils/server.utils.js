@@ -43,25 +43,26 @@ export const validateAccessToken = async (data) => {
         throw err;
     }
 };
-export const addAccessToken = async (data) => {
-    try {
-        const result = await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`, [data.token, data.identifier, data.password]);
-        return !result ? false : true;
-    }
-    catch (err) {
-        console.error(err.name, err.message);
-        throw err;
-    }
-};
-export const removeAccessToken = async (data) => {
-    try {
-        const result = await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = NULL WHERE access_token = ?`, [data.token]);
-        return !result ? false : true;
-    }
-    catch (err) {
-        console.error(err.name, err.message);
-        throw err;
-    }
+export const accessToken = async (type, data) => {
+    return new Promise(async (resolve) => {
+        try {
+            if (type === 'add') {
+                console.log('ADDING ACCESS TOKEN');
+                console.log(data.table, data.column, data.token, data.identifier, data.password);
+                await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`, [data.token, data.identifier, data.password]);
+            }
+            else if (type === 'remove') {
+                console.log('REMOVING ACCESS TOKEN');
+                console.log(data.table, data.token);
+                await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = NULL WHERE access_token = ?`, [data.token]);
+            }
+        }
+        catch (err) {
+            console.error(err.name, err.message);
+            throw err;
+        }
+        resolve();
+    });
 };
 export const retrieveDashboardData = async (type, tab, token) => {
     let resultData = {};

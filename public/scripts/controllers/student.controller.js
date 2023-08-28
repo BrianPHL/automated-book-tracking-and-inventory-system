@@ -34,35 +34,33 @@ export const studentLoginAuth = async (req, res) => {
         }
         if (!await utils.isQueryResultEmpty(result)) {
             const uuidToken = uuidv4();
-            const isTokenAdded = await utils.addAccessToken({
+            await utils.accessToken('add', {
                 table: 'students',
                 column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
                 token: uuidToken,
                 identifier: studentOrPhoneNum,
                 password: password
             });
-            !isTokenAdded
-                ? res.sendStatus(500)
-                : res
-                    .cookie("sMemory", uuidToken, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    sameSite: "strict",
-                    httpOnly: true,
-                    secure: true
-                })
-                    .cookie("sAccess", uuidToken, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    sameSite: "strict",
-                    httpOnly: true,
-                    secure: true
-                })
-                    .cookie("sData", uuidToken, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    sameSite: "strict",
-                    httpOnly: true,
-                    secure: true
-                })
-                    .sendStatus(200);
+            res
+                .cookie("sMemory", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+                .cookie("sAccess", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+                .cookie("sData", uuidToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+                httpOnly: true,
+                secure: true
+            })
+                .sendStatus(200);
         }
         else {
             res.sendStatus(403);
@@ -102,17 +100,15 @@ export const studentDashboard = async (req, res) => {
 export const studentLogout = async (req, res) => {
     try {
         const dataCookie = req.cookies['sData'];
-        const isTokenRemoved = await utils.removeAccessToken({
+        await utils.accessToken('remove', {
             table: 'students',
             token: dataCookie
         });
-        !isTokenRemoved
-            ? await utils.errorPromptURL(res, {
-                status: 500,
-                title: 'Internal Server Error',
-                body: 'Contact the server administrator.'
-            })
-            : res.clearCookie('sMemory').clearCookie('sAccess').clearCookie('sData').sendStatus(200);
+        res
+            .clearCookie('sMemory')
+            .clearCookie('sAccess')
+            .clearCookie('sData')
+            .sendStatus(200);
     }
     catch (err) {
         await utils.errorPromptURL(res, {
