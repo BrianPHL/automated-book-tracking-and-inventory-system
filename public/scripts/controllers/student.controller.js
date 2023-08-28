@@ -34,7 +34,7 @@ export const studentLoginAuth = async (req, res) => {
         }
         if (!await utils.isQueryResultEmpty(result)) {
             const uuidToken = uuidv4();
-            await utils.accessToken('add', {
+            await utils.modifyAccessToken('add', {
                 table: 'students',
                 column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
                 token: uuidToken,
@@ -100,7 +100,7 @@ export const studentDashboard = async (req, res) => {
 export const studentLogout = async (req, res) => {
     try {
         const dataCookie = req.cookies['sData'];
-        await utils.accessToken('remove', {
+        await utils.modifyAccessToken('remove', {
             table: 'students',
             token: dataCookie
         });

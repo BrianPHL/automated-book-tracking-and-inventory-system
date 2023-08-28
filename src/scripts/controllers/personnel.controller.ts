@@ -48,7 +48,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
             const uuidToken: UUID = uuidv4()
 
-            await utils.accessToken('add', {
+            await utils.modifyAccessToken('add', {
                 table: 'personnel',
                 column: 'username',
                 token: uuidToken,
@@ -329,7 +329,7 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
 
         const dataCookie: UUID = req.cookies['pData']
 
-        await utils.accessToken('remove', {
+        await utils.modifyAccessToken('remove', {
             table: 'personnel',
             token: dataCookie
         })

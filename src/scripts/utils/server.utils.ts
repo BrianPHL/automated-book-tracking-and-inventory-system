@@ -57,34 +57,14 @@ export const errorPromptURL = async (res: Response, data: { status: number, titl
 
 }
 
-export const validateAccessToken = async (data: { table: string, token: UUID }): Promise<boolean> => {
-
-    try {
-
-        const result = await executeDatabaseQuery(
-            `SELECT access_token FROM ${ data.table } WHERE access_token = ?`,
-            [ data.token ]
-        )
-        
-        return !await isQueryResultEmpty(result)
-
-    } catch(err) {
-
-        console.error(err.name, err.message)
-        throw err
-
-    }
-
-}
-
-export const accessToken = async (type: string, data: {table: string, token: UUID, column?: string, identifier?: string, password?: string}): Promise<void> => {
+export const modifyAccessToken = async (type: string, data: {table: string, token: UUID, column?: string, identifier?: string, password?: string}): Promise<void> => {
 
     return new Promise(async (resolve) => {
 
         try {
 
             if (type === 'add') {
-    
+
                 await executeDatabaseQuery(
                     `UPDATE ${ data.table } SET access_token = ? WHERE ${ data.column } = ? AND password = ?`,
                     [ data.token, data.identifier, data.password ]
@@ -110,6 +90,26 @@ export const accessToken = async (type: string, data: {table: string, token: UUI
 
     })
     
+}
+
+export const validateAccessToken = async (data: { table: string, token: UUID }): Promise<boolean> => {
+
+    try {
+
+        const result = await executeDatabaseQuery(
+            `SELECT access_token FROM ${ data.table } WHERE access_token = ?`,
+            [ data.token ]
+        )
+        
+        return !await isQueryResultEmpty(result)
+
+    } catch(err) {
+
+        console.error(err.name, err.message)
+        throw err
+
+    }
+
 }
 
 export const retrieveDashboardData = async (type: string, tab: string, token: UUID) => {

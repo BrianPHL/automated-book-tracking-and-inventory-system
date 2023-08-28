@@ -30,7 +30,7 @@ export const personnelLoginAuth = async (req, res) => {
         }
         if (!await utils.isQueryResultEmpty(result)) {
             const uuidToken = uuidv4();
-            await utils.accessToken('add', {
+            await utils.modifyAccessToken('add', {
                 table: 'personnel',
                 column: 'username',
                 token: uuidToken,
@@ -235,7 +235,7 @@ export const personnelUsersData = async (req, res) => {
 export const personnelLogout = async (req, res) => {
     try {
         const dataCookie = req.cookies['pData'];
-        await utils.accessToken('remove', {
+        await utils.modifyAccessToken('remove', {
             table: 'personnel',
             token: dataCookie
         });

@@ -56,7 +56,7 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
 
             const uuidToken: UUID = uuidv4()
             
-            await utils.accessToken('add', {
+            await utils.modifyAccessToken('add', {
                 table: 'students',
                 column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
                 token: uuidToken,
@@ -135,7 +135,7 @@ export const studentLogout = async (req: Request, res: Response): Promise<void> 
 
         const dataCookie = req.cookies['sData']
 
-        await utils.accessToken('remove', {
+        await utils.modifyAccessToken('remove', {
             table: 'students',
             token: dataCookie
         })

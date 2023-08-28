@@ -33,17 +33,7 @@ export const errorPromptURL = async (res, data) => {
     const params = await errorPrompt(data);
     return params.toString();
 };
-export const validateAccessToken = async (data) => {
-    try {
-        const result = await executeDatabaseQuery(`SELECT access_token FROM ${data.table} WHERE access_token = ?`, [data.token]);
-        return !await isQueryResultEmpty(result);
-    }
-    catch (err) {
-        console.error(err.name, err.message);
-        throw err;
-    }
-};
-export const accessToken = async (type, data) => {
+export const modifyAccessToken = async (type, data) => {
     return new Promise(async (resolve) => {
         try {
             if (type === 'add') {
@@ -59,6 +49,16 @@ export const accessToken = async (type, data) => {
         }
         resolve();
     });
+};
+export const validateAccessToken = async (data) => {
+    try {
+        const result = await executeDatabaseQuery(`SELECT access_token FROM ${data.table} WHERE access_token = ?`, [data.token]);
+        return !await isQueryResultEmpty(result);
+    }
+    catch (err) {
+        console.error(err.name, err.message);
+        throw err;
+    }
 };
 export const retrieveDashboardData = async (type, tab, token) => {
     let resultData = {};
