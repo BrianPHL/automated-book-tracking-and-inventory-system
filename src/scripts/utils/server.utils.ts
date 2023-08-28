@@ -112,36 +112,6 @@ export const validateAccessToken = async (data: { table: string, token: UUID }):
 
 }
 
-export const retrieveDashboardData = async (type: string, tab: string, token: UUID) => {
-
-    let resultData: object = {}
-
-    try {
-
-        const [ accountData, overviewData, tableData ] = await Promise.all([
-            retrieveAccountData(type, token),
-            retrieveOverviewData(type, tab),
-            retrieveTableData(type, tab)
-        ]);
-    
-        Object.assign(
-            resultData, 
-            { accountData: accountData }, 
-            { overviewData: overviewData }, 
-            { tableData: tableData }
-        )
-
-        return resultData
-
-    } catch (err) {
-        
-        console.error(err.name, err.message)
-        throw err
-
-    }
-
-}
-
 export const retrieveAccountData = async (type: string, token: UUID): Promise<object | boolean> => {
 
     let result: object = {}

@@ -165,10 +165,23 @@ export const personnelDashboardData = async (req: Request, res: Response): Promi
 
     try {
 
-        const token = req.cookies['pData']
-        const result = await utils.retrieveDashboardData('personnel', 'dashboard', token)
+        let resultData: Object = {}
 
-        res.json(result)
+        const token = req.cookies['pData']
+        const [ accountData, overviewData, tableData ] = await Promise.all([
+            utils.retrieveAccountData('personnel', token),
+            utils.retrieveOverviewData('personnel', 'dashboard'),
+            utils.retrieveTableData('personnel', 'dashboard')
+        ])
+        
+        Object.assign(
+            resultData,
+            { accountData: accountData },
+            { overviewData: overviewData },
+            { tableData: tableData }
+        )
+
+        res.json(resultData)
 
     } catch(err) {
 
@@ -213,10 +226,23 @@ export const personnelInventoryData = async (req: Request, res: Response): Promi
 
     try {
 
-        const token = req.cookies['pData']
-        const result = await utils.retrieveDashboardData('personnel', 'inventory', token)
+        let resultData: Object = {}
 
-        res.json(result)
+        const token = req.cookies['pData']
+        const [ accountData, overviewData, tableData ] = await Promise.all([
+            utils.retrieveAccountData('personnel', token),
+            utils.retrieveOverviewData('personnel', 'inventory'),
+            utils.retrieveTableData('personnel', 'inventory')
+        ])
+        
+        Object.assign(
+            resultData,
+            { accountData: accountData },
+            { overviewData: overviewData },
+            { tableData: tableData }
+        )
+
+        res.json(resultData)
 
     } catch(err) {
 
@@ -261,10 +287,23 @@ export const personnelStudentsData = async (req: Request, res: Response): Promis
 
     try {
 
-        const token = req.cookies['pData']
-        const result = await utils.retrieveDashboardData('personnel', 'students', token)
+        let resultData: Object = {}
 
-        res.json(result)
+        const token = req.cookies['pData']
+        const [ accountData, overviewData, tableData ] = await Promise.all([
+            utils.retrieveAccountData('personnel', token),
+            utils.retrieveOverviewData('personnel', 'students'),
+            utils.retrieveTableData('personnel', 'students')
+        ])
+        
+        Object.assign(
+            resultData,
+            { accountData: accountData },
+            { overviewData: overviewData },
+            { tableData: tableData }
+        )
+
+        res.json(resultData)
 
     } catch(err) {
 
@@ -309,10 +348,23 @@ export const personnelUsersData = async (req: Request, res: Response): Promise<v
 
     try {
 
-        const token = req.cookies['pData']
-        const result = await utils.retrieveDashboardData('personnel', 'users', token)
+        let resultData: Object = {}
 
-        res.json(result)
+        const token = req.cookies['pData']
+        const [ accountData, overviewData, tableData ] = await Promise.all([
+            utils.retrieveAccountData('personnel', token),
+            utils.retrieveOverviewData('personnel', 'users'),
+            utils.retrieveTableData('personnel', 'users')
+        ])
+        
+        Object.assign(
+            resultData,
+            { accountData: accountData },
+            { overviewData: overviewData },
+            { tableData: tableData }
+        )
+
+        res.json(resultData)
 
     } catch(err) {
 
