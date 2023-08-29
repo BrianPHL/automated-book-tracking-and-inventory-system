@@ -531,13 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     tableActions()
 
-    const tableControls = () => {
-
-
-
-    }
-    tableControls()
-
     utils.setDashboardData('personnel')
     utils.setTableAction('dashboard')
 

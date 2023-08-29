@@ -349,9 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
         entryActions();
     };
     tableActions();
-    const tableControls = () => {
-    };
-    tableControls();
     utils.setDashboardData('personnel');
     utils.setTableAction('dashboard');
 });
