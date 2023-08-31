@@ -105,16 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetModal = modal.querySelector(`.${activeTab} > .action`);
                 const targetModalForm = targetModal.querySelector('.form > form');
                 const targetModalInputs = targetModalForm.querySelectorAll('.input');
-                const targetModalHeading = targetModal.querySelector('.header > .heading');
-                if (activeTab === 'inventory') {
-                    targetModalHeading.innerHTML = '<h3>Book Registration Form</h3>';
-                }
-                if (activeTab === 'students') {
-                    targetModalHeading.innerHTML = '<h3>Student Registration Form</h3>';
-                }
-                if (activeTab === 'users') {
-                    targetModalHeading.innerHTML = '<h3>Personnel Registration Form</h3>';
-                }
+                const targetModalHeader = targetModal.querySelector('.header > .heading');
+                const targetModalHeaders = {
+                    'inventory': '<h3>Book Registration Form</h3>',
+                    'students': '<h3>Student Registration Form</h3>',
+                    'users': '<h3>Personnel Registration Form</h3>'
+                };
+                targetModalHeader.innerHTML = targetModalHeaders[activeTab].toString();
                 targetModalInputs.forEach((targetModalInput) => { targetModalInput.value = ''; });
                 targetModal.setAttribute('data-type', 'register');
                 modal.style.display = 'grid';
@@ -123,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 isModalOpen = true;
             }
         });
-        const tableControlsSearch = () => {
+        const tableSearch = () => {
             const tableSearch = tableActions.querySelector('.search');
             const tableSearchInput = tableSearch.querySelector('.input > input[type="text"]');
             const tableSearchSubmit = tableActions.querySelector('button[data-type="search"]');
@@ -184,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await searchFunction();
             });
         };
-        tableControlsSearch();
+        tableSearch();
         const modalActions = () => {
             const closeModalBtns = modal.querySelectorAll('div > div > .header > i');
             const modalForms = modal.querySelectorAll('div > div > form');

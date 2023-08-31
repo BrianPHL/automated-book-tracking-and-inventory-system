@@ -169,12 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
                 const targetModalForm: HTMLFormElement = targetModal.querySelector('.form > form')
                 const targetModalInputs: NodeListOf<HTMLInputElement> = targetModalForm.querySelectorAll('.input')
-                const targetModalHeading: HTMLHeadingElement = targetModal.querySelector('.header > .heading')
+                const targetModalHeader: HTMLHeadingElement = targetModal.querySelector('.header > .heading')
+                const targetModalHeaders = {
+                    'inventory': '<h3>Book Registration Form</h3>',
+                    'students': '<h3>Student Registration Form</h3>',
+                    'users': '<h3>Personnel Registration Form</h3>'
+                }
 
-                if (activeTab === 'inventory') { targetModalHeading.innerHTML = '<h3>Book Registration Form</h3>' }
-                if (activeTab === 'students') { targetModalHeading.innerHTML = '<h3>Student Registration Form</h3>' }
-                if (activeTab === 'users') { targetModalHeading.innerHTML = '<h3>Personnel Registration Form</h3>' }
-
+                targetModalHeader.innerHTML = targetModalHeaders[activeTab].toString()
                 targetModalInputs.forEach((targetModalInput: HTMLInputElement) => { targetModalInput.value = '' })
                 targetModal.setAttribute('data-type', 'register')
                 modal.style.display = 'grid'
@@ -186,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         })
 
-        const tableControlsSearch = () => {
+        const tableSearch = () => {
 
             const tableSearch: HTMLDivElement = tableActions.querySelector('.search')
             const tableSearchInput: HTMLInputElement = tableSearch.querySelector('.input > input[type="text"]')
@@ -275,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
         }
-        tableControlsSearch()
+        tableSearch()
 
         const modalActions = () => {
 
