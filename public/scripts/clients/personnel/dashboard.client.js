@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableActions = bodyElement.querySelector('.controls');
         let prevTargetModal;
         let isModalOpen = false;
-        tableActions.addEventListener('click', () => {
+        tableActions.addEventListener('click', (event) => {
             const target = event.target;
             if (target && target.matches('button[data-type="action"]')) {
                 const activeTab = activeTable.getAttribute('data-tab');

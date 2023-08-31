@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let prevTargetModal: HTMLDivElement
         let isModalOpen: boolean = false
 
-        tableActions.addEventListener('click', () => {
+        tableActions.addEventListener('click', (event) => {
 
             const target = event.target as HTMLElement
 
