@@ -3,7 +3,7 @@ import * as controller from "../../controllers/personnel.controller.js";
 
 const personnelTableRoute = express.Router();
 
-personnelTableRoute.get("/:tab/search/:query", controller.personnelTableSearch)
+personnelTableRoute.get("/:tab/fetch/:query?", controller.personnelTableFetch)
 personnelTableRoute.post("/:tab/actions/:type", controller.personnelTableActions)
 
 export default personnelTableRoute
