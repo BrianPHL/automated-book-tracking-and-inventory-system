@@ -319,20 +319,16 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
 
 }
 
-export const retrieveTableData = async (type: string, tab: string, query?: string): Promise<object | boolean> => {
+export const fetchTableData = async (type: string, tab: string, query?: string): Promise<string> => {
 
-    let result = {}
-
-    const retrieveDashboardData = async (): Promise<void> => {
-
-        let entries: string[] = []
+    const pDashboard = async (): Promise<string> => {
 
         try {
 
-            let queryResult: string = ''
+            let qResult: string
 
             !query
-            ? queryResult = await executeDatabaseQuery(
+            ? qResult = await executeDatabaseQuery(
                 `
                 SELECT 
                     id, title, status, borrower, borrower_number, 
@@ -342,7 +338,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     books
                 `
             )
-            : queryResult = await executeDatabaseQuery(
+            : qResult = await executeDatabaseQuery(
                 `
                 SELECT 
                     id, title, status, borrower, borrower_number, 
@@ -362,54 +358,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                 `
             )
 
-            Object.values(queryResult).forEach(async (data) => {
-
-                const identifier = data['id']
-                const title = data['title']
-                const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
-                const publicationDate = data['date_publicized']
-                const acquisitionDate = data['date_added']
-                let borrowerAndBorrowerNumber = ``
-                let borrowDateAndDuration = ``
-                let visibility = ``
-                let status = ``
-
-                data['borrower'] === null 
-                ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
-                : borrowerAndBorrowerNumber = `<h2>${ data['borrower'] }</h2><h3>${ data['borrower_number'] }</h3>`
-                
-                data['date_borrowed'] === null
-                ? borrowDateAndDuration = `<h2>No data</h2>`
-                : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
-
-                data['status'] === 'Available' 
-                ? status = `<h2>${data['status']}</h2>` 
-                : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
-
-                status.includes('Past Due') 
-                ? visibility = 'visible' 
-                : visibility = 'hidden'
-
-                const entry =
-                `
-                <div class="entry" data-identifier="${ identifier }">
-                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
-                    <div class="title"><h2>${ title }</h2></div>
-                    <div class="status">${ status }</div>
-                    <div class="borrower">${ borrowerAndBorrowerNumber }</div>
-                    <div class="borrowDate">${ borrowDateAndDuration }</div>
-                    <div class="dueDate"><h2>${ dueDate }</h2></div>
-                    <div class="publicationDate"><h2>${ publicationDate }</h2></div>
-                    <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
-                    <div class="actions"><i class="fa-regular fa-pen-to-square" style="visibility: hidden;"></i></div>
-                </div>
-                `
-
-                entries.push(entry)
-
-            })
-
-            Object.assign(result, entries)
+            return qResult
 
         } catch(err) {
 
@@ -420,16 +369,14 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
     }
 
-    const retrieveInventoryData = async (): Promise<void> => {
-
-        let entries: string[] = []
+    const pInventory = async (): Promise<string> => {
 
         try {
         
-            let queryResult: string = ''
+            let qResult: string
 
             !query
-            ? queryResult = await executeDatabaseQuery(
+            ? qResult = await executeDatabaseQuery(
                 `
                 SELECT
                     id, title, status, author, genre, 
@@ -438,7 +385,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     books
                 `
             )
-            : queryResult = await executeDatabaseQuery(
+            : qResult = await executeDatabaseQuery(
                 `
                 SELECT
                     id, title, status, author, genre, 
@@ -455,48 +402,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                 `
             )
 
-            Object.values(queryResult).forEach(async (data) => {
-
-                const identifier = data['id']
-                const title = data['title']
-                const author = data['author']
-                const genre = data['genre']
-                const publicationDate = data['date_publicized']
-                const acquisitionDate = data['date_added']
-                let visibility = ``
-                let status = ``
-
-                data['status'] === 'Available' 
-                ? status = `<h2>${data['status']}</h2>` 
-                : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
-
-                status.includes('Past Due') 
-                ? visibility = 'visible' 
-                : visibility = 'hidden'
-
-                const entry =
-                `
-                <div class="entry" data-identifier="${ identifier }">
-                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
-                    <div class="title"><h2>${ title }</h2></div>
-                    <div class="status"><h2>${ status }</h2></div>
-                    <div class="author"><h2>${ author }</h2></div>
-                    <div class="genre"><h2>${ genre }</h2></div>
-                    <div class="publicationDate"><h2>${ publicationDate }</h2></div>
-                    <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
-                    <div class="actions">
-                        <i class="pInventoryActionsLend fa-regular fa-arrow-right-from-arc"></i>
-                        <i class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
-                        <i class="pInventoryActionsDelete fa-regular fa-xmark"></i>
-                    </div>
-                </div>
-                `
-
-                entries.push(entry)
-
-            })
-
-            Object.assign(result, entries)
+            return qResult
 
         } catch(err) {
 
@@ -507,16 +413,14 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
         
     }
 
-    const retrieveStudentsData = async (): Promise<void> => {
-
-        let entries: string[] = []
+    const pStudents = async (): Promise<string> => {
 
         try {
 
-            let queryResult: string = ''
+            let qResult: string
 
             !query
-            ? queryResult = await executeDatabaseQuery(
+            ? qResult = await executeDatabaseQuery(
                 `
                 SELECT
                     id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
@@ -525,7 +429,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     students
                 `
             )
-            : queryResult = await executeDatabaseQuery(
+            : qResult = await executeDatabaseQuery(
                 `
                 SELECT
                     id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
@@ -542,48 +446,9 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                 `
             )
 
-            Object.values(queryResult).forEach(async (data) => {
 
-                const identifier = data['id']
-                const studentName = data['full_name']
-                const studentNumber = data['student_number']
-                const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
-                const phoneNumber = data['phone_number']
-                const emailAddress = data['email']
-                let studentStatus = ``
-                let visibility = ``
 
-                data['status'] === 'Vacant' 
-                ? studentStatus = `<h2>${data['status']}</h2>` 
-                : studentStatus = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
-
-                studentStatus.includes('Past Due') 
-                ? visibility = 'visible' 
-                : visibility = 'hidden'
-
-                const entry =
-                `
-                <div class="entry" data-identifier="${ identifier }">
-                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
-                    <div class="name"><h2>${ studentName }</h2></div>
-                    <div class="studentNumber"><h2>${ studentNumber }</h2></div>
-                    <div class="status">${ studentStatus }</div>
-                    <div class="borrowedBook"><h2>${ borrowedBook }</h2></div>
-                    <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
-                    <div class="emailAddress"><h2>${ emailAddress }</h2></div>
-                    <div class="actions">
-                        <i class="pStudentsActionsNotify fa-regular fa-message"></i>
-                        <i class="pStudentsActionsEdit fa-regular fa-pen-to-square"></i>
-                        <i class="pStudentsActionsDelete fa-regular fa-xmark"></i>
-                    </div>
-                </div>
-                `
-
-                entries.push(entry)
-
-            })
-
-            Object.assign(result, entries)
+            return qResult
 
         } catch(err) {
 
@@ -594,16 +459,14 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
 
     }
 
-    const retrieveUsersData = async (): Promise<void> => {
-
-        let entries: string[] = []
+    const pUsers = async (): Promise<string> => {
 
         try {
 
-            let queryResult: string = ''
+            let qResult: string
 
             !query
-            ? queryResult = await executeDatabaseQuery(
+            ? qResult = await executeDatabaseQuery(
                 `
                 SELECT
                     id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
@@ -611,7 +474,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                     personnel
                 `
             )
-            : queryResult = await executeDatabaseQuery(
+            : qResult = await executeDatabaseQuery(
                 `
                 SELECT
                     id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
@@ -625,39 +488,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                 `
             )
 
-            Object.values(queryResult).forEach(async (data) => {
-
-                const identifier = data['id']
-                const fullName = data['full_name']
-                const username = data['username']
-                const role = data['role']
-                let privilege = ``
-
-                data['role'] === 'Librarian'
-                ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
-                : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`
-
-                const entry =
-                `
-                <div class="entry" data-identifier="${ identifier }">
-                    <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
-                    <div class="fullName"><h2>${ fullName }</h2></div>
-                    <div class="username"><h2>${ username }</h2></div>
-                    <div class="role"><h2>${ role }</h2></div>
-                    <div class="privilege">${ privilege }</div>
-                    <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
-                    <div class="actions">
-                    <i class="pUsersActionsEdit fa-regular fa-pen-to-square"></i>
-                    <i class="pUsersActionsDelete fa-regular fa-xmark"></i>
-                    </div>
-                </div>
-                `
-
-                entries.push(entry)
-
-            })
-
-            Object.assign(result, entries)
+            return qResult
 
         } catch(err) {
 
@@ -668,11 +499,11 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
         
     }
 
-    const retrieveStudentData = async (): Promise<void> => {
+    const sDashboard = async (): Promise<string> => {
 
         try {
 
-            const queryResult = await executeDatabaseQuery(
+            const qResult = await executeDatabaseQuery(
                 `
                 SELECT
                     id, title, status, author, genre, 
@@ -682,7 +513,7 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
                 `
             )
 
-            Object.assign(result, queryResult)
+            return qResult
 
 
         } catch(err) {
@@ -693,41 +524,251 @@ export const retrieveTableData = async (type: string, tab: string, query?: strin
         }
 
     }
+
+    const tableNames = {
+        'dashboard': type === 'personnel' ? pDashboard : sDashboard,
+        'inventory': pInventory,
+        'students': pStudents,
+        'users': pUsers
+    }
     
     try {
+    
+        return await tableNames[tab]()
 
-        if (type !== 'students') {
-
-            switch (tab) {
-                
-                case 'dashboard': 
-                    await retrieveDashboardData()
-                    break
-                case 'inventory': 
-                    await retrieveInventoryData()
-                    break
-                case 'students': 
-                    await retrieveStudentsData()
-                    break
-                case 'users': 
-                    await retrieveUsersData()
-                    break
-                default: 
-                    throw `Error in switch-case; passed argument: ${tab} did not match any case.`
-            
-            }
-
-        } else { await retrieveStudentData() }
-
-        return result
-
-    } catch(err) {
-
+    } catch (err) {
+        
         console.error(err.name, err.message)
         throw err
 
     }
     
+}
+
+export const fetchTableEntries = async (type: string, tab: string): Promise<string[]> => {
+
+    const pDashboard = async (): Promise<string[]> => {
+
+        const result = await fetchTableData('personnel', 'dashboard')
+        let entries: string[] = []
+
+        Object.values(result).forEach(async (data) => {
+
+            const identifier = data['id']
+            const title = data['title']
+            const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
+            const publicationDate = data['date_publicized']
+            const acquisitionDate = data['date_added']
+            let borrowerAndBorrowerNumber = ``
+            let borrowDateAndDuration = ``
+            let visibility = ``
+            let status = ``
+
+            data['borrower'] === null 
+            ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
+            : borrowerAndBorrowerNumber = `<h2>${ data['borrower'] }</h2><h3>${ data['borrower_number'] }</h3>`
+            
+            data['date_borrowed'] === null
+            ? borrowDateAndDuration = `<h2>No data</h2>`
+            : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
+
+            data['status'] === 'Available' 
+            ? status = `<h2>${data['status']}</h2>` 
+            : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+
+            status.includes('Past Due') 
+            ? visibility = 'visible' 
+            : visibility = 'hidden'
+
+            const entry =
+            `
+            <div class="entry" data-identifier="${ identifier }">
+                <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                <div class="title"><h2>${ title }</h2></div>
+                <div class="status">${ status }</div>
+                <div class="borrower">${ borrowerAndBorrowerNumber }</div>
+                <div class="borrowDate">${ borrowDateAndDuration }</div>
+                <div class="dueDate"><h2>${ dueDate }</h2></div>
+                <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                <div class="actions"><i class="fa-regular fa-pen-to-square" style="visibility: hidden;"></i></div>
+            </div>
+            `
+
+            entries.push(entry)
+
+        })
+
+        return entries
+        
+    }
+
+    const pInventory = async (): Promise<string[]> => {
+        
+        const result = await fetchTableData('personnel', 'inventory')
+        let entries: string[] = []
+
+        Object.values(result).forEach(async (data) => {
+
+            const identifier = data['id']
+            const title = data['title']
+            const author = data['author']
+            const genre = data['genre']
+            const publicationDate = data['date_publicized']
+            const acquisitionDate = data['date_added']
+            let visibility = ``
+            let status = ``
+
+            data['status'] === 'Available' 
+            ? status = `<h2>${data['status']}</h2>` 
+            : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+
+            status.includes('Past Due') 
+            ? visibility = 'visible' 
+            : visibility = 'hidden'
+
+            const entry =
+            `
+            <div class="entry" data-identifier="${ identifier }">
+                <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                <div class="title"><h2>${ title }</h2></div>
+                <div class="status"><h2>${ status }</h2></div>
+                <div class="author"><h2>${ author }</h2></div>
+                <div class="genre"><h2>${ genre }</h2></div>
+                <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                <div class="actions">
+                    <i class="pInventoryActionsLend fa-regular fa-arrow-right-from-arc"></i>
+                    <i class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
+                    <i class="pInventoryActionsDelete fa-regular fa-xmark"></i>
+                </div>
+            </div>
+            `
+
+            entries.push(entry)
+
+        })
+
+        return entries
+
+    }
+
+    const pStudents = async (): Promise<string[]> => {
+        
+        const result = await fetchTableData('personnel', 'students')
+        let entries: string[] = [] 
+
+        Object.values(result).forEach(async (data) => {
+
+            const identifier = data['id']
+            const studentName = data['full_name']
+            const studentNumber = data['student_number']
+            const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
+            const phoneNumber = data['phone_number']
+            const emailAddress = data['email']
+            let studentStatus = ``
+            let visibility = ``
+
+            data['status'] === 'Vacant' 
+            ? studentStatus = `<h2>${data['status']}</h2>` 
+            : studentStatus = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+
+            studentStatus.includes('Past Due') 
+            ? visibility = 'visible' 
+            : visibility = 'hidden'
+
+            const entry =
+            `
+            <div class="entry" data-identifier="${ identifier }">
+                <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                <div class="name"><h2>${ studentName }</h2></div>
+                <div class="studentNumber"><h2>${ studentNumber }</h2></div>
+                <div class="status">${ studentStatus }</div>
+                <div class="borrowedBook"><h2>${ borrowedBook }</h2></div>
+                <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
+                <div class="emailAddress"><h2>${ emailAddress }</h2></div>
+                <div class="actions">
+                    <i class="pStudentsActionsNotify fa-regular fa-message"></i>
+                    <i class="pStudentsActionsEdit fa-regular fa-pen-to-square"></i>
+                    <i class="pStudentsActionsDelete fa-regular fa-xmark"></i>
+                </div>
+            </div>
+            `
+
+            entries.push(entry)
+
+        })
+
+        return entries
+
+    }
+
+    const pUsers = async (): Promise<string[]> => {
+        
+        const result = await fetchTableData('personnel', 'users')
+        let entries: string[] = []
+
+        Object.values(result).forEach(async (data) => {
+
+            const identifier = data['id']
+            const fullName = data['full_name']
+            const username = data['username']
+            const role = data['role']
+            let privilege = ``
+
+            data['role'] === 'Librarian'
+            ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
+            : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`
+
+            const entry =
+            `
+            <div class="entry" data-identifier="${ identifier }">
+                <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
+                <div class="fullName"><h2>${ fullName }</h2></div>
+                <div class="username"><h2>${ username }</h2></div>
+                <div class="role"><h2>${ role }</h2></div>
+                <div class="privilege">${ privilege }</div>
+                <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
+                <div class="actions">
+                <i class="pUsersActionsEdit fa-regular fa-pen-to-square"></i>
+                <i class="pUsersActionsDelete fa-regular fa-xmark"></i>
+                </div>
+            </div>
+            `
+
+            entries.push(entry)
+
+        })
+
+        return entries
+
+    }
+
+    const sDashboard = async (): Promise<void> => {
+
+        // TODO: Do this later.
+        const result = await fetchTableData('student', 'dashboard')
+
+    }
+
+    const tableNames = {
+        'dashboard': type === 'personnel' ? pDashboard : sDashboard,
+        'inventory': pInventory,
+        'students': pStudents,
+        'users': pUsers
+    }
+
+    try {
+
+        return await tableNames[tab]()
+
+    } catch (err) {
+        
+        console.error(err.name, err.message)
+        throw err
+
+    }
+
 }
 
 export const setTableData = async (type: string, tab: string, data: {}): Promise<void> => {

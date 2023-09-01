@@ -70,9 +70,9 @@ export const personnelLoginAuth = async (req, res) => {
         });
     }
 };
-export const personnelTableSearch = async (req, res) => {
+export const personnelTableFetch = async (req, res) => {
     try {
-        const tableData = await utils.retrieveTableData('personnel', req.params.tab, req.params.query);
+        const tableData = await utils.fetchTableData('personnel', req.params.tab, req.params.query);
         res.json(tableData);
     }
     catch (err) {
@@ -126,7 +126,7 @@ export const personnelDashboardData = async (req, res) => {
         const [accountData, overviewData, tableData] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'dashboard'),
-            utils.retrieveTableData('personnel', 'dashboard')
+            utils.fetchTableEntries('personnel', 'dashboard')
         ]);
         Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
         res.json(resultData);
@@ -166,7 +166,7 @@ export const personnelInventoryData = async (req, res) => {
         const [accountData, overviewData, tableData] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'inventory'),
-            utils.retrieveTableData('personnel', 'inventory')
+            utils.fetchTableEntries('personnel', 'inventory')
         ]);
         Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
         res.json(resultData);
@@ -206,7 +206,7 @@ export const personnelStudentsData = async (req, res) => {
         const [accountData, overviewData, tableData] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'students'),
-            utils.retrieveTableData('personnel', 'students')
+            utils.fetchTableEntries('personnel', 'students')
         ]);
         Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
         res.json(resultData);
@@ -246,7 +246,7 @@ export const personnelUsersData = async (req, res) => {
         const [accountData, overviewData, tableData] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'users'),
-            utils.retrieveTableData('personnel', 'users')
+            utils.fetchTableEntries('personnel', 'users')
         ]);
         Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
         res.json(resultData);

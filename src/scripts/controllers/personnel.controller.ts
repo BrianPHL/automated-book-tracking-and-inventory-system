@@ -91,12 +91,12 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 }
 
-export const personnelTableSearch = async (req: Request, res: Response) => {
+export const personnelTableFetch = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
-        const tableData = await utils.retrieveTableData('personnel', req.params.tab, req.params.query)
-    
+        const tableData = await utils.fetchTableData('personnel', req.params.tab, req.params.query)
+
         res.json(tableData)
 
     } catch (err) {
@@ -111,7 +111,7 @@ export const personnelTableSearch = async (req: Request, res: Response) => {
     
 }
 
-export const personnelTableActions = async (req: Request, res: Response) => {
+export const personnelTableActions = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
@@ -171,7 +171,7 @@ export const personnelDashboardData = async (req: Request, res: Response): Promi
         const [ accountData, overviewData, tableData ] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'dashboard'),
-            utils.retrieveTableData('personnel', 'dashboard')
+            utils.fetchTableEntries('personnel', 'dashboard')
         ])
         
         Object.assign(
@@ -232,7 +232,7 @@ export const personnelInventoryData = async (req: Request, res: Response): Promi
         const [ accountData, overviewData, tableData ] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'inventory'),
-            utils.retrieveTableData('personnel', 'inventory')
+            utils.fetchTableEntries('personnel', 'inventory')
         ])
         
         Object.assign(
@@ -293,7 +293,7 @@ export const personnelStudentsData = async (req: Request, res: Response): Promis
         const [ accountData, overviewData, tableData ] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'students'),
-            utils.retrieveTableData('personnel', 'students')
+            utils.fetchTableEntries('personnel', 'students')
         ])
         
         Object.assign(
@@ -353,7 +353,7 @@ export const personnelUsersData = async (req: Request, res: Response): Promise<v
         const [ accountData, overviewData, tableData ] = await Promise.all([
             utils.retrieveAccountData('personnel', token),
             utils.retrieveOverviewData('personnel', 'users'),
-            utils.retrieveTableData('personnel', 'users')
+            utils.fetchTableEntries('personnel', 'users')
         ])
         
         Object.assign(
