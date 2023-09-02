@@ -331,9 +331,9 @@ export const fetchTableData = async (type, tab, query) => {
         throw err;
     }
 };
-export const fetchTableEntries = async (type, tab) => {
+export const fetchTableEntries = async (type, tab, query) => {
     const pDashboard = async () => {
-        const result = await fetchTableData('personnel', 'dashboard');
+        const result = await fetchTableData('personnel', 'dashboard', query);
         let entries = [];
         Object.values(result).forEach(async (data) => {
             const identifier = data['id'];
@@ -375,7 +375,7 @@ export const fetchTableEntries = async (type, tab) => {
         return entries;
     };
     const pInventory = async () => {
-        const result = await fetchTableData('personnel', 'inventory');
+        const result = await fetchTableData('personnel', 'inventory', query);
         let entries = [];
         Object.values(result).forEach(async (data) => {
             const identifier = data['id'];
@@ -413,7 +413,7 @@ export const fetchTableEntries = async (type, tab) => {
         return entries;
     };
     const pStudents = async () => {
-        const result = await fetchTableData('personnel', 'students');
+        const result = await fetchTableData('personnel', 'students', query);
         let entries = [];
         Object.values(result).forEach(async (data) => {
             const identifier = data['id'];
@@ -451,7 +451,7 @@ export const fetchTableEntries = async (type, tab) => {
         return entries;
     };
     const pUsers = async () => {
-        const result = await fetchTableData('personnel', 'users');
+        const result = await fetchTableData('personnel', 'users', query);
         let entries = [];
         Object.values(result).forEach(async (data) => {
             const identifier = data['id'];
@@ -482,7 +482,7 @@ export const fetchTableEntries = async (type, tab) => {
     };
     const sDashboard = async () => {
         // TODO: Do this later.
-        const result = await fetchTableData('student', 'dashboard');
+        const result = await fetchTableData('student', 'dashboard', query);
     };
     const tableNames = {
         'dashboard': type === 'personnel' ? pDashboard : sDashboard,

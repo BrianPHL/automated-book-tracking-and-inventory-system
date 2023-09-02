@@ -72,7 +72,10 @@ export const personnelLoginAuth = async (req, res) => {
 };
 export const personnelTableFetch = async (req, res) => {
     try {
-        const tableData = await utils.fetchTableData('personnel', req.params.tab, req.params.query);
+        let tableData;
+        !req.params.query
+            ? tableData = await utils.fetchTableEntries('personnel', req.params.tab)
+            : tableData = await utils.fetchTableEntries('personnel', req.params.tab, req.params.query);
         res.json(tableData);
     }
     catch (err) {

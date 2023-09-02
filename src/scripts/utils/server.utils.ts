@@ -545,11 +545,11 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
     
 }
 
-export const fetchTableEntries = async (type: string, tab: string): Promise<string[]> => {
+export const fetchTableEntries = async (type: string, tab: string, query?: string): Promise<string[]> => {
 
     const pDashboard = async (): Promise<string[]> => {
 
-        const result = await fetchTableData('personnel', 'dashboard')
+        const result = await fetchTableData('personnel', 'dashboard', query)
         let entries: string[] = []
 
         Object.values(result).forEach(async (data) => {
@@ -605,7 +605,7 @@ export const fetchTableEntries = async (type: string, tab: string): Promise<stri
 
     const pInventory = async (): Promise<string[]> => {
         
-        const result = await fetchTableData('personnel', 'inventory')
+        const result = await fetchTableData('personnel', 'inventory', query)
         let entries: string[] = []
 
         Object.values(result).forEach(async (data) => {
@@ -655,7 +655,7 @@ export const fetchTableEntries = async (type: string, tab: string): Promise<stri
 
     const pStudents = async (): Promise<string[]> => {
         
-        const result = await fetchTableData('personnel', 'students')
+        const result = await fetchTableData('personnel', 'students', query)
         let entries: string[] = [] 
 
         Object.values(result).forEach(async (data) => {
@@ -705,7 +705,7 @@ export const fetchTableEntries = async (type: string, tab: string): Promise<stri
 
     const pUsers = async (): Promise<string[]> => {
         
-        const result = await fetchTableData('personnel', 'users')
+        const result = await fetchTableData('personnel', 'users', query)
         let entries: string[] = []
 
         Object.values(result).forEach(async (data) => {
@@ -747,7 +747,7 @@ export const fetchTableEntries = async (type: string, tab: string): Promise<stri
     const sDashboard = async (): Promise<void> => {
 
         // TODO: Do this later.
-        const result = await fetchTableData('student', 'dashboard')
+        const result = await fetchTableData('student', 'dashboard', query)
 
     }
 
