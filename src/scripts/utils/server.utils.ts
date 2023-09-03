@@ -319,13 +319,13 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
 
 }
 
-export const fetchTableData = async (type: string, tab: string, query?: string): Promise<string> => {
+export const fetchTableData = async (type: string, tab: string, query?: string): Promise<string[]> => {
 
-    const pDashboard = async (): Promise<string> => {
+    const pDashboard = async (): Promise<string[]> => {
 
         try {
 
-            let qResult: string
+            let qResult: string[]
 
             !query
             ? qResult = await executeDatabaseQuery(
@@ -369,11 +369,11 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
 
     }
 
-    const pInventory = async (): Promise<string> => {
+    const pInventory = async (): Promise<string[]> => {
 
         try {
         
-            let qResult: string
+            let qResult: string[]
 
             !query
             ? qResult = await executeDatabaseQuery(
@@ -413,11 +413,11 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
         
     }
 
-    const pStudents = async (): Promise<string> => {
+    const pStudents = async (): Promise<string[]> => {
 
         try {
 
-            let qResult: string
+            let qResult: string[]
 
             !query
             ? qResult = await executeDatabaseQuery(
@@ -446,8 +446,6 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
                 `
             )
 
-
-
             return qResult
 
         } catch(err) {
@@ -459,11 +457,11 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
 
     }
 
-    const pUsers = async (): Promise<string> => {
+    const pUsers = async (): Promise<string[]> => {
 
         try {
 
-            let qResult: string
+            let qResult: string[]
 
             !query
             ? qResult = await executeDatabaseQuery(
@@ -499,7 +497,7 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
         
     }
 
-    const sDashboard = async (): Promise<string> => {
+    const sDashboard = async (): Promise<string[]> => {
 
         try {
 
