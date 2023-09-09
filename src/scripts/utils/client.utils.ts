@@ -1,22 +1,62 @@
 import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js"
 
-export const checkFormInputs = async (form: HTMLFormElement) => {
+export const checkForms = async (form: HTMLFormElement, isInputAndPreview: boolean): Promise<void> => {
 
-    const formInputs: NodeListOf<HTMLInputElement> = form.querySelectorAll('input');
-    const formSubmit: HTMLButtonElement = form.querySelector('button[type="submit"]');
+    const submit: HTMLButtonElement = form.querySelector('button[type="submit"]');
+    
+    const checkFormInputsAndPreviews = async (): Promise<void> => {
 
-    for (const formInput of formInputs) {
+        const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll('input');
+        const previews: NodeListOf<HTMLInputElement> = form.querySelectorAll('div[data-type="preview"]');
 
-        if (formInput.value.trim() === '') {
-        
-            formSubmit.disabled = true;
-            return;
+        for (const input of inputs) {
+
+            if (input.value.trim() === '') {
+
+                submit.disabled = true
+                return
+
+            }
+
+            for (const preview of previews) {
+
+                if (preview.getAttribute('data-identifier') === 'null') {
+
+                    submit.disabled = true
+                    return
+
+                }
+
+            }
 
         }
 
+        submit.disabled = false
+        return
+
+    }
+    const checkFormInputs = async (): Promise<void> => {
+
+        const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll('input');
+
+        for (const input of inputs) {
+
+            if (input.value.trim() === "") {
+
+                submit.disabled = true
+                return
+
+            }
+
+        }
+
+        submit.disabled = false
+
     }
 
-    formSubmit.disabled = false;
+    isInputAndPreview
+    ? await checkFormInputsAndPreviews()
+    : await checkFormInputs()
 
 }
 

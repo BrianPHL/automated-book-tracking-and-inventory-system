@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalFormInputs.forEach(input => input.addEventListener('input', () => { 
         
-        utils.checkFormInputs(modalForm)
+        utils.checkForms(modalForm, false)
     
     }))
     
-    utils.checkFormInputs(modalForm)
+    utils.checkForms(modalForm, false)
 
     modalFormSubmit.addEventListener('click', async (event: Event) => {
 

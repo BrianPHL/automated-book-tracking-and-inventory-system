@@ -1,14 +1,37 @@
 import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
-export const checkFormInputs = async (form) => {
-    const formInputs = form.querySelectorAll('input');
-    const formSubmit = form.querySelector('button[type="submit"]');
-    for (const formInput of formInputs) {
-        if (formInput.value.trim() === '') {
-            formSubmit.disabled = true;
-            return;
+export const checkForms = async (form, isInputAndPreview) => {
+    const submit = form.querySelector('button[type="submit"]');
+    const checkFormInputsAndPreviews = async () => {
+        const inputs = form.querySelectorAll('input');
+        const previews = form.querySelectorAll('div[data-type="preview"]');
+        for (const input of inputs) {
+            if (input.value.trim() === '') {
+                submit.disabled = true;
+                return;
+            }
+            for (const preview of previews) {
+                if (preview.getAttribute('data-identifier') === 'null') {
+                    submit.disabled = true;
+                    return;
+                }
+            }
         }
-    }
-    formSubmit.disabled = false;
+        submit.disabled = false;
+        return;
+    };
+    const checkFormInputs = async () => {
+        const inputs = form.querySelectorAll('input');
+        for (const input of inputs) {
+            if (input.value.trim() === "") {
+                submit.disabled = true;
+                return;
+            }
+        }
+        submit.disabled = false;
+    };
+    isInputAndPreview
+        ? await checkFormInputsAndPreviews()
+        : await checkFormInputs();
 };
 export const errorPrompt = async (data) => {
     const params = new URLSearchParams();

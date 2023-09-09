@@ -112,7 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     'users': '<h3>Personnel Registration Form</h3>'
                 };
                 targetModalHeader.innerHTML = targetModalHeaders[activeTab].toString();
-                targetModalInputs.forEach((targetModalInput) => { targetModalInput.value = ''; });
+                targetModalInputs.forEach((targetModalInput) => {
+                    targetModalInput.value = '';
+                    targetModalInput.addEventListener('input', () => {
+                        utils.checkForms(targetModalForm, false);
+                    });
+                });
                 targetModal.setAttribute('data-type', 'register');
                 modal.style.display = 'grid';
                 targetModal.style.display = 'grid';
@@ -193,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return new Promise((resolve) => {
                         modalFormInputs.forEach((modalFormInput) => {
                             modalFormInput.value = '';
-                            utils.checkFormInputs(modalForm);
+                            utils.checkForms(modalForm, false);
                         });
                         resolve();
                     });
@@ -215,8 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeModalBtns.forEach((closeModalBtn) => {
                     closeModalBtn.addEventListener('click', () => { closeModal(); });
                 });
-                modalFormInputs.forEach((modalFormInput) => {
-                    modalFormInput.addEventListener('input', () => { utils.checkFormInputs(modalForm); });
                 });
                 resetFormBtns.forEach((resetFormBtn) => {
                     resetFormBtn.addEventListener('click', () => { resetForm(); });
@@ -254,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 });
-                utils.checkFormInputs(modalForm);
+                utils.checkForms(modalForm, false);
             });
         };
         modalActions();

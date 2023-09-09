@@ -1,4 +1,3 @@
-import { DateTime } from "../../../../node_modules/luxon/build/es6/luxon.js"
 import * as utils from "../../utils/client.utils.js"
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -177,7 +176,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 targetModalHeader.innerHTML = targetModalHeaders[activeTab].toString()
-                targetModalInputs.forEach((targetModalInput: HTMLInputElement) => { targetModalInput.value = '' })
+                targetModalInputs.forEach((targetModalInput: HTMLInputElement) => { 
+                    
+                    targetModalInput.value = ''
+                    targetModalInput.addEventListener('input', () => { 
+                        
+                        utils.checkForms(targetModalForm, false) 
+                    
+                    })
+
+                })
                 targetModal.setAttribute('data-type', 'register')
                 modal.style.display = 'grid'
                 targetModal.style.display = 'grid'
@@ -296,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         modalFormInputs.forEach((modalFormInput) => {
 
                             modalFormInput.value = '' 
-                            utils.checkFormInputs(modalForm)
+                            utils.checkForms(modalForm, false)
     
                         })
 
@@ -331,12 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     closeModalBtn.addEventListener('click', () => { closeModal() })
     
-                })
-
-                modalFormInputs.forEach((modalFormInput: HTMLInputElement) => {
-
-                    modalFormInput.addEventListener('input', () => { utils.checkFormInputs(modalForm) })
-
                 })
 
                 resetFormBtns.forEach((resetFormBtn: HTMLButtonElement) => {
@@ -396,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 })
 
-                utils.checkFormInputs(modalForm)
+                utils.checkForms(modalForm, false)
 
             })
 
