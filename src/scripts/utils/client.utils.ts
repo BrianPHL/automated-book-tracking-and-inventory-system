@@ -1699,7 +1699,19 @@ export const openEditModal = async (
         targetModal.style.display = 'grid'
         targetModal.setAttribute('data-type', 'edit')
 
-        setTimeout(() => { for (const key in entryData) { modalData[key].value = entryData[key] } }, 250);
+        setTimeout(() => { 
+            
+            for (const key in entryData) { 
+
+                modalData[key]['type'] === 'text'
+                ? modalData[key].value = entryData[key]
+                : modalData[key].value = DateTime.fromFormat(entryData[key], "dd MMM yyyy").toFormat("yyyy-MM-dd");
+            
+            } 
+        
+            checkForms(targetModalForm, false)
+
+        }, 250);
 
         resolve()
 
