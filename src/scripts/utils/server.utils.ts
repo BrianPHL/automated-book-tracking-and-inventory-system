@@ -524,15 +524,15 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
     }
 
     const tableNames = {
-        'dashboard': type === 'personnel' ? pDashboard : sDashboard,
-        'inventory': pInventory,
-        'students': pStudents,
-        'users': pUsers
+        'dashboard': type === 'personnel' ? pDashboard() : sDashboard(),
+        'inventory': pInventory(),
+        'students': pStudents(),
+        'users': pUsers()
     }
     
     try {
     
-        return await tableNames[tab]()
+        return await tableNames[tab]
 
     } catch (err) {
         
@@ -750,15 +750,15 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
     }
 
     const tableNames = {
-        'dashboard': type === 'personnel' ? pDashboard : sDashboard,
-        'inventory': pInventory,
-        'students': pStudents,
-        'users': pUsers
+        'dashboard': type === 'personnel' ? pDashboard() : sDashboard(),
+        'inventory': pInventory(),
+        'students': pStudents(),
+        'users': pUsers()
     }
 
     try {
 
-        return await tableNames[tab]()
+        return await tableNames[tab]
 
     } catch (err) {
         

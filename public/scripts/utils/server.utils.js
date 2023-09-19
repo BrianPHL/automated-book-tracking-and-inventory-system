@@ -318,13 +318,13 @@ export const fetchTableData = async (type, tab, query) => {
         }
     };
     const tableNames = {
-        'dashboard': type === 'personnel' ? pDashboard : sDashboard,
-        'inventory': pInventory,
-        'students': pStudents,
-        'users': pUsers
+        'dashboard': type === 'personnel' ? pDashboard() : sDashboard(),
+        'inventory': pInventory(),
+        'students': pStudents(),
+        'users': pUsers()
     };
     try {
-        return await tableNames[tab]();
+        return await tableNames[tab];
     }
     catch (err) {
         console.error(err.name, err.message);
@@ -485,13 +485,13 @@ export const fetchTableEntries = async (type, tab, query) => {
         const result = await fetchTableData('student', 'dashboard', query);
     };
     const tableNames = {
-        'dashboard': type === 'personnel' ? pDashboard : sDashboard,
-        'inventory': pInventory,
-        'students': pStudents,
-        'users': pUsers
+        'dashboard': type === 'personnel' ? pDashboard() : sDashboard(),
+        'inventory': pInventory(),
+        'students': pStudents(),
+        'users': pUsers()
     };
     try {
-        return await tableNames[tab]();
+        return await tableNames[tab];
     }
     catch (err) {
         console.error(err.name, err.message);
