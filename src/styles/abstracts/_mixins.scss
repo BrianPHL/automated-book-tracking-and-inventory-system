@@ -103,6 +103,15 @@
 
 }
 
+@mixin hovering-label {
+
+    background-color: var(--background-secondary);
+    font-size: 0.65rem;
+    left: 0.5rem;
+    top: -0.5rem;
+
+}
+
 @mixin input-styles {
 
     position: relative;
@@ -140,14 +149,7 @@
     .input:hover ~ .label, .input:focus ~ .label { color: var(--accent-primary); }
 
     .input:focus ~ .label,
-    .input:not(:placeholder-shown).input:not(:focus) ~ .label {
-    
-        background-color: var(--background-secondary);
-        font-size: 0.65rem;
-        left: 0.5rem;
-        top: -0.5rem;
-    
-    }
+    .input:not(:placeholder-shown).input:not(:focus) ~ .label { @include hovering-label(); }
 
 }
 
