@@ -1734,7 +1734,13 @@ export const openEditModal = async (
 
         }
 
-        targetModalInputs.forEach((targetModalInput: HTMLInputElement) => { targetModalInput.value = '' })
+        targetModalInputs.forEach((targetModalInput: HTMLInputElement) => { 
+        
+            targetModalInput.value = '' 
+            targetModalInput.addEventListener('input', () => { checkForms(targetModalForm, false) })
+        
+        })
+
         editData.modal.style.display = 'grid'
         targetModal.style.display = 'grid'
         targetModal.setAttribute('data-type', 'edit')
