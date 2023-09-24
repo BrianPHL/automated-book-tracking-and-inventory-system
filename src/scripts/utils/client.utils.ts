@@ -1751,7 +1751,7 @@ export const openEditModal = async (
 
                 modalData[key]['type'] === 'text'
                 ? modalData[key].value = entryData[key]
-                : modalData[key].value = DateTime.fromFormat(entryData[key], "dd MMM yyyy").toFormat("yyyy-MM-dd");
+                : modalData[key].value = DateTime.fromFormat(entryData[key], "dd MMMM yyyy").toFormat("yyyy-MM-dd");
             
             } 
         
