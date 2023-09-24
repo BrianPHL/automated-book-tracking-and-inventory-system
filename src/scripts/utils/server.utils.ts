@@ -896,41 +896,43 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
                     return new Promise((resolve) => {
     
                         if (tab === 'books') {
-    
-                            sqlString = `title, author, genre, date_publicized, date_added`
-                            sqlArgs = '?, ?, ?, ?, ?'
+
+                            sqlString = 
+                            `
+                                title = ?, 
+                                author = ?, 
+                                genre = ?, 
+                                date_publicized = ?, 
+                                date_added = ?
+                            `
+                            sqlArgs = 'id = ?'
                             sqlData = 
                             [ 
                                 data['title'], data['author'], data['genre'], 
                                 DateTime.fromFormat(data['dPublicized'], 'yyyy-MM-dd').toFormat(dateFormat), 
-                                DateTime.now().toFormat(dateFormat)
+                                DateTime.now().toFormat(dateFormat), data['id']
                             ]
     
                         } else if (tab === 'students') {
-    
+
                             const splitName = data['studentName'].split(' ')
                             let firstName: string
                             let lastName: string
 
-                            if (splitName.length > 2) {
-                                
-                                firstName = `${ splitName[0] } ${splitName[1]}`
-                                lastName = splitName[2]
+                            (splitName.length > 2)
+                            ? (firstName = `${ splitName[0] } ${splitName[1]}`, lastName = splitName[2])
+                            : (firstName = splitName[0], lastName = splitName[1])
 
-                            } else {
-
-                                firstName = splitName[0]
-                                lastName = splitName[1]
-
-                            }
-
-                            sqlString = 'student_number, phone_number, email, status, first_name, last_name'
-                            sqlArgs = '?, ?, ?, ?, ?, ?'
-                            sqlData = 
-                            [
-                                data['studentNumber'], data['phoneNumber'], data['email'], 
-                                'Vacant', firstName, lastName
-                            ]
+                            sqlString = 
+                            `
+                                student_number = ?, 
+                                phone_number = ?, 
+                                email = ?, 
+                                first_name = ?, 
+                                last_name = ?
+                            `
+                            sqlArgs = 'id = ?'
+                            sqlData = [data['studentNumber'], data['phoneNumber'], data['email'], firstName, lastName, data['id']]
             
                         } else if (tab === 'personnel') {
 
@@ -938,24 +940,19 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
                             let firstName: string
                             let lastName: string
 
-                            if (splitName.length > 2) {
-                                
-                                firstName = `${ splitName[0] } ${splitName[1]}`
-                                lastName = splitName[2]
-
-                            } else {
-
-                                firstName = splitName[0]
-                                lastName = splitName[1]
-
-                            }
+                            (splitName.length > 2)
+                            ? (firstName = `${ splitName[0] } ${splitName[1]}`, lastName = splitName[2])
+                            : (firstName = splitName[0], lastName = splitName[1])
     
-                            sqlString = 'first_name, last_name, username, role'
-                            sqlArgs = '?, ?, ?, ?'
-                            sqlData = [ 
-                                firstName, lastName, 
-                                data['username'], data['role'] 
-                            ]
+                            sqlString = 
+                            `
+                                first_name = ?, 
+                                last_name = ?, 
+                                username = ?, 
+                                role = ?
+                            `
+                            sqlArgs = 'id = ?'
+                            sqlData = [firstName, lastName, data['username'], data['role'], data['id']]
             
                         }
     
@@ -965,7 +962,16 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
     
                 }
                 await setVariablesData()
-                await executeDatabaseQuery( `INSERT INTO ${ tab } (${ sqlString }) VALUES (${ sqlArgs })`, sqlData )
+                await executeDatabaseQuery(
+                `
+                    UPDATE 
+                        ${ tab } 
+                    SET 
+                        ${ sqlString } 
+                    WHERE 
+                        ${ sqlArgs }
+                `, sqlData
+                )
     
             } catch (err) {
     

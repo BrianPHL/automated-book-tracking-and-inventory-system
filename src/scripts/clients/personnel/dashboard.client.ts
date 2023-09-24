@@ -385,10 +385,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (submitFormBtn.parentElement.parentElement.parentElement.parentElement.className !== "lend") {
 
                                 const formData = new FormData(modalForm)
+                                const formIdentifier: string = targetModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent
                                 let registrationData = {}
-        
+
                                 for (const [name, value] of formData.entries()) { registrationData[name] = value.toString() }
-        
+                                registrationData['id'] = formIdentifier
+
                                 await fetch(`/personnel/table/${ activeTab }/actions/${ operationType }`, {
         
                                     method: 'POST',
