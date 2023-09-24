@@ -28,7 +28,7 @@ html[data-site="dashboard"] {
 
             & > div {
 
-                & > div {
+                & > .action, .lend {
 
                     grid-template-columns: 100%;
                     background-color: var(--background-secondary);
@@ -144,8 +144,57 @@ html[data-site="dashboard"] {
                             display: flex;
                             padding: 2rem;
                             gap: 1rem;
+
+                            & > div[data-type="preview"] {
+
+                                background-color: transparent;
+                                justify-content: space-between;
+                                align-items: center;
+                                display: flex;
+                                padding: 0.75rem 0.75rem;
+                                border: 1px solid var(--background-tertiary);
+
+                                & > label { @include hovering-label(); }
+                                & > h3 { color: var(--typography-primary); }
+                                & > i {
+
+                                    transition: 0.2s ease all;
+
+                                    &:hover {
+
+                                        cursor: pointer;
+                                        color: var(--accent-primary)
+
+                                    }
+
+                                }
+
+                            }
     
-                            & > div { @include input-styles(); }
+                            & > div { 
+                                
+                                @include input-styles(); 
+
+                                & > select {
+
+                                    @include h3-styles();
+
+                                    background-color: transparent;
+                                    transition: 0.2s ease all;
+                                    padding: 0.75rem 0.75rem;
+                                    border: 1px solid var(--background-tertiary);
+                                    width: 100%;
+                                    color: var(--typography-primary);
+                                    
+                                    & > option {
+
+                                        @include h3-styles();
+
+                                    }
+
+                                }
+
+                            }
     
                             & > .actions {
     
@@ -186,6 +235,209 @@ html[data-site="dashboard"] {
 
                 }
 
+                & > .assign {
+
+                    background-color: var(--background-secondary);
+                    flex-direction: column;
+                    border-radius: 4px;
+                    padding: 1.5rem;
+                    display: flex;
+                    width: 360px;
+
+                    & > .header {
+
+                        justify-content: space-between;
+                        padding-bottom: 1.5rem;
+                        align-items: center;
+                        display: flex;
+
+                        & > i {
+
+                            transition: 0.2s ease all;
+
+                            &:hover {
+
+                                cursor: pointer;
+                                color: var(--accent-primary);
+
+                            }
+
+                        }
+        
+                    }
+                    
+                    & > .form {
+
+                        flex-direction: column;
+                        border-radius: 4px;
+                        display: flex;
+
+                        .container {
+        
+                            flex-direction: column;
+                            overflow-y: auto;
+                            min-height: 0;
+                            display: flex;
+                            height: 320px;
+                            gap: 0.5rem;
+        
+                            & > .entry {
+        
+                                flex-direction: column;
+                                border-radius: 2px;
+                                flex-shrink: 0;
+                                transition: 0.2s ease all;
+                                overflow: hidden;
+                                display: flex;
+
+                                &[data-selected="true"] {
+
+                                    background-color: var(--accent-secondary);
+
+                                    &:hover { cursor: pointer; }
+
+                                }
+
+                                &[data-selected="false"] {
+
+                                    background-color: transparent;
+
+                                    &:hover {
+
+                                        background-color: var(--background-tertiary);
+                                        cursor: pointer;
+
+                                    }
+
+                                }
+
+                                & > .preview {
+         
+                                    align-items: center;
+                                    grid-column: 1;
+                                    grid-row: 1;
+                                    display: flex;
+                                    padding: 1rem;
+                                    width: 100%;
+                                    gap: 1rem;
+        
+                                    & > h3 {
+
+                                        @include text-ellipsis-styles();
+                                    
+                                        width: 100%;
+                                        color: var(--typography-primary); 
+                                    
+                                    }
+        
+                                    & > i {
+            
+                                        transition: 0.2s ease all;
+            
+                                        &:hover { 
+                                            
+                                            cursor: pointer;
+                                            color: var(--accent-primary); 
+                                        
+                                        }
+            
+                                    }
+        
+                                }
+        
+                                & > .dropdown {
+        
+                                    flex-direction: column;
+                                    grid-column: 1;
+                                    grid-row: 2;
+                                    padding: 0 1rem 1rem 1rem;
+                                    gap: 0.25rem;
+
+                                    & > div {
+
+                                        display: flex;
+                                        gap: 0.25rem;
+        
+                                        & > h3 {
+
+                                            & > .heading { color: var(--typography-primary); }
+
+                                        }
+        
+                                    }
+        
+                                    &[data-hidden="false"] {
+        
+                                        max-height: 100%;
+                                        display: flex;
+        
+                                    }
+        
+                                    &[data-hidden="true"] {
+                                        
+                                        max-height: 0;
+                                        display: none;
+        
+                                    }
+        
+                                }
+        
+                            }
+        
+                        }
+        
+                        & > .footer {
+        
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-top: 1rem;
+                            display: flex;
+
+                            & > h3 {
+
+                                width: 100%;
+
+                                & > .counter { color: var(--typography-primary); }
+
+                            }
+
+                            & > .actions {
+    
+                                justify-content: flex-end;
+                                flex-direction: row;
+                                align-items: center;
+                                display: flex;
+                                width: 100%;
+                                gap: 1rem;
+    
+                                & > button[type="reset"] {
+    
+                                    @include anchor-styles;
+                                    
+                                    background-color: transparent;
+                                    padding: 0;
+                                    color: var(--typography-secondary);
+    
+                                    &:hover { color: var(--warning-primary); }
+    
+                                }
+    
+                                & > button[type="submit"] {
+    
+                                    @include primary-button-styles;
+                                    @include h3-styles;
+    
+                                    padding: 0.5rem 1rem 0.5rem 1rem;
+    
+                                }
+    
+                            }
+        
+                        }
+        
+                    }
+
+                }
 
             }
 
@@ -565,14 +817,7 @@ html[data-site="dashboard"] {
                             flex-direction: column;
                             display: flex;
 
-                            & > h2, h3 {
-
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                                overflow: hidden;
-                                width: 100%;
-
-                            }
+                            & > h2, h3 { @include text-ellipsis-styles(); }
                             
                         }
 
@@ -593,9 +838,21 @@ html[data-site="dashboard"] {
 
                             & > i {
 
-                                transition: 0.2s all ease;
+                                transition: 0.2s ease all;
 
-                                &:hover {
+                                &[data-disabled="true"] {
+
+                                    color: var(--background-tertiary);
+
+                                    &:hover {
+
+                                        cursor: not-allowed;
+
+                                    }
+
+                                }
+
+                                &[data-disabled="false"]:hover {
 
                                     cursor: pointer;
                                     color: var(--accent-primary);

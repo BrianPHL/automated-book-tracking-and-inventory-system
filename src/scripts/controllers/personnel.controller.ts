@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as utils from "../utils/server.utils.js";
 import { v4 as uuidv4 } from "uuid";
 import { UUID } from "crypto";
+import { DateTime } from "luxon";
 
 export const personnelLogin = async (req: Request, res: Response): Promise<void> => {
     
@@ -129,6 +130,97 @@ export const personnelTableActions = async (req: Request, res: Response): Promis
             status: 500,
             title: `Internal Server Error - ${ err.name }`,
             body: err.message
+        })
+
+    }
+
+}
+
+export const personnelTableLend = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+
+        const { type, entryId, modalId, dueDate } = req.body
+        const [ studentData, bookData ] = await Promise.all([
+            await utils.executeDatabaseQuery('SELECT * FROM students WHERE id = ?', [ type === 'students' ? entryId : modalId ]),
+            await utils.executeDatabaseQuery('SELECT * FROM books WHERE id = ?', [ type === 'inventory' ? entryId : modalId ])
+        ])
+
+        const setStudent = async (): Promise<void> => {
+
+            return new Promise(async (resolve) => {
+
+                await utils.executeDatabaseQuery(
+                    `
+                    UPDATE 
+                        students 
+                    SET 
+                        status = ?, 
+                        borrowed_book = ? 
+                    WHERE 
+                        id = ?
+                    `,
+                    [ "Borrower", bookData[0]['title'], type === 'students' ? entryId : modalId ]
+                )
+
+                resolve()
+
+            })
+
+        }
+        const setBook = async (): Promise<void> => {
+
+            return new Promise(async (resolve) => {
+
+                const borrower = {
+                    name: `${ studentData[0]['first_name'] } ${ studentData[0]['last_name'] }`,
+                    number: studentData[0]['student_number']
+                }
+                const date = {
+                    borrowed: DateTime.now().toFormat("dd LLLL yyyy"),
+                    due: dueDate
+                }
+
+                await utils.executeDatabaseQuery(
+                    `
+                    UPDATE 
+                        books 
+                    SET 
+                        status = ?,
+                        borrower = ?, 
+                        borrower_number = ?,
+                        date_borrowed = ?,
+                        date_due = ? 
+                    WHERE 
+                        id = ?
+                    `,
+                    [ 
+                        "Borrowed", 
+                        borrower['name'], 
+                        borrower['number'], 
+                        date['borrowed'], 
+                        date['due'], 
+                        type === 'inventory' ? entryId : modalId
+                    ]
+                )
+
+                resolve()
+
+            })
+
+        }
+
+        await setStudent()
+        await setBook()
+
+        res.sendStatus(200)
+
+    } catch(err) {
+
+        await utils.errorPrompt(res, 'redirect', {
+            status: 500,
+            title: `Internal Server Error - ${ err.name }`,
+            body: err.message    
         })
 
     }

@@ -107,6 +107,111 @@
 
                 </div>
 
+                <div class="lend" style="display: none;">
+                    
+                    <div data-type="success" class="prompt" style="display: none;">
+
+                        <i class="fa-duotone fa-circle-check"></i>
+                        
+                        <div class="context">
+
+                            <h2>Book lending successful!</h2>
+                            <h3>You have successfully lended a book to a student.</h3>
+
+                        </div>
+
+                    </div>
+
+                    <div data-type="error" class="prompt" style="display: none;">
+
+                        <i class="fa-duotone fa-circle-xmark"></i>
+                        
+                        <div class="context">
+
+                            <h2>Book lending failed!</h2>
+                            <h3>
+                                Book lending to a student failed due to an internal server error. 
+                                Contact the server administrator.
+                            </h3>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form">
+
+                        <div class="header">
+
+                            <div class="heading">
+
+                                <h3>Book lending form</h3>
+
+                            </div>
+
+                            <i class="fa-regular fa-xmark"></i>
+    
+                        </div>
+    
+                        <form>
+
+                            <div data-type="preview" class="student" data-identifier="null">
+
+                                <label for="student">Student</label>
+                                <h3>None assigned</h3>
+                                <i class="fa-solid fa-add"></i>
+
+                            </div>
+
+                            <div class="dueDate">
+    
+                                <input type="date" name="dueDate" class="input" placeholder=" ">
+                                <label for="dueDate" class="label">Due Date</label>
+            
+                            </div>
+    
+                            <div class="actions">
+    
+                                <button type="reset">Reset</button>
+                                <button type="submit" disabled>Submit changes</button>
+    
+                            </div>
+    
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="assign" style="display: none;">
+
+                    <div class="header">
+
+                        <h3>Choose a ...</h3>
+                        <i class="fa-regular fa-xmark"></i>
+        
+                    </div>
+                    
+                    <div class="form">
+        
+                        <div class="container"></div>
+                        
+                        <div class="footer">
+
+                            <h3>Showing <span class="counter">0</span> entries</h3>
+
+                            <div class="actions">
+
+                                <button type="reset">Reset</button>
+                                <button type="submit" disabled>Submit</button>
+
+                            </div>
+
+                        </div>
+        
+                    </div>
+                    
+                </div>
+
             </div>
 
             <div class="students">
@@ -197,6 +302,111 @@
 
                     </div>
 
+                </div>
+
+                <div class="lend" style="display: none;">
+                    
+                    <div data-type="success" class="prompt" style="display: none;">
+
+                        <i class="fa-duotone fa-circle-check"></i>
+                        
+                        <div class="context">
+
+                            <h2>Book lending successful!</h2>
+                            <h3>You have successfully lended a book to a student.</h3>
+
+                        </div>
+
+                    </div>
+
+                    <div data-type="error" class="prompt" style="display: none;">
+
+                        <i class="fa-duotone fa-circle-xmark"></i>
+                        
+                        <div class="context">
+
+                            <h2>Book lending failed!</h2>
+                            <h3>
+                                Book lending to a student failed due to an internal server error. 
+                                Contact the server administrator.
+                            </h3>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form">
+
+                        <div class="header">
+
+                            <div class="heading">
+
+                                <h3>Book lending form</h3>
+
+                            </div>
+
+                            <i class="fa-regular fa-xmark"></i>
+    
+                        </div>
+    
+                        <form>
+
+                            <div data-type="preview" class="book" data-identifier="null">
+
+                                <label for="book">Book</label>
+                                <h3>None assigned</h3>
+                                <i class="fa-solid fa-add"></i>
+
+                            </div>
+
+                            <div class="dueDate">
+    
+                                <input type="date" name="dueDate" class="input" placeholder=" ">
+                                <label for="dueDate" class="label">Due Date</label>
+            
+                            </div>
+    
+                            <div class="actions">
+    
+                                <button type="reset">Reset</button>
+                                <button type="submit" disabled>Submit changes</button>
+    
+                            </div>
+    
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="assign" style="display: none;">
+
+                    <div class="header">
+
+                        <h3>Choose a ...</h3>
+                        <i class="fa-regular fa-xmark"></i>
+        
+                    </div>
+                    
+                    <div class="form">
+        
+                        <div class="container"></div>
+                        
+                        <div class="footer">
+
+                            <h3>Showing <span class="counter">0</span> entries</h3>
+
+                            <div class="actions">
+
+                                <button type="reset">Reset</button>
+                                <button type="submit" disabled>Submit</button>
+
+                            </div>
+
+                        </div>
+        
+                    </div>
+                    
                 </div>
 
             </div>
@@ -346,7 +556,7 @@
 
                     <div class="refresh">
                         
-                        <i class="fa-regular fa-redo"></i>
+                        <i class="fa-solid fa-arrows-rotate"></i>
                         <h2>Refresh</h2>
                     
                     </div>
@@ -736,6 +946,7 @@
                     <div class="actions">
 
                         <i class="fa-regular fa-message"></i>
+                        <i class="fa-regular fa-arrow-right-from-arc"></i>
                         <i class="fa-regular fa-pen-to-square"></i>
                         <i class="fa-regular fa-xmark"></i>
 

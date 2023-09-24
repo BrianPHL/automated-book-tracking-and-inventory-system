@@ -85,8 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         : window.location.href = '/';
                 }
                 catch (err) {
-                    const { name, message } = err;
-                    window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
+                    window.location.href =
+                        `
+                    /error?
+                    ${(await utils.errorPrompt({
+                            title: err['name'],
+                            body: err['message']
+                        })).toString()}
+                    `;
                 }
             }, 2500);
         });
@@ -134,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const activeTab = activeTable.getAttribute('data-tab');
                     const tableEntries = activeTable.querySelector('.data > .entries');
                     const query = tableSearchInput.value.trim();
-                    const response = await fetch(`/personnel/table/${activeTab}/search/${query}`, {
+                    const response = await fetch(`/personnel/table/${activeTab}/fetch/${query}`, {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' }
                     });
@@ -159,8 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 2500);
                 }
                 catch (err) {
-                    const { name, message } = err;
-                    window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
+                    window.location.href =
+                        `
+                    /error?
+                    ${(await utils.errorPrompt({
+                            title: err['name'],
+                            body: err['message']
+                        })).toString()}
+                    `;
                 }
             };
             tableSearchInput.value = '';
@@ -204,22 +216,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 };
                 const closeModal = async () => {
-                    return new Promise((resolve) => {
+                    if (!isModalOpen) {
+                        return;
+                    }
+                    return new Promise(async (resolve) => {
                         modal.style.display = 'none';
                         prevTargetModal.style.display = 'none';
                         isModalOpen = false;
-                        modalFormInputs.forEach((modalFormInput) => { modalFormInput.value = ''; });
+                        await resetForm();
                         resolve();
                     });
                 };
                 document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' && isModalOpen) {
+                    if (event.key === 'Escape') {
                         closeModal();
                     }
                 });
                 closeModalBtns.forEach((closeModalBtn) => {
-                    closeModalBtn.addEventListener('click', () => { closeModal(); });
-                });
+                    closeModalBtn.addEventListener('click', () => {
+                        closeModal();
+                        closeModalBtn.removeEventListener('click', closeModal);
+                    });
                 });
                 resetFormBtns.forEach((resetFormBtn) => {
                     resetFormBtn.addEventListener('click', () => { resetForm(); });
@@ -228,32 +245,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitFormBtn.addEventListener('click', async (event) => {
                         const activeTab = activeTable.getAttribute('data-tab');
                         const targetModal = modal.querySelector(`.${activeTab} > .action`);
-                        const successPrompt = targetModal.querySelector('div[data-type="success"]');
-                        const errorPrompt = targetModal.querySelector('div[data-type="error"]');
+                        const targetModalSuccess = targetModal.querySelector('div[data-type="success"]');
+                        const targetModalError = targetModal.querySelector('div[data-type="error"]');
                         const operationType = targetModal.getAttribute('data-type');
                         try {
                             event.preventDefault();
-                            const formData = new FormData(modalForm);
-                            let registrationData = {};
-                            for (const [name, value] of formData.entries()) {
-                                registrationData[name] = value.toString();
+                            if (submitFormBtn.parentElement.parentElement.parentElement.parentElement.className !== "lend") {
+                                const formData = new FormData(modalForm);
+                                let registrationData = {};
+                                for (const [name, value] of formData.entries()) {
+                                    registrationData[name] = value.toString();
+                                }
+                                await fetch(`/personnel/table/${activeTab}/actions/${operationType}`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(registrationData)
+                                });
+                                targetModalSuccess.style.display = 'flex';
+                                setTimeout(async () => {
+                                    await resetForm();
+                                    await closeModal();
+                                    await utils.setDashboardData('personnel', activeTab);
+                                    targetModalSuccess.style.display = 'none';
+                                }, 2500);
                             }
-                            await fetch(`/personnel/table/${activeTab}/actions/${operationType}`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(registrationData)
-                            });
-                            successPrompt.style.display = 'flex';
-                            setTimeout(async () => {
-                                await resetForm();
-                                await closeModal();
-                                await utils.setDashboardData('personnel', activeTab);
-                                successPrompt.style.display = 'none';
-                            }, 2500);
                         }
                         catch (err) {
-                            errorPrompt.style.display = 'flex';
-                            setTimeout(() => { errorPrompt.style.display = 'none'; }, 2500);
+                            targetModalError.style.display = 'flex';
+                            setTimeout(() => { targetModalError.style.display = 'none'; }, 2500);
                         }
                     });
                 });
@@ -265,17 +284,16 @@ document.addEventListener('DOMContentLoaded', () => {
             bodyElement.addEventListener('click', async (event) => {
                 const activeTab = activeTable.getAttribute('data-tab');
                 const target = event.target;
-                const targetEntry = target.parentElement.parentElement;
-                const targetModal = modal.querySelector(`.${activeTab} > .action`);
                 const targetAction = target.classList[0];
-                const targetModalHeading = targetModal.querySelector('.header');
-                const inventoryEntryEdit = async () => {
+                const invEdit = async () => {
+                    const entry = target.parentElement.parentElement;
+                    const targetModal = modal.querySelector(`.${activeTab} > .action`);
                     const modalPath = '.action > .form > form';
                     const entryData = {
-                        title: targetEntry.querySelector('.title > h2').textContent,
-                        author: targetEntry.querySelector('.author > h2').textContent,
-                        genre: targetEntry.querySelector('.genre > h2').textContent,
-                        datePublicized: targetEntry.querySelector('.publicationDate > h2').textContent
+                        title: entry.querySelector('.title > h2').textContent,
+                        author: entry.querySelector('.author > h2').textContent,
+                        genre: entry.querySelector('.genre > h2').textContent,
+                        datePublicized: entry.querySelector('.publicationDate > h2').textContent
                     };
                     const modalData = {
                         title: targetModal.querySelector(`${modalPath} > .title > input`),
@@ -291,13 +309,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     prevTargetModal = targetModal;
                     isModalOpen = true;
                 };
-                const studentsEntryEdit = async () => {
+                const studentsEdit = async () => {
+                    const entry = target.parentElement.parentElement;
+                    const targetModal = modal.querySelector(`.${activeTab} > .action`);
                     const modalPath = '.action > .form > form';
                     const entryData = {
-                        studentName: targetEntry.querySelector('.name > h2').textContent,
-                        studentNumber: targetEntry.querySelector('.studentNumber > h2').textContent,
-                        phoneNumber: targetEntry.querySelector('.phoneNumber > h2').textContent,
-                        emailAddress: targetEntry.querySelector('.emailAddress > h2').textContent
+                        studentName: entry.querySelector('.name > h2').textContent,
+                        studentNumber: entry.querySelector('.studentNumber > h2').textContent,
+                        phoneNumber: entry.querySelector('.phoneNumber > h2').textContent,
+                        emailAddress: entry.querySelector('.emailAddress > h2').textContent
                     };
                     const modalData = {
                         studentName: targetModal.querySelector(`${modalPath} > .studentName > input`),
@@ -313,12 +333,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     prevTargetModal = targetModal;
                     isModalOpen = true;
                 };
-                const usersEntryEdit = async () => {
+                const usersEdit = async () => {
+                    const entry = target.parentElement.parentElement;
+                    const targetModal = modal.querySelector(`.${activeTab} > .action`);
                     const modalPath = '.action > .form > form';
                     const entryData = {
-                        fullName: targetEntry.querySelector('.fullName > h2').textContent,
-                        userName: targetEntry.querySelector('.username > h2').textContent,
-                        role: targetEntry.querySelector('.role > h2').textContent
+                        fullName: entry.querySelector('.fullName > h2').textContent,
+                        userName: entry.querySelector('.username > h2').textContent,
+                        role: entry.querySelector('.role > h2').textContent
                     };
                     const modalData = {
                         fullName: targetModal.querySelector(`${modalPath} > .personnelName > input`),
@@ -333,16 +355,312 @@ document.addEventListener('DOMContentLoaded', () => {
                     prevTargetModal = targetModal;
                     isModalOpen = true;
                 };
+                const invDelete = async () => {
+                    console.log('inventory delete');
+                };
+                const studentsDelete = async () => {
+                    console.log('student delete');
+                };
+                const usersDelete = async () => {
+                    console.log('user delete');
+                };
+                const invLend = async (type) => {
+                    const entry = target.parentElement.parentElement;
+                    const entryId = entry.getAttribute('data-identifier');
+                    const lendModal = modal.querySelector(`.${type} > .lend`);
+                    const lendModalSuccess = lendModal.querySelector('div[data-type="success"]');
+                    const lendModalError = lendModal.querySelector('div[data-type="error"]');
+                    const lendModalForm = lendModal.querySelector('form');
+                    const lendModalClose = lendModal.querySelector('.header > i');
+                    const lendModalReset = lendModalForm.querySelector('.actions > button[type="reset"]');
+                    const lendModalSubmit = lendModalForm.querySelector('.actions > button[type="submit"]');
+                    const lendModalBtns = lendModalForm.querySelectorAll('div[data-type="preview"] > i');
+                    const lendModalInputs = lendModalForm.querySelectorAll('div > input');
+                    const lendModalPreviews = lendModalForm.querySelectorAll('div[data-type="preview"]');
+                    const resetForm = async () => {
+                        for (const preview of lendModalPreviews) {
+                            preview.setAttribute('data-identifier', 'null');
+                            preview.querySelector('h3').textContent = 'None assigned';
+                            utils.checkForms(lendModalForm, true);
+                        }
+                    };
+                    const closeModal = async () => {
+                        if (!isModalOpen) {
+                            return;
+                        }
+                        return new Promise(async (resolve) => {
+                            modal.style.display = 'none';
+                            lendModal.style.display = 'none';
+                            isModalOpen = false;
+                            await resetForm();
+                            resolve();
+                        });
+                    };
+                    try {
+                        lendModalBtns.forEach((lendModalBtn) => lendModalBtn.addEventListener('click', async (element) => {
+                            const target = element.target;
+                            const modalType = target.parentElement.className;
+                            const assignModal = modal.querySelector('.inventory > .assign');
+                            const assignModalHeading = assignModal.querySelector('.header > h3');
+                            const assignModalClose = assignModal.querySelector('.header > i');
+                            const assignModalContainer = assignModal.querySelector('.form > .container');
+                            const assignModalCounter = assignModal.querySelector('.footer > h3 > .counter');
+                            const assignModalReset = assignModal.querySelector('.footer > .actions > button[type="reset"]');
+                            const assignModalSubmit = assignModal.querySelector('.footer > .actions > button[type="submit"]');
+                            let assignModalEntries;
+                            const studentModal = async () => {
+                                const response = await fetch(`/personnel/table/students/fetch/Vacant`, {
+                                    method: 'GET',
+                                    headers: { 'Content-Type': 'application/json' }
+                                });
+                                const responseBody = await response.json();
+                                let entriesCounter = 0;
+                                assignModalHeading.textContent = 'Choose a student';
+                                Object.values(responseBody).forEach((data) => {
+                                    const entry = `
+                                    <div class="entry" data-selected="false">
+                                        <div class="preview">
+                                            <h3 class="name">${data['full_name']}</h3>
+                                            <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                                        </div>
+                                        <div class="dropdown" data-hidden="true">
+                                            <div class="identifier">
+                                                <h3>
+                                                    <span class="heading">Identifier: </span> 
+                                                    <span class="data">${data['id']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="studentNumber">
+                                                <h3>
+                                                    <span class="heading">Student number: </span> 
+                                                    <span class="data">${data['student_number']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="phoneNumber">
+                                                <h3>        
+                                                    <span class="heading">Phone number: </span> 
+                                                    <span class="data">${data['phone_number']}</span>
+                                                </h3>
+                                            </div>
+
+                                            <div class="email">
+                                                <h3>        
+                                                    <span class="heading">Email address: </span>
+                                                    <span class="data">${data['email']}</span>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `;
+                                    assignModalContainer.innerHTML += entry;
+                                    entriesCounter++;
+                                    assignModalCounter.textContent = entriesCounter.toString();
+                                    assignModalEntries = assignModalContainer.querySelectorAll('.entry');
+                                });
+                            };
+                            const bookModal = async () => {
+                                const response = await fetch(`/personnel/table/inventory/fetch/Available`, {
+                                    method: 'GET',
+                                    headers: { 'Content-Type': 'application/json' }
+                                });
+                                const responseBody = await response.json();
+                                let entriesCounter = 0;
+                                assignModalHeading.textContent = 'Choose a book';
+                                Object.values(responseBody).forEach((data) => {
+                                    const entry = `
+                                    <div class="entry" data-selected="false">
+                                        <div class="preview">
+                                            <h3 class="name">${data['title']}</h3>
+                                            <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                                        </div>
+                                        <div class="dropdown" data-hidden="true">
+                                            <div class="identifier">
+                                                <h3>    
+                                                    <span class="heading">Identifier: </span>
+                                                    <span class="data">${data['id']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="genre">
+                                                <h3>    
+                                                    <span class="heading">Genre: </span>
+                                                    <span class="data">${data['genre']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="author">
+                                                <h3>    
+                                                    <span class="heading">Author: </span>
+                                                    <span class="data">${data['author']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="datePublicized">
+                                                <h3>
+                                                    <span class="heading">Publication date: </span>
+                                                    <span class="data">${data['date_publicized']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="dateAdded">
+                                                <h3>    
+                                                    <span class="heading">Inventory date: </span>
+                                                    ${data['date_added']}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `;
+                                    assignModalContainer.innerHTML += entry;
+                                    entriesCounter++;
+                                    assignModalCounter.textContent = entriesCounter.toString();
+                                    assignModalEntries = assignModalContainer.querySelectorAll('.entry');
+                                });
+                            };
+                            const closeModal = async () => {
+                                assignModalContainer.innerHTML = '';
+                                assignModalSubmit.disabled = true;
+                                lendModal.style.display = 'grid';
+                                assignModal.style.display = 'none';
+                                isModalOpen = true;
+                            };
+                            assignModalContainer.innerHTML = '';
+                            assignModalSubmit.disabled = true;
+                            lendModal.style.display = 'none';
+                            assignModal.style.display = 'flex';
+                            isModalOpen = false;
+                            modalType === 'book'
+                                ? await bookModal()
+                                : await studentModal();
+                            assignModalEntries.forEach((entry) => {
+                                const entryDropdown = entry.querySelector('.dropdown');
+                                const entryDropdownBtn = entry.querySelector('.preview > .toggleDropdown');
+                                entry.addEventListener('click', async () => {
+                                    for (const modalEntry of assignModalEntries) {
+                                        if (modalEntry != entry && modalEntry.getAttribute('data-selected') === 'true') {
+                                            modalEntry.setAttribute('data-selected', 'false');
+                                            assignModalSubmit.disabled = true;
+                                        }
+                                    }
+                                    entry.getAttribute('data-selected') === 'false'
+                                        ? (entry.setAttribute('data-selected', 'true'),
+                                            assignModalSubmit.disabled = false)
+                                        : (entry.setAttribute('data-selected', 'false'),
+                                            assignModalSubmit.disabled = true);
+                                });
+                                entryDropdownBtn.addEventListener('click', (element) => {
+                                    const button = element.target;
+                                    entryDropdown.getAttribute('data-hidden') === 'false'
+                                        ? (button.classList.remove('fa-caret-up'),
+                                            button.classList.add('fa-caret-down'),
+                                            entryDropdown.setAttribute('data-hidden', 'true'))
+                                        : (button.classList.remove('fa-caret-down'),
+                                            button.classList.add('fa-caret-up'),
+                                            entryDropdown.setAttribute('data-hidden', 'false'));
+                                });
+                            });
+                            assignModalClose.addEventListener('click', closeModal);
+                            assignModalReset.addEventListener('click', () => {
+                                for (const entry of assignModalEntries) {
+                                    entry.setAttribute('data-selected', 'false');
+                                }
+                                assignModalSubmit.disabled = true;
+                            });
+                            assignModalSubmit.addEventListener('click', async () => {
+                                for (const entry of assignModalEntries) {
+                                    if (entry.getAttribute('data-selected') === 'true') {
+                                        const entryIdentifier = entry.querySelector('.dropdown > .identifier > h3 > .data').textContent;
+                                        const entryName = entry.querySelector('.preview > .name').textContent;
+                                        const modalPreview = lendModal.querySelector(`form > .${modalType}`);
+                                        modalPreview.querySelector('h3').textContent = entryName;
+                                        modalPreview.setAttribute('data-identifier', entryIdentifier);
+                                        entry.setAttribute('data-selected', 'false');
+                                        await closeModal();
+                                    }
+                                }
+                                utils.checkForms(lendModalForm, true);
+                            });
+                        }));
+                        lendModalPreviews.forEach((preview) => {
+                            preview.setAttribute('data-identifier', 'null');
+                            preview.querySelector('h3').textContent = 'None assigned';
+                        });
+                        lendModalInputs.forEach((input) => {
+                            input.value = '';
+                            input.addEventListener('input', () => utils.checkForms(lendModalForm, true));
+                        });
+                        lendModalReset.addEventListener('click', async () => await resetForm());
+                        lendModalClose.addEventListener('click', async () => await closeModal());
+                        lendModalSubmit.addEventListener('click', async () => {
+                            try {
+                                const data = {
+                                    type: type,
+                                    entryId: entryId,
+                                    modalId: lendModal.querySelector(`form > .${type === 'students' ? 'book' : 'student'}`).getAttribute('data-identifier'),
+                                    dueDate: lendModal.querySelector('form > .dueDate > input')['value']
+                                };
+                                await fetch("/personnel/table/lend/", {
+                                    method: "POST",
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(data)
+                                });
+                                lendModalSuccess.style.display = 'flex';
+                                setTimeout(async () => {
+                                    await resetForm();
+                                    await closeModal();
+                                    lendModalSuccess.style.display = 'none';
+                                }, 2500);
+                            }
+                            catch (err) {
+                                lendModalError.style.display = 'flex';
+                                setTimeout(() => { lendModalError.style.display = 'none'; }, 2500);
+                            }
+                        });
+                        utils.checkForms(lendModalForm, true);
+                        modal.style.display = 'grid';
+                        lendModal.style.display = 'grid';
+                        prevTargetModal = lendModal;
+                        isModalOpen = true;
+                    }
+                    catch (err) {
+                        window.location.href =
+                            `
+                        /error?
+                        ${(await utils.errorPrompt({
+                                title: err['name'],
+                                body: err['message']
+                            })).toString()}
+                        `;
+                    }
+                };
+                const studentsNotify = async () => {
+                    console.log('student notify');
+                };
                 switch (targetAction) {
                     case 'pInventoryActionsEdit':
-                        await inventoryEntryEdit();
+                        await invEdit();
+                        break;
+                    case 'pInventoryActionsDelete':
+                        await invDelete();
+                        break;
+                    case 'pInventoryActionsBookLend':
+                        await invLend("inventory");
+                        break;
+                    case 'pInventoryActionsStudentLend':
+                        await invLend("students");
                         break;
                     case 'pStudentsActionsEdit':
-                        await studentsEntryEdit();
+                        await studentsEdit();
+                        break;
+                    case 'pStudentsActionsDelete':
+                        await studentsDelete();
+                        break;
+                    case 'pStudentsActionsNotify':
+                        await studentsNotify();
                         break;
                     case 'pUsersActionsEdit':
-                        await usersEntryEdit();
+                        await usersEdit();
                         break;
+                    case 'pUsersActionsDelete':
+                        await usersDelete();
+                        break;
+                    default: break;
                 }
             });
         };
