@@ -636,9 +636,13 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                 <div class="publicationDate"><h2>${ publicationDate }</h2></div>
                 <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
                 <div class="actions">
-                    <i class="pInventoryActionsLend fa-regular fa-arrow-right-from-arc"></i>
-                    <i class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
-                    <i class="pInventoryActionsDelete fa-regular fa-xmark"></i>
+                    ${
+                        data['status'] === 'Available'
+                        ? `<i data-disabled="false" class="pInventoryActionsBookLend fa-regular fa-arrow-right-from-arc"></i>`
+                        : `<i data-disabled="true" class="fa-regular fa-arrow-right-from-arc"></i>`
+                    }
+                    <i data-disabled="false" class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
+                    <i data-disabled="false" class="pInventoryActionsDelete fa-regular fa-xmark"></i>
                 </div>
             </div>
             `
@@ -686,9 +690,14 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                 <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
                 <div class="emailAddress"><h2>${ emailAddress }</h2></div>
                 <div class="actions">
-                    <i class="pStudentsActionsNotify fa-regular fa-message"></i>
-                    <i class="pStudentsActionsEdit fa-regular fa-pen-to-square"></i>
-                    <i class="pStudentsActionsDelete fa-regular fa-xmark"></i>
+                    <i data-disabled="false" class="pStudentsActionsNotify fa-regular fa-message"></i>
+                    ${ 
+                        data['status'] === 'Vacant'
+                        ? `<i data-disabled="false" class="pInventoryActionsStudentLend fa-regular fa-arrow-right-from-arc"></i>`
+                        : `<i data-disabled="true" class="fa-regular fa-arrow-right-from-arc"></i>` 
+                    }
+                    <i data-disabled="false" class="pStudentsActionsEdit fa-regular fa-pen-to-square"></i>
+                    <i data-disabled="false" class="pStudentsActionsDelete fa-regular fa-xmark"></i>
                 </div>
             </div>
             `
@@ -728,8 +737,8 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                 <div class="privilege">${ privilege }</div>
                 <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
                 <div class="actions">
-                <i class="pUsersActionsEdit fa-regular fa-pen-to-square"></i>
-                <i class="pUsersActionsDelete fa-regular fa-xmark"></i>
+                <i data-disabled="false" class="pUsersActionsEdit fa-regular fa-pen-to-square"></i>
+                <i data-disabled="false" class="pUsersActionsDelete fa-regular fa-xmark"></i>
                 </div>
             </div>
             `
