@@ -370,13 +370,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const entry = target.parentElement.parentElement;
                     const entryId = entry.getAttribute('data-identifier');
                     const lendModal = modal.querySelector(`.${type} > .lend`);
-                    const lendModalSuccess = lendModal.querySelector('div[data-type="success"]');
-                    const lendModalError = lendModal.querySelector('div[data-type="error"]');
+                    const lendModalPrompts = {
+                        success: lendModal.querySelector('div[data-type="success"]'),
+                        error: lendModal.querySelector('div[data-type="error"]')
+                    };
                     const lendModalForm = lendModal.querySelector('form');
-                    const lendModalClose = lendModal.querySelector('.header > i');
-                    const lendModalReset = lendModalForm.querySelector('.actions > button[type="reset"]');
-                    const lendModalSubmit = lendModalForm.querySelector('.actions > button[type="submit"]');
-                    const lendModalBtns = lendModalForm.querySelectorAll('div[data-type="preview"] > i');
+                    const lendModalBtns = {
+                        close: lendModal.querySelector('.header > i'),
+                        reset: lendModalForm.querySelector('.actions > button[type="reset"]'),
+                        submit: lendModalForm.querySelector('.actions > button[type="submit"]')
+                    };
+                    const lendModalAssign = lendModalForm.querySelectorAll('div[data-type="preview"] > i');
                     const lendModalInputs = lendModalForm.querySelectorAll('div > input');
                     const lendModalPreviews = lendModalForm.querySelectorAll('div[data-type="preview"]');
                     const resetForm = async () => {
@@ -399,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     };
                     try {
-                        lendModalBtns.forEach((lendModalBtn) => lendModalBtn.addEventListener('click', async (element) => {
+                        lendModalAssign.forEach((button) => button.addEventListener('click', async (element) => {
                             const target = element.target;
                             const modalType = target.parentElement.className;
                             const assignModal = modal.querySelector('.inventory > .assign');
@@ -587,31 +591,38 @@ document.addEventListener('DOMContentLoaded', () => {
                             input.value = '';
                             input.addEventListener('input', () => utils.checkForms(lendModalForm, true));
                         });
-                        lendModalReset.addEventListener('click', async () => await resetForm());
-                        lendModalClose.addEventListener('click', async () => await closeModal());
-                        lendModalSubmit.addEventListener('click', async () => {
+                        lendModalBtns['close'].addEventListener('click', async () => await closeModal());
+                        lendModalBtns['reset'].addEventListener('click', async () => await resetForm());
+                        lendModalBtns['submit'].addEventListener('click', async (element) => {
                             try {
+                                const button = element.target;
                                 const data = {
                                     type: type,
                                     entryId: entryId,
                                     modalId: lendModal.querySelector(`form > .${type === 'students' ? 'book' : 'student'}`).getAttribute('data-identifier'),
                                     dueDate: lendModal.querySelector('form > .dueDate > input')['value']
                                 };
+                                button.innerHTML =
+                                    `
+                                    <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                                    Updating...
+                                `;
                                 await fetch("/personnel/table/lend/", {
                                     method: "POST",
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(data)
                                 });
-                                lendModalSuccess.style.display = 'flex';
+                                lendModalPrompts['success'].style.display = 'flex';
                                 setTimeout(async () => {
+                                    button.innerHTML = 'Submit changes';
                                     await resetForm();
                                     await closeModal();
-                                    lendModalSuccess.style.display = 'none';
+                                    lendModalPrompts['success'].style.display = 'none';
                                 }, 2500);
                             }
                             catch (err) {
-                                lendModalError.style.display = 'flex';
-                                setTimeout(() => { lendModalError.style.display = 'none'; }, 2500);
+                                lendModalPrompts['error'].style.display = 'flex';
+                                setTimeout(() => { lendModalPrompts['error'].style.display = 'none'; }, 2500);
                             }
                         });
                         utils.checkForms(lendModalForm, true);

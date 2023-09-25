@@ -155,7 +155,7 @@ export const personnelTableLend = async (req, res) => {
         };
         await setStudent();
         await setBook();
-        res.sendStatus(200);
+        setTimeout(async () => res.sendStatus(200), 2500);
     }
     catch (err) {
         await utils.errorPrompt(res, 'redirect', {

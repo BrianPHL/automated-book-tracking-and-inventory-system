@@ -213,7 +213,7 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
         await setStudent()
         await setBook()
 
-        res.sendStatus(200)
+        setTimeout(async () => res.sendStatus(200), 2500)
 
     } catch(err) {
 

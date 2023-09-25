@@ -562,13 +562,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const entry = target.parentElement.parentElement
                     const entryId = entry.getAttribute('data-identifier')
                     const lendModal: HTMLDivElement = modal.querySelector(`.${ type } > .lend`)
-                    const lendModalSuccess: HTMLDivElement = lendModal.querySelector('div[data-type="success"]')
-                    const lendModalError: HTMLDivElement = lendModal.querySelector('div[data-type="error"]')
+                    const lendModalPrompts: { success: HTMLDivElement, error: HTMLDivElement } = {
+                        success: lendModal.querySelector('div[data-type="success"]'),
+                        error: lendModal.querySelector('div[data-type="error"]')
+                    }
                     const lendModalForm: HTMLFormElement = lendModal.querySelector('form')
-                    const lendModalClose: HTMLButtonElement = lendModal.querySelector('.header > i')
-                    const lendModalReset: HTMLButtonElement = lendModalForm.querySelector('.actions > button[type="reset"]')
-                    const lendModalSubmit: HTMLButtonElement = lendModalForm.querySelector('.actions > button[type="submit"]')
-                    const lendModalBtns: NodeListOf<HTMLButtonElement> = lendModalForm.querySelectorAll('div[data-type="preview"] > i')
+                    const lendModalBtns: { close: HTMLButtonElement, reset: HTMLButtonElement, submit: HTMLButtonElement } = {
+                        close: lendModal.querySelector('.header > i'),
+                        reset: lendModalForm.querySelector('.actions > button[type="reset"]'),
+                        submit: lendModalForm.querySelector('.actions > button[type="submit"]')
+                    }
+                    const lendModalAssign: NodeListOf<HTMLButtonElement> = lendModalForm.querySelectorAll('div[data-type="preview"] > i')
                     const lendModalInputs: NodeListOf<HTMLInputElement> = lendModalForm.querySelectorAll('div > input')
                     const lendModalPreviews: NodeListOf<HTMLDivElement> = lendModalForm.querySelectorAll('div[data-type="preview"]')
                     const resetForm = async () => {
@@ -603,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     try {
 
-                        lendModalBtns.forEach((lendModalBtn: HTMLButtonElement) => lendModalBtn.addEventListener('click', async (element) => {
+                        lendModalAssign.forEach((button: HTMLButtonElement) => button.addEventListener('click', async (element) => {
 
                             const target = element.target as HTMLElement
                             const modalType: string = target.parentElement.className
@@ -859,14 +863,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         })
                     
-                        lendModalReset.addEventListener('click', async () => await resetForm())
-
-                        lendModalClose.addEventListener('click', async () => await closeModal())
-
-                        lendModalSubmit.addEventListener('click', async () => {
+                        lendModalBtns['close'].addEventListener('click', async () => await closeModal())
+                        lendModalBtns['reset'].addEventListener('click', async () => await resetForm())
+                        lendModalBtns['submit'].addEventListener('click', async (element) => {
 
                             try {
 
+                                const button = element.target as HTMLButtonElement
                                 const data: { type: string, entryId: string, modalId: string, dueDate: string } = {
                                     type: type,
                                     entryId: entryId,
@@ -874,28 +877,36 @@ document.addEventListener('DOMContentLoaded', () => {
                                     dueDate: lendModal.querySelector('form > .dueDate > input')['value']
                                 }
 
+                                button.innerHTML =
+                                `
+                                    <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                                    Updating...
+                                `
+
                                 await fetch("/personnel/table/lend/", { 
                                     method: "POST", 
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(data) 
                                 })
 
-                                lendModalSuccess.style.display = 'flex'
+                                lendModalPrompts['success'].style.display = 'flex'
 
                                 setTimeout(async () => {
+
+                                    button.innerHTML = 'Submit changes'
 
                                     await resetForm()
                                     await closeModal()
 
-                                    lendModalSuccess.style.display = 'none'
+                                    lendModalPrompts['success'].style.display = 'none'
 
                                 }, 2500)
 
                             } catch(err) {
 
-                                lendModalError.style.display = 'flex'
+                                lendModalPrompts['error'].style.display = 'flex'
     
-                                setTimeout(() => { lendModalError.style.display = 'none' }, 2500)
+                                setTimeout(() => { lendModalPrompts['error'].style.display = 'none' }, 2500)
                             
                             }
 
