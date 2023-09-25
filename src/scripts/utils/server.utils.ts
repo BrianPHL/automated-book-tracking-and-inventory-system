@@ -867,6 +867,7 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
                     })
     
                 }
+                
                 await setVariablesData()
                 await executeDatabaseQuery( `INSERT INTO ${ tab } (${ sqlString }) VALUES (${ sqlArgs })`, sqlData )
     
@@ -961,6 +962,7 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
                     })
     
                 }
+
                 await setVariablesData()
                 await executeDatabaseQuery(
                 `
