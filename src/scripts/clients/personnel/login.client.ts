@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
         modalFormSubmit.innerHTML = 
         `
-            Processing... 
             <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+            Logging in... 
         `
         modalFormSubmit.disabled = true
         modalWarning.style.display = 'none'
