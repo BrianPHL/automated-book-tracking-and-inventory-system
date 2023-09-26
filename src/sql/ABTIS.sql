@@ -22,7 +22,7 @@ USE `abtis`;
 -- Dumping structure for table abtis.books
 CREATE TABLE IF NOT EXISTS `books` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
+  `title` varchar(2048) NOT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'Available',
   `author` varchar(50) NOT NULL,
   `genre` varchar(50) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `books` (
   `date_borrowed` varchar(50) DEFAULT NULL,
   `date_due` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `personnel` (
   `role` varchar(50) NOT NULL DEFAULT 'Librarian',
   `access_token` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `students` (
   `borrowed_book` varchar(50) DEFAULT NULL,
   `access_token` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
 
