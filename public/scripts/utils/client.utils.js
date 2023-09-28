@@ -1,4 +1,7 @@
 import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
+export const delay = async (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+};
 export const checkForms = async (form, isInputAndPreview) => {
     const submit = form.querySelector('button[type="submit"]');
     const checkFormInputsAndPreviews = async () => {
