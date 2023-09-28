@@ -122,7 +122,7 @@ export const personnelTableActions = async (req: Request, res: Response): Promis
 
         await utils.setTableData(req.params.type, req.params.tab, req.body)
 
-        res.sendStatus(200)
+        setTimeout(() => res.sendStatus(200), 2500)
         
     } catch (err) {
 
