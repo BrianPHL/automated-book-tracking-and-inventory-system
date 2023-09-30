@@ -1843,91 +1843,74 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
 
     }
 
-    try {
+    switch (type) {
 
-        switch (type) {
-
-            case "inventory": await inventory(); break;
-            case "students": await students(); break;
-            case "users": await users(); break;
-    
-        }
-    
-        editModalBtns['close'].addEventListener('click', () => closeModal())
-        editModalBtns['reset'].addEventListener('click', () => resetData())
-        editModalBtns['submit'].addEventListener('click', async (event) => {
-    
-            const button = event.target as HTMLElement
-            const formData: FormData = new FormData(editModalForm)
-            const identifier: string = editModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent
-            let fetchedData: { [key: string]: string } = {}
-            
-            try {
-
-                event.preventDefault()
-    
-                for (const [name, value] of formData.entries()) { fetchedData[name] = value.toString() }
-    
-                fetchedData['id'] = identifier
-                
-                button.innerHTML =
-                `
-                    <i class="fa-duotone fa-loader fa-spin-pulse"></i>
-                    Updating...
-                `
-                
-                await fetch(`/personnel/table/${ type }/actions/edit`, {
-    
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(fetchedData)
-    
-                })
-    
-            editModalPrompts['success'].style.display = 'flex'
-    
-            setTimeout(async () => {
-    
-                await resetData()
-                await closeModal()
-                await setDashboardData('personnel', type)
-    
-                button.innerHTML = 'Submit changes'
-                editModalPrompts['success'].style.display = 'none'
-    
-            }, 2500)
-
-            } catch(err) {
-
-                editModalPrompts['error'].style.display = 'flex'
-
-                setTimeout(() => { editModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
-            
-            }
-    
-        })
-    
-        modal.style.display = "grid"
-        editModal.style.display = "grid"
-        editModal.setAttribute("data-type", "edit")
-        
-        checkForms(editModalForm, false)
-        await setData()
-        checkForms(editModalForm, false)
-
-    } catch(err) {
-
-        window.location.href =
-        `
-        /error?
-        ${(
-            await errorPrompt({
-                title: err['name'], 
-                body: err['message']
-            })
-        ).toString() }
-        `
+        case "inventory": await inventory(); break;
+        case "students": await students(); break;
+        case "users": await users(); break;
 
     }
+
+    editModalBtns['close'].addEventListener('click', () => closeModal())
+    editModalBtns['reset'].addEventListener('click', () => resetData())
+    editModalBtns['submit'].addEventListener('click', async (event) => {
+
+        const button = event.target as HTMLElement
+        const formData: FormData = new FormData(editModalForm)
+        const identifier: string = editModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent
+        let fetchedData: { [key: string]: string } = {}
+        
+        try {
+
+            event.preventDefault()
+
+            for (const [name, value] of formData.entries()) { fetchedData[name] = value.toString() }
+
+            fetchedData['id'] = identifier
+            
+            button.innerHTML =
+            `
+                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                Updating...
+            `
+            
+            await fetch(`/personnel/table/${ type }/actions/edit`, {
+
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(fetchedData)
+
+            })
+
+        editModalPrompts['success'].style.display = 'flex'
+
+        setTimeout(async () => {
+
+            await resetData()
+            await closeModal()
+            await setDashboardData('personnel', type)
+
+            button.innerHTML = 'Submit changes'
+            editModalPrompts['success'].style.display = 'none'
+
+        }, 2500)
+
+        } catch(err) {
+
+            editModalPrompts['error'].style.display = 'flex'
+
+            setTimeout(() => { editModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+        
+        }
+
+    })
+
+    modal.style.display = "grid"
+    editModal.style.display = "grid"
+    editModal.setAttribute("data-type", "edit")
+    
+    checkForms(editModalForm, false)
+    await setData()
+    checkForms(editModalForm, false)
 
 }

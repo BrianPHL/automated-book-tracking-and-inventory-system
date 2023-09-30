@@ -311,17 +311,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const invDelete = async () => {
 
-                    console.log('inventory delete')
+
 
                 }
                 const studentsDelete = async () => {
 
-                    console.log('student delete')
+
 
                 }
                 const usersDelete = async () => {
 
-                    console.log('user delete')
+
 
                 }
                 const invLend = async (type: string) => {
@@ -371,8 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         })
 
                     }
-
-                    try {
 
                         lendModalAssign.forEach((button: HTMLButtonElement) => button.addEventListener('click', async (element) => {
 
@@ -688,67 +686,69 @@ document.addEventListener('DOMContentLoaded', () => {
                         prevTargetModal = lendModal
                         isModalOpen = true
 
-                    } catch (err) {
-
-                        window.location.href =
-                        `
-                        /error?
-                        ${(
-                            await utils.errorPrompt({
-                                title: err['name'], 
-                                body: err['message']
-                            })
-                        ).toString() }
-                        `
-
-                    }
-
                 }
                 const studentsNotify = async () => {
 
-                    console.log('student notify')
+                    
 
                 }
 
-                switch (targetAction) {
+                try {
+
+                    switch (targetAction) {
                     
-                    case 'pInventoryActionsEdit':
-                        await utils.openEditModal('inventory', modal, target.parentElement.parentElement)    
-                        break;
+                        case 'pInventoryActionsEdit':
+                            await utils.openEditModal('inventory', modal, target.parentElement.parentElement)    
+                            break;
+    
+                        case 'pInventoryActionsDelete':
+                            await invDelete()
+                            break;
+    
+                        case 'pInventoryActionsBookLend':
+                            await invLend("inventory")
+                            break;
+                        
+                        case 'pInventoryActionsStudentLend':
+                            await invLend("students")
+                            break;
+                        
+                        case 'pStudentsActionsEdit':
+                            await utils.openEditModal('students', modal, target.parentElement.parentElement)  
+                            break;
+    
+                        case 'pStudentsActionsDelete':
+                            await studentsDelete()
+                            break;
+    
+                        case 'pStudentsActionsNotify':
+                            await studentsNotify()
+                            break;
+                        
+                        case 'pUsersActionsEdit':
+                            await utils.openEditModal('users', modal, target.parentElement.parentElement)  
+                            break;
+    
+                        case 'pUsersActionsDelete':
+                            await usersDelete()
+                            break;
+    
+                        default: break;
+    
+                    }
+                        
+                } catch(err) {
 
-                    case 'pInventoryActionsDelete':
-                        await invDelete()
-                        break;
-
-                    case 'pInventoryActionsBookLend':
-                        await invLend("inventory")
-                        break;
-                    
-                    case 'pInventoryActionsStudentLend':
-                        await invLend("students")
-                        break;
-                    
-                    case 'pStudentsActionsEdit':
-                        await utils.openEditModal('students', modal, target.parentElement.parentElement)  
-                        break;
-
-                    case 'pStudentsActionsDelete':
-                        await studentsDelete()
-                        break;
-
-                    case 'pStudentsActionsNotify':
-                        await studentsNotify()
-                        break;
-                    
-                    case 'pUsersActionsEdit':
-                        await utils.openEditModal('users', modal, target.parentElement.parentElement)  
-                        break;
-
-                    case 'pUsersActionsDelete':
-                        await usersDelete()
-                        break;
-
-                    default: break;
+                    window.location.href =
+                    `
+                    /error?
+                    ${(
+                        await utils.errorPrompt({
+                            title: err['name'], 
+                            body: err['message']
+                        })
+                    ).toString() }
+                    `
 
                 }
 
