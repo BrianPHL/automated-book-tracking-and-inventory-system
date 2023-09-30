@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const lendModalAssign = lendModalForm.querySelectorAll('div[data-type="preview"] > i');
                     const lendModalInputs = lendModalForm.querySelectorAll('div > input');
                     const lendModalPreviews = lendModalForm.querySelectorAll('div[data-type="preview"]');
-                    const resetForm = async () => {
+                    const resetData = async () => {
                         for (const preview of lendModalPreviews) {
                             preview.setAttribute('data-identifier', 'null');
                             preview.querySelector('h3').textContent = 'None assigned';
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             modal.style.display = 'none';
                             lendModal.style.display = 'none';
                             isModalOpen = false;
-                            await resetForm();
+                            await resetData();
                             resolve();
                         });
                     };
@@ -438,10 +438,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             input.addEventListener('input', () => utils.checkForms(lendModalForm, true));
                         });
                         lendModalBtns['close'].addEventListener('click', async () => await closeModal());
-                        lendModalBtns['reset'].addEventListener('click', async () => await resetForm());
-                        lendModalBtns['submit'].addEventListener('click', async (element) => {
+                        lendModalBtns['reset'].addEventListener('click', async () => await resetData());
+                        lendModalBtns['submit'].addEventListener('click', async (event) => {
                             try {
-                                const button = element.target;
+                                event.preventDefault();
+                                const button = event.target;
                                 const data = {
                                     type: type,
                                     entryId: entryId,
@@ -453,6 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                                     Updating...
                                 `;
+                                console.log(data);
                                 await fetch("/personnel/table/lend/", {
                                     method: "POST",
                                     headers: { 'Content-Type': 'application/json' },
@@ -461,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 lendModalPrompts['success'].style.display = 'flex';
                                 setTimeout(async () => {
                                     button.innerHTML = 'Submit changes';
-                                    await resetForm();
+                                    await resetData();
                                     await closeModal();
                                     lendModalPrompts['success'].style.display = 'none';
                                 }, 2500);

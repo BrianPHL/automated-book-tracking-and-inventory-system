@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const lendModalAssign: NodeListOf<HTMLButtonElement> = lendModalForm.querySelectorAll('div[data-type="preview"] > i')
                     const lendModalInputs: NodeListOf<HTMLInputElement> = lendModalForm.querySelectorAll('div > input')
                     const lendModalPreviews: NodeListOf<HTMLDivElement> = lendModalForm.querySelectorAll('div[data-type="preview"]')
-                    const resetForm = async () => {
+                    const resetData = async () => {
                         
                         for (const preview of lendModalPreviews) {
 
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             lendModal.style.display = 'none'
                             isModalOpen = false
         
-                            await resetForm()
+                            await resetData()
                             
                             resolve()
                             
@@ -631,12 +631,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         })
                     
                         lendModalBtns['close'].addEventListener('click', async () => await closeModal())
-                        lendModalBtns['reset'].addEventListener('click', async () => await resetForm())
-                        lendModalBtns['submit'].addEventListener('click', async (element) => {
+                        lendModalBtns['reset'].addEventListener('click', async () => await resetData())
+                        lendModalBtns['submit'].addEventListener('click', async (event) => {
 
                             try {
 
-                                const button = element.target as HTMLButtonElement
+                                event.preventDefault()
+
+                                const button = event.target as HTMLButtonElement
                                 const data: { type: string, entryId: string, modalId: string, dueDate: string } = {
                                     type: type,
                                     entryId: entryId,
@@ -650,6 +652,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     Updating...
                                 `
 
+                                console.log(data)
+
                                 await fetch("/personnel/table/lend/", { 
                                     method: "POST", 
                                     headers: { 'Content-Type': 'application/json' },
@@ -662,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                     button.innerHTML = 'Submit changes'
 
-                                    await resetForm()
+                                    await resetData()
                                     await closeModal()
 
                                     lendModalPrompts['success'].style.display = 'none'
