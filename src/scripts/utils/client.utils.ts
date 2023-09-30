@@ -1624,7 +1624,7 @@ export const setDashboardData = async (type: string, tab?: string, data?: object
 
 }
 
-export const setTableAction = async (tab: string) => {
+export const setTableAction = async (tab: string): Promise<void> => {
 
     const bodyElement: HTMLBodyElement = document.querySelector('body')
     const tableControls: HTMLDivElement = bodyElement.querySelector('.controls')
@@ -1687,7 +1687,7 @@ export const setTableAction = async (tab: string) => {
 
 }
 
-export const openEditModal = async (type: string, modal: HTMLDivElement, entry: HTMLElement) => {
+export const openEditModal = async (type: string, modal: HTMLDivElement, entry: HTMLElement): Promise<void> => {
 
     const path = '.action > .form > form'
     const editModal: HTMLDivElement = modal.querySelector(`.${ type } > .action`)
@@ -1929,7 +1929,5 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
         `
 
     }
-
-
 
 }
