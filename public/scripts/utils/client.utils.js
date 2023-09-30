@@ -1133,58 +1133,164 @@ export const setTableAction = async (tab) => {
         window.location.href = `/error?${(await errorPrompt({ title: name, body: message })).toString()}`;
     }
 };
-export const openEditModal = async (editData, entryData, modalData) => {
-    return new Promise((resolve) => {
-        const targetEntry = editData.target.parentElement.parentElement;
-        const targetModal = editData.modal.querySelector(`.${editData.active} > .action`);
-        const targetModalForm = targetModal.querySelector('.form > form');
-        const targetModalInputs = targetModalForm.querySelectorAll('input');
-        const targetModalHeading = targetModal.querySelector('.header > .heading');
-        if (editData.active === 'inventory') {
-            targetModalHeading.innerHTML =
-                `
-                <h3>Book Entry Edit Form</h3>
-                <h4>
-                    Currently editing book entry
-                    <strong>#<span class="entryIdentifier">${targetEntry.getAttribute('data-identifier')}</span></strong>
-                </h4>
-            `;
-        }
-        if (editData.active === 'students') {
-            targetModalHeading.innerHTML =
-                `
-                <h3>Student Entry Edit Form</h3>
-                <h4>
-                    Currently editing student entry
-                    <strong>#<span class="entryIdentifier">${targetEntry.getAttribute('data-identifier')}</span></strong>
-                </h4>
-            `;
-        }
-        if (editData.active === 'users') {
-            targetModalHeading.innerHTML =
-                `
-                <h3>Personnel Entry Edit Form</h3>
-                <h4>
-                    Currently editing personnel entry
-                    <strong>#<span class="entryIdentifier">${targetEntry.getAttribute('data-identifier')}</span></strong>
-                </h4>
-            `;
-        }
-        targetModalInputs.forEach((targetModalInput) => {
-            targetModalInput.value = '';
-            targetModalInput.addEventListener('input', () => { checkForms(targetModalForm, false); });
-        });
-        editData.modal.style.display = 'grid';
-        targetModal.style.display = 'grid';
-        targetModal.setAttribute('data-type', 'edit');
-        setTimeout(() => {
+export const openEditModal = async (type, modal, entry) => {
+    const path = '.action > .form > form';
+    const editModal = modal.querySelector(`.${type} > .action`);
+    const editModalPrompts = {
+        success: editModal.querySelector('div[data-type="success"]'),
+        error: editModal.querySelector('div[data-type="error"]')
+    };
+    const editModalForm = editModal.querySelector('.form > form');
+    const editModalBtns = {
+        close: editModal.querySelector('.header > i'),
+        reset: editModalForm.querySelector('.actions > button[type="reset"]'),
+        submit: editModalForm.querySelector('.actions > button[type="submit"]')
+    };
+    const editModalHeading = editModal.querySelector('.header > .heading');
+    const editModalInputs = editModalForm.querySelectorAll('input');
+    let entryData;
+    let modalData;
+    const inventory = async () => {
+        entryData = {
+            title: entry.querySelector(".title > h2").textContent,
+            author: entry.querySelector(".author > h2").textContent,
+            genre: entry.querySelector(".genre > h2").textContent,
+            date: entry.querySelector(".publicationDate > h2").textContent
+        };
+        modalData = {
+            title: editModal.querySelector(`${path} > .title > input`),
+            author: editModal.querySelector(`${path} > .author > input`),
+            genre: editModal.querySelector(`${path} > .genre > input`),
+            date: editModal.querySelector(`${path} > .dPublicized > input`)
+        };
+        editModalHeading.innerHTML =
+            `
+            <h3>Book Entry Edit Form</h3>
+            <h4>
+                Currently editing book entry
+                <strong>#<span class="entryIdentifier">${entry.getAttribute('data-identifier')}</span></strong>
+            </h4>
+        `;
+    };
+    const students = async () => {
+        entryData = {
+            name: entry.querySelector(".name > h2").textContent,
+            number: entry.querySelector(".studentNumber > h2").textContent,
+            phone: entry.querySelector(".phoneNumber > h2").textContent,
+            email: entry.querySelector(".emailAddress > h2").textContent
+        };
+        modalData = {
+            name: editModal.querySelector(`${path} > .studentName > input`),
+            number: editModal.querySelector(`${path} > .studentNumber > input`),
+            phone: editModal.querySelector(`${path} > .phoneNumber > input`),
+            email: editModal.querySelector(`${path} > .email > input`)
+        };
+        editModalHeading.innerHTML =
+            `
+            <h3>Student Entry Edit Form</h3>
+            <h4>
+                Currently editing student entry
+                <strong>#<span class="entryIdentifier">${entry.getAttribute('data-identifier')}</span></strong>
+            </h4>
+        `;
+    };
+    const users = async () => {
+        entryData = {
+            fullName: entry.querySelector('.fullName > h2').textContent,
+            userName: entry.querySelector('.username > h2').textContent,
+            role: entry.querySelector('.role > h2').textContent
+        };
+        modalData = {
+            fullName: editModal.querySelector(`${path} > .personnelName > input`),
+            userName: editModal.querySelector(`${path} > .username > input`),
+            role: editModal.querySelector(`${path} > .role > input`)
+        };
+        editModalHeading.innerHTML =
+            `
+            <h3>Personnel Entry Edit Form</h3>
+            <h4>
+                Currently editing personnel entry
+                <strong>#<span class="entryIdentifier">${entry.getAttribute('data-identifier')}</span></strong>
+            </h4>
+        `;
+    };
+    const setData = async () => {
+        return new Promise(async (resolve) => {
             for (const key in entryData) {
-                modalData[key]['type'] === 'text'
+                await delay(250);
+                const initialDate = "dd MMMM yyyy";
+                const intendedDate = "yyyy-MM-dd";
+                modalData[key]["type"] === "text"
                     ? modalData[key].value = entryData[key]
-                    : modalData[key].value = DateTime.fromFormat(entryData[key], "dd MMMM yyyy").toFormat("yyyy-MM-dd");
+                    : modalData[key].value = DateTime.fromFormat(entryData[key], initialDate).toFormat(intendedDate);
             }
-            checkForms(targetModalForm, false);
-        }, 250);
-        resolve();
+            resolve();
+        });
+    };
+    const resetData = async () => {
+        return new Promise(async (resolve) => {
+            editModalInputs.forEach((input) => input.value = '');
+            checkForms(editModalForm, false);
+            await setData();
+            checkForms(editModalForm, false);
+            resolve();
+        });
+    };
+    const closeModal = async () => {
+        editModalInputs.forEach((input) => input.value = '');
+        modal.style.display = 'none';
+        editModal.style.display = 'none';
+    };
+    try {
+    }
+    catch (err) {
+    }
+    switch (type) {
+        case "inventory":
+            await inventory();
+            break;
+        case "students":
+            await students();
+            break;
+        case "users":
+            await users();
+            break;
+    }
+    editModalBtns['close'].addEventListener('click', () => closeModal());
+    editModalBtns['reset'].addEventListener('click', () => resetData());
+    editModalBtns['submit'].addEventListener('click', async (event) => {
+        const button = event.target;
+        const formData = new FormData(editModalForm);
+        const identifier = editModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent;
+        let fetchedData = {};
+        event.preventDefault();
+        for (const [name, value] of formData.entries()) {
+            fetchedData[name] = value.toString();
+        }
+        fetchedData['id'] = identifier;
+        button.innerHTML =
+            `
+            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+            Updating...
+        `;
+        await fetch(`/personnel/table/${type}/actions/edit`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fetchedData)
+        });
+        editModalPrompts['success'].style.display = 'flex';
+        setTimeout(async () => {
+            await resetData();
+            await closeModal();
+            await setDashboardData('personnel', type);
+            button.innerHTML = 'Submit changes';
+            editModalPrompts['success'].style.display = 'none';
+        }, 2500);
     });
+    modal.style.display = "grid";
+    editModal.style.display = "grid";
+    editModal.setAttribute("data-type", "edit");
+    checkForms(editModalForm, false);
+    await setData();
+    checkForms(editModalForm, false);
 };

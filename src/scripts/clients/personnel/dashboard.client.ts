@@ -1,4 +1,5 @@
 import * as utils from "../../utils/client.utils.js"
+import { DateTime } from "../../../../node_modules/luxon/build/es6/luxon.js"
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -300,248 +301,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
         tableSearch()
-
-        const modalActions = () => {
-
-            const closeModalBtns: NodeListOf<HTMLButtonElement> = modal.querySelectorAll('div > div > .header > i')
-            const modalForms: NodeListOf<HTMLFormElement> = modal.querySelectorAll('div > div > form')
-            
-            modalForms.forEach((modalForm: HTMLFormElement) => {
-
-                const modalFormInputs: NodeListOf<HTMLInputElement> = modalForm.querySelectorAll('div > input')
-                const resetFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="reset"]')
-                const submitFormBtns: NodeListOf<HTMLButtonElement> = modalForm.querySelectorAll('.actions > button[type="submit"]')
-                const resetForm = async (): Promise<void> => {
-
-                    return new Promise((resolve) => {
-
-                        modalFormInputs.forEach((modalFormInput) => {
-
-                            modalFormInput.value = '' 
-                            utils.checkForms(modalForm, false)
-    
-                        })
-
-                        resolve()
-
-                    })
-
-                }
-                const closeModal = async (): Promise<void> => {
-
-                    if (!isModalOpen) { return }
-
-                    return new Promise(async (resolve) => {
-
-                        modal.style.display = 'none'
-                        prevTargetModal.style.display = 'none'
-                        isModalOpen = false
-    
-                        await resetForm()
-                        
-                        resolve()
-                        
-                    })
-
-                }
-
-                document.addEventListener('keydown', (event) => {
-
-                    if (event.key === 'Escape') { closeModal() }
-
-                })
-
-                closeModalBtns.forEach((closeModalBtn: HTMLButtonElement) => {
-
-                    closeModalBtn.addEventListener('click', () => { 
-
-                        closeModal() 
-                        closeModalBtn.removeEventListener('click', closeModal)
-                        
-                    })
-    
-                })
-
-                resetFormBtns.forEach((resetFormBtn: HTMLButtonElement) => {
-
-                    resetFormBtn.addEventListener('click', () => { resetForm() })
-
-                })
-
-                submitFormBtns.forEach((submitFormBtn: HTMLButtonElement) => {
-
-                    submitFormBtn.addEventListener('click', async (event) => {
-
-                        const activeTab: string = activeTable.getAttribute('data-tab')
-                        const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
-                        const targetModalSuccess: HTMLDivElement = targetModal.querySelector('div[data-type="success"]')
-                        const targetModalError: HTMLDivElement = targetModal.querySelector('div[data-type="error"]')
-                        const operationType: string = targetModal.getAttribute('data-type')
-
-                        try {
-    
-                            event.preventDefault()
-
-                            if (submitFormBtn.parentElement.parentElement.parentElement.parentElement.className !== "lend") {
-
-                                const formData = new FormData(modalForm)
-                                const formIdentifier: string = targetModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent
-                                let registrationData = {}
-
-                                for (const [name, value] of formData.entries()) { registrationData[name] = value.toString() }
-                                registrationData['id'] = formIdentifier
-
-                                await fetch(`/personnel/table/${ activeTab }/actions/${ operationType }`, {
-        
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify(registrationData)
-        
-                                })
-    
-                                targetModalSuccess.style.display = 'flex'
-    
-                                setTimeout(async () => {
-    
-                                    await resetForm()
-                                    await closeModal()
-                                    await utils.setDashboardData('personnel', activeTab)
-    
-                                    targetModalSuccess.style.display = 'none'
-    
-                                }, 2500)
-
-                            }
-
-                        } catch(err) {
-
-                            targetModalError.style.display = 'flex'
-
-                            setTimeout(() => { targetModalError.style.display = 'none' }, 2500)
-                        
-                        }
-            
-                    })
-
-                })
-
-                utils.checkForms(modalForm, false)
-
-            })
-
-        }
-        modalActions()
         
         const entryActions = () => {
 
             bodyElement.addEventListener('click', async (event) => {
 
-                const activeTab: string = activeTable.getAttribute('data-tab')
                 const target = event.target as HTMLElement
                 const targetAction: string = target.classList[0]
 
-                const invEdit = async () => {
-
-                    const entry = target.parentElement.parentElement
-                    const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
-                    const modalPath = '.action > .form > form'
-                    const entryData = {
-                     
-                        title: entry.querySelector('.title > h2').textContent,
-                        author: entry.querySelector('.author > h2').textContent,
-                        genre: entry.querySelector('.genre > h2').textContent,
-                        datePublicized: entry.querySelector('.publicationDate > h2').textContent
-
-                    }
-                    const modalData = {
-                        
-                        title: targetModal.querySelector(`${ modalPath } > .title > input`),
-                        author: targetModal.querySelector(`${ modalPath } > .author > input`),
-                        genre: targetModal.querySelector(`${ modalPath } > .genre > input`),
-                        datePublicized: targetModal.querySelector(`${ modalPath } > .dPublicized > input`),
-
-                    }
-
-                    await utils.openEditModal(
-                        {
-                            modal: modal,
-                            target: target,
-                            active: activeTable.getAttribute('data-tab'),
-                        }, entryData, modalData
-                    )
-
-                    prevTargetModal = targetModal
-                    isModalOpen = true
-
-                }
-                const studentsEdit = async () => {
-
-                    const entry = target.parentElement.parentElement
-                    const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
-                    const modalPath = '.action > .form > form'
-                    const entryData = {
-
-                        studentName: entry.querySelector('.name > h2').textContent,
-                        studentNumber: entry.querySelector('.studentNumber > h2').textContent,
-                        phoneNumber: entry.querySelector('.phoneNumber > h2').textContent,
-                        emailAddress: entry.querySelector('.emailAddress > h2').textContent
-
-                    }
-                    const modalData = {
-
-                        studentName: targetModal.querySelector(`${ modalPath } > .studentName > input`),
-                        studentNumber: targetModal.querySelector(`${ modalPath } > .studentNumber > input`),
-                        phoneNumber: targetModal.querySelector(`${ modalPath } > .phoneNumber > input`),
-                        emailAddress: targetModal.querySelector(`${ modalPath } > .email > input`)
-
-                    }
-
-                    await utils.openEditModal(
-                        {
-                            modal: modal,
-                            target: target,
-                            active: activeTable.getAttribute('data-tab'),
-                        }, entryData, modalData
-                    )
-
-                    prevTargetModal = targetModal
-                    isModalOpen = true
-                    
-                }
-                const usersEdit = async () => {
-
-                    const entry = target.parentElement.parentElement
-                    const targetModal: HTMLDivElement = modal.querySelector(`.${ activeTab } > .action`)
-                    const modalPath = '.action > .form > form'
-                    const entryData = {
-
-                        fullName: entry.querySelector('.fullName > h2').textContent,
-                        userName: entry.querySelector('.username > h2').textContent,
-                        role: entry.querySelector('.role > h2').textContent
-
-                    }
-                    const modalData = {
-
-                        fullName: targetModal.querySelector(`${ modalPath } > .personnelName > input`),
-                        userName: targetModal.querySelector(`${ modalPath } > .username > input`),
-                        role: targetModal.querySelector(`${ modalPath } > .role > input`)
-
-                    }
-
-                    await utils.openEditModal(
-                        {
-                            modal: modal,
-                            target: target,
-                            active: activeTable.getAttribute('data-tab'),
-                        }, 
-                        entryData, 
-                        modalData
-                    )
-
-                    prevTargetModal = targetModal
-                    isModalOpen = true
-
-                }
                 const invDelete = async () => {
 
                     console.log('inventory delete')
@@ -944,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 switch (targetAction) {
                     
                     case 'pInventoryActionsEdit':
-                        await invEdit()    
+                        await utils.openEditModal('inventory', modal, target.parentElement.parentElement)    
                         break;
 
                     case 'pInventoryActionsDelete':
@@ -960,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                     
                     case 'pStudentsActionsEdit':
-                        await studentsEdit()
+                        await utils.openEditModal('students', modal, target.parentElement.parentElement)  
                         break;
 
                     case 'pStudentsActionsDelete':
@@ -972,7 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                     
                     case 'pUsersActionsEdit':
-                        await usersEdit()
+                        await utils.openEditModal('users', modal, target.parentElement.parentElement)  
                         break;
 
                     case 'pUsersActionsDelete':
