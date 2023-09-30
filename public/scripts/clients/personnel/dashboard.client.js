@@ -440,21 +440,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         lendModalBtns['close'].addEventListener('click', async () => await closeModal());
                         lendModalBtns['reset'].addEventListener('click', async () => await resetData());
                         lendModalBtns['submit'].addEventListener('click', async (event) => {
+                            const button = event.target;
+                            const data = {
+                                type: type,
+                                entryId: entryId,
+                                modalId: lendModal.querySelector(`form > .${type === 'students' ? 'book' : 'student'}`).getAttribute('data-identifier'),
+                                dueDate: lendModal.querySelector('form > .dueDate > input')['value']
+                            };
                             try {
                                 event.preventDefault();
-                                const button = event.target;
-                                const data = {
-                                    type: type,
-                                    entryId: entryId,
-                                    modalId: lendModal.querySelector(`form > .${type === 'students' ? 'book' : 'student'}`).getAttribute('data-identifier'),
-                                    dueDate: lendModal.querySelector('form > .dueDate > input')['value']
-                                };
                                 button.innerHTML =
                                     `
                                     <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                                     Updating...
                                 `;
-                                console.log(data);
                                 await fetch("/personnel/table/lend/", {
                                     method: "POST",
                                     headers: { 'Content-Type': 'application/json' },
@@ -470,7 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             catch (err) {
                                 lendModalPrompts['error'].style.display = 'flex';
-                                setTimeout(() => { lendModalPrompts['error'].style.display = 'none'; }, 2500);
+                                setTimeout(() => { lendModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
                             }
                         });
                         utils.checkForms(lendModalForm, true);

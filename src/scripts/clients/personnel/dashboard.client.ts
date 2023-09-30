@@ -634,25 +634,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         lendModalBtns['reset'].addEventListener('click', async () => await resetData())
                         lendModalBtns['submit'].addEventListener('click', async (event) => {
 
+                            const button = event.target as HTMLButtonElement
+                            const data: { type: string, entryId: string, modalId: string, dueDate: string } = {
+                                type: type,
+                                entryId: entryId,
+                                modalId: lendModal.querySelector(`form > .${ type === 'students' ? 'book' : 'student' }`).getAttribute('data-identifier'),
+                                dueDate: lendModal.querySelector('form > .dueDate > input')['value']
+                            }
+
                             try {
 
                                 event.preventDefault()
-
-                                const button = event.target as HTMLButtonElement
-                                const data: { type: string, entryId: string, modalId: string, dueDate: string } = {
-                                    type: type,
-                                    entryId: entryId,
-                                    modalId: lendModal.querySelector(`form > .${ type === 'students' ? 'book' : 'student' }`).getAttribute('data-identifier'),
-                                    dueDate: lendModal.querySelector('form > .dueDate > input')['value']
-                                }
 
                                 button.innerHTML =
                                 `
                                     <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                                     Updating...
                                 `
-
-                                console.log(data)
 
                                 await fetch("/personnel/table/lend/", { 
                                     method: "POST", 
@@ -677,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 lendModalPrompts['error'].style.display = 'flex'
     
-                                setTimeout(() => { lendModalPrompts['error'].style.display = 'none' }, 2500)
+                                setTimeout(() => { lendModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
                             
                             }
 
@@ -690,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         prevTargetModal = lendModal
                         isModalOpen = true
 
-                    } catch(err) {
+                    } catch (err) {
 
                         window.location.href =
                         `
