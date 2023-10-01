@@ -266,40 +266,40 @@ document.addEventListener('DOMContentLoaded', () => {
                             assignModalHeading.textContent = 'Choose a student';
                             Object.values(responseBody).forEach((data) => {
                                 const entry = `
-                                    <div class="entry" data-selected="false">
-                                        <div class="preview">
-                                            <h3 class="name">${data['full_name']}</h3>
-                                            <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                                <div class="entry" data-selected="false">
+                                    <div class="preview">
+                                        <h3 class="name">${data['full_name']}</h3>
+                                        <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                                    </div>
+                                    <div class="dropdown" data-hidden="true">
+                                        <div class="identifier">
+                                            <h3>
+                                                <span class="heading">Identifier: </span> 
+                                                <span class="data">${data['id']}</span>
+                                            </h3>
                                         </div>
-                                        <div class="dropdown" data-hidden="true">
-                                            <div class="identifier">
-                                                <h3>
-                                                    <span class="heading">Identifier: </span> 
-                                                    <span class="data">${data['id']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="studentNumber">
-                                                <h3>
-                                                    <span class="heading">Student number: </span> 
-                                                    <span class="data">${data['student_number']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="phoneNumber">
-                                                <h3>        
-                                                    <span class="heading">Phone number: </span> 
-                                                    <span class="data">${data['phone_number']}</span>
-                                                </h3>
-                                            </div>
+                                        <div class="studentNumber">
+                                            <h3>
+                                                <span class="heading">Student number: </span> 
+                                                <span class="data">${data['student_number']}</span>
+                                            </h3>
+                                        </div>
+                                        <div class="phoneNumber">
+                                            <h3>        
+                                                <span class="heading">Phone number: </span> 
+                                                <span class="data">${data['phone_number']}</span>
+                                            </h3>
+                                        </div>
 
-                                            <div class="email">
-                                                <h3>        
-                                                    <span class="heading">Email address: </span>
-                                                    <span class="data">${data['email']}</span>
-                                                </h3>
-                                            </div>
+                                        <div class="email">
+                                            <h3>        
+                                                <span class="heading">Email address: </span>
+                                                <span class="data">${data['email']}</span>
+                                            </h3>
                                         </div>
                                     </div>
-                                    `;
+                                </div>
+                                `;
                                 assignModalContainer.innerHTML += entry;
                                 entriesCounter++;
                                 assignModalCounter.textContent = entriesCounter.toString();
@@ -316,45 +316,45 @@ document.addEventListener('DOMContentLoaded', () => {
                             assignModalHeading.textContent = 'Choose a book';
                             Object.values(responseBody).forEach((data) => {
                                 const entry = `
-                                    <div class="entry" data-selected="false">
-                                        <div class="preview">
-                                            <h3 class="name">${data['title']}</h3>
-                                            <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                                <div class="entry" data-selected="false">
+                                    <div class="preview">
+                                        <h3 class="name">${data['title']}</h3>
+                                        <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                                    </div>
+                                    <div class="dropdown" data-hidden="true">
+                                        <div class="identifier">
+                                            <h3>    
+                                                <span class="heading">Identifier: </span>
+                                                <span class="data">${data['id']}</span>
+                                            </h3>
                                         </div>
-                                        <div class="dropdown" data-hidden="true">
-                                            <div class="identifier">
-                                                <h3>    
-                                                    <span class="heading">Identifier: </span>
-                                                    <span class="data">${data['id']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="genre">
-                                                <h3>    
-                                                    <span class="heading">Genre: </span>
-                                                    <span class="data">${data['genre']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="author">
-                                                <h3>    
-                                                    <span class="heading">Author: </span>
-                                                    <span class="data">${data['author']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="datePublicized">
-                                                <h3>
-                                                    <span class="heading">Publication date: </span>
-                                                    <span class="data">${data['date_publicized']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="dateAdded">
-                                                <h3>    
-                                                    <span class="heading">Inventory date: </span>
-                                                    ${data['date_added']}
-                                                </h3>
-                                            </div>
+                                        <div class="genre">
+                                            <h3>    
+                                                <span class="heading">Genre: </span>
+                                                <span class="data">${data['genre']}</span>
+                                            </h3>
+                                        </div>
+                                        <div class="author">
+                                            <h3>    
+                                                <span class="heading">Author: </span>
+                                                <span class="data">${data['author']}</span>
+                                            </h3>
+                                        </div>
+                                        <div class="datePublicized">
+                                            <h3>
+                                                <span class="heading">Publication date: </span>
+                                                <span class="data">${data['date_publicized']}</span>
+                                            </h3>
+                                        </div>
+                                        <div class="dateAdded">
+                                            <h3>    
+                                                <span class="heading">Inventory date: </span>
+                                                ${data['date_added']}
+                                            </h3>
                                         </div>
                                     </div>
-                                    `;
+                                </div>
+                                `;
                                 assignModalContainer.innerHTML += entry;
                                 entriesCounter++;
                                 assignModalCounter.textContent = entriesCounter.toString();
@@ -447,9 +447,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             event.preventDefault();
                             button.innerHTML =
                                 `
-                                    <i class="fa-duotone fa-loader fa-spin-pulse"></i>
-                                    Updating...
-                                `;
+                                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                                Updating...
+                            `;
                             await fetch("/personnel/table/lend/", {
                                 method: "POST",
                                 headers: { 'Content-Type': 'application/json' },
