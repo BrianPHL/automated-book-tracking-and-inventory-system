@@ -203,10 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
             bodyElement.addEventListener('click', async (event) => {
                 const target = event.target;
                 const targetAction = target.classList[0];
-                const studentsDelete = async () => {
-                };
-                const usersDelete = async () => {
-                };
                 const invLend = async (type) => {
                     const entry = target.parentElement.parentElement;
                     const entryId = entry.getAttribute('data-identifier');

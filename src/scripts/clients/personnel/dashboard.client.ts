@@ -308,16 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const target = event.target as HTMLElement
                 const targetAction: string = target.classList[0]
 
-                const studentsDelete = async () => {
-
-
-
-                }
-                const usersDelete = async () => {
-
-
-
-                }
                 const invLend = async (type: string) => {
 
                     const entry = target.parentElement.parentElement
