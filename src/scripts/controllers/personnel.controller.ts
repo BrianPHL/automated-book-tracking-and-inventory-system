@@ -227,6 +227,38 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
 
 }
 
+export const personnelTableDelete = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+
+        let table: string 
+
+        const id: string = req.params.id
+        
+        switch (req.params.tab) {
+        
+            case 'inventory': table = 'books'; break;
+            case 'students': table = 'students'; break;
+            case 'users': table = 'personnel'; break;
+        
+        }
+
+        await utils.executeDatabaseQuery(`DELETE FROM ${ table } WHERE id = ?`, [ id ])
+
+        setTimeout(async() => res.sendStatus(200), 2500)
+
+    } catch(err) {
+
+        await utils.errorPrompt(res, 'redirect', {
+            status: 500,
+            title: `Internal Server Error - ${ err.name }`,
+            body: err.message
+        })
+
+    }
+
+}
+
 export const personnelDashboard = async (req: Request, res: Response): Promise<void> => {
 
     try {

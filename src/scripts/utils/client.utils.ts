@@ -1689,6 +1689,9 @@ export const setTableAction = async (tab: string): Promise<void> => {
 
 export const openEditModal = async (type: string, modal: HTMLDivElement, entry: HTMLElement): Promise<void> => {
 
+    let entryData: { [ key: string ]: string }
+    let modalData: { [ key: string ]: HTMLInputElement }
+
     const path = '.action > .form > form'
     const editModal: HTMLDivElement = modal.querySelector(`.${ type } > .action`)
     const editModalPrompts: { [ key: string ]: HTMLDivElement } = {
@@ -1707,8 +1710,6 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
     }
     const editModalHeading: HTMLHeadingElement = editModal.querySelector('.header > .heading')
     const editModalInputs: NodeListOf<HTMLInputElement> = editModalForm.querySelectorAll('input')
-    let entryData: { [ key: string ]: string }
-    let modalData: { [ key: string ]: HTMLInputElement }
     const inventory = async () => {
 
         entryData = {
@@ -1882,18 +1883,18 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
 
             })
 
-        editModalPrompts['success'].style.display = 'flex'
+            editModalPrompts['success'].style.display = 'flex'
 
-        setTimeout(async () => {
+            setTimeout(async () => {
 
-            await resetData()
-            await closeModal()
-            await setDashboardData('personnel', type)
+                await resetData()
+                await closeModal()
+                await setDashboardData('personnel', type)
 
-            button.innerHTML = 'Submit changes'
-            editModalPrompts['success'].style.display = 'none'
+                button.innerHTML = 'Submit changes'
+                editModalPrompts['success'].style.display = 'none'
 
-        }, 2500)
+            }, 2500)
 
         } catch(err) {
 
@@ -1912,5 +1913,114 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
     checkForms(editModalForm, false)
     await setData()
     checkForms(editModalForm, false)
+
+}
+
+export const openDeleteModal = async (type: string, modal: HTMLDivElement, entry: HTMLElement): Promise<void> => {
+
+    let entryTitle: string 
+
+    const deleteModal: HTMLDivElement = modal.querySelector(`.${ type } > .delete`)
+    const deleteModalPrompts: { [ key: string ]: HTMLDivElement } = {
+    
+        success: deleteModal.querySelector('div[data-type="success"]'),
+        error: deleteModal.querySelector('div[data-type="error"]')
+    
+    }
+    const deleteModalForm: HTMLFormElement = deleteModal.querySelector('.container > form')
+    const deleteModalBtns: { [ key: string ]: HTMLButtonElement } = {
+
+        close: deleteModal.querySelector('.header > i'),
+        return: deleteModalForm.querySelector('.actions > button[type="return"]'),
+        submit: deleteModalForm.querySelector('.actions > button[type="submit"]')
+
+    }
+    const closeModal = async () => {
+
+        modal.style.display = 'none'
+        deleteModal.style.display = 'none'
+
+    }
+
+    switch (type) {
+
+        case 'inventory':
+            entryTitle = entry.querySelector('.title > h2').textContent
+            break;
+            
+        case 'students':
+            entryTitle = `${ entry.querySelector('.name > h2').textContent } ${ entry.querySelector('.studentNumber > h2').textContent }`
+            break;
+        
+        case 'users':
+            entryTitle = `${ entry.querySelector('.fullName > h2').textContent } (${ entry.querySelector('.username > h2').textContent })`
+            break;
+    
+    }
+
+    deleteModalBtns['close'].addEventListener('click', () => closeModal())
+    deleteModalBtns['return'].addEventListener('click', (event) => {
+
+        try {
+
+            event.preventDefault()
+
+            closeModal()
+
+        } catch(err) {
+
+            deleteModalPrompts['error'].style.display = 'flex'
+
+            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+        
+        }
+
+    })
+    deleteModalBtns['submit'].addEventListener('click', async (event) => {
+
+        const button = event.target as HTMLElement
+        const entryIdentifier: string = entry.getAttribute('data-identifier')
+
+        try {
+
+            event.preventDefault()
+            
+            button.innerHTML =
+            `
+                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                Deleting...
+            `
+            
+            await fetch(`/personnel/table/${ type }/delete/${ entryIdentifier }`, {
+
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+
+            })
+
+            deleteModalPrompts['success'].style.display = 'flex'
+
+            setTimeout(async () => {
+            
+                await closeModal()
+                await setDashboardData('personnel', type)
+            
+                button.innerHTML = "Yes, I'm sure!"
+                deleteModalPrompts['success'].style.display = 'none'
+            
+            }, 2500)
+
+        } catch(err) {
+
+            deleteModalPrompts['error'].style.display = 'flex'
+
+            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+        
+        }
+    })
+
+    modal.style.display = "grid"
+    deleteModal.querySelector('.container > form > .info > .entryTitle').textContent = entryTitle
+    deleteModal.style.display = "grid"
 
 }

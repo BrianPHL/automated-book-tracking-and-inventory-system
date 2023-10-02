@@ -203,8 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
             bodyElement.addEventListener('click', async (event) => {
                 const target = event.target;
                 const targetAction = target.classList[0];
-                const invDelete = async () => {
-                };
                 const studentsDelete = async () => {
                 };
                 const usersDelete = async () => {
@@ -482,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             await utils.openEditModal('inventory', modal, target.parentElement.parentElement);
                             break;
                         case 'pInventoryActionsDelete':
-                            await invDelete();
+                            await utils.openDeleteModal('inventory', modal, target.parentElement.parentElement);
                             break;
                         case 'pInventoryActionsBookLend':
                             await invLend("inventory");
@@ -494,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             await utils.openEditModal('students', modal, target.parentElement.parentElement);
                             break;
                         case 'pStudentsActionsDelete':
-                            await studentsDelete();
+                            await utils.openDeleteModal('students', modal, target.parentElement.parentElement);
                             break;
                         case 'pStudentsActionsNotify':
                             await studentsNotify();
@@ -503,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             await utils.openEditModal('users', modal, target.parentElement.parentElement);
                             break;
                         case 'pUsersActionsDelete':
-                            await usersDelete();
+                            await utils.openDeleteModal('users', modal, target.parentElement.parentElement);
                             break;
                         default: break;
                     }

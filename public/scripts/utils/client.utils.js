@@ -1134,6 +1134,8 @@ export const setTableAction = async (tab) => {
     }
 };
 export const openEditModal = async (type, modal, entry) => {
+    let entryData;
+    let modalData;
     const path = '.action > .form > form';
     const editModal = modal.querySelector(`.${type} > .action`);
     const editModalPrompts = {
@@ -1148,8 +1150,6 @@ export const openEditModal = async (type, modal, entry) => {
     };
     const editModalHeading = editModal.querySelector('.header > .heading');
     const editModalInputs = editModalForm.querySelectorAll('input');
-    let entryData;
-    let modalData;
     const inventory = async () => {
         entryData = {
             title: entry.querySelector(".title > h2").textContent,
@@ -1295,4 +1295,74 @@ export const openEditModal = async (type, modal, entry) => {
     checkForms(editModalForm, false);
     await setData();
     checkForms(editModalForm, false);
+};
+export const openDeleteModal = async (type, modal, entry) => {
+    let entryTitle;
+    const deleteModal = modal.querySelector(`.${type} > .delete`);
+    const deleteModalPrompts = {
+        success: deleteModal.querySelector('div[data-type="success"]'),
+        error: deleteModal.querySelector('div[data-type="error"]')
+    };
+    const deleteModalForm = deleteModal.querySelector('.container > form');
+    const deleteModalBtns = {
+        close: deleteModal.querySelector('.header > i'),
+        return: deleteModalForm.querySelector('.actions > button[type="return"]'),
+        submit: deleteModalForm.querySelector('.actions > button[type="submit"]')
+    };
+    const closeModal = async () => {
+        modal.style.display = 'none';
+        deleteModal.style.display = 'none';
+    };
+    switch (type) {
+        case 'inventory':
+            entryTitle = entry.querySelector('.title > h2').textContent;
+            break;
+        case 'students':
+            entryTitle = `${entry.querySelector('.name > h2').textContent} ${entry.querySelector('.studentNumber > h2').textContent}`;
+            break;
+        case 'users':
+            entryTitle = `${entry.querySelector('.fullName > h2').textContent} (${entry.querySelector('.username > h2').textContent})`;
+            break;
+    }
+    deleteModalBtns['close'].addEventListener('click', () => closeModal());
+    deleteModalBtns['return'].addEventListener('click', (event) => {
+        try {
+            event.preventDefault();
+            closeModal();
+        }
+        catch (err) {
+            deleteModalPrompts['error'].style.display = 'flex';
+            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
+        }
+    });
+    deleteModalBtns['submit'].addEventListener('click', async (event) => {
+        const button = event.target;
+        const entryIdentifier = entry.getAttribute('data-identifier');
+        try {
+            event.preventDefault();
+            button.innerHTML =
+                `
+                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                Deleting...
+            `;
+            await fetch(`/personnel/table/${type}/delete/${entryIdentifier}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            deleteModalPrompts['success'].style.display = 'flex';
+            setTimeout(async () => {
+                await closeModal();
+                await setDashboardData('personnel', type);
+                button.innerHTML = "Yes, I'm sure!";
+                deleteModalPrompts['success'].style.display = 'none';
+            }, 2500);
+        }
+        catch (err) {
+            deleteModalPrompts['error'].style.display = 'flex';
+            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
+        }
+    });
+    modal.style.display = "grid";
+    deleteModal.querySelector('.container > form > .info > .entryTitle').textContent = entryTitle;
+    deleteModal.style.display = "grid";
 };

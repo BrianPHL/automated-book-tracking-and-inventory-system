@@ -1,5 +1,4 @@
 import * as utils from "../../utils/client.utils.js"
-import { DateTime } from "../../../../node_modules/luxon/build/es6/luxon.js"
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -309,11 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const target = event.target as HTMLElement
                 const targetAction: string = target.classList[0]
 
-                const invDelete = async () => {
-
-
-
-                }
                 const studentsDelete = async () => {
 
 
@@ -702,7 +696,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             break;
     
                         case 'pInventoryActionsDelete':
-                            await invDelete()
+                            await utils.openDeleteModal('inventory', modal, target.parentElement.parentElement)
                             break;
     
                         case 'pInventoryActionsBookLend':
@@ -718,7 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             break;
     
                         case 'pStudentsActionsDelete':
-                            await studentsDelete()
+                            await utils.openDeleteModal('students', modal, target.parentElement.parentElement)
                             break;
     
                         case 'pStudentsActionsNotify':
@@ -730,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             break;
     
                         case 'pUsersActionsDelete':
-                            await usersDelete()
+                            await utils.openDeleteModal('users', modal, target.parentElement.parentElement)
                             break;
     
                         default: break;

@@ -36,7 +36,7 @@ html[data-site="dashboard"] {
                     display: grid;
                     width: 360px;
 
-                    .prompt {
+                    & > .prompt {
 
                         background-color: var(--background-secondary);
                         align-items: center;
@@ -104,7 +104,7 @@ html[data-site="dashboard"] {
 
                     }
 
-                    .form {
+                    & > .form {
 
                         grid-column: 1;
                         grid-row: 1;
@@ -231,6 +231,181 @@ html[data-site="dashboard"] {
     
                         }
                         
+                    }
+
+                }
+
+                & > .delete {
+
+                    grid-template-columns: 100%;
+                    background-color: var(--background-secondary);
+                    flex-direction: column;
+                    display: grid;
+                    width: 360px;
+
+                    & > .prompt {
+
+                        background-color: var(--background-secondary);
+                        align-items: center;
+                        grid-column: 1;
+                        grid-row: 1;
+                        position: relative;
+                        z-index: 9999;
+                        height: auto;
+                        width: 360px;
+                        gap: 3rem;
+
+                        &[data-type="success"] {
+
+                            justify-content: center;
+                            flex-direction: column;
+                            display: flex;
+
+                            & > i {
+
+                                font-size: 6rem;
+                                color: var(--accent-primary);
+
+                            }
+
+                            & > .context {
+
+                                flex-direction: column;
+                                align-items: center;
+                                text-align: center;
+                                padding: 0rem 1rem 0rem 1rem;
+                                display: flex;
+    
+                                & > h2 { color: var(--accent-primary); }
+    
+                            }
+
+                        }
+
+                        &[data-type="error"] {
+
+                            justify-content: center;
+                            flex-direction: column;
+                            display: flex;
+
+                            & > i {
+
+                                font-size: 6rem;
+                                color: var(--warning-secondary);
+
+                            }
+
+                            & > .context {
+
+                                flex-direction: column;
+                                align-items: center;
+                                text-align: center;
+                                padding: 0rem 1rem 0rem 1rem;
+                                display: flex;
+    
+                                & > h2 { color: var(--warning-primary); }
+    
+                            }
+
+                        }
+
+                    }
+
+                    & > .container {
+
+                        grid-column: 1;
+                        grid-row: 1;
+
+                        & > .header {
+
+                            justify-content: space-between;
+                            align-items: center;
+                            display: flex;
+                            padding: 2rem 2rem 1rem 2rem;
+
+                            & > .heading {
+
+                                flex-direction: column;
+                                display: flex;
+
+                            }
+    
+                            & > i {
+    
+                                transition: 0.2s ease;
+    
+                                &:hover {
+    
+                                    cursor: pointer;
+                                    color: var(--warning-primary);
+    
+                                }
+    
+                            }
+    
+                        }
+
+                        form {
+
+                            flex-direction: column;
+                            display: flex;
+                            padding: 2rem;
+                            gap: 1rem;
+
+                            & > .info {
+
+                                @include h3-styles();
+
+                                & > .entryTitle { font-weight: 600; }
+                                & > .important { color: var(--warning-secondary); }
+
+                            }
+
+                            & > .actions {
+    
+                                justify-content: flex-end;
+                                flex-direction: row;
+                                align-items: center;
+                                margin-top: 2rem;
+                                display: flex;
+                                width: 100%;
+                                gap: 1rem;
+    
+                                & > button[type="return"] {
+    
+                                    @include anchor-styles;
+                                    
+                                    background-color: transparent;
+                                    padding: 0;
+                                    color: var(--typography-secondary);
+
+                                    & > i { color: var(--typography-secondary); }
+                                    &:hover { color: var(--accent-primary); }
+    
+                                }
+    
+                                & > button[type="submit"] {
+    
+                                    @include h3-styles;
+
+                                    background-color: var(--warning-secondary);
+                                    padding: 0.5rem 1rem 0.5rem 1rem;
+                                    color: var(--typography-primary);
+
+                                    & > i { color: var(--typography-primary); }
+                                    &:hover {
+
+                                        background-color: var(--warning-primary);
+                                        color: var(--background-primary);
+
+                                    }
+    
+                                }
+    
+                            }
+
+                        }
+
                     }
 
                 }
