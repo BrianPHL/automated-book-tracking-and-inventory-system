@@ -1624,69 +1624,6 @@ export const setDashboardData = async (type: string, tab?: string, data?: object
 
 }
 
-export const setTableAction = async (tab: string): Promise<void> => {
-
-    const bodyElement: HTMLBodyElement = document.querySelector('body')
-    const tableControls: HTMLDivElement = bodyElement.querySelector('.controls')
-    const tableAction: HTMLButtonElement = tableControls.querySelector('button[data-type="action"]')
-
-    try {
-
-        tableAction.innerHTML = ''
-
-        switch (tab) {
-
-            case 'dashboard':
-                tableAction.style.display = 'none'
-                break;
-
-            case 'inventory':
-                tableAction.style.display = 'flex'
-                tableAction.outerHTML =
-                `
-                    <button data-type="action" type="submit" enabled>
-                        <i class="fa-regular fa-plus"></i>
-                        Register a book
-                    </button>
-                `
-                break;
-        
-            case 'students':
-                tableAction.style.display = 'flex'
-                tableAction.outerHTML =
-                `
-                    <button data-type="action" type="submit" enabled>
-                        <i class="fa-regular fa-plus"></i>
-                        Enroll a student
-                    </button>
-                `
-                break;
-
-            case 'users':
-                tableAction.style.display = 'flex'    
-                tableAction.outerHTML =
-                `
-                    <button data-type="action" type="submit" enabled>
-                        <i class="fa-regular fa-plus"></i>
-                        Register a library or IT personnel
-                    </button>
-                `
-                break;
-
-            default:
-            throw `Error in switch-case; passed argument: ${tab} did not match any case.`
-        }
-
-    } catch(err) {
-
-        const { name, message } = err
-
-        window.location.href = `/error?${ (await errorPrompt({title: name, body: message})).toString() }`
-
-    }
-
-}
-
 export const openRegisterModal = async (type: string, modal: HTMLDivElement): Promise<void> => {
 
     const registerModal: HTMLDivElement = modal.querySelector(`.${ type } > .registration`)
