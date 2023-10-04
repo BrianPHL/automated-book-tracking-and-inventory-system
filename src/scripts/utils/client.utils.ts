@@ -1954,7 +1954,12 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
 
     }
 
-    editModalInputs.forEach(input => input.addEventListener('input', () => checkForms(editModalForm, false)))
+    editModalInputs.forEach(input => {
+    
+        input.addEventListener('input', () => checkForms(editModalForm, false))
+        input.value = ''
+
+    })
     editModalBtns['close'].addEventListener('click', () => closeModal())
     editModalBtns['reset'].addEventListener('click', () => resetData())
     editModalBtns['submit'].addEventListener('click', async (event) => {
