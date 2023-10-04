@@ -1687,6 +1687,108 @@ export const setTableAction = async (tab: string): Promise<void> => {
 
 }
 
+export const openRegisterModal = async (type: string, modal: HTMLDivElement): Promise<void> => {
+
+    const registerModal: HTMLDivElement = modal.querySelector(`.${ type } > .registration`)
+    const registerModalPrompts: { [ key: string ]: HTMLDivElement } = {
+
+        success: registerModal.querySelector('div[data-type="success"]'),
+        error: registerModal.querySelector('div[data-type="error"]')
+
+    }
+    const registerModalForm: HTMLFormElement = registerModal.querySelector('.form > form')
+    const registerModalBtns: { [ key: string ]: HTMLButtonElement } = {
+
+        close: registerModal.querySelector('.header > i'),
+        reset: registerModalForm.querySelector('.actions > button[type="reset"]'),
+        submit: registerModalForm.querySelector('.actions > button[type="submit"]')
+
+    }
+    const registerModalInputs: NodeListOf<HTMLInputElement> = registerModalForm.querySelectorAll('input')
+    const resetData = async (): Promise<void> => {
+
+        return new Promise(resolve => {
+
+            registerModalInputs.forEach(input => input.value = '')
+            checkForms(registerModalForm, false)
+
+            resolve()
+
+        })
+
+    }
+    const closeModal = async () => {
+
+        await resetData()
+
+        registerModal.style.display = 'none'
+        modal.style.display = 'none'
+
+    }
+
+    registerModalInputs.forEach(input => {
+
+        input.addEventListener('input', () => checkForms(registerModalForm, false))
+        input.value = ''
+
+    })
+    registerModalBtns['close'].addEventListener('click', () => closeModal())
+    registerModalBtns['reset'].addEventListener('click', () => resetData())
+    registerModalBtns['submit'].addEventListener('click', async (event) => {
+
+        const button = event.target as HTMLElement
+        const formData: FormData = new FormData(registerModalForm)
+        let fetchedData: { [key: string]: string } = {}
+
+        try {
+
+            event.preventDefault()
+
+            for (const [name, value] of formData.entries()) { fetchedData[name] = value.toString() }
+            
+            button.innerHTML =
+            `
+                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                Registering...
+            `
+
+            await fetch(`/personnel/table/${ type }/register`, {
+
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(fetchedData)
+
+            })
+
+            registerModalPrompts['success'].style.display = 'flex'
+
+            setTimeout(async () => {
+
+                await resetData()
+                await closeModal()
+                
+                button.innerHTML = 'Register'
+                registerModalPrompts['success'].style.display = 'none'
+
+            }, 2500)
+
+        } catch(err) {
+
+            registerModalPrompts['error'].style.display = 'flex'
+
+            setTimeout(() => { registerModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+        
+        }
+
+    })
+
+    modal.style.display = 'grid'
+    registerModal.style.display = 'grid'
+
+    checkForms(registerModalForm, false)
+
+}
+
 export const openEditModal = async (type: string, modal: HTMLDivElement, entry: HTMLElement): Promise<void> => {
 
     let entryData: { [ key: string ]: string }

@@ -136,6 +136,119 @@ export const personnelTableActions = async (req: Request, res: Response): Promis
 
 }
 
+export const personnelTableRegister = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+
+        const type: string = req.params.tab
+        const data: { [ key: string ]: string } = req.body
+        const inventory = async (): Promise<void> => {
+
+            return new Promise(resolve => {
+
+                const title: string = data['title']
+                const author: string = data['author']
+                const genre: string = data['genre']
+                const publicationDate: string = DateTime.fromFormat(data['dPublicized'], 'yyyy-MM-dd').toFormat('dd MMMM yyyy')
+                const acquisitionDate: string = DateTime.now().toFormat("dd MMMM yyyy")
+                
+                utils.executeDatabaseQuery(
+                    `
+                    INSERT INTO
+                        books
+                        (title, author, genre, date_publicized, date_added)
+                    VALUES
+                        (?, ?, ?, ?, ?) 
+                    `, 
+                    [ title, author, genre, publicationDate, acquisitionDate ]
+                )
+                
+                resolve()
+
+            })
+
+        }
+        const students = async (): Promise<void> => {
+
+            return new Promise(resolve => {
+
+                const name: string[] = data['studentName'].split(' ')
+                const number: string = data['studentNumber']
+                const phone: string = data['phoneNumber']
+                const email: string = data['email']
+                let firstName: string
+                let lastName: string
+    
+                ( name.length > 2 )
+                ? ( firstName = `${ name[0] } ${ name[1] }`, lastName = name[2] )
+                : ( firstName = name[0], lastName = name[1] )
+    
+                utils.executeDatabaseQuery(
+                    `
+                    INSERT INTO
+                        students
+                        (student_number, phone_number, email, first_name, last_name)
+                    VALUES
+                        (?, ?, ?, ?, ?)
+                    `, [ number, phone, email, firstName, lastName]
+                )
+
+                resolve()
+
+            })
+
+        }
+        const users = async (): Promise<void> => {
+
+            return new Promise(resolve => {
+
+                const name: string[] = data['personnelName'].split(' ')
+                const username: string = data['username']
+                const role: string = data['role']
+                let firstName: string
+                let lastName: string
+    
+                ( name.length > 2 )
+                ? ( firstName = `${ name[0] } ${ name[1] }`, lastName = name[2] )
+                : ( firstName = name[0], lastName = name[1] )
+    
+                utils.executeDatabaseQuery(
+                    `
+                    INSERT INTO
+                        personnel
+                        (first_name, last_name, username, role)
+                    VALUES
+                        (?, ?, ?, ?)
+                    `, [ firstName, lastName, username, role ]
+                )
+
+                resolve()
+
+            })
+
+        }
+
+        switch (type) {
+            
+            case 'inventory': await inventory(); break;
+            case 'students': await students(); break;
+            case 'users': await users(); break;
+
+        }
+
+        setTimeout(() => res.sendStatus(200), 2500)
+
+    } catch(err) {
+
+        await utils.errorPrompt(res, 'redirect', {
+            status: 500,
+            title: `Internal Server Error - ${ err.name }`,
+            body: err.message    
+        })
+
+    }
+}
+
 export const personnelTableLend = async (req: Request, res: Response): Promise<void> => {
 
     try {

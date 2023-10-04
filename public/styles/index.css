@@ -121,14 +121,14 @@ html[data-site=dashboard] > body .modal {
   height: 100vh;
   width: 100%;
 }
-html[data-site=dashboard] > body .modal > div > .action, html[data-site=dashboard] > body .modal > div .lend {
+html[data-site=dashboard] > body .modal > div > .action, html[data-site=dashboard] > body .modal > div .lend, html[data-site=dashboard] > body .modal > div .registration {
   grid-template-columns: 100%;
   background-color: var(--background-secondary);
   flex-direction: column;
   display: grid;
   width: 360px;
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt, html[data-site=dashboard] > body .modal > div .lend > .prompt {
+html[data-site=dashboard] > body .modal > div > .action > .prompt, html[data-site=dashboard] > body .modal > div .lend > .prompt, html[data-site=dashboard] > body .modal > div .registration > .prompt {
   background-color: var(--background-secondary);
   align-items: center;
   grid-column: 1;
@@ -139,72 +139,72 @@ html[data-site=dashboard] > body .modal > div > .action > .prompt, html[data-sit
   width: 360px;
   gap: 3rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success], html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success] {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success], html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success], html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=success] {
   justify-content: center;
   flex-direction: column;
   display: flex;
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success] > i, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success] > i {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success] > i, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success] > i, html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=success] > i {
   font-size: 6rem;
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success] > .context, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success] > .context {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success] > .context, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success] > .context, html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=success] > .context {
   flex-direction: column;
   align-items: center;
   text-align: center;
   padding: 0rem 1rem 0rem 1rem;
   display: flex;
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success] > .context > h2, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success] > .context > h2 {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=success] > .context > h2, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=success] > .context > h2, html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=success] > .context > h2 {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error], html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error] {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error], html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error], html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=error] {
   justify-content: center;
   flex-direction: column;
   display: flex;
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error] > i, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error] > i {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error] > i, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error] > i, html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=error] > i {
   font-size: 6rem;
   color: var(--warning-secondary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error] > .context, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error] > .context {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error] > .context, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error] > .context, html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=error] > .context {
   flex-direction: column;
   align-items: center;
   text-align: center;
   padding: 0rem 1rem 0rem 1rem;
   display: flex;
 }
-html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error] > .context > h2, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error] > .context > h2 {
+html[data-site=dashboard] > body .modal > div > .action > .prompt[data-type=error] > .context > h2, html[data-site=dashboard] > body .modal > div .lend > .prompt[data-type=error] > .context > h2, html[data-site=dashboard] > body .modal > div .registration > .prompt[data-type=error] > .context > h2 {
   color: var(--warning-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form, html[data-site=dashboard] > body .modal > div .lend > .form {
+html[data-site=dashboard] > body .modal > div > .action > .form, html[data-site=dashboard] > body .modal > div .lend > .form, html[data-site=dashboard] > body .modal > div .registration > .form {
   grid-column: 1;
   grid-row: 1;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > .header, html[data-site=dashboard] > body .modal > div .lend > .form > .header {
+html[data-site=dashboard] > body .modal > div > .action > .form > .header, html[data-site=dashboard] > body .modal > div .lend > .form > .header, html[data-site=dashboard] > body .modal > div .registration > .form > .header {
   justify-content: space-between;
   align-items: center;
   display: flex;
   padding: 2rem 2rem 1rem 2rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > .header > .heading, html[data-site=dashboard] > body .modal > div .lend > .form > .header > .heading {
+html[data-site=dashboard] > body .modal > div > .action > .form > .header > .heading, html[data-site=dashboard] > body .modal > div .lend > .form > .header > .heading, html[data-site=dashboard] > body .modal > div .registration > .form > .header > .heading {
   flex-direction: column;
   display: flex;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > .header > i, html[data-site=dashboard] > body .modal > div .lend > .form > .header > i {
+html[data-site=dashboard] > body .modal > div > .action > .form > .header > i, html[data-site=dashboard] > body .modal > div .lend > .form > .header > i, html[data-site=dashboard] > body .modal > div .registration > .form > .header > i {
   transition: 0.2s ease;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > .header > i:hover, html[data-site=dashboard] > body .modal > div .lend > .form > .header > i:hover {
+html[data-site=dashboard] > body .modal > div > .action > .form > .header > i:hover, html[data-site=dashboard] > body .modal > div .lend > .form > .header > i:hover, html[data-site=dashboard] > body .modal > div .registration > .form > .header > i:hover {
   cursor: pointer;
   color: var(--warning-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form, html[data-site=dashboard] > body .modal > div .lend > .form > form {
+html[data-site=dashboard] > body .modal > div > .action > .form > form, html[data-site=dashboard] > body .modal > div .lend > .form > form, html[data-site=dashboard] > body .modal > div .registration > .form > form {
   flex-direction: column;
   display: flex;
   padding: 2rem;
   gap: 1rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview], html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview], html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview], html[data-site=dashboard] > body .modal > div .registration > .form > form > div[data-type=preview] {
   background-color: transparent;
   justify-content: space-between;
   align-items: center;
@@ -212,26 +212,26 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > div[dat
   padding: 0.75rem 0.75rem;
   border: 1px solid var(--background-tertiary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > label {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > label, html[data-site=dashboard] > body .modal > div .registration > .form > form > div[data-type=preview] > label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > h3, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > h3 {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > h3, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > h3, html[data-site=dashboard] > body .modal > div .registration > .form > form > div[data-type=preview] > h3 {
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > i, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > i {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > i, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > i, html[data-site=dashboard] > body .modal > div .registration > .form > form > div[data-type=preview] > i {
   transition: 0.2s ease all;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > i:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > i:hover {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div[data-type=preview] > i:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > div[data-type=preview] > i:hover, html[data-site=dashboard] > body .modal > div .registration > .form > form > div[data-type=preview] > i:hover {
   cursor: pointer;
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div, html[data-site=dashboard] > body .modal > div .lend > .form > form > div {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div, html[data-site=dashboard] > body .modal > div .lend > .form > form > div, html[data-site=dashboard] > body .modal > div .registration > .form > form > div {
   position: relative;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div > input, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > input {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div > input, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > input, html[data-site=dashboard] > body .modal > div .registration > .form > form > div > input {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -243,7 +243,7 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > div > i
   width: 100%;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div > label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > label {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div > label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > label, html[data-site=dashboard] > body .modal > div .registration > .form > form > div > label {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -257,14 +257,14 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > div > l
   left: 0.5rem;
   top: 0.8rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:hover, html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:focus, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:focus {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:hover, html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:focus, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:focus, html[data-site=dashboard] > body .modal > div .registration > .form > form > div .input:hover, html[data-site=dashboard] > body .modal > div .registration > .form > form > div .input:focus {
   border-color: var(--accent-primary);
   outline: none;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:hover ~ .label, html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:focus ~ .label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:hover ~ .label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:focus ~ .label {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:hover ~ .label, html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:focus ~ .label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:hover ~ .label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:focus ~ .label, html[data-site=dashboard] > body .modal > div .registration > .form > form > div .input:hover ~ .label, html[data-site=dashboard] > body .modal > div .registration > .form > form > div .input:focus ~ .label {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label, html[data-site=dashboard] > body .modal > div .registration > .form > form > div .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
@@ -272,13 +272,14 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > div .in
 }
 html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:focus ~ .label,
 html[data-site=dashboard] > body .modal > div > .action > .form > form > div .input:not(:placeholder-shown).input:not(:focus) ~ .label, html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:focus ~ .label,
-html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body .modal > div .lend > .form > form > div .input:not(:placeholder-shown).input:not(:focus) ~ .label, html[data-site=dashboard] > body .modal > div .registration > .form > form > div .input:focus ~ .label,
+html[data-site=dashboard] > body .modal > div .registration > .form > form > div .input:not(:placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div > select, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > select {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div > select, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > select, html[data-site=dashboard] > body .modal > div .registration > .form > form > div > select {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -290,13 +291,13 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > div > s
   width: 100%;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > div > select > option, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > select > option {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > div > select > option, html[data-site=dashboard] > body .modal > div .lend > .form > form > div > select > option, html[data-site=dashboard] > body .modal > div .registration > .form > form > div > select > option {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
   color: var(--typography-secondary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions {
   justify-content: flex-end;
   flex-direction: row;
   align-items: center;
@@ -305,7 +306,7 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > .action
   width: 100%;
   gap: 1rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=reset], html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=reset] {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=reset], html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=reset], html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=reset] {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -315,13 +316,13 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > .action
   padding: 0;
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=reset]:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=reset]:hover {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=reset]:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=reset]:hover, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=reset]:hover {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=reset]:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=reset]:hover {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=reset]:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=reset]:hover, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=reset]:hover {
   color: var(--warning-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit], html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit] {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit], html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit], html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=submit] {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -341,27 +342,27 @@ html[data-site=dashboard] > body .modal > div > .action > .form > form > .action
   color: var(--typography-secondary);
   padding: 0.5rem 1rem 0.5rem 1rem;
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=submit]:enabled {
   background-color: var(--accent-primary);
   color: var(--background-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled > i, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled > i {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled > i, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled > i, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=submit]:enabled > i {
   transition: 0.2s all ease;
   color: var(--background-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled:hover {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled:hover, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=submit]:enabled:hover {
   background-color: var(--typography-primary);
   cursor: pointer;
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled:hover > i, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled:hover > i {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:enabled:hover > i, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:enabled:hover > i, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=submit]:enabled:hover > i {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:disabled, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:disabled {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:disabled, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:disabled, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=submit]:disabled {
   background-color: var(--accent-secondary);
   color: var(--typography-secondary);
 }
-html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:disabled:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:disabled:hover {
+html[data-site=dashboard] > body .modal > div > .action > .form > form > .actions > button[type=submit]:disabled:hover, html[data-site=dashboard] > body .modal > div .lend > .form > form > .actions > button[type=submit]:disabled:hover, html[data-site=dashboard] > body .modal > div .registration > .form > form > .actions > button[type=submit]:disabled:hover {
   cursor: not-allowed;
 }
 html[data-site=dashboard] > body .modal > div > .delete {
@@ -779,26 +780,35 @@ html[data-site=dashboard] > body > .overview > div > .header {
 html[data-site=dashboard] > body > .overview > div > h1 {
   font-size: 1.25rem;
 }
-html[data-site=dashboard] > body > .controls {
+html[data-site=dashboard] > body > .table {
+  flex-direction: column;
+  min-height: 0;
+  padding: 2rem 16rem;
+  display: flex;
+}
+html[data-site=dashboard] > body > .table > .controls {
   grid-template-columns: 1fr auto;
-  padding: 0rem 16rem;
+  border-right: 1px solid var(--background-tertiary);
+  border-left: 1px solid var(--background-tertiary);
+  border-top: 1px solid var(--background-tertiary);
+  padding: 1rem;
   display: grid;
   width: auto;
 }
-html[data-site=dashboard] > body > .controls > .search {
+html[data-site=dashboard] > body > .table > .controls > .search {
   align-items: center;
   grid-column: 1;
   display: flex;
   gap: 0rem;
 }
-html[data-site=dashboard] > body > .controls > .search > .input {
+html[data-site=dashboard] > body > .table > .controls > .search > .input {
   position: relative;
   align-items: center;
   display: flex;
   width: 100%;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > .controls > .search > .input > input {
+html[data-site=dashboard] > body > .table > .controls > .search > .input > input {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -810,7 +820,7 @@ html[data-site=dashboard] > body > .controls > .search > .input > input {
   width: 100%;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > .controls > .search > .input > label {
+html[data-site=dashboard] > body > .table > .controls > .search > .input > label {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -824,104 +834,41 @@ html[data-site=dashboard] > body > .controls > .search > .input > label {
   left: 0.5rem;
   top: 0.8rem;
 }
-html[data-site=dashboard] > body > .controls > .search > .input .input:hover, html[data-site=dashboard] > body > .controls > .search > .input .input:focus {
+html[data-site=dashboard] > body > .table > .controls > .search > .input .input:hover, html[data-site=dashboard] > body > .table > .controls > .search > .input .input:focus {
   border-color: var(--accent-primary);
   outline: none;
 }
-html[data-site=dashboard] > body > .controls > .search > .input .input:hover ~ .label, html[data-site=dashboard] > body > .controls > .search > .input .input:focus ~ .label {
+html[data-site=dashboard] > body > .table > .controls > .search > .input .input:hover ~ .label, html[data-site=dashboard] > body > .table > .controls > .search > .input .input:focus ~ .label {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > .controls > .search > .input .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .table > .controls > .search > .input .input:not(:-moz-placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > .controls > .search > .input .input:focus ~ .label,
-html[data-site=dashboard] > body > .controls > .search > .input .input:not(:placeholder-shown).input:not(:focus) ~ .label {
+html[data-site=dashboard] > body > .table > .controls > .search > .input .input:focus ~ .label,
+html[data-site=dashboard] > body > .table > .controls > .search > .input .input:not(:placeholder-shown).input:not(:focus) ~ .label {
   background-color: var(--background-secondary);
   font-size: 0.65rem;
   left: 0.5rem;
   top: -0.5rem;
 }
-html[data-site=dashboard] > body > .controls > .search > button[type=submit] {
+html[data-site=dashboard] > body > .table > .controls > .search > button[type=submit] {
   align-items: center;
   padding: 0rem 1rem 0rem 1rem;
   display: flex;
   height: 100%;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > .controls > button[type=submit] {
+html[data-site=dashboard] > body > .table > .controls > button[type=submit] {
   grid-column: 2;
   margin-left: 1rem;
   padding: 0rem 2rem 0rem 2rem;
   height: 100%;
 }
-html[data-site=dashboard] > body > .controls > button[type=submit] > i {
+html[data-site=dashboard] > body > .table > .controls > button[type=submit] > i {
   pointer-events: none;
-}
-html[data-site=dashboard] > body > .table {
-  grid-template-columns: 100%;
-  grid-template-rows: auto 1fr auto;
-  flex-direction: column;
-  min-height: 50vh;
-  padding: 2rem 16rem;
-  display: grid;
-}
-html[data-site=dashboard] > body > .table > .pagination {
-  justify-content: space-between;
-  border-right: 1px solid var(--background-tertiary);
-  border-left: 1px solid var(--background-tertiary);
-  align-items: center;
-  border-top: 1px solid var(--background-tertiary);
-  grid-row: 1;
-  display: flex;
-  padding: 1rem;
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls > div {
-  align-items: center;
-  display: flex;
-  gap: 0.5rem;
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=true] {
-  cursor: not-allowed;
-  color: var(--typography-secondary);
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=false] {
-  transition: 0.2s all ease;
-  cursor: pointer;
-  color: var(--typography-primary);
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=false]:hover {
-  color: var(--accent-primary);
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls > h3 {
-  align-items: center;
-  display: flex;
-  gap: 0.5rem;
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-size: 0.75rem;
-  color: var(--typography-secondary);
-  background-color: transparent;
-  transition: 0.2s all ease;
-  align-self: flex-start;
-  padding: 0.25rem 0.25rem;
-  text-align: center;
-  border: 1px solid var(--background-tertiary);
-  color: var(--typography-primary);
-  width: 2rem;
-}
-html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input:hover, html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input:focus {
-  border-color: var(--accent-primary);
-  outline: none;
 }
 html[data-site=dashboard] > body > .table > .data {
   grid-template-columns: 100%;
@@ -935,8 +882,6 @@ html[data-site=dashboard] > body > .table > .data > .headers {
   grid-template-rows: 100%;
   border-bottom: 1px solid var(--background-tertiary);
   padding-right: 2rem;
-  border-right: 1px solid var(--background-tertiary);
-  border-left: 1px solid var(--background-tertiary);
   align-items: center;
   grid-row: 2;
   display: grid;
@@ -1018,6 +963,60 @@ html[data-site=dashboard] > body > .table > .data > .entries > .entry > .actions
 html[data-site=dashboard] > body > .table > .data > .entries > .entry > .actions > i[data-disabled=false]:hover {
   cursor: pointer;
   color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > .table > .pagination {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--background-tertiary);
+  border-right: 1px solid var(--background-tertiary);
+  border-left: 1px solid var(--background-tertiary);
+  align-items: center;
+  display: flex;
+  padding: 1rem;
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls > div {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=true] {
+  cursor: not-allowed;
+  color: var(--typography-secondary);
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=false] {
+  transition: 0.2s all ease;
+  cursor: pointer;
+  color: var(--typography-primary);
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls > div > i[aria-disabled=false]:hover {
+  color: var(--accent-primary);
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls > h3 {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--typography-secondary);
+  background-color: transparent;
+  transition: 0.2s all ease;
+  align-self: flex-start;
+  padding: 0.25rem 0.25rem;
+  text-align: center;
+  border: 1px solid var(--background-tertiary);
+  color: var(--typography-primary);
+  width: 2rem;
+}
+html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input:hover, html[data-site=dashboard] > body > .table > .pagination > .controls > h3 > input:focus {
+  border-color: var(--accent-primary);
+  outline: none;
 }
 html[data-site=dashboard] > body > .table[data-tab=dashboard] > .data > .headers, html[data-site=dashboard] > body > .table[data-tab=dashboard] .entries > .entry {
   grid-template-columns: auto repeat(7, minmax(0, 1fr)) auto;

@@ -100,6 +100,89 @@ export const personnelTableActions = async (req, res) => {
         });
     }
 };
+export const personnelTableRegister = async (req, res) => {
+    try {
+        const type = req.params.tab;
+        const data = req.body;
+        const inventory = async () => {
+            return new Promise(resolve => {
+                const title = data['title'];
+                const author = data['author'];
+                const genre = data['genre'];
+                const publicationDate = DateTime.fromFormat(data['dPublicized'], 'yyyy-MM-dd').toFormat('dd MMMM yyyy');
+                const acquisitionDate = DateTime.now().toFormat("dd MMMM yyyy");
+                utils.executeDatabaseQuery(`
+                    INSERT INTO
+                        books
+                        (title, author, genre, date_publicized, date_added)
+                    VALUES
+                        (?, ?, ?, ?, ?) 
+                    `, [title, author, genre, publicationDate, acquisitionDate]);
+                resolve();
+            });
+        };
+        const students = async () => {
+            return new Promise(resolve => {
+                const name = data['studentName'].split(' ');
+                const number = data['studentNumber'];
+                const phone = data['phoneNumber'];
+                const email = data['email'];
+                let firstName;
+                let lastName;
+                (name.length > 2)
+                    ? (firstName = `${name[0]} ${name[1]}`, lastName = name[2])
+                    : (firstName = name[0], lastName = name[1]);
+                utils.executeDatabaseQuery(`
+                    INSERT INTO
+                        students
+                        (student_number, phone_number, email, first_name, last_name)
+                    VALUES
+                        (?, ?, ?, ?, ?)
+                    `, [number, phone, email, firstName, lastName]);
+                resolve();
+            });
+        };
+        const users = async () => {
+            return new Promise(resolve => {
+                const name = data['personnelName'].split(' ');
+                const username = data['username'];
+                const role = data['role'];
+                let firstName;
+                let lastName;
+                (name.length > 2)
+                    ? (firstName = `${name[0]} ${name[1]}`, lastName = name[2])
+                    : (firstName = name[0], lastName = name[1]);
+                utils.executeDatabaseQuery(`
+                    INSERT INTO
+                        personnel
+                        (first_name, last_name, username, role)
+                    VALUES
+                        (?, ?, ?, ?)
+                    `, [firstName, lastName, username, role]);
+                resolve();
+            });
+        };
+        switch (type) {
+            case 'inventory':
+                await inventory();
+                break;
+            case 'students':
+                await students();
+                break;
+            case 'users':
+                await users();
+                break;
+        }
+        setTimeout(() => res.sendStatus(200), 2500);
+    }
+    catch (err) {
+        await utils.errorPrompt(res, 'redirect', {
+            status: 500,
+            title: `Internal Server Error - ${err.name}`,
+            body: err.message
+        });
+    }
+};
 export const personnelTableLend = async (req, res) => {
     try {
         const { type, entryId, modalId, dueDate } = req.body;

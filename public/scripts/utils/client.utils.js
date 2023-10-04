@@ -1133,6 +1133,73 @@ export const setTableAction = async (tab) => {
         window.location.href = `/error?${(await errorPrompt({ title: name, body: message })).toString()}`;
     }
 };
+export const openRegisterModal = async (type, modal) => {
+    const registerModal = modal.querySelector(`.${type} > .registration`);
+    const registerModalPrompts = {
+        success: registerModal.querySelector('div[data-type="success"]'),
+        error: registerModal.querySelector('div[data-type="error"]')
+    };
+    const registerModalForm = registerModal.querySelector('.form > form');
+    const registerModalBtns = {
+        close: registerModal.querySelector('.header > i'),
+        reset: registerModalForm.querySelector('.actions > button[type="reset"]'),
+        submit: registerModalForm.querySelector('.actions > button[type="submit"]')
+    };
+    const registerModalInputs = registerModalForm.querySelectorAll('input');
+    const resetData = async () => {
+        return new Promise(resolve => {
+            registerModalInputs.forEach(input => input.value = '');
+            checkForms(registerModalForm, false);
+            resolve();
+        });
+    };
+    const closeModal = async () => {
+        await resetData();
+        registerModal.style.display = 'none';
+        modal.style.display = 'none';
+    };
+    registerModalInputs.forEach(input => {
+        input.addEventListener('input', () => checkForms(registerModalForm, false));
+        input.value = '';
+    });
+    registerModalBtns['close'].addEventListener('click', () => closeModal());
+    registerModalBtns['reset'].addEventListener('click', () => resetData());
+    registerModalBtns['submit'].addEventListener('click', async (event) => {
+        const button = event.target;
+        const formData = new FormData(registerModalForm);
+        let fetchedData = {};
+        try {
+            event.preventDefault();
+            for (const [name, value] of formData.entries()) {
+                fetchedData[name] = value.toString();
+            }
+            button.innerHTML =
+                `
+                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                Registering...
+            `;
+            await fetch(`/personnel/table/${type}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(fetchedData)
+            });
+            registerModalPrompts['success'].style.display = 'flex';
+            setTimeout(async () => {
+                await resetData();
+                await closeModal();
+                button.innerHTML = 'Register';
+                registerModalPrompts['success'].style.display = 'none';
+            }, 2500);
+        }
+        catch (err) {
+            registerModalPrompts['error'].style.display = 'flex';
+            setTimeout(() => { registerModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
+        }
+    });
+    modal.style.display = 'grid';
+    registerModal.style.display = 'grid';
+    checkForms(registerModalForm, false);
+};
 export const openEditModal = async (type, modal, entry) => {
     let entryData;
     let modalData;
