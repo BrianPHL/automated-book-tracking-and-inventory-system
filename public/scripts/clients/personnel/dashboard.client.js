@@ -417,7 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     lendModalBtns['submit'].addEventListener('click', async (event) => {
                         const button = event.target;
                         const data = {
-                            type: type,
                             entryId: entryId,
                             modalId: lendModal.querySelector(`form > .${type === 'students' ? 'book' : 'student'}`).getAttribute('data-identifier'),
                             dueDate: lendModal.querySelector('form > .dueDate > input')['value']
@@ -429,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                                 Updating...
                             `;
-                            await fetch("/personnel/table/lend/", {
+                            await fetch(`/personnel/table/lend/${type}`, {
                                 method: "POST",
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(data)

@@ -351,7 +351,8 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
 
     try {
 
-        const { type, entryId, modalId, dueDate } = req.body
+        const type = req.params.type
+        const { entryId, modalId, dueDate } = req.body
         const [ studentData, bookData ] = await Promise.all([
             await utils.executeDatabaseQuery('SELECT * FROM students WHERE id = ?', [ type === 'students' ? entryId : modalId ]),
             await utils.executeDatabaseQuery('SELECT * FROM books WHERE id = ?', [ type === 'inventory' ? entryId : modalId ])
