@@ -116,26 +116,6 @@ export const personnelTableFetch = async (req: Request, res: Response): Promise<
     
 }
 
-export const personnelTableActions = async (req: Request, res: Response): Promise<void> => {
-
-    try {
-
-        await utils.setTableData(req.params.type, req.params.tab, req.body)
-
-        setTimeout(() => res.sendStatus(200), 2500)
-        
-    } catch (err) {
-
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message
-        })
-
-    }
-
-}
-
 export const personnelTableRegister = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -247,6 +227,124 @@ export const personnelTableRegister = async (req: Request, res: Response): Promi
         })
 
     }
+}
+
+export const personnelTableEdit = async (req: Request, res: Response): Promise<void> => {
+
+    try {
+
+        const type: string = req.params.tab
+        const data: { [ key: string ]: string } = req.body
+        const inventory = async (): Promise<void> => {
+
+            return new Promise (async (resolve) => {
+
+                const id: string = data['id']
+                const title: string = data['title']
+                const author: string = data['author']
+                const genre: string = data['genre']
+                const publicationDate: string = DateTime.fromFormat(data['dPublicized'], 'yyyy-MM-dd').toFormat('dd MMMM yyyy')
+
+                await utils.executeDatabaseQuery(
+                `
+                    UPDATE
+                        books
+                    SET
+                        title = ?, author = ?, genre = ?, date_publicized = ?
+                    WHERE
+                        id = ?
+                `, [ title, author, genre, publicationDate, id ]
+                )
+                
+                resolve()
+
+            })
+
+        }
+        const students = async (): Promise<void> => {
+
+            return new Promise (async (resolve) => {
+
+                const id: string = data['id']
+                const name: string[] = data['studentName'].split(' ')
+                const number: string = data['studentNumber']
+                const phone: string = data['phoneNumber']
+                const email: string = data['email']
+                let firstName: string
+                let lastName: string
+
+                ( name.length > 2 )
+                ? ( firstName = `${ name[0] } ${ name[1] }`, lastName = name[2] )
+                : ( firstName = name[0], lastName = name[1] )
+
+                await utils.executeDatabaseQuery(
+                `
+                    UPDATE
+                        students
+                    SET
+                        first_name = ?, last_name = ?, student_number = ?, phone_number = ?, email = ?
+                    WHERE
+                        id = ?
+                `, [ firstName, lastName, number, phone, email, id ]
+                )
+                
+                resolve()
+
+            })
+
+        }
+        const users = async (): Promise<void> => {
+
+            return new Promise (async (resolve) => {
+
+                const id: string = data['id']
+                const name: string[] = data['personnelName'].split(' ')
+                const username: string = data['username']
+                const role: string = data['role']
+                let firstName: string
+                let lastName: string
+
+                ( name.length > 2 )
+                ? ( firstName = `${ name[0] } ${ name[1] }`, lastName = name[2] )
+                : ( firstName = name[0], lastName = name[1] )
+
+                await utils.executeDatabaseQuery(
+                `
+                    UPDATE
+                        personnel
+                    SET
+                        first_name = ?, last_name = ?, username = ?, role = ?
+                    WHERE
+                        id = ?
+                `, [ firstName, lastName, username, role, id ]
+                )
+                
+                resolve()
+
+            })
+
+        }
+
+        switch (type) {
+
+            case 'inventory': await inventory(); break;
+            case 'students': await students(); break;
+            case 'users': await users(); break;
+        
+        }
+
+        setTimeout(() => res.sendStatus(200), 2500)
+
+    } catch(err) {
+
+        await utils.errorPrompt(res, 'redirect', {
+            status: 500,
+            title: `Internal Server Error - ${ err.name }`,
+            body: err.message    
+        })
+
+    }
+
 }
 
 export const personnelTableLend = async (req: Request, res: Response): Promise<void> => {

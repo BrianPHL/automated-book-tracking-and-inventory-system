@@ -87,19 +87,6 @@ export const personnelTableFetch = async (req, res) => {
         });
     }
 };
-export const personnelTableActions = async (req, res) => {
-    try {
-        await utils.setTableData(req.params.type, req.params.tab, req.body);
-        setTimeout(() => res.sendStatus(200), 2500);
-    }
-    catch (err) {
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${err.name}`,
-            body: err.message
-        });
-    }
-};
 export const personnelTableRegister = async (req, res) => {
     try {
         const type = req.params.tab;
@@ -159,6 +146,94 @@ export const personnelTableRegister = async (req, res) => {
                     VALUES
                         (?, ?, ?, ?)
                     `, [firstName, lastName, username, role]);
+                resolve();
+            });
+        };
+        switch (type) {
+            case 'inventory':
+                await inventory();
+                break;
+            case 'students':
+                await students();
+                break;
+            case 'users':
+                await users();
+                break;
+        }
+        setTimeout(() => res.sendStatus(200), 2500);
+    }
+    catch (err) {
+        await utils.errorPrompt(res, 'redirect', {
+            status: 500,
+            title: `Internal Server Error - ${err.name}`,
+            body: err.message
+        });
+    }
+};
+export const personnelTableEdit = async (req, res) => {
+    try {
+        const type = req.params.tab;
+        const data = req.body;
+        const inventory = async () => {
+            return new Promise(async (resolve) => {
+                const id = data['id'];
+                const title = data['title'];
+                const author = data['author'];
+                const genre = data['genre'];
+                const publicationDate = DateTime.fromFormat(data['dPublicized'], 'yyyy-MM-dd').toFormat('dd MMMM yyyy');
+                await utils.executeDatabaseQuery(`
+                    UPDATE
+                        books
+                    SET
+                        title = ?, author = ?, genre = ?, date_publicized = ?
+                    WHERE
+                        id = ?
+                `, [title, author, genre, publicationDate, id]);
+                resolve();
+            });
+        };
+        const students = async () => {
+            return new Promise(async (resolve) => {
+                const id = data['id'];
+                const name = data['studentName'].split(' ');
+                const number = data['studentNumber'];
+                const phone = data['phoneNumber'];
+                const email = data['email'];
+                let firstName;
+                let lastName;
+                (name.length > 2)
+                    ? (firstName = `${name[0]} ${name[1]}`, lastName = name[2])
+                    : (firstName = name[0], lastName = name[1]);
+                await utils.executeDatabaseQuery(`
+                    UPDATE
+                        students
+                    SET
+                        first_name = ?, last_name = ?, student_number = ?, phone_number = ?, email = ?
+                    WHERE
+                        id = ?
+                `, [firstName, lastName, number, phone, email, id]);
+                resolve();
+            });
+        };
+        const users = async () => {
+            return new Promise(async (resolve) => {
+                const id = data['id'];
+                const name = data['personnelName'].split(' ');
+                const username = data['username'];
+                const role = data['role'];
+                let firstName;
+                let lastName;
+                (name.length > 2)
+                    ? (firstName = `${name[0]} ${name[1]}`, lastName = name[2])
+                    : (firstName = name[0], lastName = name[1]);
+                await utils.executeDatabaseQuery(`
+                    UPDATE
+                        personnel
+                    SET
+                        first_name = ?, last_name = ?, username = ?, role = ?
+                    WHERE
+                        id = ?
+                `, [firstName, lastName, username, role, id]);
                 resolve();
             });
         };

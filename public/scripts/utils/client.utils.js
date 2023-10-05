@@ -1292,7 +1292,7 @@ export const openEditModal = async (type, modal, entry) => {
                 <i class="fa-duotone fa-loader fa-spin-pulse"></i>
                 Updating...
             `;
-            await fetch(`/personnel/table/${type}/actions/edit`, {
+            await fetch(`/personnel/table/${type}/edit`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(fetchedData)
