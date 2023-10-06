@@ -743,7 +743,7 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
 
 }
 
-export const error = async (req: Request, res: Response): Promise<void> => {
+export const error = async (_, res: Response): Promise<void> => {
 
     res.sendFile("error.html", { root: "public/views" })
 

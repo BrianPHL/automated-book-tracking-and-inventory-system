@@ -531,6 +531,6 @@ export const personnelLogout = async (req, res) => {
         });
     }
 };
-export const error = async (req, res) => {
+export const error = async (_, res) => {
     res.sendFile("error.html", { root: "public/views" });
 };
