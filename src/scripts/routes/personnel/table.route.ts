@@ -6,7 +6,7 @@ const personnelTableRoute = express.Router();
 personnelTableRoute.get("/:tab/fetch/:query?", controller.personnelTableFetch)
 personnelTableRoute.post("/:tab/register", controller.personnelTableRegister)
 personnelTableRoute.post("/:tab/edit", controller.personnelTableEdit)
-personnelTableRoute.post("/lend/:tab", controller.personnelTableLend)
+personnelTableRoute.post("/:tab/lend", controller.personnelTableLend)
 personnelTableRoute.post("/:tab/delete/:id", controller.personnelTableDelete)
 
 export default personnelTableRoute
