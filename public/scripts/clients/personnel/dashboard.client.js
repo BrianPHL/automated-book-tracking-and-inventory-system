@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 activeTable.style.display = 'grid';
                 activeTable.setAttribute('data-active', 'true');
-                // utils.setTableAction(activeTable.getAttribute('data-tab'))
                 utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
             });
         });
@@ -99,91 +98,75 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     navigationActions();
     const tableActions = () => {
-        const bodyElement = document.querySelector('body');
-        const tableActions = bodyElement.querySelector('.controls');
-        const modal = bodyElement.querySelector('.modal');
         let isModalOpen = false;
-        const tableControls = () => {
-            // TODO: Rework table search function.
-            const tableSearch = () => {
-                const tableSearch = tableActions.querySelector('.search');
-                const tableSearchInput = tableSearch.querySelector('.input > input[type="text"]');
-                const tableSearchSubmit = tableActions.querySelector('button[data-type="search"]');
-                const searchFunction = async () => {
-                    try {
-                        const activeTab = activeTable.getAttribute('data-tab');
-                        const tableEntries = activeTable.querySelector('.data > .entries');
-                        const query = tableSearchInput.value.trim();
-                        const response = await fetch(`/personnel/table/${activeTab}/fetch/${query}`, {
-                            method: 'GET',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                        const tableData = await response.json();
-                        tableEntries.innerHTML = '';
+        const tableControls = bodyElement.querySelectorAll('.table > .controls');
+        const modal = bodyElement.querySelector('.modal');
+        const tableSearch = () => {
+            tableControls.forEach(tableControl => {
+                const tableSearchForm = tableControl.querySelector('.search');
+                const tableSearchInput = tableSearchForm.querySelector('.input > input');
+                const tableSearchSubmit = tableSearchForm.querySelector('button[data-type="search"]');
+                const currentTab = activeTable.getAttribute('data-tab');
+                const currentTabEntries = activeTable.querySelector('.data > .entries');
+                tableSearchInput.addEventListener('input', async () => {
+                    let response;
+                    if (tableSearchInput.value === '') {
+                        console.log("IDIOT");
                         tableSearchSubmit.disabled = true;
                         tableSearchSubmit.innerHTML =
                             `
-                        <i class="fa-duotone fa-loader fa-spin-pulse"></i>
-                        Searching...
+                            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                            Searching...
                         `;
-                        setTimeout(() => {
-                            tableSearchSubmit.disabled = false;
-                            tableSearchSubmit.innerHTML =
-                                `
+                        response = await fetch(`/personnel/table/${currentTab}/search`, {
+                            method: 'GET',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        currentTabEntries.innerHTML = '';
+                        tableSearchSubmit.disabled = false;
+                        tableSearchSubmit.innerHTML =
+                            `
                             <i class="fa-regular fa-magnifying-glass"></i>
                             Search
-                            `;
-                            Object.values(tableData).forEach(async (data) => {
-                                tableEntries.innerHTML += data;
-                            });
-                        }, 2500);
-                    }
-                    catch (err) {
-                        window.location.href =
-                            `
-                        /error?
-                        ${(await utils.errorPrompt({
-                                title: err['name'],
-                                body: err['message']
-                            })).toString()}
                         `;
+                        Object.values(await response.json()).forEach(async (data) => currentTabEntries.innerHTML += data);
                     }
-                };
-                tableSearchInput.value = '';
-                tableSearchSubmit.disabled = true;
-                tableSearchInput.addEventListener('keydown', async (event) => {
-                    if (event.key === 'Enter' && tableSearchInput.value.trim() !== '') {
-                        await searchFunction();
-                    }
-                });
-                tableSearchInput.addEventListener('input', (event) => {
-                    const activeTab = activeTable.getAttribute('data-tab');
-                    event.preventDefault();
-                    if (tableSearchInput.value.trim() === '') {
-                        tableSearchSubmit.disabled = true;
-                        utils.setDashboardData('personnel', activeTab);
-                    }
-                    else {
-                        tableSearchSubmit.disabled = false;
-                    }
+                    utils.checkForms(tableSearchForm, false);
                 });
                 tableSearchSubmit.addEventListener('click', async (event) => {
                     event.preventDefault();
-                    await searchFunction();
+                    const searchQuery = tableSearchInput.value;
+                    let response;
+                    tableSearchSubmit.disabled = true;
+                    tableSearchSubmit.innerHTML =
+                        `
+                        <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                        Searching...
+                    `;
+                    response = await fetch(`/personnel/table/${currentTab}/search/${searchQuery}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    currentTabEntries.innerHTML = '';
+                    tableSearchSubmit.disabled = false;
+                    tableSearchSubmit.innerHTML =
+                        `
+                        <i class="fa-regular fa-magnifying-glass"></i>
+                        Search
+                    `;
+                    Object.values(await response.json()).forEach(async (data) => currentTabEntries.innerHTML += data);
                 });
-            };
-            // tableSearch()
-            const tableRegister = () => {
-                bodyElement.addEventListener('click', async (event) => {
-                    const target = event.target;
-                    if (target.getAttribute('data-action') === 'register') {
-                        utils.openRegisterModal(target.getAttribute('data-type'), modal);
-                    }
-                });
-            };
-            tableRegister();
+                tableSearchInput.value = '';
+                utils.checkForms(tableSearchForm, false);
+            });
         };
-        tableControls();
+        tableSearch();
+        bodyElement.addEventListener('click', async (event) => {
+            const target = event.target;
+            if (target.getAttribute('data-action') === 'register') {
+                utils.openRegisterModal(target.getAttribute('data-type'), modal);
+            }
+        });
         const entryActions = () => {
             bodyElement.addEventListener('click', async (event) => {
                 const target = event.target;
@@ -501,5 +484,4 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     tableActions();
     utils.setDashboardData('personnel');
-    // utils.setTableAction('dashboard')
 });

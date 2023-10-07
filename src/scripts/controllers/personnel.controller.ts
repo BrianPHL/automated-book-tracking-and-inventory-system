@@ -92,16 +92,256 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 }
 
+export const personnelTableSearch = async (req: Request, res: Response): Promise<void> => {
+    
+    let fetchedTableEntries: string[] = []
+
+    const fetchTab: string = req.params.tab
+    const fetchQuery: string = req.params.query || null
+    
+    const Dashboard = async (): Promise<void> => {
+
+        return new Promise(async (resolve) => {
+
+            const fetchedTableData = await utils.fetchTableData('personnel', 'dashboard', fetchQuery)
+
+            for (const data of Object.values(fetchedTableData)) {
+    
+                const identifier = data['id']
+                const title = data['title']
+                const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
+                const publicationDate = data['date_publicized']
+                const acquisitionDate = data['date_added']
+                let borrowerAndBorrowerNumber = ``
+                let borrowDateAndDuration = ``
+                let visibility = ``
+                let status = ``
+    
+                data['borrower'] === null 
+                ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
+                : borrowerAndBorrowerNumber = `<h2>${ data['borrower'] }</h2><h3>${ data['borrower_number'] }</h3>`
+                
+                data['date_borrowed'] === null
+                ? borrowDateAndDuration = `<h2>No data</h2>`
+                : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ utils.getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
+    
+                data['status'] === 'Available' 
+                ? status = `<h2>${data['status']}</h2>` 
+                : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                status.includes('Past Due') 
+                ? visibility = 'visible' 
+                : visibility = 'hidden'
+    
+                const entry =
+                `
+                <div class="entry" data-identifier="${ identifier }">
+                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                    <div class="title"><h2>${ title }</h2></div>
+                    <div class="status">${ status }</div>
+                    <div class="borrower">${ borrowerAndBorrowerNumber }</div>
+                    <div class="borrowDate">${ borrowDateAndDuration }</div>
+                    <div class="dueDate"><h2>${ dueDate }</h2></div>
+                    <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                    <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                    <div class="actions"><i class="fa-regular fa-pen-to-square" style="visibility: hidden;"></i></div>
+                </div>
+                `
+    
+                fetchedTableEntries.push(entry)
+    
+            }
+
+            resolve()
+
+        })
+        
+    }
+
+    const Inventory = async (): Promise<void> => {
+        
+        return new Promise(async (resolve) => {
+
+            const fetchedTableData = await utils.fetchTableData('personnel', 'inventory', fetchQuery)
+
+            for (const data of Object.values(fetchedTableData)) {
+    
+                const identifier = data['id']
+                const title = data['title']
+                const author = data['author']
+                const genre = data['genre']
+                const publicationDate = data['date_publicized']
+                const acquisitionDate = data['date_added']
+                let visibility = ``
+                let status = ``
+    
+                data['status'] === 'Available' 
+                ? status = `<h2>${data['status']}</h2>` 
+                : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                status.includes('Past Due') 
+                ? visibility = 'visible' 
+                : visibility = 'hidden'
+    
+                const entry =
+                `
+                <div class="entry" data-identifier="${ identifier }">
+                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                    <div class="title"><h2>${ title }</h2></div>
+                    <div class="status"><h2>${ status }</h2></div>
+                    <div class="author"><h2>${ author }</h2></div>
+                    <div class="genre"><h2>${ genre }</h2></div>
+                    <div class="publicationDate"><h2>${ publicationDate }</h2></div>
+                    <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
+                    <div class="actions">
+                        ${
+                            data['status'] === 'Available'
+                            ? `<i data-disabled="false" class="pInventoryActionsBookLend fa-regular fa-arrow-right-from-arc"></i>`
+                            : `<i data-disabled="true" class="fa-regular fa-arrow-right-from-arc"></i>`
+                        }
+                        <i data-disabled="false" class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
+                        <i data-disabled="false" class="pInventoryActionsDelete fa-regular fa-xmark"></i>
+                    </div>
+                </div>
+                `
+    
+                fetchedTableEntries.push(entry)
+            
+            }
+
+            resolve()
+
+        })
+
+    }
+
+    const Students = async (): Promise<void> => {
+        
+        return new Promise(async (resolve) => {
+
+            const fetchedTableData = await utils.fetchTableData('personnel', 'students', fetchQuery)
+
+            for (const data of Object.values(fetchedTableData)) {
+    
+                const identifier = data['id']
+                const studentName = data['full_name']
+                const studentNumber = data['student_number']
+                const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book']
+                const phoneNumber = data['phone_number']
+                const emailAddress = data['email']
+                let studentStatus = ``
+                let visibility = ``
+    
+                data['status'] === 'Vacant' 
+                ? studentStatus = `<h2>${data['status']}</h2>` 
+                : studentStatus = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+    
+                studentStatus.includes('Past Due') 
+                ? visibility = 'visible' 
+                : visibility = 'hidden'
+    
+                const entry =
+                `
+                <div class="entry" data-identifier="${ identifier }">
+                    <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
+                    <div class="name"><h2>${ studentName }</h2></div>
+                    <div class="studentNumber"><h2>${ studentNumber }</h2></div>
+                    <div class="status">${ studentStatus }</div>
+                    <div class="borrowedBook"><h2>${ borrowedBook }</h2></div>
+                    <div class="phoneNumber"><h2>${ phoneNumber }</h2></div>
+                    <div class="emailAddress"><h2>${ emailAddress }</h2></div>
+                    <div class="actions">
+                        <i data-disabled="false" class="pStudentsActionsNotify fa-regular fa-message"></i>
+                        ${ 
+                            data['status'] === 'Vacant'
+                            ? `<i data-disabled="false" class="pInventoryActionsStudentLend fa-regular fa-arrow-right-from-arc"></i>`
+                            : `<i data-disabled="true" class="fa-regular fa-arrow-right-from-arc"></i>` 
+                        }
+                        <i data-disabled="false" class="pStudentsActionsEdit fa-regular fa-pen-to-square"></i>
+                        <i data-disabled="false" class="pStudentsActionsDelete fa-regular fa-xmark"></i>
+                    </div>
+                </div>
+                `
+    
+                fetchedTableEntries.push(entry)
+    
+            }
+
+            resolve()
+
+        })
+
+    }
+
+    const Users = async (): Promise<void> => {
+        
+        return new Promise(async (resolve) => {
+
+            const fetchedTableData = await utils.fetchTableData('personnel', 'users', fetchQuery)
+
+            for (const data of Object.values(fetchedTableData)) {
+
+                const identifier = data['id']
+                const fullName = data['full_name']
+                const username = data['username']
+                const role = data['role']
+                let privilege = ``
+
+                data['role'] === 'Librarian'
+                ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
+                : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`
+
+                const entry =
+                `
+                <div class="entry" data-identifier="${ identifier }">
+                    <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
+                    <div class="fullName"><h2>${ fullName }</h2></div>
+                    <div class="username"><h2>${ username }</h2></div>
+                    <div class="role"><h2>${ role }</h2></div>
+                    <div class="privilege">${ privilege }</div>
+                    <div class="emailAddress"><h2>${ username }</h2><h3>@feuroosevelt.edu.ph</h3></div>
+                    <div class="actions">
+                    <i data-disabled="false" class="pUsersActionsEdit fa-regular fa-pen-to-square"></i>
+                    <i data-disabled="false" class="pUsersActionsDelete fa-regular fa-xmark"></i>
+                    </div>
+                </div>
+                `
+
+                fetchedTableEntries.push(entry)
+
+            }
+
+            resolve()
+
+        })
+
+    }
 
     try {
 
-        let tableData: string[]
+        switch (fetchTab) {
 
-        !req.params.query
-        ? tableData = await utils.fetchTableData('personnel', req.params.tab)
-        : tableData = await utils.fetchTableData('personnel', req.params.tab, req.params.query)
+            case 'dashboard': await Dashboard(); break;
+            case 'inventory': await Inventory(); break;
+            case 'students': await Students(); break;
+            case 'users': await Users(); break;
+        
+        }
 
-        res.json(tableData)
+        setTimeout(() => res.json(fetchedTableEntries), 2500)
+
+    } catch (err) {
+
+        await utils.errorPrompt(res, 'url', {
+            status: 500,
+            title: `Internal Server Error - ${ err.name }`,
+            body: err.message
+        })
+
+    }
+
+}
+
 export const personnelTableFetch = async (req: Request, res: Response): Promise<void> => {
 
     const fetchType: string = "personnel"
