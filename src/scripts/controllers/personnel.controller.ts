@@ -92,7 +92,6 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 }
 
-export const personnelTableFetch = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
@@ -103,6 +102,19 @@ export const personnelTableFetch = async (req: Request, res: Response): Promise<
         : tableData = await utils.fetchTableData('personnel', req.params.tab, req.params.query)
 
         res.json(tableData)
+export const personnelTableFetch = async (req: Request, res: Response): Promise<void> => {
+
+    const fetchType: string = "personnel"
+    const fetchTab: string = req.params.tab
+    const fetchQuery: string = req.params.query
+
+    try {
+
+        setTimeout(async () => 
+            
+            res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 
+        
+        2500)
 
     } catch (err) {
 

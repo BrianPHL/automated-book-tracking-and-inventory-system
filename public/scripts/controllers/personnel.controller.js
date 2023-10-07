@@ -72,12 +72,11 @@ export const personnelLoginAuth = async (req, res) => {
     }
 };
 export const personnelTableFetch = async (req, res) => {
+    const fetchType = "personnel";
+    const fetchTab = req.params.tab;
+    const fetchQuery = req.params.query;
     try {
-        let tableData;
-        !req.params.query
-            ? tableData = await utils.fetchTableData('personnel', req.params.tab)
-            : tableData = await utils.fetchTableData('personnel', req.params.tab, req.params.query);
-        res.json(tableData);
+        setTimeout(async () => res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 2500);
     }
     catch (err) {
         await utils.errorPrompt(res, 'url', {
