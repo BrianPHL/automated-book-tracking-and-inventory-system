@@ -1,7 +1,7 @@
 import { pool } from "../app.js";
 import { Response } from "express";
 import { UUID } from "crypto";
-import { DateTime } from "luxon";
+import { DateTime, Duration } from "luxon";
 
 export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
@@ -527,27 +527,40 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
                 for (const data of Object.values(fetchedTableData)) {
                 
+                    let borrowerAndBorrowerNumber = ``
+                    let borrowDateAndDuration = ``
+                    let visibility = ``
+                    let status = ``
+
                     const identifier = data['id']
                     const title = data['title']
                     const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
                     const publicationDate = data['date_publicized']
                     const acquisitionDate = data['date_added']
-                    let borrowerAndBorrowerNumber = ``
-                    let borrowDateAndDuration = ``
-                    let visibility = ``
-                    let status = ``
                 
                     data['borrower'] === null 
                     ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
-                    : borrowerAndBorrowerNumber = `<h2>${ data['borrower'] }</h2><h3>${ data['borrower_number'] }</h3>`
+                    : borrowerAndBorrowerNumber = 
+                    `
+                        <h2>${ data['borrower'] }</h2>
+                        <h3>${ data['borrower_number'] }</h3>
+                    `
                     
                     data['date_borrowed'] === null
                     ? borrowDateAndDuration = `<h2>No data</h2>`
-                    : borrowDateAndDuration = `<h2>${ data['date_borrowed'] }</h2><h3>${ getDaysBetween(data['date_borrowed'], data['date_due']) }</h3>`
+                    : borrowDateAndDuration = 
+                    `
+                        <h2>${ data['date_borrowed'] }</h2>
+                        <h3>${ getDueStatus(data['date_due']) }</h3>
+                    `
                 
                     data['status'] === 'Available' 
                     ? status = `<h2>${data['status']}</h2>` 
-                    : status = `<h2>Unavailable</h2><h3>${ data['status'] }</h3>`
+                    : status = 
+                    `
+                        <h2>Unavailable</h2>
+                        <h3>${ data['status'] }</h3>
+                    `
                 
                     status.includes('Past Due') 
                     ? visibility = 'visible' 
@@ -1021,19 +1034,19 @@ export const isQueryResultEmpty = async (queryResult: any) => {
 
 }
 
-export const getDaysBetween = (firstDate: string, secondDate: string,): string => {
+export const getDueStatus = (pDueDate: string): string => {
 
-    if (!firstDate && !secondDate) { return; }
+    const dueDate: DateTime = DateTime.fromFormat(pDueDate, 'dd MMM yyyy HH:mm')
+    const currentDate: DateTime = DateTime.now()
+    const diffDate: number = Math.floor(dueDate.diff(currentDate, 'days').toObject().days)
+    const absDiffDate: number = Math.abs(diffDate)
 
-    const dateFormat = "yyyy-MM-dd HH:mm:ss"
-    const fFirstDate = DateTime.fromFormat(firstDate, dateFormat)
-    const fSecondDate = DateTime.fromFormat(secondDate, dateFormat)
-    const dateNow = DateTime.now()
-    const borrowDateDiff = Math.abs(Math.floor(fSecondDate.diff(fFirstDate).as('days')))
-    const dueDateDiff = Math.abs(Math.floor(dateNow.diff(fSecondDate).as('days')))
-
-    return fFirstDate > fSecondDate
-    ? `${ dueDateDiff } ${ dueDateDiff === 1 ? 'day' : 'days' } past due`
-    : `${ borrowDateDiff } ${ borrowDateDiff === 1 ? 'day' : 'days' } remaining`
+    return diffDate === 0
+    ? 'Due today' 
+    : diffDate < 0
+        ? `${ absDiffDate } ${ absDiffDate === 1 ? 'day' : 'days' } past due`
+        : `${ absDiffDate } ${ absDiffDate === 1 ? 'day' : 'days' } remaining`
 
 }
+
+console.log(getDueStatus('08 Oct 2023 22:00'))

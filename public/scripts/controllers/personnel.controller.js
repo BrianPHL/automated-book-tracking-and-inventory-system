@@ -93,7 +93,7 @@ export const personnelTableSearch = async (req, res) => {
                     : borrowerAndBorrowerNumber = `<h2>${data['borrower']}</h2><h3>${data['borrower_number']}</h3>`;
                 data['date_borrowed'] === null
                     ? borrowDateAndDuration = `<h2>No data</h2>`
-                    : borrowDateAndDuration = `<h2>${data['date_borrowed']}</h2><h3>${utils.getDaysBetween(data['date_borrowed'], data['date_due'])}</h3>`;
+                    : borrowDateAndDuration = `<h2>${data['date_borrowed']}</h2><h3>${utils.getDueStatus(data['date_due'])}</h3>`;
                 data['status'] === 'Available'
                     ? status = `<h2>${data['status']}</h2>`
                     : status = `<h2>Unavailable</h2><h3>${data['status']}</h3>`;
@@ -472,8 +472,8 @@ export const personnelTableLend = async (req, res) => {
                     number: studentData[0]['student_number']
                 };
                 const date = {
-                    borrowed: DateTime.now().toFormat("DD MMM YYYY HH:MM"),
-                    due: dueDate
+                    borrowed: DateTime.now().toFormat("dd MMM yyyy HH:mm"),
+                    due: `${DateTime.fromISO(dueDate).toFormat("dd MMM yyyy")} ${DateTime.now().toFormat('HH:mm')}`
                 };
                 await utils.executeDatabaseQuery(`
                     UPDATE 
