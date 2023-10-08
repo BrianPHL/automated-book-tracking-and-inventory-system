@@ -260,7 +260,7 @@ export const personnelTableSearch = async (req, res) => {
 export const personnelTableFetch = async (req, res) => {
     const fetchType = "personnel";
     const fetchTab = req.params.tab;
-    const fetchQuery = req.params.query;
+    const fetchQuery = req.params.query || null;
     try {
         setTimeout(async () => res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 2500);
     }
@@ -472,7 +472,7 @@ export const personnelTableLend = async (req, res) => {
                     number: studentData[0]['student_number']
                 };
                 const date = {
-                    borrowed: DateTime.now().toFormat("dd LLLL yyyy"),
+                    borrowed: DateTime.now().toFormat("DD MMM YYYY HH:MM"),
                     due: dueDate
                 };
                 await utils.executeDatabaseQuery(`

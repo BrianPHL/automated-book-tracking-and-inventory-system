@@ -346,7 +346,7 @@ export const personnelTableFetch = async (req: Request, res: Response): Promise<
 
     const fetchType: string = "personnel"
     const fetchTab: string = req.params.tab
-    const fetchQuery: string = req.params.query
+    const fetchQuery: string = req.params.query || null
 
     try {
 
@@ -641,7 +641,7 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
                     number: studentData[0]['student_number']
                 }
                 const date = {
-                    borrowed: DateTime.now().toFormat("dd LLLL yyyy"),
+                    borrowed: DateTime.now().toFormat("DD MMM YYYY HH:MM"),
                     due: dueDate
                 }
 
