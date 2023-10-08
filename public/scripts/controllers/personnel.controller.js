@@ -445,7 +445,7 @@ export const personnelTableEdit = async (req, res) => {
 };
 export const personnelTableLend = async (req, res) => {
     try {
-        const type = req.params.type;
+        const type = req.params.tab;
         const { entryId, modalId, dueDate } = req.body;
         const [studentData, bookData] = await Promise.all([
             await utils.executeDatabaseQuery('SELECT * FROM students WHERE id = ?', [type === 'students' ? entryId : modalId]),
