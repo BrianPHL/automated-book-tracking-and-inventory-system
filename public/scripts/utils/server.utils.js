@@ -713,4 +713,3 @@ export const getDueStatus = (pDueDate) => {
             ? `${absDiffDate} ${absDiffDate === 1 ? 'day' : 'days'} past due`
             : `${absDiffDate} ${absDiffDate === 1 ? 'day' : 'days'} remaining`;
 };
-console.log(getDueStatus('08 Oct 2023 22:00'));

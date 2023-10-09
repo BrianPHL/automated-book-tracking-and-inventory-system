@@ -1,7 +1,7 @@
 import { pool } from "../app.js";
 import { Response } from "express";
 import { UUID } from "crypto";
-import { DateTime, Duration } from "luxon";
+import { DateTime } from "luxon";
 
 export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
@@ -1048,5 +1048,3 @@ export const getDueStatus = (pDueDate: string): string => {
         : `${ absDiffDate } ${ absDiffDate === 1 ? 'day' : 'days' } remaining`
 
 }
-
-console.log(getDueStatus('08 Oct 2023 22:00'))
