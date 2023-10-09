@@ -764,7 +764,6 @@ html[data-site="dashboard"] {
 
             flex-direction: column;
             min-height: 0;
-            padding: 2rem 16rem;
             display: flex;
 
             & > .controls {
@@ -1100,7 +1099,7 @@ html[data-site="dashboard"] {
         & > body > .overview { padding: 2rem 8rem; }
         & > body > .controls { padding: 0rem 8rem; }
         & > body > footer { padding: 0rem 8rem 2rem 8rem; }
-        & > body > .table { padding: 2rem 8rem; }
+        & > body > .table { padding: 0rem 8rem 2rem 8rem; }
 
     }
 
@@ -1115,7 +1114,7 @@ html[data-site="dashboard"] {
         & > body > .overview { padding: 2rem 4rem; }
         & > body > .controls { padding: 0rem 4rem; }
         & > body > footer { padding: 0rem 4rem 2rem 4rem; }
-        & > body > .table { padding: 2rem 4rem; }
+        & > body > .table { padding: 0rem 4rem 2rem 4rem; }
 
     }
 
@@ -1131,7 +1130,7 @@ html[data-site="dashboard"] {
         & > body > .overview { padding: 2rem 2rem; }
         & > body > .controls { padding: 0rem 2rem; }
         & > body > footer { padding: 0rem 2rem 2rem 2rem; }
-        & > body > .table { padding: 2rem 2rem; }
+        & > body > .table { padding: 0rem 2rem 2rem 2rem; }
 
     }
 
@@ -1153,7 +1152,7 @@ html[data-site="dashboard"] {
         }
         & > body > .controls { padding: 0rem 1rem; }
         & > body > footer { padding: 0rem 1rem 1rem 1rem; }
-        & > body > .table { padding: 1rem 1rem; }
+        & > body > .table { padding: 0rem 1rem 1rem 1rem; }
 
     }
 

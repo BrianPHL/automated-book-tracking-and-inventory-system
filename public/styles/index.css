@@ -783,7 +783,6 @@ html[data-site=dashboard] > body > .overview > div > h1 {
 html[data-site=dashboard] > body > .table {
   flex-direction: column;
   min-height: 0;
-  padding: 2rem 16rem;
   display: flex;
 }
 html[data-site=dashboard] > body > .table > .controls {
@@ -1054,7 +1053,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 8rem 2rem 8rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 2rem 8rem;
+    padding: 0rem 8rem 2rem 8rem;
   }
 }
 @media only screen and (max-width: 1480px) {
@@ -1074,7 +1073,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 4rem 2rem 4rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 2rem 4rem;
+    padding: 0rem 4rem 2rem 4rem;
   }
 }
 @media only screen and (max-width: 1300px) {
@@ -1097,7 +1096,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 2rem 2rem 2rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 2rem 2rem;
+    padding: 0rem 2rem 2rem 2rem;
   }
 }
 @media only screen and (max-width: 800px) {
@@ -1122,7 +1121,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 1rem 1rem 1rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 1rem 1rem;
+    padding: 0rem 1rem 1rem 1rem;
   }
 }
 @media only screen and (max-width: 640px) {
