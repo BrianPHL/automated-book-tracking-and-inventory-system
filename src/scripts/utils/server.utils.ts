@@ -526,61 +526,79 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                 const fetchedTableData = await fetchTableData('personnel', 'dashboard')
 
                 for (const data of Object.values(fetchedTableData)) {
-                
-                    let borrowerAndBorrowerNumber = ``
-                    let borrowDateAndDuration = ``
-                    let visibility = ``
-                    let status = ``
-
-                    const identifier = data['id']
-                    const title = data['title']
-                    const dueDate = data['date_due'] === null ? 'No data' : data['date_due']
-                    const publicationDate = data['date_publicized']
-                    const acquisitionDate = data['date_added']
-                
-                    data['borrower'] === null 
-                    ? borrowerAndBorrowerNumber = `<h2>No data</h2>` 
-                    : borrowerAndBorrowerNumber = 
-                    `
-                        <h2>${ data['borrower'] }</h2>
-                        <h3>${ data['borrower_number'] }</h3>
-                    `
                     
-                    data['date_borrowed'] === null
-                    ? borrowDateAndDuration = `<h2>No data</h2>`
-                    : borrowDateAndDuration = 
-                    `
-                        <h2>${ data['date_borrowed'] }</h2>
-                        <h3>${ getDueStatus(data['date_due']) }</h3>
-                    `
-                
-                    data['status'] === 'Available' 
-                    ? status = `<h2>${data['status']}</h2>` 
-                    : status = 
-                    `
-                        <h2>Unavailable</h2>
-                        <h3>${ data['status'] }</h3>
-                    `
-                
-                    status.includes('Past Due') 
-                    ? visibility = 'visible' 
-                    : visibility = 'hidden'
-                
                     const entry =
                     `
-                    <div class="entry" data-identifier="${ identifier }">
-                        <i style="visibility: ${ visibility };" class="warning fa-solid fa-triangle-exclamation"></i>
-                        <div class="title"><h2>${ title }</h2></div>
-                        <div class="status">${ status }</div>
-                        <div class="borrower">${ borrowerAndBorrowerNumber }</div>
-                        <div class="borrowDate">${ borrowDateAndDuration }</div>
-                        <div class="dueDate"><h2>${ dueDate }</h2></div>
-                        <div class="publicationDate"><h2>${ publicationDate }</h2></div>
-                        <div class="acquisitionDate"><h2>${ acquisitionDate }</h2></div>
-                        <div class="actions"><i class="fa-regular fa-pen-to-square" style="visibility: hidden;"></i></div>
-                    </div>
+                        <div class="entry" data-identifier="IDENTIFIER">
+                            <i style="visibility: 
+                            ${
+                                data['status'] === 'Past Due'
+                                ? 'visible'
+                                : 'hidden'
+                            }
+                            ;" class="warning fa-solid fa-triangle-exclamation"></i>
+                            <div class="title">
+                                <h2>${ data['title'] }</h2>
+                            </div>
+                            <div class="status">
+                                ${ 
+                                    data['status'] === 'Available'
+                                    ? '<h2>Available</h2>'
+                                    : 
+                                    `
+                                        <h2>Unavailable</h2>
+                                        <h3>${ data['status'] }</h3>
+                                    `
+                                 }
+                            </div>
+                            <div class="borrower">
+                                <h2>
+                                    ${
+                                        data['borrower'] === null 
+                                        ? `<h2>- </h2>` 
+                                        : 
+                                        `
+                                            <h2>${ data['borrower'] }</h2>
+                                            <h3>${ data['borrower_number'] }</h3>
+                                        `
+                                    }
+                                </h2>
+                            </div>
+                            <div class="borrowDate">
+                                <h2>
+                                    ${
+                                        data['date_borrowed'] === null 
+                                        ? '-' 
+                                        : data['date_borrowed']
+                                    }
+                                </h2>
+                            </div>
+                            <div class="dueDate">
+                                <h2>
+                                    ${
+                                        data['date_due'] === null
+                                        ? `<h2>-</h2>`
+                                        :  
+                                        `
+                                            <h2>${ data['date_due'] }</h2>
+                                            <h3>${ getDueStatus(data['date_due']) }</h3>
+                                        `
+                                    }
+                                </h2>
+                            </div>
+                            <div class="publicationDate">
+                                <h2>${ data['date_publicized'] }</h2>
+                            </div>
+                            <div class="acquisitionDate">
+                                <h2>${ data['date_added'] }</h2>
+                            </div>
+                            <div class="actions">
+                                <i data-disabled="false" class="pDashboardActionsView fa-regular fa-arrow-up-right-from-square"></i>
+                            </div>
+
+                        </div>
                     `
-                
+
                     fetchedTableEntries.push(entry)
                 
                 }
