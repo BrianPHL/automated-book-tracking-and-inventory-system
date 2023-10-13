@@ -1170,10 +1170,10 @@ export const openEditModal = async (type, modal, entry) => {
     const editModalInputs = editModalForm.querySelectorAll('input');
     const inventory = async () => {
         entryData = {
-            title: entry.querySelector(".title > h2").textContent,
-            author: entry.querySelector(".author > h2").textContent,
-            genre: entry.querySelector(".genre > h2").textContent,
-            date: entry.querySelector(".publicationDate > h2").textContent
+            title: entry.querySelector(".title > h2").textContent.trim(),
+            author: entry.querySelector(".author > h2").textContent.trim(),
+            genre: entry.querySelector(".genre > h2").textContent.trim(),
+            date: entry.querySelector(".publicationDate > h2").textContent.trim()
         };
         modalData = {
             title: editModal.querySelector(`${path} > .title > input`),
@@ -1192,10 +1192,10 @@ export const openEditModal = async (type, modal, entry) => {
     };
     const students = async () => {
         entryData = {
-            name: entry.querySelector(".name > h2").textContent,
-            number: entry.querySelector(".studentNumber > h2").textContent,
-            phone: entry.querySelector(".phoneNumber > h2").textContent,
-            email: entry.querySelector(".emailAddress > h2").textContent
+            name: entry.querySelector(".name > h2").textContent.trim(),
+            number: entry.querySelector(".studentNumber > h2").textContent.trim(),
+            phone: entry.querySelector(".phoneNumber > h2").textContent.trim(),
+            email: entry.querySelector(".emailAddress > h2").textContent.trim()
         };
         modalData = {
             name: editModal.querySelector(`${path} > .studentName > input`),
@@ -1214,9 +1214,9 @@ export const openEditModal = async (type, modal, entry) => {
     };
     const users = async () => {
         entryData = {
-            fullName: entry.querySelector('.fullName > h2').textContent,
-            userName: entry.querySelector('.username > h2').textContent,
-            role: entry.querySelector('.role > h2').textContent
+            fullName: entry.querySelector('.fullName > h2').textContent.trim(),
+            userName: entry.querySelector('.username > h2').textContent.trim(),
+            role: entry.querySelector('.role > h2').textContent.trim()
         };
         modalData = {
             fullName: editModal.querySelector(`${path} > .personnelName > input`),
