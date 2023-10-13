@@ -513,22 +513,45 @@ export const fetchTableEntries = async (type, tab, query) => {
             return new Promise(async (resolve) => {
                 const fetchedTableData = await fetchTableData('personnel', 'users', query);
                 for (const data of Object.values(fetchedTableData)) {
-                    const identifier = data['id'];
-                    const fullName = data['full_name'];
-                    const username = data['username'];
-                    const role = data['role'];
-                    let privilege = ``;
-                    data['role'] === 'Librarian'
-                        ? privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3>`
-                        : privilege = `<h3>Dashboard</h3><h3>Inventory</h3><h3>Students</h3><h3>Users</h3>`;
                     const entry = `
-                    <div class="entry" data-identifier="${identifier}">
+                    <div class="entry" data-identifier="${data['id']}">
                         <i style="visibility: hidden;" class="warning fa-solid fa-triangle-exclamation"></i>
-                        <div class="fullName"><h2>${fullName}</h2></div>
-                        <div class="username"><h2>${username}</h2></div>
-                        <div class="role"><h2>${role}</h2></div>
-                        <div class="privilege">${privilege}</div>
-                        <div class="emailAddress"><h2>${username}</h2><h3>@feuroosevelt.edu.ph</h3></div>
+                        <div class="fullName">
+                            <h2>
+                                ${data['full_name']}
+                            </h2>
+                        </div>
+                        <div class="username">
+                            <h2>
+                                ${data['username']}
+                            </h2>
+                        </div>
+                        <div class="role">
+                            <h2>
+                                ${data['role']}
+                            </h2>
+                        </div>
+                        <div class="privilege">
+                            ${data['role'] === 'Librarian'
+                        ?
+                            `
+                                    <h3>Dashboard</h3>
+                                    <h3>Inventory</h3>
+                                    <h3>Students</h3>
+                                `
+                        :
+                            `
+                                    <h3>Dashboard</h3>
+                                    <h3>Inventory</h3><h3>Students</h3>
+                                    <h3>Users</h3>
+                                `}
+                        </div>
+                        <div class="emailAddress">
+                            <h2>
+                                ${data['username']}
+                            </h2>
+                            <h3>@feuroosevelt.edu.ph</h3>
+                        </div>
                         <div class="actions">
                         <i data-disabled="false" class="pUsersActionsEdit fa-regular fa-pen-to-square"></i>
                         <i data-disabled="false" class="pUsersActionsDelete fa-regular fa-xmark"></i>
