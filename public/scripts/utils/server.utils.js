@@ -331,7 +331,9 @@ export const fetchTableEntries = async (type, tab, query) => {
                         : 'hidden'}
                             ;" class="warning fa-solid fa-triangle-exclamation"></i>
                             <div class="title">
-                                <h2>${data['title']}</h2>
+                                <h2>
+                                    ${data['title']}
+                                </h2>
                             </div>
                             <div class="status">
                                 ${data['status'] === 'Available'
@@ -372,10 +374,14 @@ export const fetchTableEntries = async (type, tab, query) => {
                                 </h2>
                             </div>
                             <div class="publicationDate">
-                                <h2>${data['date_publicized']}</h2>
+                                <h2>
+                                    ${data['date_publicized']}
+                                </h2>
                             </div>
                             <div class="acquisitionDate">
-                                <h2>${data['date_added']}</h2>
+                                <h2>
+                                    ${data['date_added']}
+                                </h2>
                             </div>
                             <div class="actions">
                                 <i data-disabled="false" class="pDashboardActionsView fa-regular fa-arrow-up-right-from-square"></i>
@@ -392,37 +398,52 @@ export const fetchTableEntries = async (type, tab, query) => {
             return new Promise(async (resolve) => {
                 const fetchedTableData = await fetchTableData('personnel', 'inventory', query);
                 for (const data of Object.values(fetchedTableData)) {
-                    const identifier = data['id'];
-                    const title = data['title'];
-                    const author = data['author'];
-                    const genre = data['genre'];
-                    const publicationDate = data['date_publicized'];
-                    const acquisitionDate = data['date_added'];
-                    let visibility = ``;
-                    let status = ``;
-                    data['status'] === 'Available'
-                        ? status = `<h2>${data['status']}</h2>`
-                        : status = `<h2>Unavailable</h2><h3>${data['status']}</h3>`;
-                    status.includes('Past Due')
-                        ? visibility = 'visible'
-                        : visibility = 'hidden';
                     const entry = `
-                    <div class="entry" data-identifier="${identifier}">
-                        <i style="visibility: ${visibility};" class="warning fa-solid fa-triangle-exclamation"></i>
-                        <div class="title"><h2>${title}</h2></div>
-                        <div class="status"><h2>${status}</h2></div>
-                        <div class="author"><h2>${author}</h2></div>
-                        <div class="genre"><h2>${genre}</h2></div>
-                        <div class="publicationDate"><h2>${publicationDate}</h2></div>
-                        <div class="acquisitionDate"><h2>${acquisitionDate}</h2></div>
-                        <div class="actions">
-                            ${data['status'] === 'Available'
+                        <div class="entry" data-identifier="${data['id']}">
+                            <i style="visibility: 
+                                ${data['status'] === 'Past Due'
+                        ? 'visible'
+                        : 'hidden'}
+                                ;" class="warning fa-solid fa-triangle-exclamation">
+                            </i>
+                            <div class="title">
+                                <h2>
+                                    ${data['title']}
+                                </h2>
+                            </div>
+                            <div class="status">
+                                    ${data['status'] === 'Available'
+                        ? `<h2>${data['status']}</h2>`
+                        : `<h2>Unavailable</h2><h3>${data['status']}</h3>`}
+                            </div>
+                            <div class="author">
+                                <h2>
+                                    ${data['author']}
+                                </h2>
+                            </div>
+                            <div class="genre">
+                                <h2>
+                                    ${data['genre']}
+                                </h2>
+                            </div>
+                            <div class="publicationDate">
+                                <h2>
+                                    ${data['date_publicized']}
+                                </h2>
+                            </div>
+                            <div class="acquisitionDate">
+                                <h2>
+                                    ${data['date_added']}
+                                </h2>
+                            </div>
+                            <div class="actions">
+                                ${data['status'] === 'Available'
                         ? `<i data-disabled="false" class="pInventoryActionsBookLend fa-regular fa-arrow-right-from-arc"></i>`
                         : `<i data-disabled="true" class="fa-regular fa-arrow-right-from-arc"></i>`}
-                            <i data-disabled="false" class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
-                            <i data-disabled="false" class="pInventoryActionsDelete fa-regular fa-xmark"></i>
+                                <i data-disabled="false" class="pInventoryActionsEdit fa-regular fa-pen-to-square"></i>
+                                <i data-disabled="false" class="pInventoryActionsDelete fa-regular fa-xmark"></i>
+                            </div>
                         </div>
-                    </div>
                     `;
                     fetchedTableEntries.push(entry);
                 }
