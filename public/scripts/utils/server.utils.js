@@ -454,29 +454,46 @@ export const fetchTableEntries = async (type, tab, query) => {
             return new Promise(async (resolve) => {
                 const fetchedTableData = await fetchTableData('personnel', 'students', query);
                 for (const data of Object.values(fetchedTableData)) {
-                    const identifier = data['id'];
-                    const studentName = data['full_name'];
-                    const studentNumber = data['student_number'];
-                    const borrowedBook = data['borrowed_book'] === null ? 'No data' : data['borrowed_book'];
-                    const phoneNumber = data['phone_number'];
-                    const emailAddress = data['email'];
-                    let studentStatus = ``;
-                    let visibility = ``;
-                    data['status'] === 'Vacant'
-                        ? studentStatus = `<h2>${data['status']}</h2>`
-                        : studentStatus = `<h2>Unavailable</h2><h3>${data['status']}</h3>`;
-                    studentStatus.includes('Past Due')
-                        ? visibility = 'visible'
-                        : visibility = 'hidden';
                     const entry = `
-                    <div class="entry" data-identifier="${identifier}">
-                        <i style="visibility: ${visibility};" class="warning fa-solid fa-triangle-exclamation"></i>
-                        <div class="name"><h2>${studentName}</h2></div>
-                        <div class="studentNumber"><h2>${studentNumber}</h2></div>
-                        <div class="status">${studentStatus}</div>
-                        <div class="borrowedBook"><h2>${borrowedBook}</h2></div>
-                        <div class="phoneNumber"><h2>${phoneNumber}</h2></div>
-                        <div class="emailAddress"><h2>${emailAddress}</h2></div>
+                    <div class="entry" data-identifier="${data['id']}">
+                        <i style="visibility: 
+                            ${data['status'] === 'Past Due'
+                        ? 'visible'
+                        : 'hidden'}
+                            ;" class="warning fa-solid fa-triangle-exclamation">
+                        </i>
+                        <div class="name">
+                            <h2>
+                                ${data['full_name']}
+                            </h2>
+                        </div>
+                        <div class="studentNumber">
+                            <h2>
+                                ${data['student_number']}
+                            </h2>
+                        </div>
+                        <div class="status">
+                            ${data['status'] === 'Vacant'
+                        ? `<h2>${data['status']}</h2>`
+                        : `<h2>Unavailable</h2><h3>${data['status']}</h3>`}
+                        </div>
+                        <div class="borrowedBook">
+                            <h2>
+                                ${data['borrowed_book'] === null
+                        ? '-'
+                        : data['borrowed_book']}
+                            </h2>
+                        </div>
+                        <div class="phoneNumber">
+                            <h2>
+                                ${data['phone_number']}
+                            </h2>
+                        </div>
+                        <div class="emailAddress">
+                            <h2>
+                                ${data['email']}
+                            </h2>
+                        </div>
                         <div class="actions">
                             <i data-disabled="false" class="pStudentsActionsNotify fa-regular fa-message"></i>
                             ${data['status'] === 'Vacant'
