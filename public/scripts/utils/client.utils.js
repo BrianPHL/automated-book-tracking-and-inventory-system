@@ -1126,7 +1126,7 @@ export const openRegisterModal = async (type, modal) => {
             }
             button.innerHTML =
                 `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Registering...
             `;
             await fetch(`/personnel/table/${type}/register`, {
@@ -1289,7 +1289,7 @@ export const openEditModal = async (type, modal, entry) => {
             fetchedData['id'] = identifier;
             button.innerHTML =
                 `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Updating...
             `;
             await fetch(`/personnel/table/${type}/edit`, {
@@ -1364,7 +1364,7 @@ export const openDeleteModal = async (type, modal, entry) => {
             event.preventDefault();
             button.innerHTML =
                 `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Deleting...
             `;
             await fetch(`/personnel/table/${type}/delete/${entryIdentifier}`, {

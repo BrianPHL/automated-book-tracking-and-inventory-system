@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             navRefresh.innerHTML =
                 `
-                <i class="fa-regular fa-redo fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 <h2>Refreshing...</h2>
             `;
             setTimeout(async () => {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             navLogout.innerHTML =
                 `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 <h2>Logging out...</h2>
             `;
             setTimeout(async () => {
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         tableSearchSubmit.disabled = true;
                         tableSearchSubmit.innerHTML =
                             `
-                            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                            <i class="fa-duotone fa-spinner-third fa-spin"></i>
                             Searching...
                         `;
                         response = await fetch(`/personnel/table/${currentTab}/search`, {
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tableSearchSubmit.disabled = true;
                     tableSearchSubmit.innerHTML =
                         `
-                        <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                        <i class="fa-duotone fa-spinner-third fa-spin"></i>
                         Searching...
                     `;
                     response = await fetch(`/personnel/table/${currentTab}/search/${searchQuery}`, {
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             event.preventDefault();
                             button.innerHTML =
                                 `
-                                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                                 Updating...
                             `;
                             await fetch(`/personnel/table/${type}/lend`, {

@@ -1685,7 +1685,7 @@ export const openRegisterModal = async (type: string, modal: HTMLDivElement): Pr
             
             button.innerHTML =
             `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Registering...
             `
 
@@ -1916,7 +1916,7 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
             
             button.innerHTML =
             `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Updating...
             `
 
@@ -2030,7 +2030,7 @@ export const openDeleteModal = async (type: string, modal: HTMLDivElement, entry
             
             button.innerHTML =
             `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Deleting...
             `
             

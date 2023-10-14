@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         navActionsLogout.innerHTML =
         `
-            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+            <i class="fa-duotone fa-spinner-third fa-spin"></i>
             <h2>Logging out...</h2>
         `
 

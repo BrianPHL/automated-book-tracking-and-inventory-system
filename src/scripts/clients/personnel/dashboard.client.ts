@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             navRefresh.innerHTML =
             `
-                <i class="fa-regular fa-redo fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 <h2>Refreshing...</h2>
             `
 
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             navLogout.innerHTML =
             `
-                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 <h2>Logging out...</h2>
             `
     
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         tableSearchSubmit.disabled = true
                         tableSearchSubmit.innerHTML =
                         `
-                            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                            <i class="fa-duotone fa-spinner-third fa-spin"></i>
                             Searching...
                         `
 
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tableSearchSubmit.disabled = true
                     tableSearchSubmit.innerHTML =
                     `
-                        <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                        <i class="fa-duotone fa-spinner-third fa-spin"></i>
                         Searching...
                     `
 
@@ -591,7 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             button.innerHTML =
                             `
-                                <i class="fa-duotone fa-loader fa-spin-pulse"></i>
+                                <i class="fa-duotone fa-spinner-third fa-spin"></i>
                                 Updating...
                             `
 

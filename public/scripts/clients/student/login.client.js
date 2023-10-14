@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         modalFormSubmit.innerHTML =
             `
+            <i class="fa-duotone fa-spinner-third fa-spin"></i>
             Processing... 
-            <i class="fa-duotone fa-loader fa-spin-pulse"></i>
         `;
         modalFormSubmit.disabled = true;
         modalWarning.style.display = 'none';
