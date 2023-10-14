@@ -447,12 +447,23 @@ html[data-site="dashboard"] {
                         border-radius: 4px;
                         display: flex;
 
+                        .preloader {
+
+                            justify-content: center;
+                            flex-direction: column;
+                            align-items: center;
+                            display: flex;
+                            height: 320px;
+                            gap: 8px;
+
+                        }
+
                         .container {
         
                             flex-direction: column;
                             overflow-y: auto;
                             min-height: 0;
-                            display: flex;
+                            display: none;
                             height: 320px;
                             gap: 0.5rem;
         

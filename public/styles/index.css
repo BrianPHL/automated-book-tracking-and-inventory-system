@@ -530,11 +530,19 @@ html[data-site=dashboard] > body .modal > div > .assign > .form {
   border-radius: 4px;
   display: flex;
 }
+html[data-site=dashboard] > body .modal > div > .assign > .form .preloader {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  height: 320px;
+  gap: 8px;
+}
 html[data-site=dashboard] > body .modal > div > .assign > .form .container {
   flex-direction: column;
   overflow-y: auto;
   min-height: 0;
-  display: flex;
+  display: none;
   height: 320px;
   gap: 0.5rem;
 }

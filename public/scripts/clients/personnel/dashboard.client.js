@@ -208,59 +208,64 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     };
                     lendModalAssign.forEach((button) => button.addEventListener('click', async (element) => {
+                        let assignModalEntries;
+                        let entriesCounter = 0;
                         const target = element.target;
                         const modalType = target.parentElement.className;
                         const assignModal = modal.querySelector('.inventory > .assign');
                         const assignModalHeading = assignModal.querySelector('.header > h3');
                         const assignModalClose = assignModal.querySelector('.header > i');
+                        const assignModalPreloader = assignModal.querySelector('.form > .preloader');
                         const assignModalContainer = assignModal.querySelector('.form > .container');
                         const assignModalCounter = assignModal.querySelector('.footer > h3 > .counter');
                         const assignModalReset = assignModal.querySelector('.footer > .actions > button[type="reset"]');
                         const assignModalSubmit = assignModal.querySelector('.footer > .actions > button[type="submit"]');
-                        let assignModalEntries;
                         const studentModal = async () => {
-                            const response = await fetch(`/personnel/table/students/fetch/Vacant`, {
+                            let response;
+                            assignModalHeading.textContent = 'Choose a student';
+                            assignModalPreloader.style.display = 'flex';
+                            assignModalContainer.style.display = 'none';
+                            response = await fetch(`/personnel/table/students/fetch/Vacant`, {
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
                             });
-                            const responseBody = await response.json();
-                            let entriesCounter = 0;
-                            assignModalHeading.textContent = 'Choose a student';
-                            Object.values(responseBody).forEach((data) => {
+                            assignModalPreloader.style.display = 'none';
+                            assignModalContainer.style.display = 'flex';
+                            Object.values(await response.json()).forEach((data) => {
                                 const entry = `
-                                <div class="entry" data-selected="false">
-                                    <div class="preview">
-                                        <h3 class="name">${data['full_name']}</h3>
-                                        <i class="toggleDropdown fa-solid fa-caret-down"></i>
-                                    </div>
-                                    <div class="dropdown" data-hidden="true">
-                                        <div class="identifier">
-                                            <h3>
-                                                <span class="heading">Identifier: </span> 
-                                                <span class="data">${data['id']}</span>
-                                            </h3>
+                                    <div class="entry" data-selected="false">
+                                        <div class="preview">
+                                            <h3 class="name">${data['full_name']}</h3>
+                                            <i class="toggleDropdown fa-solid fa-caret-down"></i>
                                         </div>
-                                        <div class="studentNumber">
-                                            <h3>
-                                                <span class="heading">Student number: </span> 
-                                                <span class="data">${data['student_number']}</span>
-                                            </h3>
-                                        </div>
-                                        <div class="phoneNumber">
-                                            <h3>        
-                                                <span class="heading">Phone number: </span> 
-                                                <span class="data">${data['phone_number']}</span>
-                                            </h3>
-                                        </div>
+                                        <div class="dropdown" data-hidden="true">
+                                            <div class="identifier">
+                                                <h3>
+                                                    <span class="heading">Identifier: </span> 
+                                                    <span class="data">${data['id']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="studentNumber">
+                                                <h3>
+                                                    <span class="heading">Student number: </span> 
+                                                    <span class="data">${data['student_number']}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="phoneNumber">
+                                                <h3>        
+                                                    <span class="heading">Phone number: </span> 
+                                                    <span class="data">${data['phone_number']}</span>
+                                                </h3>
+                                            </div>
 
-                                        <div class="email">
-                                            <h3>        
-                                                <span class="heading">Email address: </span>
-                                                <span class="data">${data['email']}</span>
-                                            </h3>
+                                            <div class="email">
+                                                <h3>        
+                                                    <span class="heading">Email address: </span>
+                                                    <span class="data">${data['email']}</span>
+                                                </h3>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 `;
                                 assignModalContainer.innerHTML += entry;
                                 entriesCounter++;
@@ -269,14 +274,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         };
                         const bookModal = async () => {
-                            const response = await fetch(`/personnel/table/inventory/fetch/Available`, {
+                            let response;
+                            assignModalHeading.textContent = 'Choose a book';
+                            assignModalPreloader.style.display = 'flex';
+                            assignModalContainer.style.display = 'none';
+                            response = await fetch(`/personnel/table/inventory/fetch/Available`, {
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
                             });
-                            const responseBody = await response.json();
-                            let entriesCounter = 0;
-                            assignModalHeading.textContent = 'Choose a book';
-                            Object.values(responseBody).forEach((data) => {
+                            assignModalPreloader.style.display = 'none';
+                            assignModalContainer.style.display = 'flex';
+                            Object.values(await response.json()).forEach((data) => {
                                 const entry = `
                                 <div class="entry" data-selected="false">
                                     <div class="preview">
@@ -324,6 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         };
                         const closeModal = async () => {
+                            console.log("TRIGGERED");
                             assignModalContainer.innerHTML = '';
                             assignModalSubmit.disabled = true;
                             lendModal.style.display = 'grid';
