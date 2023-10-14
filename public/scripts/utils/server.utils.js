@@ -324,7 +324,7 @@ export const fetchTableEntries = async (type, tab, query) => {
                 const fetchedTableData = await fetchTableData('personnel', 'dashboard');
                 for (const data of Object.values(fetchedTableData)) {
                     const entry = `
-                        <div class="entry" data-identifier="IDENTIFIER">
+                        <div class="entry" data-identifier="${data['id']}">
                             <i style="visibility: 
                             ${data['status'] === 'Past Due'
                         ? 'visible'

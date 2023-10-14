@@ -529,7 +529,7 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
                     const entry =
                     `
-                        <div class="entry" data-identifier="IDENTIFIER">
+                        <div class="entry" data-identifier="${data['id'] }">
                             <i style="visibility: 
                             ${
                                 data['status'] === 'Past Due'
