@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const target = element.target as HTMLElement
                         const modalType: string = target.parentElement.className
-                        const assignModal: HTMLDivElement = modal.querySelector('.inventory > .assign')
+                        const assignModal: HTMLDivElement = modal.querySelector(`.${ type } > .assign`)
                         const assignModalHeading: HTMLDivElement = assignModal.querySelector('.header > h3')
                         const assignModalClose: HTMLButtonElement = assignModal.querySelector('.header > i')
                         const assignModalPreloader: HTMLDivElement = assignModal.querySelector('.form > .preloader')
@@ -465,8 +465,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         }
                         const closeModal = async (): Promise<void> => {
-
-                            console.log("TRIGGERED")
 
                             assignModalContainer.innerHTML = ''
                             assignModalSubmit.disabled = true

@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         let entriesCounter = 0;
                         const target = element.target;
                         const modalType = target.parentElement.className;
-                        const assignModal = modal.querySelector('.inventory > .assign');
+                        const assignModal = modal.querySelector(`.${type} > .assign`);
                         const assignModalHeading = assignModal.querySelector('.header > h3');
                         const assignModalClose = assignModal.querySelector('.header > i');
                         const assignModalPreloader = assignModal.querySelector('.form > .preloader');
@@ -332,7 +332,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         };
                         const closeModal = async () => {
-                            console.log("TRIGGERED");
                             assignModalContainer.innerHTML = '';
                             assignModalSubmit.disabled = true;
                             lendModal.style.display = 'grid';
