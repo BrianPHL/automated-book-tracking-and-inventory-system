@@ -16,7 +16,7 @@ export const executeDatabaseQuery = async (query: string, argument?: string | st
 
         } else { pool.query(query, argument, (results) => { callback(results) }) }
 
-    } catch(err) {
+    } catch (err) {
 
         console.error(err.name, err.message)
         throw err
@@ -104,7 +104,7 @@ export const validateAccessToken = async (data: { table: string, token: UUID }):
         
         return !isQueryResultEmpty(result)
 
-    } catch(err) {
+    } catch (err) {
 
         console.error(err.name, err.message)
         throw err
@@ -127,7 +127,7 @@ export const retrieveAccountData = async (type: string, token: UUID): Promise<ob
         return result[0]
 
         
-    } catch(err) {
+    } catch (err) {
 
         console.error(err.name, err.message)
         throw err
@@ -161,7 +161,7 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
                 { unavailableBookCountPercentage: Math.floor( unavailableBooks[0].count / books[0].count * 100 ) }
             )
 
-        } catch(err) {
+        } catch (err) {
 
             console.error(err.name, err.message)
             throw err
@@ -192,7 +192,7 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
                 { dueBookCountPercentage: Math.floor( dueBooks[0].count / books[0].count * 100 ) }
             )
 
-        } catch(err) {
+        } catch (err) {
 
             console.error(err.name, err.message)
             throw err
@@ -223,7 +223,7 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
                 { dueStudentCountPercentage: Math.floor( dueStudents[0].count / students[0].count * 100 ) }
             )
 
-        } catch(err) {
+        } catch (err) {
 
             console.error(err.name, err.message)
             throw err
@@ -251,7 +251,7 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
                 { librarianPersonnelCountPercentage: Math.floor(librarianPersonnel[0].count / personnel[0].count * 100) }
             )
 
-        } catch(err) {
+        } catch (err) {
 
             console.error(err.name, err.message)
             throw err
@@ -279,7 +279,7 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
                 { unavailableBookCountPercentage: Math.floor( unavailableBooks[0].count / books[0].count * 100 ) }
             )
 
-        } catch(err) {
+        } catch (err) {
 
             console.error(err.name, err.message)
             throw err
@@ -315,7 +315,7 @@ export const retrieveOverviewData = async (type: string, tab: string): Promise<o
 
         return result
 
-    } catch(err) {
+    } catch (err) {
 
         console.error(err.name, err.message)
         throw err
@@ -509,7 +509,7 @@ export const fetchTableData = async (type: string, tab: string, query?: string):
 
         return fetchedTableData
 
-    } catch(err) {
+    } catch (err) {
 
         console.error(err.name, err.message)
         throw err
@@ -1103,7 +1103,7 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
             
             }
     
-        } catch(err) {
+        } catch (err) {
     
             console.error(err.name, err.message)
             throw err
