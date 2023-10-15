@@ -676,11 +676,11 @@ export const personnelUsersData = async (req, res) => {
     }
 };
 export const personnelLogout = async (req, res) => {
+    const token = req.cookies['pData'];
     try {
-        const dataCookie = req.cookies['pData'];
         await utils.modifyAccessToken('remove', {
             table: 'personnel',
-            token: dataCookie
+            token: token
         });
         res
             .clearCookie('pMemory')

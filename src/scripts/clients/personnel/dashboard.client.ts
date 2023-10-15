@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 try {
     
-                    const response: Response = await fetch('/personnel/logout', {
+                    await fetch('/personnel/logout', {
             
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' }
@@ -129,6 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <i class="fa-regular fa-right-from-bracket"></i>
                         <h2>Logout</h2>
                     `
+
+                    window.location.href = '/'
     
                 } catch (err) {
                 

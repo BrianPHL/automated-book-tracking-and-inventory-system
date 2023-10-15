@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             setTimeout(async () => {
                 try {
-                    const response = await fetch('/personnel/logout', {
+                    await fetch('/personnel/logout', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' }
                     });
@@ -79,9 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <i class="fa-regular fa-right-from-bracket"></i>
                         <h2>Logout</h2>
                     `;
-                    !response.ok
-                        ? window.location.href = `/error?${await response.text()}`
-                        : window.location.href = '/';
+                    window.location.href = '/';
                 }
                 catch (err) {
                     const errorData = await utils.errorPrompt({
