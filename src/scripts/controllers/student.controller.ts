@@ -50,7 +50,7 @@ export const studentLoginAuth = async (req: Request, res: Response): Promise<voi
 
         }
 
-        if (!await utils.isQueryResultEmpty(result)) {
+        if (!utils.isQueryResultEmpty(result)) {
 
             const uuidToken: UUID = uuidv4()
             

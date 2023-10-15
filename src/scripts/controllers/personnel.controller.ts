@@ -45,7 +45,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
         
         }
 
-        if (!await utils.isQueryResultEmpty(result)) {
+        if (!utils.isQueryResultEmpty(result)) {
 
             const uuidToken: UUID = uuidv4()
 

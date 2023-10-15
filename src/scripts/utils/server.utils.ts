@@ -55,36 +55,35 @@ export const errorPrompt = async (res: Response, type: string, data: { status: n
 
 export const modifyAccessToken = async (type: string, data: {table: string, token: UUID, column?: string, identifier?: string, password?: string}): Promise<void> => {
 
-    return new Promise(async (resolve) => {
-
-        try {
+    try {
+    
+        return new Promise(async (resolve) => {
 
             if (type === 'add') {
-
                 await executeDatabaseQuery(
                     `UPDATE ${ data.table } SET access_token = ? WHERE ${ data.column } = ? AND password = ?`,
                     [ data.token, data.identifier, data.password ]
                 )
     
             } else if (type === 'remove') {
-
+        
                 await executeDatabaseQuery(
                     `UPDATE ${ data.table } SET access_token = NULL WHERE access_token = ?`,
                     [ data.token ]
                 )
     
             }
-    
-        } catch (err) {
-    
-            console.error(err.name, err.message)
-            throw err
-    
-        }
 
-        resolve()
+            resolve()
 
-    })
+        })
+
+    } catch (err) {
+
+        console.error(err.name, err.message)
+        throw err
+
+    }
     
 }
 
@@ -93,11 +92,17 @@ export const validateAccessToken = async (data: { table: string, token: UUID }):
     try {
 
         const result = await executeDatabaseQuery(
-            `SELECT access_token FROM ${ data.table } WHERE access_token = ?`,
-            [ data.token ]
+            `
+                SELECT 
+                    access_token 
+                FROM 
+                    ${ data.table } 
+                WHERE 
+                    access_token = ?`,
+                [ data.token ]
         )
         
-        return !await isQueryResultEmpty(result)
+        return !isQueryResultEmpty(result)
 
     } catch(err) {
 
@@ -1111,7 +1116,7 @@ export const setTableData = async (type: string, tab: string, data: {}): Promise
 
 }
 
-export const isQueryResultEmpty = async (queryResult: any) => {
+export const isQueryResultEmpty = (queryResult: any) => {
 
     return !(Array.isArray(queryResult) && queryResult.length > 0)
 

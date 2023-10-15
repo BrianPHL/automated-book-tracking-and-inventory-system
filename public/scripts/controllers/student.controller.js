@@ -31,7 +31,7 @@ export const studentLoginAuth = async (req, res) => {
             console.error(result);
             res.sendStatus(500);
         }
-        if (!await utils.isQueryResultEmpty(result)) {
+        if (!utils.isQueryResultEmpty(result)) {
             const uuidToken = uuidv4();
             await utils.modifyAccessToken('add', {
                 table: 'students',

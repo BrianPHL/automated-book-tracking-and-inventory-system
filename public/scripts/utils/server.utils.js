@@ -31,26 +31,32 @@ export const errorPrompt = async (res, type, data) => {
     }
 };
 export const modifyAccessToken = async (type, data) => {
-    return new Promise(async (resolve) => {
-        try {
+    try {
+        return new Promise(async (resolve) => {
             if (type === 'add') {
                 await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = ? WHERE ${data.column} = ? AND password = ?`, [data.token, data.identifier, data.password]);
             }
             else if (type === 'remove') {
                 await executeDatabaseQuery(`UPDATE ${data.table} SET access_token = NULL WHERE access_token = ?`, [data.token]);
             }
-        }
-        catch (err) {
-            console.error(err.name, err.message);
-            throw err;
-        }
-        resolve();
-    });
+            resolve();
+        });
+    }
+    catch (err) {
+        console.error(err.name, err.message);
+        throw err;
+    }
 };
 export const validateAccessToken = async (data) => {
     try {
-        const result = await executeDatabaseQuery(`SELECT access_token FROM ${data.table} WHERE access_token = ?`, [data.token]);
-        return !await isQueryResultEmpty(result);
+        const result = await executeDatabaseQuery(`
+                SELECT 
+                    access_token 
+                FROM 
+                    ${data.table} 
+                WHERE 
+                    access_token = ?`, [data.token]);
+        return !isQueryResultEmpty(result);
     }
     catch (err) {
         console.error(err.name, err.message);
@@ -774,7 +780,7 @@ export const setTableData = async (type, tab, data) => {
         resolve();
     });
 };
-export const isQueryResultEmpty = async (queryResult) => {
+export const isQueryResultEmpty = (queryResult) => {
     return !(Array.isArray(queryResult) && queryResult.length > 0);
 };
 export const getDueStatus = (pDueDate) => {
