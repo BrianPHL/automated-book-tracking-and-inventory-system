@@ -18,13 +18,12 @@ export const personnelLogin = async (req: Request, res: Response): Promise<void>
         ? res.sendFile("login.html", { root: "public/views/personnel" })
         : res.redirect("/personnel/dashboard")
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ title: name, status: 500, body: message })
 
     }
 
@@ -80,14 +79,13 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
         } else { res.sendStatus(403) }
 
-    } catch (err) { 
-        
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message
-        })
-    
+    } catch (err) {
+
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
+
     }
 
 }
@@ -332,11 +330,10 @@ export const personnelTableSearch = async (req: Request, res: Response): Promise
 
     } catch (err) {
 
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
 
@@ -358,11 +355,10 @@ export const personnelTableFetch = async (req: Request, res: Response): Promise<
 
     } catch (err) {
 
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
     
@@ -470,13 +466,12 @@ export const personnelTableRegister = async (req: Request, res: Response): Promi
 
         setTimeout(() => res.sendStatus(200), 2500)
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
 }
@@ -587,13 +582,12 @@ export const personnelTableEdit = async (req: Request, res: Response): Promise<v
 
         setTimeout(() => res.sendStatus(200), 2500)
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
 
@@ -679,13 +673,12 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
 
         setTimeout(async () => res.sendStatus(200), 2500)
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
 
@@ -711,13 +704,12 @@ export const personnelTableDelete = async (req: Request, res: Response): Promise
 
         setTimeout(async() => res.sendStatus(200), 2500)
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
 
@@ -741,13 +733,12 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
         })
         : res.sendFile("dashboard.html", { root: "public/views/personnel" })
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
 
@@ -775,10 +766,12 @@ export const personnelDashboardData = async (req: Request, res: Response): Promi
 
         res.json(resultData)
 
-    } catch(err) {
+    } catch (err) {
 
-        console.error(err.name, err.message)
-        throw err
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ name: name, message: message })
 
     }
 
@@ -802,13 +795,12 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
         })
         : res.sendFile("inventory.html", { root: "public/views/personnel" })
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ error: { name: name, message: message } })
 
     }
 
@@ -836,10 +828,12 @@ export const personnelInventoryData = async (req: Request, res: Response): Promi
 
         res.json(resultData)
 
-    } catch(err) {
+    } catch (err) {
 
-        console.error(err.name, err.message)
-        throw err
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ error: { name: name, message: message } })
 
     }
 
@@ -863,13 +857,12 @@ export const personnelStudents = async (req: Request, res: Response): Promise<vo
         })
         : res.sendFile("students.html", { root: "public/views/personnel" })
         
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ error: { name: name, message: message } })
 
     }
 
@@ -897,10 +890,12 @@ export const personnelStudentsData = async (req: Request, res: Response): Promis
 
         res.json(resultData)
 
-    } catch(err) {
+    } catch (err) {
 
-        console.error(err.name, err.message)
-        throw err
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ error: { name: name, message: message } })
 
     }
 
@@ -924,13 +919,13 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
         })
         : res.sendFile("users.html", { root: "public/views/personnel" })
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ error: { name: name, message: message } })
+
     }
 
 }
@@ -957,10 +952,12 @@ export const personnelUsersData = async (req: Request, res: Response): Promise<v
 
         res.json(resultData)
 
-    } catch(err) {
+    } catch (err) {
 
-        console.error(err.name, err.message)
-        throw err
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ error: { name: name, message: message } })
 
     }
 
@@ -983,13 +980,12 @@ export const personnelLogout = async (req: Request, res: Response): Promise<void
         .clearCookie('pData')
         .sendStatus(200)
 
-    } catch(err) {
+    } catch (err) {
 
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${ err.name }`,
-            body: err.message    
-        })
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ error: { name: name, message: message } })
 
     }
 

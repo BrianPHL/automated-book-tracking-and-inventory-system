@@ -41,8 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     : window.location.href = '/student';
             }
             catch (err) {
-                const { name, message } = err;
-                window.location.href = `/error?${(await utils.errorPrompt({ title: name, body: message })).toString()}`;
+                const errorData = await utils.errorPrompt({
+                    title: err.title,
+                    status: err.status,
+                    body: err.body
+                });
+                window.location.href = `/error?${errorData.toString()}`;
             }
         }, 2500);
     });

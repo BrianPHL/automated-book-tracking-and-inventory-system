@@ -84,14 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         : window.location.href = '/';
                 }
                 catch (err) {
-                    window.location.href =
-                        `
-                    /error?
-                    ${(await utils.errorPrompt({
-                            title: err['name'],
-                            body: err['message']
-                        })).toString()}
-                    `;
+                    const errorData = await utils.errorPrompt({
+                        title: err.title,
+                        status: err.status,
+                        body: err.body
+                    });
+                    window.location.href = `/error?${errorData.toString()}`;
                 }
             }, 2500);
         });
@@ -477,14 +475,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 catch (err) {
-                    window.location.href =
-                        `
-                    /error?
-                    ${(await utils.errorPrompt({
-                            title: err['name'],
-                            body: err['message']
-                        })).toString()}
-                    `;
+                    const errorData = await utils.errorPrompt({
+                        title: err.title,
+                        status: err.status,
+                        body: err.body
+                    });
+                    window.location.href = `/error?${errorData.toString()}`;
                 }
             });
         };

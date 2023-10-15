@@ -130,22 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h2>Logout</h2>
                     `
     
-                    !response.ok
-                    ? window.location.href = `/error?${ await response.text() }`
-                    : window.location.href = '/'
-    
-                } catch(err) {
+                } catch (err) {
                 
-                    window.location.href =
-                    `
-                    /error?
-                    ${(
-                        await utils.errorPrompt({
-                            title: err['name'], 
-                            body: err['message']
-                        })
-                    ).toString() }
-                    `
+                    const errorData: URLSearchParams = await utils.errorPrompt({ 
+                        title: err.title, 
+                        status: err.status, 
+                        body: err.body 
+                    })
+
+                    window.location.href = `/error?${ errorData.toString() }`
     
                 }
     
@@ -697,16 +690,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                 } catch(err) {
 
-                    window.location.href =
-                    `
-                    /error?
-                    ${(
-                        await utils.errorPrompt({
-                            title: err['name'], 
-                            body: err['message']
-                        })
-                    ).toString() }
-                    `
+                    const errorData: URLSearchParams = await utils.errorPrompt({ 
+                        title: err.title, 
+                        status: err.status, 
+                        body: err.body 
+                    })
+
+                    window.location.href = `/error?${ errorData.toString() }`
 
                 }
 

@@ -70,9 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch(err) {
             
-                const { name, message } = err
+                const errorData: URLSearchParams = await utils.errorPrompt({ 
+                    title: err.title, 
+                    status: err.status, 
+                    body: err.body 
+                })
 
-                window.location.href = `/error?${ (await utils.errorPrompt({title: name, body: message})).toString() }`
+                window.location.href = `/error?${ errorData.toString() }`
 
             }
 
