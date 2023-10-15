@@ -1086,8 +1086,8 @@ export const setDashboardData = async (type, tab, data) => {
         }
     }
     catch (err) {
-        const { name, message } = err;
-        window.location.href = `/error?${(await errorPrompt({ title: name, body: message })).toString()}`;
+        console.error(err.name, err.message);
+        throw err;
     }
 };
 export const openRegisterModal = async (type, modal) => {

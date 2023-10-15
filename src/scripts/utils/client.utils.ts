@@ -210,7 +210,7 @@ export const retrieveDashboardData = async (type: string, tab: string) => {
 
         return response
     
-    } catch(err) { 
+    } catch (err) { 
         
         console.error(err.name, err.message)
         throw err
@@ -841,7 +841,7 @@ export const setDashboardData = async (type: string, tab?: string, data?: object
         
                 } else { await setStudentDashboardData() }
     
-            } catch(err) {
+            } catch (err) {
     
                 console.error(err.name, err.message)
                 throw err
@@ -1614,7 +1614,7 @@ export const setDashboardData = async (type: string, tab?: string, data?: object
         
                 } else { await setStudentDashboardData() }
     
-            } catch(err) {
+            } catch (err) {
     
                 console.error(err.name, err.message)
                 throw err
@@ -1623,11 +1623,10 @@ export const setDashboardData = async (type: string, tab?: string, data?: object
 
         }
 
-    } catch(err) {
+    } catch (err) {
 
-        const { name, message } = err 
-    
-        window.location.href = `/error?${ (await errorPrompt({title: name, body: message})).toString() }` 
+        console.error(err.name, err.message)
+        throw err
 
     }
 
@@ -1726,7 +1725,7 @@ export const openRegisterModal = async (type: string, modal: HTMLDivElement): Pr
     
         checkForms(registerModalForm, false)
 
-    } catch(err) {
+    } catch (err) {
 
         registerModalPrompts['error'].style.display = 'flex'
 
@@ -1957,7 +1956,7 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
         await setData()
         checkForms(editModalForm, false)
 
-    } catch(err) {
+    } catch (err) {
 
         editModalPrompts['error'].style.display = 'flex'
 
@@ -2057,7 +2056,7 @@ export const openDeleteModal = async (type: string, modal: HTMLDivElement, entry
         deleteModal.querySelector('.container > form > .info > .entryTitle').textContent = entryTitle
         deleteModal.style.display = "grid"
 
-    } catch(err) {
+    } catch (err) {
 
         deleteModalPrompts['error'].style.display = 'flex'
 
