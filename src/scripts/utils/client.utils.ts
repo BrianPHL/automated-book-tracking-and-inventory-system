@@ -58,9 +58,18 @@ export const checkForms = async (form: HTMLFormElement, isInputAndPreview: boole
 
     }
 
-    isInputAndPreview
-    ? await checkFormInputsAndPreviews()
-    : await checkFormInputs()
+    try {
+
+        isInputAndPreview
+        ? await checkFormInputsAndPreviews()
+        : await checkFormInputs()
+
+    } catch (err) {
+
+        console.error(err.name, err.message)
+        throw err
+
+    }
 
 }
 
@@ -1663,24 +1672,25 @@ export const openRegisterModal = async (type: string, modal: HTMLDivElement): Pr
 
     }
 
-    registerModalInputs.forEach(input => {
+    try {
 
-        input.addEventListener('input', () => checkForms(registerModalForm, false))
-        input.value = ''
+        registerModalInputs.forEach(input => {
 
-    })
-    registerModalBtns['close'].addEventListener('click', () => closeModal())
-    registerModalBtns['reset'].addEventListener('click', () => resetData())
-    registerModalBtns['submit'].addEventListener('click', async (event) => {
-
-        const button = event.target as HTMLElement
-        const formData: FormData = new FormData(registerModalForm)
-        let fetchedData: { [key: string]: string } = {}
-
-        try {
-
+            input.addEventListener('input', () => checkForms(registerModalForm, false))
+            input.value = ''
+    
+        })
+        registerModalBtns['close'].addEventListener('click', () => closeModal())
+        registerModalBtns['reset'].addEventListener('click', () => resetData())
+        registerModalBtns['submit'].addEventListener('click', async (event) => {
+            
+            let fetchedData: { [key: string]: string } = {}
+    
+            const button = event.target as HTMLElement
+            const formData: FormData = new FormData(registerModalForm)
+    
             event.preventDefault()
-
+    
             for (const [name, value] of formData.entries()) { fetchedData[name] = value.toString() }
             
             button.innerHTML =
@@ -1688,41 +1698,41 @@ export const openRegisterModal = async (type: string, modal: HTMLDivElement): Pr
                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Registering...
             `
-
+    
             await fetch(`/personnel/table/${ type }/register`, {
-
+    
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(fetchedData)
-
+    
             })
-
+    
             registerModalPrompts['success'].style.display = 'flex'
-
+    
             setTimeout(async () => {
-
+    
                 await resetData()
                 await closeModal()
                 
                 button.innerHTML = 'Register'
                 registerModalPrompts['success'].style.display = 'none'
-
+                
             }, 2500)
+    
+        })
+    
+        modal.style.display = 'grid'
+        registerModal.style.display = 'grid'
+    
+        checkForms(registerModalForm, false)
 
-        } catch(err) {
+    } catch(err) {
 
-            registerModalPrompts['error'].style.display = 'flex'
+        registerModalPrompts['error'].style.display = 'flex'
 
-            setTimeout(() => { registerModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
-        
-        }
-
-    })
-
-    modal.style.display = 'grid'
-    registerModal.style.display = 'grid'
-
-    checkForms(registerModalForm, false)
+        setTimeout(() => { registerModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+    
+    }
 
 }
 
@@ -1779,7 +1789,6 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
         `
 
     }
-
     const students = async () => {
 
         entryData = {
@@ -1883,35 +1892,35 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
 
     }
 
-    switch (type) {
+    try {
 
-        case "inventory": await inventory(); break;
-        case "students": await students(); break;
-        case "users": await users(); break;
+        switch (type) {
 
-    }
-
-    editModalInputs.forEach(input => {
+            case "inventory": await inventory(); break;
+            case "students": await students(); break;
+            case "users": await users(); break;
     
-        input.addEventListener('input', () => checkForms(editModalForm, false))
-        input.value = ''
-
-    })
-    editModalBtns['close'].addEventListener('click', () => closeModal())
-    editModalBtns['reset'].addEventListener('click', () => resetData())
-    editModalBtns['submit'].addEventListener('click', async (event) => {
-
-        const button = event.target as HTMLElement
-        const formData: FormData = new FormData(editModalForm)
-        const identifier: string = editModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent
-        let fetchedData: { [key: string]: string } = {}
+        }
+    
+        editModalInputs.forEach(input => {
         
-        try {
-
+            input.addEventListener('input', () => checkForms(editModalForm, false))
+            input.value = ''
+    
+        })
+        editModalBtns['close'].addEventListener('click', () => closeModal())
+        editModalBtns['reset'].addEventListener('click', () => resetData())
+        editModalBtns['submit'].addEventListener('click', async (event) => {
+    
+            const button = event.target as HTMLElement
+            const formData: FormData = new FormData(editModalForm)
+            const identifier: string = editModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent
+            let fetchedData: { [key: string]: string } = {}
+    
             event.preventDefault()
-
+            
             for (const [name, value] of formData.entries()) { fetchedData[name] = value.toString() }
-
+            
             fetchedData['id'] = identifier
             
             button.innerHTML =
@@ -1919,43 +1928,42 @@ export const openEditModal = async (type: string, modal: HTMLDivElement, entry: 
                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Updating...
             `
-
+    
             await fetch(`/personnel/table/${ type }/edit`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(fetchedData)
             })
-
+    
             editModalPrompts['success'].style.display = 'flex'
-
+    
             setTimeout(async () => {
-
+    
                 await resetData()
                 await closeModal()
                 await setDashboardData('personnel', type)
-
                 button.innerHTML = 'Submit changes'
                 editModalPrompts['success'].style.display = 'none'
-
-            }, 2500)
-
-        } catch(err) {
-
-            editModalPrompts['error'].style.display = 'flex'
-
-            setTimeout(() => { editModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
-        
-        }
-
-    })
-
-    modal.style.display = "grid"
-    editModal.style.display = "grid"
-    editModal.setAttribute("data-type", "edit")
     
-    checkForms(editModalForm, false)
-    await setData()
-    checkForms(editModalForm, false)
+            }, 2500)
+    
+        })
+    
+        modal.style.display = "grid"
+        editModal.style.display = "grid"
+        editModal.setAttribute("data-type", "edit")
+        
+        checkForms(editModalForm, false)
+        await setData()
+        checkForms(editModalForm, false)
+
+    } catch(err) {
+
+        editModalPrompts['error'].style.display = 'flex'
+
+        setTimeout(() => { editModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+    
+    }
 
 }
 
@@ -1985,49 +1993,39 @@ export const openDeleteModal = async (type: string, modal: HTMLDivElement, entry
 
     }
 
-    switch (type) {
+    try {
 
-        case 'inventory':
-            entryTitle = entry.querySelector('.title > h2').textContent
-            break;
+        switch (type) {
+
+            case 'inventory':
+                entryTitle = entry.querySelector('.title > h2').textContent
+                break;
+                
+            case 'students':
+                entryTitle = `${ entry.querySelector('.name > h2').textContent } ${ entry.querySelector('.studentNumber > h2').textContent }`
+                break;
             
-        case 'students':
-            entryTitle = `${ entry.querySelector('.name > h2').textContent } ${ entry.querySelector('.studentNumber > h2').textContent }`
-            break;
-        
-        case 'users':
-            entryTitle = `${ entry.querySelector('.fullName > h2').textContent } (${ entry.querySelector('.username > h2').textContent })`
-            break;
-    
-    }
-
-    deleteModalBtns['close'].addEventListener('click', () => closeModal())
-    deleteModalBtns['return'].addEventListener('click', (event) => {
-
-        try {
-
-            event.preventDefault()
-
-            closeModal()
-
-        } catch(err) {
-
-            deleteModalPrompts['error'].style.display = 'flex'
-
-            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+            case 'users':
+                entryTitle = `${ entry.querySelector('.fullName > h2').textContent } (${ entry.querySelector('.username > h2').textContent })`
+                break;
         
         }
-
-    })
-    deleteModalBtns['submit'].addEventListener('click', async (event) => {
-
-        const button = event.target as HTMLElement
-        const entryIdentifier: string = entry.getAttribute('data-identifier')
-
-        try {
-
+    
+        deleteModalBtns['close'].addEventListener('click', () => closeModal())
+        deleteModalBtns['return'].addEventListener('click', (event) => {
+    
             event.preventDefault()
-            
+    
+            closeModal()
+    
+        })
+        deleteModalBtns['submit'].addEventListener('click', async (event) => {
+    
+            const button = event.target as HTMLElement
+            const entryIdentifier: string = entry.getAttribute('data-identifier')
+    
+            event.preventDefault()
+                
             button.innerHTML =
             `
                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
@@ -2035,14 +2033,14 @@ export const openDeleteModal = async (type: string, modal: HTMLDivElement, entry
             `
             
             await fetch(`/personnel/table/${ type }/delete/${ entryIdentifier }`, {
-
+    
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
-
+    
             })
-
+    
             deleteModalPrompts['success'].style.display = 'flex'
-
+    
             setTimeout(async () => {
             
                 await closeModal()
@@ -2052,18 +2050,19 @@ export const openDeleteModal = async (type: string, modal: HTMLDivElement, entry
                 deleteModalPrompts['success'].style.display = 'none'
             
             }, 2500)
+    
+        })
+    
+        modal.style.display = "grid"
+        deleteModal.querySelector('.container > form > .info > .entryTitle').textContent = entryTitle
+        deleteModal.style.display = "grid"
 
-        } catch(err) {
+    } catch(err) {
 
-            deleteModalPrompts['error'].style.display = 'flex'
+        deleteModalPrompts['error'].style.display = 'flex'
 
-            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
-        
-        }
-    })
-
-    modal.style.display = "grid"
-    deleteModal.querySelector('.container > form > .info > .entryTitle').textContent = entryTitle
-    deleteModal.style.display = "grid"
+        setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500)
+    
+    }
 
 }

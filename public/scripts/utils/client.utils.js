@@ -32,9 +32,15 @@ export const checkForms = async (form, isInputAndPreview) => {
         }
         submit.disabled = false;
     };
-    isInputAndPreview
-        ? await checkFormInputsAndPreviews()
-        : await checkFormInputs();
+    try {
+        isInputAndPreview
+            ? await checkFormInputsAndPreviews()
+            : await checkFormInputs();
+    }
+    catch (err) {
+        console.error(err.name, err.message);
+        throw err;
+    }
 };
 export const errorPrompt = async (data) => {
     const params = new URLSearchParams();
@@ -1109,17 +1115,17 @@ export const openRegisterModal = async (type, modal) => {
         registerModal.style.display = 'none';
         modal.style.display = 'none';
     };
-    registerModalInputs.forEach(input => {
-        input.addEventListener('input', () => checkForms(registerModalForm, false));
-        input.value = '';
-    });
-    registerModalBtns['close'].addEventListener('click', () => closeModal());
-    registerModalBtns['reset'].addEventListener('click', () => resetData());
-    registerModalBtns['submit'].addEventListener('click', async (event) => {
-        const button = event.target;
-        const formData = new FormData(registerModalForm);
-        let fetchedData = {};
-        try {
+    try {
+        registerModalInputs.forEach(input => {
+            input.addEventListener('input', () => checkForms(registerModalForm, false));
+            input.value = '';
+        });
+        registerModalBtns['close'].addEventListener('click', () => closeModal());
+        registerModalBtns['reset'].addEventListener('click', () => resetData());
+        registerModalBtns['submit'].addEventListener('click', async (event) => {
+            let fetchedData = {};
+            const button = event.target;
+            const formData = new FormData(registerModalForm);
             event.preventDefault();
             for (const [name, value] of formData.entries()) {
                 fetchedData[name] = value.toString();
@@ -1141,15 +1147,15 @@ export const openRegisterModal = async (type, modal) => {
                 button.innerHTML = 'Register';
                 registerModalPrompts['success'].style.display = 'none';
             }, 2500);
-        }
-        catch (err) {
-            registerModalPrompts['error'].style.display = 'flex';
-            setTimeout(() => { registerModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
-        }
-    });
-    modal.style.display = 'grid';
-    registerModal.style.display = 'grid';
-    checkForms(registerModalForm, false);
+        });
+        modal.style.display = 'grid';
+        registerModal.style.display = 'grid';
+        checkForms(registerModalForm, false);
+    }
+    catch (err) {
+        registerModalPrompts['error'].style.display = 'flex';
+        setTimeout(() => { registerModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
+    }
 };
 export const openEditModal = async (type, modal, entry) => {
     let entryData;
@@ -1259,29 +1265,29 @@ export const openEditModal = async (type, modal, entry) => {
         modal.style.display = 'none';
         editModal.style.display = 'none';
     };
-    switch (type) {
-        case "inventory":
-            await inventory();
-            break;
-        case "students":
-            await students();
-            break;
-        case "users":
-            await users();
-            break;
-    }
-    editModalInputs.forEach(input => {
-        input.addEventListener('input', () => checkForms(editModalForm, false));
-        input.value = '';
-    });
-    editModalBtns['close'].addEventListener('click', () => closeModal());
-    editModalBtns['reset'].addEventListener('click', () => resetData());
-    editModalBtns['submit'].addEventListener('click', async (event) => {
-        const button = event.target;
-        const formData = new FormData(editModalForm);
-        const identifier = editModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent;
-        let fetchedData = {};
-        try {
+    try {
+        switch (type) {
+            case "inventory":
+                await inventory();
+                break;
+            case "students":
+                await students();
+                break;
+            case "users":
+                await users();
+                break;
+        }
+        editModalInputs.forEach(input => {
+            input.addEventListener('input', () => checkForms(editModalForm, false));
+            input.value = '';
+        });
+        editModalBtns['close'].addEventListener('click', () => closeModal());
+        editModalBtns['reset'].addEventListener('click', () => resetData());
+        editModalBtns['submit'].addEventListener('click', async (event) => {
+            const button = event.target;
+            const formData = new FormData(editModalForm);
+            const identifier = editModal.querySelector('.form > .header > .heading > h4 > strong > .entryIdentifier').textContent;
+            let fetchedData = {};
             event.preventDefault();
             for (const [name, value] of formData.entries()) {
                 fetchedData[name] = value.toString();
@@ -1305,18 +1311,18 @@ export const openEditModal = async (type, modal, entry) => {
                 button.innerHTML = 'Submit changes';
                 editModalPrompts['success'].style.display = 'none';
             }, 2500);
-        }
-        catch (err) {
-            editModalPrompts['error'].style.display = 'flex';
-            setTimeout(() => { editModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
-        }
-    });
-    modal.style.display = "grid";
-    editModal.style.display = "grid";
-    editModal.setAttribute("data-type", "edit");
-    checkForms(editModalForm, false);
-    await setData();
-    checkForms(editModalForm, false);
+        });
+        modal.style.display = "grid";
+        editModal.style.display = "grid";
+        editModal.setAttribute("data-type", "edit");
+        checkForms(editModalForm, false);
+        await setData();
+        checkForms(editModalForm, false);
+    }
+    catch (err) {
+        editModalPrompts['error'].style.display = 'flex';
+        setTimeout(() => { editModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
+    }
 };
 export const openDeleteModal = async (type, modal, entry) => {
     let entryTitle;
@@ -1335,32 +1341,26 @@ export const openDeleteModal = async (type, modal, entry) => {
         modal.style.display = 'none';
         deleteModal.style.display = 'none';
     };
-    switch (type) {
-        case 'inventory':
-            entryTitle = entry.querySelector('.title > h2').textContent;
-            break;
-        case 'students':
-            entryTitle = `${entry.querySelector('.name > h2').textContent} ${entry.querySelector('.studentNumber > h2').textContent}`;
-            break;
-        case 'users':
-            entryTitle = `${entry.querySelector('.fullName > h2').textContent} (${entry.querySelector('.username > h2').textContent})`;
-            break;
-    }
-    deleteModalBtns['close'].addEventListener('click', () => closeModal());
-    deleteModalBtns['return'].addEventListener('click', (event) => {
-        try {
+    try {
+        switch (type) {
+            case 'inventory':
+                entryTitle = entry.querySelector('.title > h2').textContent;
+                break;
+            case 'students':
+                entryTitle = `${entry.querySelector('.name > h2').textContent} ${entry.querySelector('.studentNumber > h2').textContent}`;
+                break;
+            case 'users':
+                entryTitle = `${entry.querySelector('.fullName > h2').textContent} (${entry.querySelector('.username > h2').textContent})`;
+                break;
+        }
+        deleteModalBtns['close'].addEventListener('click', () => closeModal());
+        deleteModalBtns['return'].addEventListener('click', (event) => {
             event.preventDefault();
             closeModal();
-        }
-        catch (err) {
-            deleteModalPrompts['error'].style.display = 'flex';
-            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
-        }
-    });
-    deleteModalBtns['submit'].addEventListener('click', async (event) => {
-        const button = event.target;
-        const entryIdentifier = entry.getAttribute('data-identifier');
-        try {
+        });
+        deleteModalBtns['submit'].addEventListener('click', async (event) => {
+            const button = event.target;
+            const entryIdentifier = entry.getAttribute('data-identifier');
             event.preventDefault();
             button.innerHTML =
                 `
@@ -1378,13 +1378,13 @@ export const openDeleteModal = async (type, modal, entry) => {
                 button.innerHTML = "Yes, I'm sure!";
                 deleteModalPrompts['success'].style.display = 'none';
             }, 2500);
-        }
-        catch (err) {
-            deleteModalPrompts['error'].style.display = 'flex';
-            setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
-        }
-    });
-    modal.style.display = "grid";
-    deleteModal.querySelector('.container > form > .info > .entryTitle').textContent = entryTitle;
-    deleteModal.style.display = "grid";
+        });
+        modal.style.display = "grid";
+        deleteModal.querySelector('.container > form > .info > .entryTitle').textContent = entryTitle;
+        deleteModal.style.display = "grid";
+    }
+    catch (err) {
+        deleteModalPrompts['error'].style.display = 'flex';
+        setTimeout(() => { deleteModalPrompts['error'].style.display = 'none'; throw err; }, 2500);
+    }
 };
