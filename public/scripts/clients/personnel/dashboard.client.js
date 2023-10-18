@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
                 navRefresh.innerHTML =
                     `
-                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <i class="fa-regular fa-redo fa-spin"></i>
                     <h2>Refreshing...</h2>
                 `;
                 setTimeout(async () => {
