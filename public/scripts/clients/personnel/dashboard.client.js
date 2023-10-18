@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     table.setAttribute('data-active', 'false');
                     table.style.display = 'none';
                 });
-                activeTable.style.display = 'grid';
+                activeTable.style.display = 'flex';
                 activeTable.setAttribute('data-active', 'true');
                 utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
             });

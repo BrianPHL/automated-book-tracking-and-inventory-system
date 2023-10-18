@@ -108,7 +108,7 @@ html[data-site=dashboard] i {
 html[data-site=dashboard] > body {
   background-color: var(--background-secondary);
   grid-template-columns: 100%;
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto 1fr;
   display: grid;
   height: 100vh;
 }
@@ -789,8 +789,8 @@ html[data-site=dashboard] > body > .overview > div > h1 {
   font-size: 1.25rem;
 }
 html[data-site=dashboard] > body > .table {
-  flex-direction: column;
   min-height: 0;
+  flex-direction: column;
   display: flex;
 }
 html[data-site=dashboard] > body > .table > .controls {
@@ -977,6 +977,7 @@ html[data-site=dashboard] > body > .table > .pagination {
   border-right: 1px solid var(--background-tertiary);
   border-left: 1px solid var(--background-tertiary);
   align-items: center;
+  flex-shrink: 0;
   display: flex;
   padding: 1rem;
 }
@@ -1041,7 +1042,6 @@ html[data-site=dashboard] > body .table[data-tab=studentDashboard] .entries > .e
 html[data-site=dashboard] > body > footer {
   justify-content: space-between;
   display: flex;
-  padding: 0rem 16rem 2rem 16rem;
 }
 
 @media only screen and (min-width: 1480px) {
@@ -1061,7 +1061,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 8rem 2rem 8rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 8rem 2rem 8rem;
+    padding: 2rem 8rem;
   }
 }
 @media only screen and (max-width: 1480px) {
@@ -1081,7 +1081,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 4rem 2rem 4rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 4rem 2rem 4rem;
+    padding: 2rem 4rem;
   }
 }
 @media only screen and (max-width: 1300px) {
@@ -1104,7 +1104,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 2rem 2rem 2rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 2rem 2rem 2rem;
+    padding: 2rem 2rem;
   }
 }
 @media only screen and (max-width: 800px) {
@@ -1129,7 +1129,7 @@ html[data-site=dashboard] > body > footer {
     padding: 0rem 1rem 1rem 1rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 1rem 1rem 1rem;
+    padding: 1rem 1rem;
   }
 }
 @media only screen and (max-width: 640px) {
@@ -1139,6 +1139,9 @@ html[data-site=dashboard] > body > footer {
   }
   html[data-site=dashboard] > body > header > .heading > .info {
     text-align: left;
+  }
+  html[data-site=dashboard] > body > footer {
+    padding: 0rem 1rem 1rem 1rem;
   }
 }
 html[data-site=login] h1 {
