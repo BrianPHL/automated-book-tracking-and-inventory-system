@@ -1259,7 +1259,7 @@ html[data-site=login] > body > .modal > .warning {
 }
 html[data-site=login] > body > .modal > .warning > i {
   font-size: 1rem;
-  color: var(--warning);
+  color: var(--warning-primary);
 }
 html[data-site=login] > body > .modal > .warning > .text {
   flex-direction: column;
@@ -1489,7 +1489,7 @@ html[data-site=error] > body > .modal {
 }
 html[data-site=error] > body > .modal > i {
   font-size: 4rem;
-  color: var(--warning);
+  color: var(--warning-primary);
 }
 html[data-site=error] > body > .modal > .error {
   flex-direction: column;

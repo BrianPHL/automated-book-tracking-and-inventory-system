@@ -32,44 +32,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     navigationTabs();
-    const navigationActions = () => {
+    const navigationActions = async () => {
         const nav = bodyElement.querySelector('header > nav');
         const navActions = nav.querySelector('.actions');
         const navRefresh = navActions.querySelector('.refresh');
         const navTheme = navActions.querySelector('.themeSwitch');
         const navLogout = navActions.querySelector('.logout');
-        navRefresh.addEventListener('click', (event) => {
-            event.preventDefault();
-            navRefresh.innerHTML =
-                `
-                <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                <h2>Refreshing...</h2>
-            `;
-            setTimeout(async () => {
+        try {
+            navRefresh.addEventListener('click', (event) => {
+                event.preventDefault();
                 navRefresh.innerHTML =
                     `
-                    <i class="fa-regular fa-redo"></i>
-                    <h2>Refresh</h2>
+                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <h2>Refreshing...</h2>
                 `;
-                utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
-            }, 2500);
-        });
-        navTheme.addEventListener('click', (event) => {
-            const currentTheme = localStorage.getItem('theme');
-            event.preventDefault();
-            currentTheme === 'light'
-                ? utils.setDarkTheme()
-                : utils.setLightTheme();
-        });
-        navLogout.addEventListener('click', (event) => {
-            event.preventDefault();
-            navLogout.innerHTML =
-                `
-                <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                <h2>Logging out...</h2>
-            `;
-            setTimeout(async () => {
-                try {
+                setTimeout(async () => {
+                    navRefresh.innerHTML =
+                        `
+                        <i class="fa-regular fa-redo"></i>
+                        <h2>Refresh</h2>
+                    `;
+                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
+                }, 2500);
+            });
+            navTheme.addEventListener('click', (event) => {
+                const currentTheme = localStorage.getItem('theme');
+                event.preventDefault();
+                currentTheme === 'light'
+                    ? utils.setDarkTheme()
+                    : utils.setLightTheme();
+            });
+            navLogout.addEventListener('click', (event) => {
+                event.preventDefault();
+                navLogout.innerHTML =
+                    `
+                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <h2>Logging out...</h2>
+                `;
+                setTimeout(async () => {
                     await fetch('/personnel/logout', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' }
@@ -80,17 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h2>Logout</h2>
                     `;
                     window.location.href = '/';
-                }
-                catch (err) {
-                    const errorData = await utils.errorPrompt({
-                        title: err.title,
-                        status: err.status,
-                        body: err.body
-                    });
-                    window.location.href = `/error?${errorData.toString()}`;
-                }
-            }, 2500);
-        });
+                }, 2500);
+            });
+        }
+        catch (err) {
+            const errorData = await utils.errorPrompt({
+                title: err.title,
+                status: err.status,
+                body: err.body
+            });
+            window.location.href = `/error?${errorData.toString()}`;
+        }
     };
     navigationActions();
     const tableActions = () => {
@@ -98,23 +98,48 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableControls = bodyElement.querySelectorAll('.table > .controls');
         const modal = bodyElement.querySelector('.modal');
         const tableSearch = () => {
-            tableControls.forEach(tableControl => {
+            tableControls.forEach(async (tableControl) => {
                 const tableSearchForm = tableControl.querySelector('.search');
                 const tableSearchInput = tableSearchForm.querySelector('.input > input');
                 const tableSearchSubmit = tableSearchForm.querySelector('button[data-type="search"]');
                 const currentTab = activeTable.getAttribute('data-tab');
                 const currentTabEntries = activeTable.querySelector('.data > .entries');
-                tableSearchInput.addEventListener('input', async () => {
-                    let response;
-                    if (tableSearchInput.value === '') {
-                        console.log("IDIOT");
+                try {
+                    tableSearchInput.addEventListener('input', async () => {
+                        let response;
+                        if (tableSearchInput.value === '') {
+                            tableSearchSubmit.disabled = true;
+                            tableSearchSubmit.innerHTML =
+                                `
+                                <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                                Searching...
+                            `;
+                            response = await fetch(`/personnel/table/${currentTab}/search`, {
+                                method: 'GET',
+                                headers: { 'Content-Type': 'application/json' }
+                            });
+                            currentTabEntries.innerHTML = '';
+                            tableSearchSubmit.disabled = false;
+                            tableSearchSubmit.innerHTML =
+                                `
+                                <i class="fa-regular fa-magnifying-glass"></i>
+                                Search
+                            `;
+                            Object.values(await response.json()).forEach(async (data) => currentTabEntries.innerHTML += data);
+                        }
+                        utils.checkForms(tableSearchForm, false);
+                    });
+                    tableSearchSubmit.addEventListener('click', async (event) => {
+                        event.preventDefault();
+                        const searchQuery = tableSearchInput.value;
+                        let response;
                         tableSearchSubmit.disabled = true;
                         tableSearchSubmit.innerHTML =
                             `
                             <i class="fa-duotone fa-spinner-third fa-spin"></i>
                             Searching...
                         `;
-                        response = await fetch(`/personnel/table/${currentTab}/search`, {
+                        response = await fetch(`/personnel/table/${currentTab}/search/${searchQuery}`, {
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         });
@@ -126,34 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
                             Search
                         `;
                         Object.values(await response.json()).forEach(async (data) => currentTabEntries.innerHTML += data);
-                    }
-                    utils.checkForms(tableSearchForm, false);
-                });
-                tableSearchSubmit.addEventListener('click', async (event) => {
-                    event.preventDefault();
-                    const searchQuery = tableSearchInput.value;
-                    let response;
-                    tableSearchSubmit.disabled = true;
-                    tableSearchSubmit.innerHTML =
-                        `
-                        <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                        Searching...
-                    `;
-                    response = await fetch(`/personnel/table/${currentTab}/search/${searchQuery}`, {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' }
                     });
-                    currentTabEntries.innerHTML = '';
-                    tableSearchSubmit.disabled = false;
-                    tableSearchSubmit.innerHTML =
-                        `
-                        <i class="fa-regular fa-magnifying-glass"></i>
-                        Search
-                    `;
-                    Object.values(await response.json()).forEach(async (data) => currentTabEntries.innerHTML += data);
-                });
-                tableSearchInput.value = '';
-                utils.checkForms(tableSearchForm, false);
+                    tableSearchInput.value = '';
+                    utils.checkForms(tableSearchForm, false);
+                }
+                catch (err) {
+                    const errorData = await utils.errorPrompt({
+                        title: err.title,
+                        status: err.status,
+                        body: err.body
+                    });
+                    window.location.href = `/error?${errorData.toString()}`;
+                }
             });
         };
         tableSearch();

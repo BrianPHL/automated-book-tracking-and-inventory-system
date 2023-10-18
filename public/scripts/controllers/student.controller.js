@@ -12,27 +12,20 @@ export const studentLogin = async (req, res) => {
             : res.redirect("/student/dashboard");
     }
     catch (err) {
-        await utils.errorPrompt(res, 'redirect', {
-            status: 500,
-            title: `Internal Server Error - ${err.name}`,
-            body: err.message
-        });
+        const { name, message } = err;
+        console.error(name, message);
+        res.status(500).json({ title: name, status: 500, body: message });
     }
 };
 export const studentLoginAuth = async (req, res) => {
-    let queryString;
     try {
         const { studentOrPhoneNum, password } = req.body;
-        studentOrPhoneNum[0] === 'R'
-            ? queryString = "SELECT * FROM students WHERE student_number = ? AND password = ?"
-            : queryString = "SELECT * FROM students WHERE phone_number = ? AND password = ?";
+        const queryString = studentOrPhoneNum[0] === 'R'
+            ? "SELECT * FROM students WHERE student_number = ? AND password = ?"
+            : "SELECT * FROM students WHERE phone_number = ? AND password = ?";
         const result = await utils.executeDatabaseQuery(queryString, [studentOrPhoneNum, password]);
-        if (await utils.isQueryError(result)) {
-            console.error(result);
-            res.sendStatus(500);
-        }
+        const uuidToken = uuidv4();
         if (!utils.isQueryResultEmpty(result)) {
-            const uuidToken = uuidv4();
             await utils.modifyAccessToken('add', {
                 table: 'students',
                 column: studentOrPhoneNum[0] === 'R' ? 'student_number' : 'phone_number',
@@ -66,11 +59,9 @@ export const studentLoginAuth = async (req, res) => {
         }
     }
     catch (err) {
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${err.name}`,
-            body: err.message
-        });
+        const { name, message } = err;
+        console.error(name, message);
+        res.status(500).json({ title: name, status: 500, body: message });
     }
 };
 export const studentDashboard = async (req, res) => {
@@ -89,11 +80,9 @@ export const studentDashboard = async (req, res) => {
             : res.sendFile("dashboard.html", { root: "public/views/student" });
     }
     catch (err) {
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${err.name}`,
-            body: err.message
-        });
+        const { name, message } = err;
+        console.error(name, message);
+        res.status(500).json({ title: name, status: 500, body: message });
     }
 };
 export const studentLogout = async (req, res) => {
@@ -110,10 +99,8 @@ export const studentLogout = async (req, res) => {
             .sendStatus(200);
     }
     catch (err) {
-        await utils.errorPrompt(res, 'url', {
-            status: 500,
-            title: `Internal Server Error - ${err.name}`,
-            body: err.message
-        });
+        const { name, message } = err;
+        console.error(name, message);
+        res.status(500).json({ title: name, status: 500, body: message });
     }
 };

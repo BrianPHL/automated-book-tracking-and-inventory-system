@@ -15,9 +15,6 @@ export const executeDatabaseQuery = async (query, argument, callback) => {
         throw err;
     }
 };
-export const isQueryError = async (result) => {
-    return result && result.constructor && result.constructor.name === "QueryError";
-};
 export const errorPrompt = async (res, type, data) => {
     const params = new URLSearchParams();
     for (let [key, value] of Object.entries(data)) {

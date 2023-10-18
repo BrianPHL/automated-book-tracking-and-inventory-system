@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     navigationTabs()
 
-    const navigationActions = () => {
+    const navigationActions = async () => {
 
         const nav: HTMLElement = bodyElement.querySelector('header > nav')
         const navActions: HTMLDivElement = nav.querySelector('.actions')
@@ -67,86 +67,86 @@ document.addEventListener('DOMContentLoaded', () => {
         const navTheme: HTMLButtonElement = navActions.querySelector('.themeSwitch')
         const navLogout: HTMLButtonElement = navActions.querySelector('.logout')
 
-        navRefresh.addEventListener('click', (event) => {
+        try {
+
+            navRefresh.addEventListener('click', (event) => {
             
-            event.preventDefault()
-
-            navRefresh.innerHTML =
-            `
-                <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                <h2>Refreshing...</h2>
-            `
-
-            setTimeout(async () => {
-
+                event.preventDefault()
+    
                 navRefresh.innerHTML =
                 `
-                    <i class="fa-regular fa-redo"></i>
-                    <h2>Refresh</h2>
+                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <h2>Refreshing...</h2>
                 `
-
-                utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
+    
+                setTimeout(async () => {
+    
+                    navRefresh.innerHTML =
+                    `
+                        <i class="fa-regular fa-redo"></i>
+                        <h2>Refresh</h2>
+                    `
+    
+                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
+                    
+                }, 2500)
+    
+            })
+    
+            navTheme.addEventListener('click', (event) => {
+    
+                const currentTheme = localStorage.getItem('theme')
                 
-            }, 2500)
-
-        })
-
-        navTheme.addEventListener('click', (event) => {
-
-            const currentTheme = localStorage.getItem('theme')
-            
-            event.preventDefault()
+                event.preventDefault()
+        
+                currentTheme === 'light'
+                ? utils.setDarkTheme()
+                : utils.setLightTheme()
     
-            currentTheme === 'light'
-            ? utils.setDarkTheme()
-            : utils.setLightTheme()
-
-        })
-
-        navLogout.addEventListener('click', (event) => {
-
-            event.preventDefault()
+            })
     
-            navLogout.innerHTML =
-            `
-                <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                <h2>Logging out...</h2>
-            `
+            navLogout.addEventListener('click', (event) => {
     
-            setTimeout(async () => {
-    
-                try {
-    
+                event.preventDefault()
+        
+                navLogout.innerHTML =
+                `
+                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <h2>Logging out...</h2>
+                `
+        
+                setTimeout(async () => {
+        
                     await fetch('/personnel/logout', {
-            
+                
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' }
                     
                     })
-
+    
                     navLogout.innerHTML =
                     `
                         <i class="fa-regular fa-right-from-bracket"></i>
                         <h2>Logout</h2>
                     `
-
+    
                     window.location.href = '/'
+                    
+                }, 2500)
     
-                } catch (err) {
+            })
+
+        } catch (err) {
                 
-                    const errorData: URLSearchParams = await utils.errorPrompt({ 
-                        title: err.title, 
-                        status: err.status, 
-                        body: err.body 
-                    })
+            const errorData: URLSearchParams = await utils.errorPrompt({ 
+                title: err.title, 
+                status: err.status, 
+                body: err.body 
+            })
 
-                    window.location.href = `/error?${ errorData.toString() }`
-    
-                }
-    
-            }, 2500)
+            window.location.href = `/error?${ errorData.toString() }`
 
-        })
+        }
 
     }
     navigationActions()
@@ -159,35 +159,70 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal: HTMLDivElement = bodyElement.querySelector('.modal')
         const tableSearch = () => {
 
-            tableControls.forEach(tableControl => {
+            tableControls.forEach(async (tableControl: HTMLDivElement) => {
 
                 const tableSearchForm: HTMLFormElement = tableControl.querySelector('.search')
                 const tableSearchInput: HTMLInputElement = tableSearchForm.querySelector('.input > input')
                 const tableSearchSubmit: HTMLButtonElement = tableSearchForm.querySelector('button[data-type="search"]')
-                
                 const currentTab: string = activeTable.getAttribute('data-tab')
                 const currentTabEntries: HTMLDivElement = activeTable.querySelector('.data > .entries')
 
-                tableSearchInput.addEventListener('input', async (): Promise<void> => {
+                try {
 
-                    let response: Response
+                    tableSearchInput.addEventListener('input', async (): Promise<void> => {
 
-                    if (tableSearchInput.value === '') {
-
-                        console.log("IDIOT")
-                        
+                        let response: Response
+    
+                        if (tableSearchInput.value === '') {
+                            
+                            tableSearchSubmit.disabled = true
+                            tableSearchSubmit.innerHTML =
+                            `
+                                <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                                Searching...
+                            `
+    
+                            response = await fetch(`/personnel/table/${ currentTab }/search`, {
+                                method: 'GET',
+                                headers: { 'Content-Type': 'application/json' }
+                            })
+    
+                            currentTabEntries.innerHTML = ''
+                            tableSearchSubmit.disabled = false
+                            tableSearchSubmit.innerHTML =
+                            `
+                                <i class="fa-regular fa-magnifying-glass"></i>
+                                Search
+                            `
+        
+                            Object.values(await response.json()).forEach(async (data: string) => 
+                                currentTabEntries.innerHTML += data
+                            )
+    
+                        }
+    
+                        utils.checkForms(tableSearchForm, false)
+    
+                    })
+                    tableSearchSubmit.addEventListener('click', async (event: Event) => {
+    
+                        event.preventDefault()
+    
+                        const searchQuery: string = tableSearchInput.value
+                        let response: Response
+    
                         tableSearchSubmit.disabled = true
                         tableSearchSubmit.innerHTML =
                         `
                             <i class="fa-duotone fa-spinner-third fa-spin"></i>
                             Searching...
                         `
-
-                        response = await fetch(`/personnel/table/${ currentTab }/search`, {
+    
+                        response = await fetch(`/personnel/table/${ currentTab }/search/${ searchQuery }`, {
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         })
-
+    
                         currentTabEntries.innerHTML = ''
                         tableSearchSubmit.disabled = false
                         tableSearchSubmit.innerHTML =
@@ -199,47 +234,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         Object.values(await response.json()).forEach(async (data: string) => 
                             currentTabEntries.innerHTML += data
                         )
-
-                    }
-
+                        
+                    })
+    
+                    tableSearchInput.value = ''
                     utils.checkForms(tableSearchForm, false)
 
-                })
-                tableSearchSubmit.addEventListener('click', async (event: Event) => {
+                } catch (err) {
 
-                    event.preventDefault()
-
-                    const searchQuery: string = tableSearchInput.value
-                    let response: Response
-
-                    tableSearchSubmit.disabled = true
-                    tableSearchSubmit.innerHTML =
-                    `
-                        <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                        Searching...
-                    `
-
-                    response = await fetch(`/personnel/table/${ currentTab }/search/${ searchQuery }`, {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' }
+                    const errorData: URLSearchParams = await utils.errorPrompt({ 
+                        title: err.title, 
+                        status: err.status, 
+                        body: err.body 
                     })
 
-                    currentTabEntries.innerHTML = ''
-                    tableSearchSubmit.disabled = false
-                    tableSearchSubmit.innerHTML =
-                    `
-                        <i class="fa-regular fa-magnifying-glass"></i>
-                        Search
-                    `
-
-                    Object.values(await response.json()).forEach(async (data: string) => 
-                        currentTabEntries.innerHTML += data
-                    )
+                    window.location.href = `/error?${ errorData.toString() }`
                     
-                })
-
-                tableSearchInput.value = ''
-                utils.checkForms(tableSearchForm, false)
+                }
 
             })
 

@@ -48,19 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData)
                 });
-                if (!response.ok) {
-                    if (response.status === 403) {
-                        await utils.manipulateURL({
-                            title: 'Incorrect username or password',
-                            body: 'Make sure that everything is typed correctly.'
-                        });
-                    }
-                    else {
-                        await utils.manipulateURL({
-                            title: 'Internal Server Error',
-                            body: 'Contact the server administrator.'
-                        });
-                    }
+                if (response.status === 403) {
+                    const data = await response.json();
+                    await utils.manipulateURL({
+                        title: data['title'],
+                        body: data['body']
+                    });
                     const warningTitle = await utils.getURLData(window.location.search, 'title');
                     const warningBody = await utils.getURLData(window.location.search, 'body');
                     modalWarning.querySelector('h3').textContent = warningTitle;
@@ -72,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             catch (err) {
-                modalWarningText.querySelector('h3').textContent = 'An unhandled exception occured.';
-                modalWarningText.querySelector('h4').textContent = err;
+                modalWarningText.querySelector('h3').textContent = err.title;
+                modalWarningText.querySelector('h4').textContent = err.message;
                 modalWarning.style.display = 'flex';
             }
         }, 2500);

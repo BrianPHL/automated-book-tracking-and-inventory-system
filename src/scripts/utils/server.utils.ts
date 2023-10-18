@@ -25,12 +25,6 @@ export const executeDatabaseQuery = async (query: string, argument?: string | st
     
 }
 
-export const isQueryError = async (result: any) => { 
-    
-    return result && result.constructor && result.constructor.name === "QueryError" 
-
-}
-
 export const errorPrompt = async (res: Response, type: string, data: { status: number, title: string, body: string }): Promise<void | string> => {
 
     const params = new URLSearchParams()

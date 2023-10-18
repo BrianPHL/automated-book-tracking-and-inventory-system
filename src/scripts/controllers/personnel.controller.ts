@@ -36,13 +36,6 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
         const { username, password } = req.body
         const queryString = "SELECT * FROM personnel WHERE username = ? AND password = ?"
         const result = await utils.executeDatabaseQuery(queryString, [username, password])
-        
-        if (await utils.isQueryError(result)) {
-            
-            console.error(result)
-            res.sendStatus(500)
-        
-        }
 
         if (!utils.isQueryResultEmpty(result)) {
 
@@ -77,14 +70,20 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
             })
             .sendStatus(200)
 
-        } else { res.sendStatus(403) }
+        } else { 
+            
+            const title: string = 'Incorrect username or password!'
+            const body: string = 'Make sure that everything is typed correctly.'
+
+            res.status(403).json({ title: title, body: body })
+        }
 
     } catch (err) {
 
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 
@@ -333,7 +332,7 @@ export const personnelTableSearch = async (req: Request, res: Response): Promise
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 
@@ -358,7 +357,7 @@ export const personnelTableFetch = async (req: Request, res: Response): Promise<
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
     
@@ -471,7 +470,7 @@ export const personnelTableRegister = async (req: Request, res: Response): Promi
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 }
@@ -587,7 +586,7 @@ export const personnelTableEdit = async (req: Request, res: Response): Promise<v
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 
@@ -678,7 +677,7 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 
@@ -709,7 +708,7 @@ export const personnelTableDelete = async (req: Request, res: Response): Promise
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 
@@ -738,7 +737,7 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 
@@ -771,7 +770,7 @@ export const personnelDashboardData = async (req: Request, res: Response): Promi
         const { name, message } = err
 
         console.error(name, message)
-        res.status(500).json({ name: name, message: message })
+        res.status(500).json({ title: name, status: 500, body: message });
 
     }
 
