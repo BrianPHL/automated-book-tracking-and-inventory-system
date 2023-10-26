@@ -655,17 +655,22 @@ export const personnelUsers = async (req, res) => {
         res.status(500).json({ error: { name: name, message: message } });
     }
 };
-export const personnelUsersData = async (req, res) => {
+export const personnelAccountData = async (req, res) => {
     try {
-        let resultData = {};
         const token = req.cookies['pData'];
-        const [accountData, overviewData, tableData] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'users'),
-            utils.fetchTableEntries('personnel', 'users')
-        ]);
-        Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
-        res.json(resultData);
+        const response = await utils.executeDatabaseQuery(`
+                SELECT
+                    first_name, role
+                FROM
+                    personnel
+                WHERE
+                    access_token = ?
+            `, [token]);
+        const data = {
+            firstName: response[0]['first_name'],
+            role: response[0]['role']
+        };
+        res.json(data);
     }
     catch (err) {
         const { name, message } = err;

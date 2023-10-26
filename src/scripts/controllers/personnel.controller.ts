@@ -929,27 +929,31 @@ export const personnelUsers = async (req: Request, res: Response): Promise<void>
 
 }
 
-export const personnelUsersData = async (req: Request, res: Response): Promise<void> => {
+export const personnelAccountData = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
-        let resultData: Object = {}
-
         const token = req.cookies['pData']
-        const [ accountData, overviewData, tableData ] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'users'),
-            utils.fetchTableEntries('personnel', 'users')
-        ])
-        
-        Object.assign(
-            resultData,
-            { accountData: accountData },
-            { overviewData: overviewData },
-            { tableData: tableData }
+        const response: string[] = await utils.executeDatabaseQuery(
+            `
+                SELECT
+                    first_name, role
+                FROM
+                    personnel
+                WHERE
+                    access_token = ?
+            `, 
+            [ token ]
         )
+        const data: Object = {
 
-        res.json(resultData)
+            firstName: response[0]['first_name'],
+            role: response[0]['role']
+
+
+        }
+
+        res.json(data)
 
     } catch (err) {
 
