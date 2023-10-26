@@ -962,22 +962,20 @@ export const personnelUsersData = async (req: Request, res: Response): Promise<v
 
 }
 
-export const personnelLogout = async (req: Request, res: Response): Promise<void> => {
-    
-    const token: UUID = req.cookies['pData']
+export const personnelAccountLogout = async (req: Request, res: Response): Promise<void> => {
 
     try {
+
+        const token: UUID = req.cookies['pData']
 
         await utils.modifyAccessToken('remove', {
             table: 'personnel',
             token: token
         })
 
-        res
-        .clearCookie('pMemory')
-        .clearCookie('pAccess')
-        .clearCookie('pData')
-        .sendStatus(200)
+        res.clearCookie('pMemory').clearCookie('pAccess').clearCookie('pData')
+
+        setTimeout(() => res.sendStatus(200), 2500)
 
     } catch (err) {
 

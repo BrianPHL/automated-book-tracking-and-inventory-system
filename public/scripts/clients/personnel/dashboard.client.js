@@ -62,25 +62,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     ? utils.setDarkTheme()
                     : utils.setLightTheme();
             });
-            navLogout.addEventListener('click', (event) => {
+            navLogout.addEventListener('click', async (event) => {
                 event.preventDefault();
                 navLogout.innerHTML =
                     `
                     <i class="fa-duotone fa-spinner-third fa-spin"></i>
                     <h2>Logging out...</h2>
                 `;
-                setTimeout(async () => {
-                    await fetch('/personnel/logout', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                    navLogout.innerHTML =
-                        `
-                        <i class="fa-regular fa-right-from-bracket"></i>
-                        <h2>Logout</h2>
-                    `;
-                    window.location.href = '/';
-                }, 2500);
+                await fetch('/personnel/account/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                navLogout.innerHTML =
+                    `
+                    <i class="fa-regular fa-right-from-bracket"></i>
+                    <h2>Logout</h2>
+                `;
+                window.location.href = '/';
             });
         }
         catch (err) {

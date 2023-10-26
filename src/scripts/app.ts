@@ -10,7 +10,7 @@ import personnelDashboardRoute from "./routes/personnel/dashboard.route.js";
 import personnelInventoryRoute from "./routes/personnel/inventory.route.js";
 import personnelStudentsRoute from "./routes/personnel/students.route.js";
 import personnelUsersRoute from "./routes/personnel/users.route.js";
-import personnelLogoutRoute from "./routes/personnel/logout.route.js";
+import personnelAccountRoute from "./routes/personnel/account.route.js";
 import studentLoginRoute from "./routes/student/login.route.js";
 import studentDashboardRoute from "./routes/student/dashboard.route.js";
 import studentLogoutRoute from "./routes/student/logout.route.js";
@@ -40,7 +40,7 @@ app.use("/personnel/dashboard", personnelDashboardRoute)
 app.use("/personnel/inventory", personnelInventoryRoute)
 app.use("/personnel/students", personnelStudentsRoute)
 app.use("/personnel/users", personnelUsersRoute)
-app.use("/personnel/logout", personnelLogoutRoute)
+app.use("/personnel/account", personnelAccountRoute)
 
 app.use("/student", studentLoginRoute)
 app.use("/student/dashboard", studentDashboardRoute)
