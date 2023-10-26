@@ -1,5 +1,8 @@
 import { pool } from "../app.js";
 import { DateTime } from "luxon";
+export const delay = async (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+};
 export const executeDatabaseQuery = async (query, argument, callback) => {
     try {
         if (!callback) {

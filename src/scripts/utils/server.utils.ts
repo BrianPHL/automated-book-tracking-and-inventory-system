@@ -3,6 +3,10 @@ import { Response } from "express";
 import { UUID } from "crypto";
 import { DateTime } from "luxon";
 
+export const delay = async (milliseconds: number): Promise<void> => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 export const executeDatabaseQuery = async (query: string, argument?: string | string[] | null, callback?: (result: any) => void): Promise<any> => {
 
     try {
