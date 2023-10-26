@@ -1050,161 +1050,196 @@
 
         </header>
 
-        <!-- <div class="overview">
+        <div class="overview">
 
             <div class="first">
 
-                <div class="header">
+                <div class="loader">
 
-                    <h2>No data</h2>
-                    <h3>Internal Server Error</h3>
-
+                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <h2>Fetching overview data...</h2>
+                    
                 </div>
 
-                <h1>No data</h1>
+                <div class="data">
+
+                    <div class="header">
+                        <h2>Overview</h2>
+                    </div>
+    
+                    <h1>null</h1>
+
+                </div>
 
             </div>
 
             <div class="second">
 
-                <div class="header">
+                <div class="loader">
 
-                    <h2>No data</h2>
-                    <h3>Internal Server Error</h3>
-
+                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <h2>Fetching overview data...</h2>
+                    
                 </div>
 
-                <h1>No data</h1>
+                <div class="data">
+
+                    <div class="header">
+                        <h2>Overview</h2>
+                    </div>
+    
+                    <h1>null</h1>
+
+                </div>
 
             </div>
 
             <div class="third">
 
-                <div class="header">
+                <div class="loader">
 
-                    <h2>No data</h2>
-                    <h3>Internal Server Error</h3>
+                    <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                    <h2>Fetching overview data...</h2>
+                    
+                </div>
+
+                <div class="data">
+
+                    <div class="header">
+                        <h2>Overview</h2>
+                    </div>
+    
+                    <h1>null</h1>
 
                 </div>
 
-                <h1>No data</h1>
-
             </div>
 
-        </div> -->
+        </div>
 
         <div class="table" data-tab="dashboard" data-active="true">
 
-            <div class="controls">
+            <div class="loader">
 
-                <form class="search" data-type="dashboard">
-
-                    <div class="input">
-    
-                        <input type="text" class="input" placeholder=" ">
-                        <label for="search" class="label">Search</label>
-                        
-                    </div>
-    
-                    <button data-type="search" type="submit" disabled>
-                        <i class="fa-regular fa-magnifying-glass"></i>
-                        Search
-                    </button>
-    
-                </form>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                <h2>Fetching table data...</h2>
 
             </div>
 
-            <div class="data">
+            <div class="content">
 
-                <div class="headers">
-
-                    <i class="warning fa-regular fa-triangle-exclamation"></i>
-
-                    <div class="title">
-                        
-                        <div class="wrapper"><h2>Title</h2></div>
-
-                    </div>
-
-                    <div class="status">
-                        
-                        <div class="wrapper"><h2>Status</h2></div>
-
-                    </div>
-
-                    <div class="borrower">
-                        
-                        <div class="wrapper"><h2>Borrower</h2></div>
-
-                    </div>
-
-                    <div class="borrowDate">
-                        
-                        <div class="wrapper">
-
-                            <h2>Date</h2>
-                            <h3>Borrow</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="dueDate">
-                        
-                        <div class="wrapper">
-
-                            <h2>Date</h2>
-                            <h3>Due</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="publicationDate">
-
-                        <div class="wrapper">
-
-                            <h2>Date</h2>
-                            <h3>Publication</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="acquiredDate">
-                        
-                        <div class="wrapper">
-
-                            <h2>Date</h2>
-                            <h3>Acquired</h3>
-
-                        </div>
-                        
-                    </div>
-
-                    <div class="actions">
-
-                        <i class="fa-regular fa-pen-to-square"></i>
-
-                    </div>
-
-                </div>
-                
-                <div class="entries"></div>
-
-            </div>
-
-            <div class="pagination">
-                
-                <h3>Showing <span class="currentCount">0</span> of <span class="maxCount">0</span> books</h3>
-                
                 <div class="controls">
 
-                    <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
-                    <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
-                    <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
-
+                    <form class="search" data-type="dashboard">
+    
+                        <div class="input">
+        
+                            <input type="text" class="input" placeholder=" ">
+                            <label for="search" class="label">Search</label>
+                            
+                        </div>
+        
+                        <button data-type="search" type="submit" disabled>
+                            <i class="fa-regular fa-magnifying-glass"></i>
+                            Search
+                        </button>
+        
+                    </form>
+    
+                </div>
+    
+                <div class="data">
+    
+                    <div class="headers">
+    
+                        <i class="warning fa-regular fa-triangle-exclamation"></i>
+    
+                        <div class="title">
+                            
+                            <div class="wrapper"><h2>Title</h2></div>
+    
+                        </div>
+    
+                        <div class="status">
+                            
+                            <div class="wrapper"><h2>Status</h2></div>
+    
+                        </div>
+    
+                        <div class="borrower">
+                            
+                            <div class="wrapper"><h2>Borrower</h2></div>
+    
+                        </div>
+    
+                        <div class="borrowDate">
+                            
+                            <div class="wrapper">
+    
+                                <h2>Date</h2>
+                                <h3>Borrow</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="dueDate">
+                            
+                            <div class="wrapper">
+    
+                                <h2>Date</h2>
+                                <h3>Due</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="publicationDate">
+    
+                            <div class="wrapper">
+    
+                                <h2>Date</h2>
+                                <h3>Publication</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="acquiredDate">
+                            
+                            <div class="wrapper">
+    
+                                <h2>Date</h2>
+                                <h3>Acquired</h3>
+    
+                            </div>
+                            
+                        </div>
+    
+                        <div class="actions">
+    
+                            <i class="fa-regular fa-pen-to-square"></i>
+    
+                        </div>
+    
+                    </div>
+                    
+                    <div class="entries"></div>
+    
+                </div>
+    
+                <div class="pagination">
+                    
+                    <h3>Showing <span class="currentCount">0</span> of <span class="maxCount">0</span> books</h3>
+                    
+                    <div class="controls">
+    
+                        <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
+                        <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
+                        <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
+    
+                    </div>
+    
                 </div>
 
             </div>
@@ -1213,109 +1248,120 @@
 
         <div class="table" data-tab="inventory" data-active="false" style="display: none;">
             
-            <div class="controls">
+            <div class="loader">
 
-                <form class="search" data-type="inventory">
-
-                    <div class="input">
-    
-                        <input type="text" class="input" placeholder=" ">
-                        <label for="search" class="label">Search</label>
-                        
-                    </div>
-    
-                    <button data-type="search" type="submit" disabled>
-                        <i class="fa-regular fa-magnifying-glass"></i>
-                        Search
-                    </button>
-    
-                </form>
-
-                <button data-type="inventory" data-action="register" type="submit">
-
-                    <i class="fa-regular fa-plus"></i>
-                    Register a book
-
-                </button>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                <h2>Fetching table data...</h2>
 
             </div>
 
-            <div class="data">
+            <div class="content">
 
-                <div class="headers">
-
-                    <i class="warning fa-regular fa-triangle-exclamation"></i>
-
-                    <div class="title">
-                        
-                        <div class="wrapper"><h2>Title</h2></div>
-
-                    </div>
-
-                    <div class="status">
-                        
-                        <div class="wrapper"><h2>Status</h2></div>
-
-                    </div>
-
-                    <div class="author">
-                        
-                        <div class="wrapper"><h2>Author</h2></div>
-
-                    </div>
-
-                    <div class="genre">
-                        
-                        <div class="wrapper"><h2>Genre</h2></div>
-
-                    </div>
-
-                    <div class="publicationDate">
-
-                        <div class="wrapper">
-
-                            <h2>Date</h2>
-                            <h3>Publication</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="acquiredDate">
-
-                        <div class="wrapper">
-
-                            <h2>Date</h2>
-                            <h3>Acquired</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="actions">
-
-                        <i class="fa-regular fa-arrow-right-from-arc"></i>
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        <i class="fa-regular fa-xmark"></i>
-
-                    </div>
-
-                </div>
-                
-                <div class="entries"></div>
-
-            </div>
-
-            <div class="pagination">
-                
-                <h3>Showing <span class="currentCount">0</span> of <span class="maxCount">0</span> books</h3>
-                
                 <div class="controls">
 
-                    <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
-                    <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
-                    <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
-
+                    <form class="search" data-type="inventory">
+    
+                        <div class="input">
+        
+                            <input type="text" class="input" placeholder=" ">
+                            <label for="search" class="label">Search</label>
+                            
+                        </div>
+        
+                        <button data-type="search" type="submit" disabled>
+                            <i class="fa-regular fa-magnifying-glass"></i>
+                            Search
+                        </button>
+        
+                    </form>
+    
+                    <button data-type="inventory" data-action="register" type="submit">
+    
+                        <i class="fa-regular fa-plus"></i>
+                        Register a book
+    
+                    </button>
+    
+                </div>
+    
+                <div class="data">
+    
+                    <div class="headers">
+    
+                        <i class="warning fa-regular fa-triangle-exclamation"></i>
+    
+                        <div class="title">
+                            
+                            <div class="wrapper"><h2>Title</h2></div>
+    
+                        </div>
+    
+                        <div class="status">
+                            
+                            <div class="wrapper"><h2>Status</h2></div>
+    
+                        </div>
+    
+                        <div class="author">
+                            
+                            <div class="wrapper"><h2>Author</h2></div>
+    
+                        </div>
+    
+                        <div class="genre">
+                            
+                            <div class="wrapper"><h2>Genre</h2></div>
+    
+                        </div>
+    
+                        <div class="publicationDate">
+    
+                            <div class="wrapper">
+    
+                                <h2>Date</h2>
+                                <h3>Publication</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="acquiredDate">
+    
+                            <div class="wrapper">
+    
+                                <h2>Date</h2>
+                                <h3>Acquired</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="actions">
+    
+                            <i class="fa-regular fa-arrow-right-from-arc"></i>
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <i class="fa-regular fa-xmark"></i>
+    
+                        </div>
+    
+                    </div>
+                    
+                    <div class="entries"></div>
+    
+                </div>
+    
+                <div class="pagination">
+                    
+                    <h3>Showing <span class="currentCount">0</span> of <span class="maxCount">0</span> books</h3>
+                    
+                    <div class="controls">
+    
+                        <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
+                        <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
+                        <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
+    
+                    </div>
+    
                 </div>
 
             </div>
@@ -1324,120 +1370,131 @@
 
         <div class="table" data-tab="students" data-active="false" style="display: none;">
         
-            <div class="controls">
+            <div class="loader">
 
-                <form class="search" data-type="students">
-
-                    <div class="input">
-    
-                        <input type="text" class="input" placeholder=" ">
-                        <label for="search" class="label">Search</label>
-                        
-                    </div>
-    
-                    <button data-type="search" type="submit" disabled>
-                        <i class="fa-regular fa-magnifying-glass"></i>
-                        Search
-                    </button>
-    
-                </form>
-
-                <button data-type="students" data-action="register" type="submit">
-
-                    <i class="fa-regular fa-plus"></i>
-                    Register a student
-                
-                </button>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                <h2>Fetching table data...</h2>
 
             </div>
 
-            <div class="data">
-
-                <div class="headers">
-
-                    <i class="warning fa-regular fa-triangle-exclamation"></i>
-
-                    <div class="name">
-                        
-                        <div class="wrapper"><h2>Name</h2></div>
-
-                    </div>
-
-                    <div class="studentNumber">
-                        
-                        <div class="wrapper">
-
-                            <h2>Number</h2>
-                            <h3>Student</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="status">
-                        
-                        <div class="wrapper"><h2>Status</h2></div>
-
-                    </div>
-
-                    <div class="borrowedBook">
-                        
-                        <div class="wrapper">
-
-                            <h2>Book</h2>
-                            <h3>Borrowed</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="phoneNumber">
-                        
-                        <div class="wrapper">
-
-                            <h2>Number</h2>
-                            <h3>Phone</h3>
-
-                        </div>
-
-                    </div>
-
-                    <div class="emailAddress">
-
-                        <div class="wrapper">
-                            
-                            <h2>Address</h2>
-                            <h3>Email</h3>
-                        
-                        </div>
-
-                    </div>
-
-                    <div class="actions">
-
-                        <i class="fa-regular fa-message"></i>
-                        <i class="fa-regular fa-arrow-right-from-arc"></i>
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        <i class="fa-regular fa-xmark"></i>
-
-                    </div>
-
-                </div>
-                
-                <div class="entries"></div>
-
-            </div>
-
-            <div class="pagination">
-
-                <h3>Showing <span class="currentCount">0</span> of <span class="maxCount">0</span> students</h3>
+            <div class="content">
 
                 <div class="controls">
 
-                    <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
-                    <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
-                    <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
-
+                    <form class="search" data-type="students">
+    
+                        <div class="input">
+        
+                            <input type="text" class="input" placeholder=" ">
+                            <label for="search" class="label">Search</label>
+                            
+                        </div>
+        
+                        <button data-type="search" type="submit" disabled>
+                            <i class="fa-regular fa-magnifying-glass"></i>
+                            Search
+                        </button>
+        
+                    </form>
+    
+                    <button data-type="students" data-action="register" type="submit">
+    
+                        <i class="fa-regular fa-plus"></i>
+                        Register a student
+                    
+                    </button>
+    
+                </div>
+    
+                <div class="data">
+    
+                    <div class="headers">
+    
+                        <i class="warning fa-regular fa-triangle-exclamation"></i>
+    
+                        <div class="name">
+                            
+                            <div class="wrapper"><h2>Name</h2></div>
+    
+                        </div>
+    
+                        <div class="studentNumber">
+                            
+                            <div class="wrapper">
+    
+                                <h2>Number</h2>
+                                <h3>Student</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="status">
+                            
+                            <div class="wrapper"><h2>Status</h2></div>
+    
+                        </div>
+    
+                        <div class="borrowedBook">
+                            
+                            <div class="wrapper">
+    
+                                <h2>Book</h2>
+                                <h3>Borrowed</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="phoneNumber">
+                            
+                            <div class="wrapper">
+    
+                                <h2>Number</h2>
+                                <h3>Phone</h3>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="emailAddress">
+    
+                            <div class="wrapper">
+                                
+                                <h2>Address</h2>
+                                <h3>Email</h3>
+                            
+                            </div>
+    
+                        </div>
+    
+                        <div class="actions">
+    
+                            <i class="fa-regular fa-message"></i>
+                            <i class="fa-regular fa-arrow-right-from-arc"></i>
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <i class="fa-regular fa-xmark"></i>
+    
+                        </div>
+    
+                    </div>
+                    
+                    <div class="entries"></div>
+    
+                </div>
+    
+                <div class="pagination">
+    
+                    <h3>Showing <span class="currentCount">0</span> of <span class="maxCount">0</span> students</h3>
+    
+                    <div class="controls">
+    
+                        <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
+                        <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
+                        <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
+    
+                    </div>
+    
                 </div>
 
             </div>
@@ -1446,97 +1503,108 @@
 
         <div class="table" data-tab="users" data-active="false" style="display: none;">
 
-            <div class="controls">
+            <div class="loader">
 
-                <form class="search" data-type="users">
-
-                    <div class="input">
-    
-                        <input type="text" class="input" placeholder=" ">
-                        <label for="search" class="label">Search</label>
-                        
-                    </div>
-    
-                    <button data-type="search" type="submit" disabled>
-                        <i class="fa-regular fa-magnifying-glass"></i>
-                        Search
-                    </button>
-    
-                </form>
-
-                <button data-type="users" data-action="register" type="submit">
-
-                    <i class="fa-regular fa-plus"></i>
-                    Register a personnel
-
-                </button>
+                <i class="fa-duotone fa-spinner-third fa-spin"></i>
+                <h2>Fetching table data...</h2>
 
             </div>
 
-            <div class="data">
-
-                <div class="headers">
-
-                    <i class="warning fa-regular fa-triangle-exclamation"></i>
-
-                    <div class="fullName">
-                        
-                        <div class="wrapper"><h2>Name</h2></div>
-
-                    </div>
-
-                    <div class="username">
-                        
-                        <div class="wrapper"><h2>Username</h2></div>
-
-                    </div>
-
-                    <div class="role">
-                        
-                        <div class="wrapper"><h2>Role</h2></div>
-
-                    </div>
-
-                    <div class="privilege">
-                        
-                        <div class="wrapper"><h2>Privilege</h2></div>
-
-                    </div>
-
-                    <div class="emailAddress">
-                        
-                        <div class="wrapper">
-                        
-                            <h2>Address</h2>
-                            <h3>Email</h3>
-                        
-                        </div>
-
-                    </div>
-
-                    <div class="actions">
-
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        <i class="fa-regular fa-xmark"></i>
-
-                    </div>
-
-                </div>
-                
-                <div class="entries"></div>
-
-            </div>
-
-            <div class="pagination">
-
-                <h3>Showing <span class="currentCount">0</span> of <span class="maxCount"></span> books</h3>
+            <div class="content">
 
                 <div class="controls">
 
-                    <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
-                    <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
-                    <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
-
+                    <form class="search" data-type="users">
+    
+                        <div class="input">
+        
+                            <input type="text" class="input" placeholder=" ">
+                            <label for="search" class="label">Search</label>
+                            
+                        </div>
+        
+                        <button data-type="search" type="submit" disabled>
+                            <i class="fa-regular fa-magnifying-glass"></i>
+                            Search
+                        </button>
+        
+                    </form>
+    
+                    <button data-type="users" data-action="register" type="submit">
+    
+                        <i class="fa-regular fa-plus"></i>
+                        Register a personnel
+    
+                    </button>
+    
+                </div>
+    
+                <div class="data">
+    
+                    <div class="headers">
+    
+                        <i class="warning fa-regular fa-triangle-exclamation"></i>
+    
+                        <div class="fullName">
+                            
+                            <div class="wrapper"><h2>Name</h2></div>
+    
+                        </div>
+    
+                        <div class="username">
+                            
+                            <div class="wrapper"><h2>Username</h2></div>
+    
+                        </div>
+    
+                        <div class="role">
+                            
+                            <div class="wrapper"><h2>Role</h2></div>
+    
+                        </div>
+    
+                        <div class="privilege">
+                            
+                            <div class="wrapper"><h2>Privilege</h2></div>
+    
+                        </div>
+    
+                        <div class="emailAddress">
+                            
+                            <div class="wrapper">
+                            
+                                <h2>Address</h2>
+                                <h3>Email</h3>
+                            
+                            </div>
+    
+                        </div>
+    
+                        <div class="actions">
+    
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <i class="fa-regular fa-xmark"></i>
+    
+                        </div>
+    
+                    </div>
+                    
+                    <div class="entries"></div>
+    
+                </div>
+    
+                <div class="pagination">
+    
+                    <h3>Showing <span class="currentCount">0</span> of <span class="maxCount"></span> books</h3>
+    
+                    <div class="controls">
+    
+                        <i aria-disabled="true" class="previousPage fa-regular fa-angle-left"></i>                    
+                        <h3>Showing page <input class="currentPage" type="text"> of <span class="maxPage">0</span></h3>
+                        <i aria-disabled="true" class="nextPage fa-regular fa-angle-right"></i>
+    
+                    </div>
+    
                 </div>
 
             </div>
