@@ -1,6 +1,8 @@
 import express from "express";
 import * as controller from "../../controllers/personnel.controller.js";
 const personnelTableRoute = express.Router();
+personnelTableRoute.get("/:tab/overview/retrieve", controller.personnelTableOverview);
+personnelTableRoute.get("/:tab/data/retrieve", controller.personnelTableData);
 personnelTableRoute.get("/:tab/search/:query?", controller.personnelTableSearch);
 personnelTableRoute.get("/:tab/fetch/:query?", controller.personnelTableFetch);
 personnelTableRoute.post("/:tab/register", controller.personnelTableRegister);
