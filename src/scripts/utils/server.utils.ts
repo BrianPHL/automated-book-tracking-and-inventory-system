@@ -111,7 +111,7 @@ export const validateAccessToken = async (data: { table: string, token: UUID }):
 
 }
 
-export const retrieveAccountData = async (type: string, token: UUID): Promise<object | boolean> => {
+export const fetchAccountData = async (type: string, token: UUID): Promise<object | boolean> => {
 
     let result: object = {}
 
@@ -134,184 +134,450 @@ export const retrieveAccountData = async (type: string, token: UUID): Promise<ob
     
 }
 
-export const retrieveOverviewData = async (type: string, tab: string): Promise<object | boolean> => {
+export const fetchOverviewData = async (type: string, tab: string): Promise<string[]> => {
 
-    let result: object = {}
+    let fetchedData: string[] = []
 
-    const retrieveDashboardData = async (): Promise<void> => {
+    const Personnel: { [ key: string ]: Function } = {
 
-        try {
+        Dashboard: async (): Promise<void> => {
 
-            const [ students, books, availableBooks, unavailableBooks ] = await Promise.all([
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM students'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Available"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Past Due" OR status = "Borrowed"')    
-            ])
-
-            Object.assign(
-                result, 
-                { studentCount: students[0].count },
-                { bookCount: books[0].count },
-                { availableBookCount: availableBooks[0].count },
-                { availableBookCountPercentage: Math.floor( availableBooks[0].count / books[0].count * 100 ) },
-                { unavailableBookCount: unavailableBooks[0].count },
-                { unavailableBookCountPercentage: Math.floor( unavailableBooks[0].count / books[0].count * 100 ) }
-            )
-
-        } catch (err) {
-
-            console.error(err.name, err.message)
-            throw err
-
+            return new Promise(async (resolve) => {
+    
+                const [ students, books, availableBooks, unavailableBooks ] = await Promise.all([
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                students
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books 
+                            WHERE 
+                                status = "Available"
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books 
+                            WHERE 
+                                status = "Past Due" OR status = "Borrowed"
+                        `
+                    )
+                ])
+                const first: string =
+                `
+                    <div class="header">
+                        <h2>Registered</h2>
+                    </div>
+                    <h1>
+                        ${ students[0]['count'] }
+                        ${ 
+                            students[0]['count'] === 1 
+                            ? 'student' 
+                            : 'students' 
+                        }
+                    </h1>    
+                `
+                const second: string =
+                `
+                    <div class="header">
+                        <h2>Available</h2>
+                        <h3>
+                            ${ Math.floor(availableBooks[0]['count'] / books[0]['count'] * 100) }%
+                            of books
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ availableBooks[0]['count'] }
+                        ${ 
+                            availableBooks[0]['count'] === 1 
+                            ? 'book' 
+                            : 'books' 
+                        }
+                    </h1>
+                `
+                const third: string =
+                `
+                    <div class="header">
+                        <h2>Unavailable</h2>
+                        <h3>
+                            ${ Math.floor(unavailableBooks[0]['count'] / books[0]['count'] * 100) }%
+                            of books
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ unavailableBooks[0]['count'] }
+                        ${ 
+                            unavailableBooks[0]['count'] === 1 
+                            ? 'book' 
+                            : 'books' 
+                        }
+                    </h1>
+                `
+    
+                fetchedData = [ first, second, third ]
+    
+                resolve()
+    
+            })
+    
+        },
+        Inventory: async (): Promise<void> => {
+    
+            return new Promise(async (resolve) => {
+    
+                const [ books, available, borrowed, due ] = await Promise.all([
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books 
+                            WHERE 
+                                status = "Available"
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books 
+                            WHERE 
+                                status = "Borrowed"
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books 
+                            WHERE 
+                                status = "Past Due"
+                        `
+                    )    
+                ])
+                const first: string =
+                `
+                    <div class="header">
+                        <h2>Available</h2>
+                        <h3>
+                            ${ Math.floor(available[0]['count'] / books[0]['count'] * 100) }%
+                            of books
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ available[0]['count'] }
+                        ${ 
+                            available[0]['count'] === 1 
+                            ? 'book' 
+                            : 'books' 
+                        }
+                    </h1>
+                `
+                const second: string =
+                `
+                    <div class="header">
+                        <h2>Borrowed</h2>
+                        <h3>
+                            ${ Math.floor(borrowed[0]['count'] / books[0]['count'] * 100) }%
+                            of books
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ borrowed[0]['count'] }
+                        ${ 
+                            borrowed[0]['count'] === 1 
+                            ? 'book' 
+                            : 'books' 
+                        }
+                    </h1>
+                `
+                const third: string =
+                `
+                    <div class="header">
+                        <h2>Due</h2>
+                        <h3>
+                            ${ Math.floor(due[0]['count'] / books[0]['count'] * 100) }%
+                            of books
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ due[0]['count'] }
+                        ${ 
+                            due[0]['count'] === 1 
+                            ? 'book' 
+                            : 'books' 
+                        }
+                    </h1>
+                `
+    
+                fetchedData = [ first, second, third ]
+    
+                resolve()
+    
+            })
+    
+        },
+        Students: async (): Promise<void> => {
+    
+            return new Promise(async (resolve) => {
+    
+                const [ students, vacant, borrower, due ] = await Promise.all([
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                students
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books 
+                            WHERE 
+                                status = "Available"
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books 
+                            WHERE 
+                                status = "Borrowed"
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                books
+                            WHERE 
+                                status = "Past Due"
+                        `
+                    )   
+                ])
+                const first: string =
+                `
+                    <div class="header">
+                        <h2>Vacant</h2>
+                        <h3>
+                            ${ Math.floor(vacant[0]['count'] / students[0]['count'] * 100) }%
+                            of students
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ vacant[0]['count'] }
+                        ${ 
+                            vacant[0]['count'] === 1 
+                            ? 'student' 
+                            : 'students'
+                        }
+                    </h1>
+                `
+                const second: string =
+                `
+                    <div class="header">
+                        <h2>Borrower</h2>
+                        <h3>
+                            ${ Math.floor(borrower[0]['count'] / students[0]['count'] * 100) }%
+                            of students
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ borrower[0]['count'] }
+                        ${ 
+                            borrower[0]['count'] === 1 
+                            ? 'student' 
+                            : 'students'
+                        }
+                    </h1>
+                `
+                const third: string =
+                `
+                    <div class="header">
+                        <h2>Due</h2>
+                        <h3>
+                            ${ Math.floor(due[0]['count'] / students[0]['count'] * 100) }%
+                            of students
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ due[0]['count'] }
+                        ${ 
+                            due[0]['count'] === 1 
+                            ? 'student' 
+                            : 'students'
+                        }
+                    </h1>
+                `
+    
+                fetchedData = [ first, second, third ]
+    
+                resolve()
+    
+            })
+            
+        },
+        Users: async (): Promise<void> => {
+    
+            return new Promise(async (resolve) => {
+    
+                const [ personnel, IT, librarian ] = await Promise.all([
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                personnel
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                personnel 
+                            WHERE 
+                                role = "IT"
+                        `
+                    ),
+                    executeDatabaseQuery(
+                        `
+                            SELECT 
+                                COUNT(*) AS count 
+                            FROM 
+                                personnel 
+                            WHERE 
+                                role = "Librarian"
+                        `
+                    )
+                ])
+                const first: string =
+                `
+                    <div class="header">
+                        <h2>Registered</h2>
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ personnel[0]['count'] } 
+                        ${ 
+                            personnel[0]['count'] === 1 
+                            ? 'staff'
+                            : 'staffs'
+                        }
+                    </h1>
+                `
+                const second: string =
+                `
+                    <div class="header">
+                        <h2>IT</h2>
+                        <h3>
+                            ${ Math.floor(IT[0]['count'] / personnel[0]['count'] * 100) }%
+                            of staffs
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ IT[0]['count'] } 
+                        ${ 
+                            IT[0]['count'] === 1 
+                            ? 'staff'
+                            : 'staffs'
+                        }
+                    </h1>
+                `
+                const third: string =
+                `
+                    <div class="header">
+                        <h2>Librarian</h2>
+                        <h3>
+                            ${ Math.floor(librarian[0]['count'] / personnel[0]['count'] * 100) }%
+                            of staffs
+                        </h3>
+                    </div>
+                    <h1>
+                        ${ librarian[0]['count'] }
+                        ${ 
+                            librarian[0]['count'] === 1
+                            ? 'staff'
+                            : 'staffs'
+                         }
+                    </h1>  
+                `
+    
+                fetchedData = [ first, second, third ]
+    
+                resolve()
+                
+            })
+    
         }
 
     }
 
-    const retrieveInventoryData = async (): Promise<void> => {
+    const Student: { Dashboard: Function } = {
 
-        try {
+        Dashboard: async (): Promise<void> => {
 
-            const [ books, availableBooks, borrowedBooks, dueBooks ] = await Promise.all([
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Available"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Borrowed"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Past Due"')    
-            ])
+            return new Promise(async (resolve) => {
 
-            Object.assign(
-                result,
-                { bookCount: books[0].count },
-                { availableBookCount: availableBooks[0].count },
-                { availableBookCountPercentage: Math.floor( availableBooks[0].count / books[0].count * 100 ) },
-                { borrowedBookCount: borrowedBooks[0].count },
-                { borrowedBookCountPercentage: Math.floor( borrowedBooks[0].count / books[0].count * 100 ) },
-                { dueBookCount: dueBooks[0].count },
-                { dueBookCountPercentage: Math.floor( dueBooks[0].count / books[0].count * 100 ) }
-            )
+                resolve()
 
-        } catch (err) {
-
-            console.error(err.name, err.message)
-            throw err
+            })
 
         }
 
     }
-
-    const retrieveStudentsData = async (): Promise<void> => {
-
-        try {
-
-            const [ students, vacantStudents, borrowerStudents, dueStudents ] = await Promise.all([
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM students'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Available"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Borrowed"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "Past Due"')    
-            ])
-
-            Object.assign(
-                result,
-                { studentCount: students[0].count },
-                { vacantStudentCount: vacantStudents[0].count },
-                { vacantStudentCountPercentage: Math.floor( vacantStudents[0].count / students[0].count * 100 ) },
-                { borrowerStudentCount: borrowerStudents[0].count },
-                { borrowerStudentCountPercentage: Math.floor( borrowerStudents[0].count / students[0].count * 100 ) },
-                { dueStudentCount: dueStudents[0].count },
-                { dueStudentCountPercentage: Math.floor( dueStudents[0].count / students[0].count * 100 ) }
-            )
-
-        } catch (err) {
-
-            console.error(err.name, err.message)
-            throw err
-
-        }
-
-    }
-
-    const retrieveUsersData = async () => {
-
-        try {
-
-            const [ personnel, itPersonnel, librarianPersonnel ] = await Promise.all([
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM personnel'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM personnel WHERE role = "IT"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM personnel WHERE role = "Librarian"')
-            ])
-
-            Object.assign(
-                result,
-                { personnelCount: personnel[0].count },
-                { itPersonnelCount: itPersonnel[0].count },
-                { itPersonnelCountPercentage: Math.floor(itPersonnel[0].count / personnel[0].count * 100) },
-                { librarianPersonnelCount: librarianPersonnel[0].count },
-                { librarianPersonnelCountPercentage: Math.floor(librarianPersonnel[0].count / personnel[0].count * 100) }
-            )
-
-        } catch (err) {
-
-            console.error(err.name, err.message)
-            throw err
-
-        }
-
-    }
-
-    const retrieveStudentData = async () => {
-
-        try {
-
-            const [ books, availableBooks, unavailableBooks ] = await Promise.all([
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "available"'),
-                executeDatabaseQuery('SELECT COUNT(*) AS count FROM books WHERE status = "due" OR status = "borrowed"')    
-            ])
-
-            Object.assign(
-                result,
-                { bookCount: books[0].count },
-                { availableBookCount: availableBooks[0].count },
-                { availableBookCountPercentage: Math.floor( availableBooks[0].count / books[0].count * 100 ) },
-                { unavailableBookCount: unavailableBooks[0].count },
-                { unavailableBookCountPercentage: Math.floor( unavailableBooks[0].count / books[0].count * 100 ) }
-            )
-
-        } catch (err) {
-
-            console.error(err.name, err.message)
-            throw err
-
-        }
-
-    }
-
+    
     try {
 
-        if (type !== 'students') {
+        switch (tab) {
 
-            switch (tab) {
-                
-                case 'dashboard': 
-                    await retrieveDashboardData()
-                    break
-                case 'inventory': 
-                    await retrieveInventoryData()
-                    break
-                case 'students': 
-                    await retrieveStudentsData()
-                    break
-                case 'users': 
-                    await retrieveUsersData()
-                    break
-                default: 
-                    throw `Error in switch-case; passed argument: ${tab} did not match any case.`
-            
-            }
+            case 'dashboard': 
+                type === 'personnel' 
+                ? await Personnel.Dashboard() 
+                : await Student.Dashboard(); 
+                break;
+            case 'inventory': await Personnel.Inventory(); break;
+            case 'students': await Personnel.Students(); break;
+            case 'users': await Personnel.Users(); break;
 
-        } else { await retrieveStudentData() }
+        }
 
-        return result
+        return fetchedData
 
     } catch (err) {
 

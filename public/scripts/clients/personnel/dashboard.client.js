@@ -1,5 +1,5 @@
 import * as utils from "../../utils/client.utils.js";
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const bodyElement = document.querySelector('body');
     let activeTable = bodyElement.querySelector('.table[data-active="true"]');
     utils.setPreferredTheme((cbData) => {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const navigation = bodyElement.querySelector('header > nav');
         const navigationTabs = navigation.querySelectorAll('.tabs > div');
         navigationTabs.forEach(navigationTab => {
-            navigationTab.addEventListener('click', (event) => {
+            navigationTab.addEventListener('click', async (event) => {
                 const targetTable = event.target;
                 activeTable = bodyElement.querySelector(`.table[data-tab="${targetTable.classList[0]}"]`);
                 navigationTabs.forEach(navigationTab => { navigationTab.classList.remove('active'); });
@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     table.setAttribute('data-active', 'false');
                     table.style.display = 'none';
                 });
-                activeTable.style.display = 'flex';
+                activeTable.style.display = 'grid';
                 activeTable.setAttribute('data-active', 'true');
-                utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
+                await utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
             });
         });
     };
@@ -39,21 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const navTheme = navActions.querySelector('.themeSwitch');
         const navLogout = navActions.querySelector('.logout');
         try {
-            navRefresh.addEventListener('click', (event) => {
+            navRefresh.addEventListener('click', async (event) => {
                 event.preventDefault();
                 navRefresh.innerHTML =
                     `
                     <i class="fa-regular fa-redo fa-spin"></i>
                     <h2>Refreshing...</h2>
                 `;
-                setTimeout(async () => {
-                    navRefresh.innerHTML =
-                        `
-                        <i class="fa-regular fa-redo"></i>
-                        <h2>Refresh</h2>
-                    `;
-                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
-                }, 2500);
+                await utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'));
+                navRefresh.innerHTML =
+                    `
+                    <i class="fa-regular fa-redo"></i>
+                    <h2>Refresh</h2>
+                `;
             });
             navTheme.addEventListener('click', (event) => {
                 const currentTheme = localStorage.getItem('theme');
@@ -492,5 +490,5 @@ document.addEventListener('DOMContentLoaded', () => {
         entryActions();
     };
     tableActions();
-    utils.setDashboardData('personnel');
+    await utils.setDashboardData('personnel');
 });

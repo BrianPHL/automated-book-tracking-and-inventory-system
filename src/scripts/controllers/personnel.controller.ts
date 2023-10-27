@@ -89,6 +89,46 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
 
 }
 
+export const personnelTableOverview = async (req: Request, res: Response): Promise<void> => {
+
+    const type: string = "personnel"
+    const tab: string = req.params.tab
+
+    try {
+
+        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 250)
+
+    } catch (err) {
+
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ title: name, status: 500, body: message });
+
+    }
+
+}
+
+export const personnelTableData = async (req: Request, res: Response): Promise<void> => {
+
+    const type: string = "personnel"
+    const tab: string = req.params.tab
+
+    try {
+
+        setTimeout(async () => res.json(await utils.fetchTableEntries(type, tab)), 500)
+
+    } catch (err) {
+
+        const { name, message } = err
+        
+        console.error(name, message)
+        res.status(500).json({ title: name, status: 500, body: message })
+
+    }
+
+}
+
 export const personnelTableSearch = async (req: Request, res: Response): Promise<void> => {
     
     let fetchedTableEntries: string[] = []
@@ -743,39 +783,6 @@ export const personnelDashboard = async (req: Request, res: Response): Promise<v
 
 }
 
-export const personnelDashboardData = async (req: Request, res: Response): Promise<void> => {
-
-    try {
-
-        let resultData: Object = {}
-
-        const token = req.cookies['pData']
-        const [ accountData, overviewData, tableData ] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'dashboard'),
-            utils.fetchTableEntries('personnel', 'dashboard')
-        ])
-        
-        Object.assign(
-            resultData,
-            { accountData: accountData },
-            { overviewData: overviewData },
-            { tableData: tableData }
-        )
-
-        res.json(resultData)
-
-    } catch (err) {
-
-        const { name, message } = err
-
-        console.error(name, message)
-        res.status(500).json({ title: name, status: 500, body: message });
-
-    }
-
-}
-
 export const personnelInventory = async (req: Request, res: Response): Promise<void> => {
 
     try {
@@ -793,39 +800,6 @@ export const personnelInventory = async (req: Request, res: Response): Promise<v
             body: 'You are not authorized to enter this webpage!'
         })
         : res.sendFile("inventory.html", { root: "public/views/personnel" })
-
-    } catch (err) {
-
-        const { name, message } = err
-
-        console.error(name, message)
-        res.status(500).json({ error: { name: name, message: message } })
-
-    }
-
-}
-
-export const personnelInventoryData = async (req: Request, res: Response): Promise<void> => {
-
-    try {
-
-        let resultData: Object = {}
-
-        const token = req.cookies['pData']
-        const [ accountData, overviewData, tableData ] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'inventory'),
-            utils.fetchTableEntries('personnel', 'inventory')
-        ])
-        
-        Object.assign(
-            resultData,
-            { accountData: accountData },
-            { overviewData: overviewData },
-            { tableData: tableData }
-        )
-
-        res.json(resultData)
 
     } catch (err) {
 
@@ -856,39 +830,6 @@ export const personnelStudents = async (req: Request, res: Response): Promise<vo
         })
         : res.sendFile("students.html", { root: "public/views/personnel" })
         
-    } catch (err) {
-
-        const { name, message } = err
-
-        console.error(name, message)
-        res.status(500).json({ error: { name: name, message: message } })
-
-    }
-
-}
-
-export const personnelStudentsData = async (req: Request, res: Response): Promise<void> => {
-
-    try {
-
-        let resultData: Object = {}
-
-        const token = req.cookies['pData']
-        const [ accountData, overviewData, tableData ] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'students'),
-            utils.fetchTableEntries('personnel', 'students')
-        ])
-        
-        Object.assign(
-            resultData,
-            { accountData: accountData },
-            { overviewData: overviewData },
-            { tableData: tableData }
-        )
-
-        res.json(resultData)
-
     } catch (err) {
 
         const { name, message } = err

@@ -1,6 +1,6 @@
 import * as utils from "../../utils/client.utils.js"
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
     const bodyElement: HTMLBodyElement = document.querySelector('body')
     let activeTable: HTMLDivElement = bodyElement.querySelector('.table[data-active="true"]')
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         navigationTabs.forEach(navigationTab => {
 
-            navigationTab.addEventListener('click', (event: MouseEvent) => {
+            navigationTab.addEventListener('click', async (event: MouseEvent) => {
 
                 const targetTable = event.target as HTMLElement
                 
@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     table.style.display = 'none'
 
                 })
-                activeTable.style.display = 'flex'
+                activeTable.style.display = 'grid'
                 activeTable.setAttribute('data-active', 'true')
 
-                utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
+                await utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
 
             })
 
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
 
-            navRefresh.addEventListener('click', (event) => {
+            navRefresh.addEventListener('click', async (event) => {
             
                 event.preventDefault()
     
@@ -78,18 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fa-regular fa-redo fa-spin"></i>
                     <h2>Refreshing...</h2>
                 `
-    
-                setTimeout(async () => {
-    
-                    navRefresh.innerHTML =
-                    `
-                        <i class="fa-regular fa-redo"></i>
-                        <h2>Refresh</h2>
-                    `
-    
-                    utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
-                    
-                }, 2500)
+
+                await utils.setDashboardData('personnel', activeTable.getAttribute('data-tab'))
+
+                navRefresh.innerHTML =
+                `
+                    <i class="fa-regular fa-redo"></i>
+                    <h2>Refresh</h2>
+                `
     
             })
     
@@ -715,6 +711,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     tableActions()
 
-    utils.setDashboardData('personnel')
+    await utils.setDashboardData('personnel')
 
 })
