@@ -4,6 +4,7 @@ import * as controller from "../../controllers/personnel.controller.js";
 const personnelInventoryRoute = express.Router();
 
 personnelInventoryRoute.get("/", controller.personnelInventory)
-personnelInventoryRoute.post("/retrieve", controller.personnelInventoryData)
+// personnelInventoryRoute.get("/overview/retrieve", controller.personnelInventoryOverview)
+// personnelInventoryRoute.get("/table/retrieve", controller.personnelInventoryTable)
 
 export default personnelInventoryRoute
