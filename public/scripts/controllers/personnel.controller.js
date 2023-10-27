@@ -65,7 +65,32 @@ export const personnelLoginAuth = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
+export const personnelTableOverview = async (req, res) => {
+    const type = "personnel";
+    const tab = req.params.tab;
+    try {
+        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 250);
+    }
+    catch (err) {
+        const { name, message } = err;
+        console.error(name, message);
+        res.status(500).json({ title: name, status: 500, body: message });
+    }
+};
+export const personnelTableData = async (req, res) => {
+    const type = "personnel";
+    const tab = req.params.tab;
+    try {
+        setTimeout(async () => res.json(await utils.fetchTableEntries(type, tab)), 500);
+    }
+    catch (err) {
+        const { name, message } = err;
+        console.error(name, message);
+        res.status(500).json({ title: name, status: 500, body: message });
+    }
+};
 export const personnelTableSearch = async (req, res) => {
+    // TODO: Convert to middleware for a tableSearch function
     let fetchedTableEntries = [];
     const fetchTab = req.params.tab;
     const fetchQuery = req.params.query || null;
@@ -538,24 +563,6 @@ export const personnelDashboard = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
-export const personnelDashboardData = async (req, res) => {
-    try {
-        let resultData = {};
-        const token = req.cookies['pData'];
-        const [accountData, overviewData, tableData] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'dashboard'),
-            utils.fetchTableEntries('personnel', 'dashboard')
-        ]);
-        Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
-        res.json(resultData);
-    }
-    catch (err) {
-        const { name, message } = err;
-        console.error(name, message);
-        res.status(500).json({ title: name, status: 500, body: message });
-    }
-};
 export const personnelInventory = async (req, res) => {
     try {
         const accessCookie = req.cookies['pAccess'];
@@ -577,24 +584,6 @@ export const personnelInventory = async (req, res) => {
         res.status(500).json({ error: { name: name, message: message } });
     }
 };
-export const personnelInventoryData = async (req, res) => {
-    try {
-        let resultData = {};
-        const token = req.cookies['pData'];
-        const [accountData, overviewData, tableData] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'inventory'),
-            utils.fetchTableEntries('personnel', 'inventory')
-        ]);
-        Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
-        res.json(resultData);
-    }
-    catch (err) {
-        const { name, message } = err;
-        console.error(name, message);
-        res.status(500).json({ error: { name: name, message: message } });
-    }
-};
 export const personnelStudents = async (req, res) => {
     try {
         const accessCookie = req.cookies['pAccess'];
@@ -609,24 +598,6 @@ export const personnelStudents = async (req, res) => {
                 body: 'You are not authorized to enter this webpage!'
             })
             : res.sendFile("students.html", { root: "public/views/personnel" });
-    }
-    catch (err) {
-        const { name, message } = err;
-        console.error(name, message);
-        res.status(500).json({ error: { name: name, message: message } });
-    }
-};
-export const personnelStudentsData = async (req, res) => {
-    try {
-        let resultData = {};
-        const token = req.cookies['pData'];
-        const [accountData, overviewData, tableData] = await Promise.all([
-            utils.retrieveAccountData('personnel', token),
-            utils.retrieveOverviewData('personnel', 'students'),
-            utils.fetchTableEntries('personnel', 'students')
-        ]);
-        Object.assign(resultData, { accountData: accountData }, { overviewData: overviewData }, { tableData: tableData });
-        res.json(resultData);
     }
     catch (err) {
         const { name, message } = err;
