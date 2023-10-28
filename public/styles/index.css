@@ -699,7 +699,6 @@ html[data-site=dashboard] > body > header {
 }
 html[data-site=dashboard] > body > header > .heading {
   justify-content: space-between;
-  padding: 2rem 16rem;
   display: flex;
 }
 html[data-site=dashboard] > body > header > .heading > .info {
@@ -709,7 +708,6 @@ html[data-site=dashboard] > body > header > .heading > .info > h2 {
   color: var(--typography-primary);
 }
 html[data-site=dashboard] > body > header > nav {
-  padding: 0rem 16rem;
   justify-content: space-between;
   display: flex;
 }
@@ -771,7 +769,6 @@ html[data-site=dashboard] > body > .overview {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
   display: grid;
-  padding: 2rem 16rem;
   gap: 2rem;
 }
 html[data-site=dashboard] > body > .overview > div {
@@ -813,6 +810,7 @@ html[data-site=dashboard] > body > .table {
   flex-direction: column;
   min-height: 0;
   display: grid;
+  border: 1px solid var(--background-tertiary);
 }
 html[data-site=dashboard] > body > .table > .loader {
   background-color: var(--background-secondary);
@@ -822,7 +820,6 @@ html[data-site=dashboard] > body > .table > .loader {
   grid-row: 1;
   display: flex;
   z-index: 2;
-  border: 1px solid var(--background-tertiary);
   gap: 0.5rem;
 }
 html[data-site=dashboard] > body > .table > .content {
@@ -835,9 +832,6 @@ html[data-site=dashboard] > body > .table > .content {
 }
 html[data-site=dashboard] > body > .table > .content > .controls {
   grid-template-columns: 1fr auto;
-  border-right: 1px solid var(--background-tertiary);
-  border-left: 1px solid var(--background-tertiary);
-  border-top: 1px solid var(--background-tertiary);
   padding: 1rem;
   display: grid;
   width: auto;
@@ -920,8 +914,6 @@ html[data-site=dashboard] > body > .table > .content > .controls > button[type=s
 html[data-site=dashboard] > body > .table > .content > .data {
   grid-template-columns: 100%;
   grid-template-rows: auto auto 1fr;
-  border-right: 1px solid var(--background-tertiary);
-  border-left: 1px solid var(--background-tertiary);
   min-height: 0;
   display: grid;
 }
@@ -930,6 +922,7 @@ html[data-site=dashboard] > body > .table > .content > .data > .headers {
   border-bottom: 1px solid var(--background-tertiary);
   padding-right: 2rem;
   align-items: center;
+  border-top: 1px solid var(--background-tertiary);
   grid-row: 2;
   display: grid;
   padding: 1rem;
@@ -1013,11 +1006,9 @@ html[data-site=dashboard] > body > .table > .content > .data > .entries > .entry
 }
 html[data-site=dashboard] > body > .table > .content > .pagination {
   justify-content: space-between;
-  border-bottom: 1px solid var(--background-tertiary);
-  border-right: 1px solid var(--background-tertiary);
-  border-left: 1px solid var(--background-tertiary);
   align-items: center;
   flex-shrink: 0;
+  border-top: 1px solid var(--background-tertiary);
   display: flex;
   padding: 1rem;
 }
@@ -1086,65 +1077,67 @@ html[data-site=dashboard] > body > footer {
 
 @media only screen and (min-width: 1480px) {
   html[data-site=dashboard] > body > header > .heading {
-    padding: 2rem 8rem;
+    margin: 2rem 8rem;
   }
   html[data-site=dashboard] > body > header > nav {
-    padding: 0rem 8rem;
+    margin: 0rem 8rem;
   }
   html[data-site=dashboard] > body > .overview {
-    padding: 2rem 8rem;
+    margin: 2rem 8rem;
   }
   html[data-site=dashboard] > body > .controls {
-    padding: 0rem 8rem;
+    margin: 0rem 8rem;
   }
   html[data-site=dashboard] > body > footer {
-    padding: 2rem 8rem;
+    margin: 2rem 8rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 8rem;
+    margin: 0rem 8rem;
   }
 }
 @media only screen and (max-width: 1480px) {
   html[data-site=dashboard] > body > header > .heading {
-    padding: 2rem 4rem;
+    margin: 2rem 4rem;
   }
   html[data-site=dashboard] > body > header > nav {
-    padding: 0rem 4rem;
+    margin: 0rem 4rem;
   }
   html[data-site=dashboard] > body > .overview {
-    padding: 2rem 4rem;
+    margin: 2rem 4rem;
   }
   html[data-site=dashboard] > body > .controls {
-    padding: 0rem 4rem;
+    margin: 0rem 4rem;
   }
   html[data-site=dashboard] > body > footer {
-    padding: 2rem 4rem;
+    margin: 2rem 4rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 4rem;
+    margin: 0rem 4rem;
   }
 }
 @media only screen and (max-width: 1300px) {
-  html[data-site=dashboard] > body > header > nav > .actions > div > h2 {
-    display: none;
-  }
   html[data-site=dashboard] > body > header > .heading {
-    padding: 2rem 2rem;
+    margin: 2rem 2rem;
   }
   html[data-site=dashboard] > body > header > nav {
-    padding: 0rem 2rem;
+    margin: 0rem 2rem;
   }
   html[data-site=dashboard] > body > .overview {
-    padding: 2rem 2rem;
+    margin: 2rem 2rem;
   }
   html[data-site=dashboard] > body > .controls {
-    padding: 0rem 2rem;
+    margin: 0rem 2rem;
   }
   html[data-site=dashboard] > body > footer {
-    padding: 2rem;
+    margin: 2rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 2rem;
+    margin: 0rem 2rem;
+  }
+}
+@media only screen and (max-width: 1100px) {
+  html[data-site=dashboard] > body > header > nav > .actions > div > h2 {
+    display: none;
   }
 }
 @media only screen and (max-width: 800px) {
@@ -1152,10 +1145,10 @@ html[data-site=dashboard] > body > footer {
     display: none;
   }
   html[data-site=dashboard] > body > header > .heading {
-    padding: 1rem 1rem;
+    margin: 1rem 1rem;
   }
   html[data-site=dashboard] > body > header > nav {
-    padding: 0rem 1rem;
+    margin: 0rem 1rem;
   }
   html[data-site=dashboard] > body > .overview {
     flex-direction: column;
@@ -1164,13 +1157,13 @@ html[data-site=dashboard] > body > footer {
     gap: 1rem;
   }
   html[data-site=dashboard] > body > .controls {
-    padding: 0rem 1rem;
+    margin: 0rem 1rem;
   }
   html[data-site=dashboard] > body > footer {
-    padding: 1rem;
+    margin: 1rem;
   }
   html[data-site=dashboard] > body > .table {
-    padding: 0rem 1rem;
+    margin: 0rem 1rem;
   }
 }
 @media only screen and (max-width: 640px) {
@@ -1182,7 +1175,7 @@ html[data-site=dashboard] > body > footer {
     text-align: left;
   }
   html[data-site=dashboard] > body > footer {
-    padding: 1rem;
+    margin: 1rem;
   }
 }
 html[data-site=login] h1 {

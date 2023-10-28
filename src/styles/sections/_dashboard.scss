@@ -638,7 +638,6 @@ html[data-site="dashboard"] {
             & > .heading {
 
                 justify-content: space-between;
-                padding: 2rem 16rem;
                 display: flex;
 
                 & > .info {
@@ -653,7 +652,6 @@ html[data-site="dashboard"] {
 
             & > nav {
 
-                padding: 0rem 16rem;
                 justify-content: space-between;
                 display: flex;
 
@@ -747,7 +745,6 @@ html[data-site="dashboard"] {
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: auto;
             display: grid;
-            padding: 2rem 16rem;
             gap: 2rem;
 
             & > div {
@@ -803,6 +800,7 @@ html[data-site="dashboard"] {
             flex-direction: column;
             min-height: 0;
             display: grid;
+            border: 1px solid var(--background-tertiary);
 
             & > .loader {
                 
@@ -813,7 +811,6 @@ html[data-site="dashboard"] {
                 grid-row: 1;
                 display: flex;
                 z-index: 2;
-                border: 1px solid var(--background-tertiary);
                 gap: 0.5rem;
 
             }
@@ -830,9 +827,6 @@ html[data-site="dashboard"] {
                 & > .controls {
 
                     grid-template-columns: 1fr auto;
-                    border-right: 1px solid var(--background-tertiary);
-                    border-left: 1px solid var(--background-tertiary);
-                    border-top: 1px solid var(--background-tertiary);
                     padding: 1rem;
                     display: grid;
                     width: auto;
@@ -884,8 +878,6 @@ html[data-site="dashboard"] {
     
                     grid-template-columns: 100%;
                     grid-template-rows: auto auto 1fr;
-                    border-right: 1px solid var(--background-tertiary);
-                    border-left: 1px solid var(--background-tertiary);
                     min-height: 0;
                     display: grid;
     
@@ -895,6 +887,7 @@ html[data-site="dashboard"] {
                         border-bottom: 1px solid var(--background-tertiary);
                         padding-right: 2rem;
                         align-items: center;
+                        border-top: 1px solid var(--background-tertiary);
                         grid-row: 2;
                         display: grid;
                         padding: 1rem;
@@ -1028,11 +1021,9 @@ html[data-site="dashboard"] {
                 & > .pagination {
     
                     justify-content: space-between;
-                    border-bottom: 1px solid var(--background-tertiary);
-                    border-right: 1px solid var(--background-tertiary);
-                    border-left: 1px solid var(--background-tertiary);
                     align-items: center;
                     flex-shrink: 0;
+                    border-top: 1px solid var(--background-tertiary);
                     display: flex;
                     padding: 1rem;
     
@@ -1157,12 +1148,12 @@ html[data-site="dashboard"] {
 
     html[data-site="dashboard"] {
 
-        & > body > header > .heading { padding: 2rem 8rem; }
-        & > body > header > nav { padding: 0rem 8rem; }
-        & > body > .overview { padding: 2rem 8rem; }
-        & > body > .controls { padding: 0rem 8rem; }
-        & > body > footer { padding: 2rem 8rem; }
-        & > body > .table { padding: 0rem 8rem; }
+        & > body > header > .heading { margin: 2rem 8rem; }
+        & > body > header > nav { margin: 0rem 8rem; }
+        & > body > .overview { margin: 2rem 8rem; }
+        & > body > .controls { margin: 0rem 8rem; }
+        & > body > footer { margin: 2rem 8rem; }
+        & > body > .table { margin: 0rem 8rem; }
 
     }
 
@@ -1172,12 +1163,12 @@ html[data-site="dashboard"] {
 
     html[data-site="dashboard"] {
 
-        & > body > header > .heading { padding: 2rem 4rem; }
-        & > body > header > nav { padding: 0rem 4rem; }
-        & > body > .overview { padding: 2rem 4rem; }
-        & > body > .controls { padding: 0rem 4rem; }
-        & > body > footer { padding: 2rem 4rem; }
-        & > body > .table { padding: 0rem 4rem; }
+        & > body > header > .heading { margin: 2rem 4rem; }
+        & > body > header > nav { margin: 0rem 4rem; }
+        & > body > .overview { margin: 2rem 4rem; }
+        & > body > .controls { margin: 0rem 4rem; }
+        & > body > footer { margin: 2rem 4rem; }
+        & > body > .table { margin: 0rem 4rem; }
 
     }
 
@@ -1187,13 +1178,22 @@ html[data-site="dashboard"] {
 
     html[data-site="dashboard"] {
 
+        & > body > header > .heading { margin: 2rem 2rem; }
+        & > body > header > nav { margin: 0rem 2rem; }
+        & > body > .overview { margin: 2rem 2rem; }
+        & > body > .controls { margin: 0rem 2rem; }
+        & > body > footer { margin: 2rem; }
+        & > body > .table { margin: 0rem 2rem; }
+
+    }
+
+}
+
+@media only screen and (max-width: 1100px) {
+
+    html[data-site="dashboard"] {
+
         & > body > header > nav > .actions > div > h2 { display: none; }
-        & > body > header > .heading { padding: 2rem 2rem; }
-        & > body > header > nav { padding: 0rem 2rem; }
-        & > body > .overview { padding: 2rem 2rem; }
-        & > body > .controls { padding: 0rem 2rem; }
-        & > body > footer { padding: 2rem; }
-        & > body > .table { padding: 0rem 2rem; }
 
     }
 
@@ -1204,8 +1204,8 @@ html[data-site="dashboard"] {
     html[data-site="dashboard"] {
 
         & > body > header > nav > .tabs > div > h2 { display: none; }
-        & > body > header > .heading { padding: 1rem 1rem; }
-        & > body > header > nav { padding: 0rem 1rem; }
+        & > body > header > .heading { margin: 1rem 1rem; }
+        & > body > header > nav { margin: 0rem 1rem; }
         & > body > .overview {
             
             flex-direction: column;
@@ -1214,9 +1214,9 @@ html[data-site="dashboard"] {
             gap: 1rem;
             
         }
-        & > body > .controls { padding: 0rem 1rem; }
-        & > body > footer { padding: 1rem; }
-        & > body > .table { padding: 0rem 1rem; }
+        & > body > .controls { margin: 0rem 1rem; }
+        & > body > footer { margin: 1rem; }
+        & > body > .table { margin: 0rem 1rem; }
 
     }
 
@@ -1234,7 +1234,7 @@ html[data-site="dashboard"] {
         }
 
         & > body > header > .heading > .info { text-align: left; }
-        & > body > footer { padding: 1rem; }
+        & > body > footer { margin: 1rem; }
 
     }
 
