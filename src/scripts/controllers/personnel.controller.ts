@@ -158,11 +158,7 @@ export const personnelTableFetch = async (req: Request, res: Response): Promise<
 
     try {
 
-        setTimeout(async () => 
-            
-            res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 
-        
-        2500)
+        setTimeout(async () => res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 500)
 
     } catch (err) {
 
@@ -275,7 +271,7 @@ export const personnelTableRegister = async (req: Request, res: Response): Promi
 
         }
 
-        setTimeout(() => res.sendStatus(200), 2500)
+        setTimeout(() => res.sendStatus(200), 500)
 
     } catch (err) {
 
@@ -391,7 +387,7 @@ export const personnelTableEdit = async (req: Request, res: Response): Promise<v
         
         }
 
-        setTimeout(() => res.sendStatus(200), 2500)
+        setTimeout(() => res.sendStatus(200), 500)
 
     } catch (err) {
 
@@ -482,7 +478,7 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
         await setStudent()
         await setBook()
 
-        setTimeout(async () => res.sendStatus(200), 2500)
+        setTimeout(async () => res.sendStatus(200), 500)
 
     } catch (err) {
 
@@ -513,7 +509,7 @@ export const personnelTableDelete = async (req: Request, res: Response): Promise
 
         await utils.executeDatabaseQuery(`DELETE FROM ${ table } WHERE id = ?`, [ id ])
 
-        setTimeout(async() => res.sendStatus(200), 2500)
+        setTimeout(async() => res.sendStatus(200), 500)
 
     } catch (err) {
 
@@ -692,7 +688,7 @@ export const personnelAccountLogout = async (req: Request, res: Response): Promi
 
         res.clearCookie('pMemory').clearCookie('pAccess').clearCookie('pData')
 
-        setTimeout(() => res.sendStatus(200), 2500)
+        setTimeout(() => res.sendStatus(200), 500)
 
     } catch (err) {
 

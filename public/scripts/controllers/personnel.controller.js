@@ -107,7 +107,7 @@ export const personnelTableFetch = async (req, res) => {
     const fetchTab = req.params.tab;
     const fetchQuery = req.params.query || null;
     try {
-        setTimeout(async () => res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 2500);
+        setTimeout(async () => res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 500);
     }
     catch (err) {
         const { name, message } = err;
@@ -188,7 +188,7 @@ export const personnelTableRegister = async (req, res) => {
                 await users();
                 break;
         }
-        setTimeout(() => res.sendStatus(200), 2500);
+        setTimeout(() => res.sendStatus(200), 500);
     }
     catch (err) {
         const { name, message } = err;
@@ -274,7 +274,7 @@ export const personnelTableEdit = async (req, res) => {
                 await users();
                 break;
         }
-        setTimeout(() => res.sendStatus(200), 2500);
+        setTimeout(() => res.sendStatus(200), 500);
     }
     catch (err) {
         const { name, message } = err;
@@ -338,7 +338,7 @@ export const personnelTableLend = async (req, res) => {
         };
         await setStudent();
         await setBook();
-        setTimeout(async () => res.sendStatus(200), 2500);
+        setTimeout(async () => res.sendStatus(200), 500);
     }
     catch (err) {
         const { name, message } = err;
@@ -362,7 +362,7 @@ export const personnelTableDelete = async (req, res) => {
                 break;
         }
         await utils.executeDatabaseQuery(`DELETE FROM ${table} WHERE id = ?`, [id]);
-        setTimeout(async () => res.sendStatus(200), 2500);
+        setTimeout(async () => res.sendStatus(200), 500);
     }
     catch (err) {
         const { name, message } = err;
@@ -485,7 +485,7 @@ export const personnelAccountLogout = async (req, res) => {
             token: token
         });
         res.clearCookie('pMemory').clearCookie('pAccess').clearCookie('pData');
-        setTimeout(() => res.sendStatus(200), 2500);
+        setTimeout(() => res.sendStatus(200), 500);
     }
     catch (err) {
         const { name, message } = err;
