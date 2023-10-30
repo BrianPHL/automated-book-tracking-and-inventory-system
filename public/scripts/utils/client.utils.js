@@ -2,9 +2,9 @@ import { DateTime } from "../../../node_modules/luxon/build/es6/luxon.js";
 export const delay = async (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 };
-export const checkForms = async (form, isInputAndPreview) => {
+export const checkForms = (form, isInputAndPreview) => {
     const submit = form.querySelector('button[type="submit"]');
-    const checkFormInputsAndPreviews = async () => {
+    const checkFormInputsAndPreviews = () => {
         const inputs = form.querySelectorAll('input');
         const previews = form.querySelectorAll('div[data-type="preview"]');
         for (const input of inputs) {
@@ -22,7 +22,7 @@ export const checkForms = async (form, isInputAndPreview) => {
         submit.disabled = false;
         return;
     };
-    const checkFormInputs = async () => {
+    const checkFormInputs = () => {
         const inputs = form.querySelectorAll('input');
         for (const input of inputs) {
             if (input.value.trim() === "") {
@@ -34,8 +34,8 @@ export const checkForms = async (form, isInputAndPreview) => {
     };
     try {
         isInputAndPreview
-            ? await checkFormInputsAndPreviews()
-            : await checkFormInputs();
+            ? checkFormInputsAndPreviews()
+            : checkFormInputs();
     }
     catch (err) {
         console.error(err.name, err.message);

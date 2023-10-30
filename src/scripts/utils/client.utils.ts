@@ -4,11 +4,11 @@ export const delay = async (milliseconds: number): Promise<void> => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-export const checkForms = async (form: HTMLFormElement, isInputAndPreview: boolean): Promise<void> => {
+export const checkForms = (form: HTMLFormElement, isInputAndPreview: boolean): void => {
 
     const submit: HTMLButtonElement = form.querySelector('button[type="submit"]');
     
-    const checkFormInputsAndPreviews = async (): Promise<void> => {
+    const checkFormInputsAndPreviews = (): Promise<void> => {
 
         const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll('input');
         const previews: NodeListOf<HTMLInputElement> = form.querySelectorAll('div[data-type="preview"]');
@@ -39,7 +39,7 @@ export const checkForms = async (form: HTMLFormElement, isInputAndPreview: boole
         return
 
     }
-    const checkFormInputs = async (): Promise<void> => {
+    const checkFormInputs = (): Promise<void> => {
 
         const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll('input');
 
@@ -61,8 +61,8 @@ export const checkForms = async (form: HTMLFormElement, isInputAndPreview: boole
     try {
 
         isInputAndPreview
-        ? await checkFormInputsAndPreviews()
-        : await checkFormInputs()
+        ? checkFormInputsAndPreviews()
+        : checkFormInputs()
 
     } catch (err) {
 
