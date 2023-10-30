@@ -69,7 +69,7 @@ export const personnelTableOverview = async (req, res) => {
     const type = "personnel";
     const tab = req.params.tab;
     try {
-        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 250);
+        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 500);
     }
     catch (err) {
         const { name, message } = err;

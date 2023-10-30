@@ -96,7 +96,7 @@ export const personnelTableOverview = async (req: Request, res: Response): Promi
 
     try {
 
-        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 250)
+        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 500)
 
     } catch (err) {
 

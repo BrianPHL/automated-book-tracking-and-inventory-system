@@ -199,9 +199,7 @@ export const setDashboardData = async (type, tab = "dashboard") => {
     try {
         loaders.overview.forEach((loader) => { loader.style.display = 'flex'; });
         loaders.table.style.display = 'flex';
-        await setAccountData();
-        await setOverviewData();
-        await setTableData();
+        Promise.all([setAccountData(), setOverviewData(), setTableData()]);
     }
     catch (err) {
         const errorData = await errorPrompt({

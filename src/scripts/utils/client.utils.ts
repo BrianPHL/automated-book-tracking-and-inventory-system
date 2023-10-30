@@ -315,9 +315,7 @@ export const setDashboardData = async (type: string, tab: string = "dashboard") 
         loaders.overview.forEach((loader: HTMLDivElement) => { loader.style.display = 'flex' })
         loaders.table.style.display = 'flex'
 
-        await setAccountData()
-        await setOverviewData()
-        await setTableData()
+        Promise.all([setAccountData(), setOverviewData(), setTableData()])
 
     } catch (err) {
                 
