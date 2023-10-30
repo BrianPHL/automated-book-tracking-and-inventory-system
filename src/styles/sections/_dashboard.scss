@@ -454,11 +454,17 @@ html[data-site="dashboard"] {
                         .preloader {
 
                             justify-content: center;
-                            flex-direction: column;
                             align-items: center;
                             display: flex;
                             height: 320px;
-                            gap: 8px;
+
+                            & > .info {
+
+                                align-items: center;
+                                display: flex;
+                                gap: 8px;
+
+                            }
 
                         }
 
