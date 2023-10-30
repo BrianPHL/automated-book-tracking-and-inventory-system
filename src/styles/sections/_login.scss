@@ -23,6 +23,7 @@ html[data-site="login"] {
 
             background-color: var(--background-secondary);
             flex-direction: column;
+            border-radius: 0.25rem;
             align-items: flex-start;
             padding: 2rem;
             display: flex;
@@ -54,6 +55,7 @@ html[data-site="login"] {
 
             & > .warning {
 
+                border-radius: 0.25rem;
                 align-items: center;
                 align-self: stretch;
                 padding: 0.5rem;
