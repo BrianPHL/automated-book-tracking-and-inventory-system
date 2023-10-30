@@ -573,7 +573,7 @@ export const fetchTableEntries = async (type, tab, query) => {
     const Personnel = {
         Dashboard: () => {
             return new Promise(async (resolve) => {
-                const fetchedTableData = await fetchTableData('personnel', 'dashboard');
+                const fetchedTableData = await fetchTableData('personnel', 'dashboard', query);
                 for (const data of Object.values(fetchedTableData)) {
                     const entry = `
                         <div class="entry" data-identifier="${data['id']}">

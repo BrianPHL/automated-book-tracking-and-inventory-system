@@ -91,26 +91,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     navigationActions();
     const tableActions = () => {
         let isModalOpen = false;
-        const tableControls = bodyElement.querySelectorAll('.table > .controls');
+        const tableControls = bodyElement.querySelectorAll('.table > .content > .controls');
         const modal = bodyElement.querySelector('.modal');
-        const tableSearch = () => {
-            tableControls.forEach(async (tableControl) => {
-                const tableSearchForm = tableControl.querySelector('.search');
-                const tableSearchInput = tableSearchForm.querySelector('.input > input');
-                const tableSearchSubmit = tableSearchForm.querySelector('button[data-type="search"]');
-                const currentTab = activeTable.getAttribute('data-tab');
-                const currentTabEntries = activeTable.querySelector('.data > .entries');
-                try {
-                    tableSearchInput.addEventListener('input', async () => {
-                        let response;
-                        if (tableSearchInput.value === '') {
-                            tableSearchSubmit.disabled = true;
-                            tableSearchSubmit.innerHTML =
-                                `
-                                <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                                Searching...
-                            `;
-                            response = await fetch(`/personnel/table/${currentTab}/search`, {
+        bodyElement.addEventListener('click', (event) => {
+            const target = event.target;
+            switch (target.getAttribute('data-action')) {
+                case "register":
+                    utils.openRegisterModal(target.getAttribute('data-type'), modal);
+                    break;
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
                             });
@@ -125,28 +113,36 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                         utils.checkForms(tableSearchForm, false);
                     });
+            }
+        });
+        const tableSearch = () => {
+            tableControls.forEach(async (tableControl) => {
+                try {
+                    const tableSearchForm = tableControl.querySelector('.search');
+                    const tableSearchInput = tableSearchForm.querySelector('.input > input');
+                    const tableSearchSubmit = tableSearchForm.querySelector('button[data-type="search"]');
+                    tableSearchInput.addEventListener('input', () => utils.checkForms(tableSearchForm, false));
                     tableSearchSubmit.addEventListener('click', async (event) => {
                         event.preventDefault();
-                        const searchQuery = tableSearchInput.value;
                         let response;
+                        const tableLoader = activeTable.querySelector('.loader');
+                        const tableContentEntries = activeTable.querySelector('.content > .data > .entries');
+                        tableLoader.style.display = 'flex';
                         tableSearchSubmit.disabled = true;
-                        tableSearchSubmit.innerHTML =
-                            `
-                            <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                            Searching...
-                        `;
-                        response = await fetch(`/personnel/table/${currentTab}/search/${searchQuery}`, {
+                        tableSearchSubmit.innerHTML = '<i class="fa-duotone fa-spinner-third fa-spin"></i>';
+                        response = await fetch(`
+                                /personnel/table/${activeTable.getAttribute('data-tab')}/search/${tableSearchInput.value}
+                            `, {
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
                         });
-                        currentTabEntries.innerHTML = '';
+                        tableContentEntries.innerHTML = '';
                         tableSearchSubmit.disabled = false;
-                        tableSearchSubmit.innerHTML =
-                            `
-                            <i class="fa-regular fa-magnifying-glass"></i>
-                            Search
-                        `;
-                        Object.values(await response.json()).forEach(async (data) => currentTabEntries.innerHTML += data);
+                        tableSearchSubmit.innerHTML = '<i class="fa-regular fa-magnifying-glass"></i>';
+                        Object.values(await response.json()).forEach(async (data) => {
+                            tableContentEntries.innerHTML += data;
+                        });
+                        tableLoader.style.display = 'none';
                     });
                     tableSearchInput.value = '';
                     utils.checkForms(tableSearchForm, false);
@@ -162,12 +158,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         };
         tableSearch();
-        bodyElement.addEventListener('click', async (event) => {
-            const target = event.target;
-            if (target.getAttribute('data-action') === 'register') {
-                utils.openRegisterModal(target.getAttribute('data-type'), modal);
-            }
-        });
         const entryActions = () => {
             bodyElement.addEventListener('click', async (event) => {
                 const target = event.target;

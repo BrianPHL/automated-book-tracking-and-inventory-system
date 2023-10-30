@@ -792,7 +792,7 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
             return new Promise(async (resolve) => {
 
-                const fetchedTableData = await fetchTableData('personnel', 'dashboard')
+                const fetchedTableData = await fetchTableData('personnel', 'dashboard', query)
 
                 for (const data of Object.values(fetchedTableData)) {
 

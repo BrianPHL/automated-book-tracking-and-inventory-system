@@ -145,21 +145,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let isModalOpen: boolean = false
 
-        const tableControls: NodeListOf<HTMLDivElement> = bodyElement.querySelectorAll('.table > .controls')
+        const tableControls: NodeListOf<HTMLDivElement> = bodyElement.querySelectorAll('.table > .content > .controls')
         const modal: HTMLDivElement = bodyElement.querySelector('.modal')
-        const tableSearch = () => {
 
-            tableControls.forEach(async (tableControl: HTMLDivElement) => {
+        bodyElement.addEventListener('click', (event: Event) => {
 
-                const tableSearchForm: HTMLFormElement = tableControl.querySelector('.search')
-                const tableSearchInput: HTMLInputElement = tableSearchForm.querySelector('.input > input')
-                const tableSearchSubmit: HTMLButtonElement = tableSearchForm.querySelector('button[data-type="search"]')
-                const currentTab: string = activeTable.getAttribute('data-tab')
-                const currentTabEntries: HTMLDivElement = activeTable.querySelector('.data > .entries')
+            const target = event.target as HTMLElement
 
-                try {
+            switch (target.getAttribute('data-action')) {
 
-                    tableSearchInput.addEventListener('input', async (): Promise<void> => {
+                case "register":
+                    utils.openRegisterModal(target.getAttribute('data-type'), modal)
+                    break;
+                
 
                         let response: Response
     
@@ -194,36 +192,54 @@ document.addEventListener('DOMContentLoaded', async () => {
                         utils.checkForms(tableSearchForm, false)
     
                     })
+
+            }
+
+        })
+
+        const tableSearch = (): void => {
+
+            tableControls.forEach(async (tableControl: HTMLDivElement) => {
+
+                try {
+
+                    const tableSearchForm: HTMLFormElement = tableControl.querySelector('.search')
+                    const tableSearchInput: HTMLInputElement = tableSearchForm.querySelector('.input > input')
+                    const tableSearchSubmit: HTMLButtonElement = tableSearchForm.querySelector('button[data-type="search"]')
+
+                    tableSearchInput.addEventListener('input', (): void => utils.checkForms(tableSearchForm, false))
                     tableSearchSubmit.addEventListener('click', async (event: Event) => {
     
                         event.preventDefault()
     
-                        const searchQuery: string = tableSearchInput.value
                         let response: Response
+
+                        const tableLoader: HTMLDivElement = activeTable.querySelector('.loader')
+                        const tableContentEntries: HTMLDivElement = activeTable.querySelector('.content > .data > .entries')
     
+                        tableLoader.style.display = 'flex'
                         tableSearchSubmit.disabled = true
-                        tableSearchSubmit.innerHTML =
-                        `
-                            <i class="fa-duotone fa-spinner-third fa-spin"></i>
-                            Searching...
-                        `
-    
-                        response = await fetch(`/personnel/table/${ currentTab }/search/${ searchQuery }`, {
-                            method: 'GET',
-                            headers: { 'Content-Type': 'application/json' }
-                        })
-    
-                        currentTabEntries.innerHTML = ''
-                        tableSearchSubmit.disabled = false
-                        tableSearchSubmit.innerHTML =
-                        `
-                            <i class="fa-regular fa-magnifying-glass"></i>
-                            Search
-                        `
-    
-                        Object.values(await response.json()).forEach(async (data: string) => 
-                            currentTabEntries.innerHTML += data
+                        tableSearchSubmit.innerHTML = '<i class="fa-duotone fa-spinner-third fa-spin"></i>'
+                        
+                        response = await fetch(
+                            `
+                                /personnel/table/${ activeTable.getAttribute('data-tab') }/search/${ tableSearchInput.value }
+                            `, {
+                                method: 'GET',
+                                headers: { 'Content-Type': 'application/json' }
+                            }
                         )
+    
+                        tableContentEntries.innerHTML = ''
+                        tableSearchSubmit.disabled = false
+                        tableSearchSubmit.innerHTML = '<i class="fa-regular fa-magnifying-glass"></i>'
+
+                        Object.values(await response.json()).forEach(async (data: string) => {
+                            tableContentEntries.innerHTML += data
+                        
+                        })
+
+                        tableLoader.style.display = 'none'
                         
                     })
     
@@ -242,22 +258,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                 }
 
-            })
+            }) 
 
         }
         tableSearch()
-
-        bodyElement.addEventListener('click', async (event) => {
-
-            const target = event.target as HTMLElement
-
-            if (target.getAttribute('data-action') === 'register') {
-
-                utils.openRegisterModal(target.getAttribute('data-type'), modal)
-
-            }
-
-        })
         
         const entryActions = () => {
 
