@@ -223,7 +223,7 @@ export const setDashboardData = async (type: string, tab: string = "dashboard") 
 
     const loaders: { overview: NodeListOf<HTMLDivElement>, table: HTMLDivElement } = {
         overview: document.querySelectorAll('.overview > div > .loader'),
-        table: document.querySelector(`.table[data-tab="${ tab }"] > .loader`)
+        table: document.querySelector(`.table[data-tab="${ tab }"] > .content > .loader`)
     }
     const setAccountData = async (): Promise<void> => {
 

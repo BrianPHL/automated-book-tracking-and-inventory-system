@@ -812,19 +812,9 @@ html[data-site=dashboard] > body > .table {
   display: grid;
   border: 1px solid var(--background-tertiary);
 }
-html[data-site=dashboard] > body > .table > .loader {
-  background-color: var(--background-secondary);
-  justify-content: center;
-  align-items: center;
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  z-index: 2;
-  gap: 0.5rem;
-}
 html[data-site=dashboard] > body > .table > .content {
   grid-template-columns: 100%;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   grid-column: 1;
   min-height: 0;
   grid-row: 1;
@@ -927,9 +917,19 @@ html[data-site=dashboard] > body > .table > .content > .controls > button[type=s
 html[data-site=dashboard] > body > .table > .content > .controls > button[type=submit] > i {
   pointer-events: none;
 }
+html[data-site=dashboard] > body > .table > .content > .loader {
+  background-color: var(--background-secondary);
+  justify-content: center;
+  align-items: center;
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  z-index: 2;
+  gap: 0.5rem;
+}
 html[data-site=dashboard] > body > .table > .content > .data {
   grid-template-columns: 100%;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr auto;
   grid-column: 1;
   min-height: 0;
   grid-row: 2;
@@ -941,7 +941,7 @@ html[data-site=dashboard] > body > .table > .content > .data > .headers {
   padding-right: 2rem;
   align-items: center;
   border-top: 1px solid var(--background-tertiary);
-  grid-row: 2;
+  grid-row: 1;
   display: grid;
   padding: 1rem;
   gap: 1rem;
@@ -978,7 +978,7 @@ html[data-site=dashboard] > body > .table > .content > .data > .headers > .warni
 }
 html[data-site=dashboard] > body > .table > .content > .data > .entries {
   overflow-y: scroll;
-  grid-row: 3;
+  grid-row: 2;
 }
 html[data-site=dashboard] > body > .table > .content > .data > .entries > .entry {
   grid-template-rows: 100%;
@@ -1022,7 +1022,7 @@ html[data-site=dashboard] > body > .table > .content > .data > .entries > .entry
   cursor: pointer;
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > .table > .content > .pagination {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination {
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
@@ -1032,34 +1032,34 @@ html[data-site=dashboard] > body > .table > .content > .pagination {
   display: flex;
   padding: 1rem;
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls {
   align-items: center;
   display: flex;
   gap: 1rem;
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls > div {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > div {
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls > div > i[aria-disabled=true] {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > div > i[aria-disabled=true] {
   cursor: not-allowed;
   color: var(--typography-secondary);
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls > div > i[aria-disabled=false] {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > div > i[aria-disabled=false] {
   transition: 0.2s all ease;
   cursor: pointer;
   color: var(--typography-primary);
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls > div > i[aria-disabled=false]:hover {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > div > i[aria-disabled=false]:hover {
   color: var(--accent-primary);
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls > h3 {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > h3 {
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls > h3 > input {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > h3 > input {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
@@ -1073,7 +1073,7 @@ html[data-site=dashboard] > body > .table > .content > .pagination > .controls >
   color: var(--typography-primary);
   width: 2rem;
 }
-html[data-site=dashboard] > body > .table > .content > .pagination > .controls > h3 > input:hover, html[data-site=dashboard] > body > .table > .content > .pagination > .controls > h3 > input:focus {
+html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > h3 > input:hover, html[data-site=dashboard] > body > .table > .content > .data > .pagination > .controls > h3 > input:focus {
   border-color: var(--accent-primary);
   outline: none;
 }

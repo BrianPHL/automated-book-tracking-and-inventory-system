@@ -139,7 +139,7 @@ export const retrieveDashboardData = async (type, tab) => {
 export const setDashboardData = async (type, tab = "dashboard") => {
     const loaders = {
         overview: document.querySelectorAll('.overview > div > .loader'),
-        table: document.querySelector(`.table[data-tab="${tab}"] > .loader`)
+        table: document.querySelector(`.table[data-tab="${tab}"] > .content > .loader`)
     };
     const setAccountData = async () => {
         return new Promise(async (resolve) => {
