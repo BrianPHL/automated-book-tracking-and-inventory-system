@@ -845,6 +845,19 @@ html[data-site=dashboard] > body > .table > .content > .controls > .search {
   display: flex;
   gap: 0rem;
 }
+html[data-site=dashboard] > body > .table > .content > .controls > .search > .return {
+  margin-right: 1rem;
+}
+html[data-site=dashboard] > body > .table > .content > .controls > .search > .return > i {
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+html[data-site=dashboard] > body > .table > .content > .controls > .search > .return:hover {
+  cursor: pointer;
+}
+html[data-site=dashboard] > body > .table > .content > .controls > .search > .return:hover > i {
+  color: var(--accent-primary);
+}
 html[data-site=dashboard] > body > .table > .content > .controls > .search > .input {
   position: relative;
   align-items: center;

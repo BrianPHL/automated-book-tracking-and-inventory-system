@@ -840,6 +840,30 @@ html[data-site="dashboard"] {
                         grid-column: 1;
                         display: flex;
                         gap: 0rem;
+
+                        & > .return {
+
+                            margin-right: 1rem;
+    
+                            & > i {
+                            
+                                pointer-events: none;
+                                transition: 0.2s ease all; 
+                            
+                            }
+                            &:hover {
+    
+                                cursor: pointer;
+    
+                                & > i {
+    
+                                    color: var(--accent-primary);
+    
+                                }
+    
+                            }
+    
+                        }
         
                         & > .input {
         
