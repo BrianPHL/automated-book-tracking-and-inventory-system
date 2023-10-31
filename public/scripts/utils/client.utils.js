@@ -144,7 +144,7 @@ export const setDashboardData = async (type, tab = "dashboard") => {
     const setAccountData = async () => {
         return new Promise(async (resolve) => {
             const accountResponse = await fetch(`
-                    /${type}/account/retrieve
+                    /${type}/account/fetch
                 `, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }

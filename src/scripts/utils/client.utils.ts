@@ -231,7 +231,7 @@ export const setDashboardData = async (type: string, tab: string = "dashboard") 
 
             const accountResponse: Response = await fetch(
                 `
-                    /${ type }/account/retrieve
+                    /${ type }/account/fetch
                 `, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
