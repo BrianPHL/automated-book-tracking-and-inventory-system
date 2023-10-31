@@ -137,7 +137,146 @@ export const personnelTableData = async (req: Request, res: Response): Promise<v
 }
 
 export const personnelModalData = async (req: Request, res: Response): Promise<void> => {
+
+    let fetchedModalData: string[] = []
+
+    const type: string = req.params.tab
+
+    try {
+
+        const Students = async (): Promise<void> => {
+
+            return new Promise(async (resolve) => {
+
+                const fetchedTableData = await utils.fetchTableData('personnel', 'students', 'vacant')
+
+                for (const data of Object.values(fetchedTableData)) {
     
+                    const entry =
+                    `
+                        <div class="entry" data-selected="false">
+                            <div class="preview">
+                                <h3 class="name">${data['full_name']}</h3>
+                                <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                            </div>
+                            <div class="dropdown" data-hidden="true">
+                                <div class="identifier">
+                                    <h3>
+                                        <span class="heading">Identifier: </span> 
+                                        <span class="data">${data['id']}</span>
+                                    </h3>
+                                </div>
+                                <div class="studentNumber">
+                                    <h3>
+                                        <span class="heading">Student number: </span> 
+                                        <span class="data">${data['student_number']}</span>
+                                    </h3>
+                                </div>
+                                <div class="phoneNumber">
+                                    <h3>        
+                                        <span class="heading">Phone number: </span> 
+                                        <span class="data">${data['phone_number']}</span>
+                                    </h3>
+                                </div>
+                                <div class="email">
+                                    <h3>        
+                                        <span class="heading">Email address: </span>
+                                        <span class="data">${data['email']}</span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    `
+
+                    fetchedModalData.push(entry)
+    
+                }
+
+                resolve()
+
+            })
+            
+        }
+
+        const Inventory = async (): Promise<void> => {
+
+            return new Promise(async (resolve) => {
+
+                const fetchedTableData = await utils.fetchTableData('personnel', 'inventory', 'available')
+
+                for (const data of Object.values(fetchedTableData)) {
+
+                    const entry =
+                    `
+                        <div class="entry" data-selected="false">
+                            <div class="preview">
+                                <h3 class="name">${data['title']}</h3>
+                                <i class="toggleDropdown fa-solid fa-caret-down"></i>
+                            </div>
+                            <div class="dropdown" data-hidden="true">
+                                <div class="identifier">
+                                    <h3>    
+                                        <span class="heading">Identifier: </span>
+                                        <span class="data">${data['id']}</span>
+                                    </h3>
+                                </div>
+                                <div class="genre">
+                                    <h3>    
+                                        <span class="heading">Genre: </span>
+                                        <span class="data">${data['genre']}</span>
+                                    </h3>
+                                </div>
+                                <div class="author">
+                                    <h3>    
+                                        <span class="heading">Author: </span>
+                                        <span class="data">${data['author']}</span>
+                                    </h3>
+                                </div>
+                                <div class="datePublicized">
+                                    <h3>
+                                        <span class="heading">Publication date: </span>
+                                        <span class="data">${data['date_publicized']}</span>
+                                    </h3>
+                                </div>
+                                <div class="dateAdded">
+                                    <h3>    
+                                        <span class="heading">Inventory date: </span>
+                                        ${data['date_added']}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    `
+
+                    fetchedModalData.push(entry)
+
+                }
+
+                resolve()
+
+            })
+
+        }
+
+        switch (type) {
+
+            case 'students': await Students(); break
+            case 'inventory': await Inventory(); break
+
+        }
+
+        await utils.delay(500)
+        res.status(200).json(fetchedModalData)
+
+    } catch (err) {
+
+        const { name, message } = err
+
+        console.error(name, message)
+        res.status(500).json({ title: name, status: 500, body: message })
+
+    }
+
 }
 
 export const personnelModalRegister = async (req: Request, res: Response): Promise<void> => {

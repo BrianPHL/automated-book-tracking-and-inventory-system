@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             assignModalPreloader.style.display = 'flex';
                             assignModalContainer.style.display = 'none';
                             response = await fetch(`
-                                    /personnel/table/students/data/fetch/Vacant
+                                    /personnel/modal/students/entries/fetch
                                 `, {
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             assignModalPreloader.style.display = 'flex';
                             assignModalContainer.style.display = 'none';
                             response = await fetch(`
-                                /personnel/table/students/data/fetch/Available
+                                    /personnel/modal/inventory/entries/fetch
                                 `, {
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
@@ -280,47 +280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             assignModalPreloader.style.display = 'none';
                             assignModalContainer.style.display = 'flex';
                             Object.values(await response.json()).forEach((data) => {
-                                const entry = `
-                                <div class="entry" data-selected="false">
-                                    <div class="preview">
-                                        <h3 class="name">${data['title']}</h3>
-                                        <i class="toggleDropdown fa-solid fa-caret-down"></i>
-                                    </div>
-                                    <div class="dropdown" data-hidden="true">
-                                        <div class="identifier">
-                                            <h3>    
-                                                <span class="heading">Identifier: </span>
-                                                <span class="data">${data['id']}</span>
-                                            </h3>
-                                        </div>
-                                        <div class="genre">
-                                            <h3>    
-                                                <span class="heading">Genre: </span>
-                                                <span class="data">${data['genre']}</span>
-                                            </h3>
-                                        </div>
-                                        <div class="author">
-                                            <h3>    
-                                                <span class="heading">Author: </span>
-                                                <span class="data">${data['author']}</span>
-                                            </h3>
-                                        </div>
-                                        <div class="datePublicized">
-                                            <h3>
-                                                <span class="heading">Publication date: </span>
-                                                <span class="data">${data['date_publicized']}</span>
-                                            </h3>
-                                        </div>
-                                        <div class="dateAdded">
-                                            <h3>    
-                                                <span class="heading">Inventory date: </span>
-                                                ${data['date_added']}
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                `;
-                                assignModalContainer.innerHTML += entry;
+                                assignModalContainer.innerHTML += data;
                                 entriesCounter++;
                                 assignModalCounter.textContent = entriesCounter.toString();
                                 assignModalEntries = assignModalContainer.querySelectorAll('.entry');
