@@ -381,6 +381,7 @@ html[data-site=dashboard] > body .modal > div > .delete {
 }
 html[data-site=dashboard] > body .modal > div > .delete > .prompt {
   background-color: var(--background-secondary);
+  border-radius: 0.25rem;
   align-items: center;
   grid-column: 1;
   grid-row: 1;
