@@ -3,13 +3,7 @@ import * as controller from "../../controllers/personnel.controller.js";
 
 const personnelTableRoute = express.Router();
 
-personnelTableRoute.get("/:tab/overview/retrieve", controller.personnelTableOverview)
-personnelTableRoute.get("/:tab/data/retrieve", controller.personnelTableData)
-personnelTableRoute.get("/:tab/search/:query?", controller.personnelTableSearch)
-personnelTableRoute.get("/:tab/fetch/:query?", controller.personnelTableFetch)
-personnelTableRoute.post("/:tab/register", controller.personnelTableRegister)
-personnelTableRoute.post("/:tab/edit", controller.personnelTableEdit)
-personnelTableRoute.post("/:tab/lend", controller.personnelTableLend)
-personnelTableRoute.post("/:tab/delete/:id", controller.personnelTableDelete)
+personnelTableRoute.get("/:tab/overview/fetch", controller.personnelTableOverview)
+personnelTableRoute.get("/:tab/entries/fetch/:query?", controller.personnelTableData)
 
 export default personnelTableRoute

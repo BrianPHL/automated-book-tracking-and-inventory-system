@@ -151,7 +151,7 @@ export const setDashboardData = async (type, tab = "dashboard") => {
             let data;
             const overviews = document.querySelectorAll('.overview > div > .data');
             response = await fetch(`
-                    /${type}/table/${tab}/overview/retrieve
+                    /${type}/table/${tab}/overview/fetch
                 `, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
@@ -171,7 +171,7 @@ export const setDashboardData = async (type, tab = "dashboard") => {
             const table = document.querySelector(`.table[data-tab="${tab}"]`);
             const entries = table.querySelector('.data > .entries');
             response = await fetch(`
-                    /${type}/table/${tab}/data/retrieve
+                    /${type}/table/${tab}/entries/fetch
                 `, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
@@ -242,7 +242,7 @@ export const openRegisterModal = async (type, modal) => {
                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Registering...
             `;
-            await fetch(`/personnel/table/${type}/register`, {
+            await fetch(`/personnel/modal/${type}/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(fetchedData)
@@ -405,8 +405,8 @@ export const openEditModal = async (type, modal, entry) => {
                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Updating...
             `;
-            await fetch(`/personnel/table/${type}/edit`, {
-                method: 'POST',
+            await fetch(`/personnel/modal/${type}/edit`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(fetchedData)
             });
@@ -467,15 +467,15 @@ export const openDeleteModal = async (type, modal, entry) => {
         });
         deleteModalBtns['submit'].addEventListener('click', async (event) => {
             const button = event.target;
-            const entryIdentifier = entry.getAttribute('data-identifier');
+            const id = entry.getAttribute('data-identifier');
             event.preventDefault();
             button.innerHTML =
                 `
                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
                 Deleting...
             `;
-            await fetch(`/personnel/table/${type}/delete/${entryIdentifier}`, {
-                method: 'POST',
+            await fetch(`/personnel/modal/${type}/delete/${id}`, {
+                method: "DELETE",
                 headers: { 'Content-Type': 'application/json' }
             });
             deleteModalPrompts['success'].style.display = 'flex';

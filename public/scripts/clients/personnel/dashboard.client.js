@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     break;
                 case "return":
                     (async () => {
+                        const tableTab = activeTable.getAttribute('data-tab');
                         const tableLoader = activeTable.querySelector('.content > .loader');
                         const tableControl = activeTable.querySelector('.content > .controls');
                         const tableContentEntries = activeTable.querySelector('.content > .data > .entries');
@@ -115,7 +116,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
                             `;
                             response = await fetch(`
-                                    /personnel/table/${activeTable.getAttribute('data-tab')}/data/retrieve
+                                    /personnel/table/${tableTab}/entries/fetch
                                 `, {
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
@@ -155,6 +156,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     tableSearchSubmit.addEventListener('click', async (event) => {
                         event.preventDefault();
                         let response;
+                        const tableTab = activeTable.getAttribute('data-tab');
+                        const tableQuery = tableSearchInput.value;
                         const tableLoader = activeTable.querySelector('.content > .loader');
                         const tableSearchReturn = tableSearchForm.querySelector('.return');
                         const tableContentEntries = activeTable.querySelector('.content > .data > .entries');
@@ -162,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         tableSearchSubmit.disabled = true;
                         tableSearchSubmit.innerHTML = '<i class="fa-duotone fa-spinner-third fa-spin"></i>';
                         response = await fetch(`
-                                /personnel/table/${activeTable.getAttribute('data-tab')}/search/${tableSearchInput.value}
+                                /personnel/table/${tableTab}/entries/fetch/${tableQuery}
                             `, {
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' }
@@ -248,49 +251,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                             assignModalHeading.textContent = 'Choose a student';
                             assignModalPreloader.style.display = 'flex';
                             assignModalContainer.style.display = 'none';
-                            response = await fetch(`/personnel/table/students/fetch/Vacant`, {
+                            response = await fetch(`
+                                    /personnel/table/students/data/fetch/Vacant
+                                `, {
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
                             });
                             assignModalPreloader.style.display = 'none';
                             assignModalContainer.style.display = 'flex';
                             Object.values(await response.json()).forEach((data) => {
-                                const entry = `
-                                    <div class="entry" data-selected="false">
-                                        <div class="preview">
-                                            <h3 class="name">${data['full_name']}</h3>
-                                            <i class="toggleDropdown fa-solid fa-caret-down"></i>
-                                        </div>
-                                        <div class="dropdown" data-hidden="true">
-                                            <div class="identifier">
-                                                <h3>
-                                                    <span class="heading">Identifier: </span> 
-                                                    <span class="data">${data['id']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="studentNumber">
-                                                <h3>
-                                                    <span class="heading">Student number: </span> 
-                                                    <span class="data">${data['student_number']}</span>
-                                                </h3>
-                                            </div>
-                                            <div class="phoneNumber">
-                                                <h3>        
-                                                    <span class="heading">Phone number: </span> 
-                                                    <span class="data">${data['phone_number']}</span>
-                                                </h3>
-                                            </div>
-
-                                            <div class="email">
-                                                <h3>        
-                                                    <span class="heading">Email address: </span>
-                                                    <span class="data">${data['email']}</span>
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                                assignModalContainer.innerHTML += entry;
+                                assignModalContainer.innerHTML += data;
                                 entriesCounter++;
                                 assignModalCounter.textContent = entriesCounter.toString();
                                 assignModalEntries = assignModalContainer.querySelectorAll('.entry');
@@ -301,7 +271,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                             assignModalHeading.textContent = 'Choose a book';
                             assignModalPreloader.style.display = 'flex';
                             assignModalContainer.style.display = 'none';
-                            response = await fetch(`/personnel/table/inventory/fetch/Available`, {
+                            response = await fetch(`
+                                /personnel/table/students/data/fetch/Available
+                                `, {
                                 method: 'GET',
                                 headers: { 'Content-Type': 'application/json' }
                             });
@@ -442,8 +414,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 <i class="fa-duotone fa-spinner-third fa-spin"></i>
                                 Updating...
                             `;
-                            await fetch(`/personnel/table/${type}/lend`, {
-                                method: "POST",
+                            await fetch(`/personnel/modal/${type}/lend`, {
+                                method: "PUT",
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(data)
                             });

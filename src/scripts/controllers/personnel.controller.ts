@@ -48,7 +48,7 @@ export const personnelLoginAuth = async (req: Request, res: Response): Promise<v
                 identifier: username,
                 password: password                
             })
-
+            await utils.delay(500)
             res
             .cookie("pMemory", uuidToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -96,7 +96,8 @@ export const personnelTableOverview = async (req: Request, res: Response): Promi
 
     try {
 
-        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 500)
+        await utils.delay(500)
+        res.status(200).json(await utils.fetchOverviewData(type, tab))
 
     } catch (err) {
 
@@ -113,10 +114,16 @@ export const personnelTableData = async (req: Request, res: Response): Promise<v
 
     const type: string = "personnel"
     const tab: string = req.params.tab
+    const query: string = req.params.query
 
     try {
 
-        setTimeout(async () => res.json(await utils.fetchTableEntries(type, tab)), 500)
+        await utils.delay(500)
+        res.status(200).json(
+            !query
+            ? await utils.fetchTableEntries(type, tab)
+            : await utils.fetchTableEntries(type, tab, query)
+        )
 
     } catch (err) {
 
@@ -129,49 +136,11 @@ export const personnelTableData = async (req: Request, res: Response): Promise<v
 
 }
 
-export const personnelTableSearch = async (req: Request, res: Response): Promise<void> => {
-
-    const type: string = 'personnel'
-    const tab: string = req.params.tab
-    const query: string = req.params.query || null
-
-    try {
-
-        setTimeout(async () => res.json(await utils.fetchTableEntries(type, tab, query)), 500)
-
-    } catch (err) {
-
-        const { name, message } = err
-
-        console.error(name, message)
-        res.status(500).json({ title: name, status: 500, body: message });
-
-    }
-
-}
-
-export const personnelTableFetch = async (req: Request, res: Response): Promise<void> => {
-
-    const fetchType: string = "personnel"
-    const fetchTab: string = req.params.tab
-    const fetchQuery: string = req.params.query || null
-
-    try {
-
-        setTimeout(async () => res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 500)
-
-    } catch (err) {
-
-        const { name, message } = err
-
-        console.error(name, message)
-        res.status(500).json({ title: name, status: 500, body: message });
-
-    }
+export const personnelModalData = async (req: Request, res: Response): Promise<void> => {
     
 }
 
-export const personnelTableRegister = async (req: Request, res: Response): Promise<void> => {
+export const personnelModalRegister = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
@@ -271,7 +240,8 @@ export const personnelTableRegister = async (req: Request, res: Response): Promi
 
         }
 
-        setTimeout(() => res.sendStatus(200), 500)
+        await utils.delay(500)
+        res.sendStatus(200)
 
     } catch (err) {
 
@@ -283,7 +253,7 @@ export const personnelTableRegister = async (req: Request, res: Response): Promi
     }
 }
 
-export const personnelTableEdit = async (req: Request, res: Response): Promise<void> => {
+export const personnelModalEdit = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
@@ -387,7 +357,8 @@ export const personnelTableEdit = async (req: Request, res: Response): Promise<v
         
         }
 
-        setTimeout(() => res.sendStatus(200), 500)
+        await utils.delay(500)
+        res.sendStatus(200)
 
     } catch (err) {
 
@@ -400,7 +371,7 @@ export const personnelTableEdit = async (req: Request, res: Response): Promise<v
 
 }
 
-export const personnelTableLend = async (req: Request, res: Response): Promise<void> => {
+export const personnelModalLend = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
@@ -475,10 +446,9 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
 
         }
 
-        await setStudent()
-        await setBook()
-
-        setTimeout(async () => res.sendStatus(200), 500)
+        Promise.all([ setStudent(), setBook() ])
+        await utils.delay(500)
+        res.sendStatus(200)
 
     } catch (err) {
 
@@ -491,7 +461,7 @@ export const personnelTableLend = async (req: Request, res: Response): Promise<v
 
 }
 
-export const personnelTableDelete = async (req: Request, res: Response): Promise<void> => {
+export const personnelModalDelete = async (req: Request, res: Response): Promise<void> => {
 
     try {
 
@@ -508,8 +478,8 @@ export const personnelTableDelete = async (req: Request, res: Response): Promise
         }
 
         await utils.executeDatabaseQuery(`DELETE FROM ${ table } WHERE id = ?`, [ id ])
-
-        setTimeout(async() => res.sendStatus(200), 500)
+        await utils.delay(500)
+        res.sendStatus(204)
 
     } catch (err) {
 
@@ -687,8 +657,8 @@ export const personnelAccountLogout = async (req: Request, res: Response): Promi
         })
 
         res.clearCookie('pMemory').clearCookie('pAccess').clearCookie('pData')
-
-        setTimeout(() => res.sendStatus(200), 500)
+        await utils.delay(500)
+        res.sendStatus(200)
 
     } catch (err) {
 

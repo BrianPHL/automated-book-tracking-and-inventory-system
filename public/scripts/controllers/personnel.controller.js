@@ -32,6 +32,7 @@ export const personnelLoginAuth = async (req, res) => {
                 identifier: username,
                 password: password
             });
+            await utils.delay(500);
             res
                 .cookie("pMemory", uuidToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -69,7 +70,8 @@ export const personnelTableOverview = async (req, res) => {
     const type = "personnel";
     const tab = req.params.tab;
     try {
-        setTimeout(async () => res.json(await utils.fetchOverviewData(type, tab)), 500);
+        await utils.delay(500);
+        res.status(200).json(await utils.fetchOverviewData(type, tab));
     }
     catch (err) {
         const { name, message } = err;
@@ -80,8 +82,12 @@ export const personnelTableOverview = async (req, res) => {
 export const personnelTableData = async (req, res) => {
     const type = "personnel";
     const tab = req.params.tab;
+    const query = req.params.query;
     try {
-        setTimeout(async () => res.json(await utils.fetchTableEntries(type, tab)), 500);
+        await utils.delay(500);
+        res.status(200).json(!query
+            ? await utils.fetchTableEntries(type, tab)
+            : await utils.fetchTableEntries(type, tab, query));
     }
     catch (err) {
         const { name, message } = err;
@@ -89,33 +95,9 @@ export const personnelTableData = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
-export const personnelTableSearch = async (req, res) => {
-    const type = 'personnel';
-    const tab = req.params.tab;
-    const query = req.params.query || null;
-    try {
-        setTimeout(async () => res.json(await utils.fetchTableEntries(type, tab, query)), 500);
-    }
-    catch (err) {
-        const { name, message } = err;
-        console.error(name, message);
-        res.status(500).json({ title: name, status: 500, body: message });
-    }
+export const personnelModalData = async (req, res) => {
 };
-export const personnelTableFetch = async (req, res) => {
-    const fetchType = "personnel";
-    const fetchTab = req.params.tab;
-    const fetchQuery = req.params.query || null;
-    try {
-        setTimeout(async () => res.json(await utils.fetchTableData(fetchType, fetchTab, fetchQuery)), 500);
-    }
-    catch (err) {
-        const { name, message } = err;
-        console.error(name, message);
-        res.status(500).json({ title: name, status: 500, body: message });
-    }
-};
-export const personnelTableRegister = async (req, res) => {
+export const personnelModalRegister = async (req, res) => {
     try {
         const type = req.params.tab;
         const data = req.body;
@@ -188,7 +170,8 @@ export const personnelTableRegister = async (req, res) => {
                 await users();
                 break;
         }
-        setTimeout(() => res.sendStatus(200), 500);
+        await utils.delay(500);
+        res.sendStatus(200);
     }
     catch (err) {
         const { name, message } = err;
@@ -196,7 +179,7 @@ export const personnelTableRegister = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
-export const personnelTableEdit = async (req, res) => {
+export const personnelModalEdit = async (req, res) => {
     try {
         const type = req.params.tab;
         const data = req.body;
@@ -274,7 +257,8 @@ export const personnelTableEdit = async (req, res) => {
                 await users();
                 break;
         }
-        setTimeout(() => res.sendStatus(200), 500);
+        await utils.delay(500);
+        res.sendStatus(200);
     }
     catch (err) {
         const { name, message } = err;
@@ -282,7 +266,7 @@ export const personnelTableEdit = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
-export const personnelTableLend = async (req, res) => {
+export const personnelModalLend = async (req, res) => {
     try {
         const type = req.params.tab;
         const { entryId, modalId, dueDate } = req.body;
@@ -336,9 +320,9 @@ export const personnelTableLend = async (req, res) => {
                 resolve();
             });
         };
-        await setStudent();
-        await setBook();
-        setTimeout(async () => res.sendStatus(200), 500);
+        Promise.all([setStudent(), setBook()]);
+        await utils.delay(500);
+        res.sendStatus(200);
     }
     catch (err) {
         const { name, message } = err;
@@ -346,7 +330,7 @@ export const personnelTableLend = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
-export const personnelTableDelete = async (req, res) => {
+export const personnelModalDelete = async (req, res) => {
     try {
         let table;
         const id = req.params.id;
@@ -362,7 +346,8 @@ export const personnelTableDelete = async (req, res) => {
                 break;
         }
         await utils.executeDatabaseQuery(`DELETE FROM ${table} WHERE id = ?`, [id]);
-        setTimeout(async () => res.sendStatus(200), 500);
+        await utils.delay(500);
+        res.sendStatus(204);
     }
     catch (err) {
         const { name, message } = err;
@@ -485,7 +470,8 @@ export const personnelAccountLogout = async (req, res) => {
             token: token
         });
         res.clearCookie('pMemory').clearCookie('pAccess').clearCookie('pData');
-        setTimeout(() => res.sendStatus(200), 500);
+        await utils.delay(500);
+        res.sendStatus(200);
     }
     catch (err) {
         const { name, message } = err;
