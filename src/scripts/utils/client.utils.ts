@@ -197,28 +197,6 @@ export const getDaysBetween = (firstDate: string, secondDate: string,): string =
 
 }
 
-export const retrieveDashboardData = async (type: string, tab: string) => { 
-
-    try {
-
-        const response: Response = await fetch(`/${ type }/${ tab }/retrieve`, { 
-            
-            method: 'POST', 
-            headers: { 'Content-Type': 'application/json' }
-
-        })
-
-        return response
-    
-    } catch (err) { 
-        
-        console.error(err.name, err.message)
-        throw err
-    
-    } 
-    
-}
-
 export const setDashboardData = async (type: string, tab: string = "dashboard") => {
 
     const loaders: { overview: NodeListOf<HTMLDivElement>, table: HTMLDivElement } = {

@@ -123,19 +123,6 @@ export const getDaysBetween = (firstDate, secondDate) => {
         ? `${dueDateDiff} ${dueDateDiff === 1 ? 'day' : 'days'} past due`
         : `${borrowDateDiff} ${borrowDateDiff === 1 ? 'day' : 'days'} remaining`;
 };
-export const retrieveDashboardData = async (type, tab) => {
-    try {
-        const response = await fetch(`/${type}/${tab}/retrieve`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        return response;
-    }
-    catch (err) {
-        console.error(err.name, err.message);
-        throw err;
-    }
-};
 export const setDashboardData = async (type, tab = "dashboard") => {
     const loaders = {
         overview: document.querySelectorAll('.overview > div > .loader'),
