@@ -124,8 +124,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Available</h2>
                         <h3>
-                            ${Math.floor(availableBooks[0]['count'] / books[0]['count'] * 100)}%
-                            of books
+                            <b>
+                                ${Math.floor(availableBooks[0]['count'] / books[0]['count'] * 100)}%
+                            </b>
+                            of
+                            <b>
+                                ${books[0]['count']}
+                            </b>
+                            ${books[0]['count'] === 1
+                    ? 'book'
+                    : 'books'}
                         </h3>
                     </div>
                     <h1>
@@ -139,8 +147,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Unavailable</h2>
                         <h3>
-                            ${Math.floor(unavailableBooks[0]['count'] / books[0]['count'] * 100)}%
-                            of books
+                            <b>
+                                ${Math.floor(unavailableBooks[0]['count'] / books[0]['count'] * 100)}%
+                            </b>
+                            of
+                            <b>
+                                ${books[0]['count']}
+                            </b>
+                            ${books[0]['count'] === 1
+                    ? 'book'
+                    : 'books'}
                         </h3>
                     </div>
                     <h1>
@@ -192,8 +208,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Available</h2>
                         <h3>
-                            ${Math.floor(available[0]['count'] / books[0]['count'] * 100)}%
-                            of books
+                            <b>
+                                ${Math.floor(available[0]['count'] / books[0]['count'] * 100)}%
+                            </b>
+                            of
+                            <b>
+                                ${books[0]['count']}
+                            </b>
+                            ${books[0]['count'] === 1
+                    ? 'book'
+                    : 'books'}
                         </h3>
                     </div>
                     <h1>
@@ -207,8 +231,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Borrowed</h2>
                         <h3>
-                            ${Math.floor(borrowed[0]['count'] / books[0]['count'] * 100)}%
-                            of books
+                            <b>
+                                ${Math.floor(borrowed[0]['count'] / books[0]['count'] * 100)}%
+                            </b>
+                            of
+                            <b>
+                                ${books[0]['count']}
+                            </b>
+                            ${books[0]['count'] === 1
+                    ? 'book'
+                    : 'books'}
                         </h3>
                     </div>
                     <h1>
@@ -222,8 +254,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Due</h2>
                         <h3>
-                            ${Math.floor(due[0]['count'] / books[0]['count'] * 100)}%
-                            of books
+                            <b>
+                                ${Math.floor(due[0]['count'] / books[0]['count'] * 100)}%
+                            </b>
+                            of
+                            <b>
+                                ${books['0']['count']}
+                            </b>
+                            ${books['0']['count'] === 1
+                    ? 'book'
+                    : 'books'}
                         </h3>
                     </div>
                     <h1>
@@ -275,8 +315,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Vacant</h2>
                         <h3>
-                            ${Math.floor(vacant[0]['count'] / students[0]['count'] * 100)}%
-                            of students
+                            <b>
+                                ${Math.floor(vacant[0]['count'] / students[0]['count'] * 100)}%
+                            </b>
+                            of 
+                            <b>
+                                ${students[0]['count']}
+                            </b>
+                            ${students[0]['count'] === 1
+                    ? 'student'
+                    : 'students'}
                         </h3>
                     </div>
                     <h1>
@@ -290,8 +338,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Borrower</h2>
                         <h3>
-                            ${Math.floor(borrower[0]['count'] / students[0]['count'] * 100)}%
-                            of students
+                            <b>
+                                ${Math.floor(borrower[0]['count'] / students[0]['count'] * 100)}%
+                            </b>
+                            of 
+                            <b>
+                                ${students[0]['count']}
+                            </b> 
+                            ${students[0]['count'] === 1
+                    ? 'student'
+                    : 'students'}
                         </h3>
                     </div>
                     <h1>
@@ -305,8 +361,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Due</h2>
                         <h3>
-                            ${Math.floor(due[0]['count'] / students[0]['count'] * 100)}%
-                            of students
+                            <b>
+                                ${Math.floor(due[0]['count'] / students[0]['count'] * 100)}%
+                            </b>
+                            of 
+                            <b>
+                                ${students[0]['count']}
+                            </b>
+                            ${students[0]['count'] === 1
+                    ? 'student'
+                    : 'students'}
                         </h3>
                     </div>
                     <h1>
@@ -362,8 +426,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>IT</h2>
                         <h3>
-                            ${Math.floor(IT[0]['count'] / personnel[0]['count'] * 100)}%
-                            of staffs
+                            <b>
+                                ${Math.floor(IT[0]['count'] / personnel[0]['count'] * 100)}%
+                            </b>
+                            of 
+                            <b>
+                                ${personnel[0]['count']}
+                            </b>
+                            ${personnel[0]['count'] === 1
+                    ? 'staff'
+                    : 'staffs'}
                         </h3>
                     </div>
                     <h1>
@@ -377,8 +449,16 @@ export const fetchOverviewData = async (type, tab) => {
                     <div class="header">
                         <h2>Librarian</h2>
                         <h3>
-                            ${Math.floor(librarian[0]['count'] / personnel[0]['count'] * 100)}%
-                            of staffs
+                            <b>
+                                ${Math.floor(librarian[0]['count'] / personnel[0]['count'] * 100)}%
+                            </b>
+                            of 
+                            <b>
+                                ${personnel[0]['count']}
+                            </b>
+                            ${personnel[0]['count'] === 1
+                    ? 'staff'
+                    : 'staffs'}
                         </h3>
                     </div>
                     <h1>
