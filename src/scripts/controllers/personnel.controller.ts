@@ -110,20 +110,16 @@ export const personnelTableOverview = async (req: Request, res: Response): Promi
 
 }
 
-export const personnelTableData = async (req: Request, res: Response): Promise<void> => {
+export const personnelTableEntries = async (req: Request, res: Response): Promise<void> => {
 
     const type: string = "personnel"
     const tab: string = req.params.tab
-    const query: string = req.params.query
+    const query: string = req.params.query || ''
 
     try {
 
         await utils.delay(500)
-        res.status(200).json(
-            !query
-            ? await utils.fetchTableEntries(type, tab)
-            : await utils.fetchTableEntries(type, tab, query)
-        )
+        res.status(200).json(await utils.fetchTableEntries(type, tab, query))
 
     } catch (err) {
 

@@ -79,15 +79,20 @@ export const personnelTableOverview = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
-export const personnelTableData = async (req, res) => {
+export const personnelTableEntries = async (req, res) => {
     const type = "personnel";
     const tab = req.params.tab;
-    const query = req.params.query;
+    const query = req.params.query || '';
     try {
         await utils.delay(500);
-        res.status(200).json(!query
-            ? await utils.fetchTableEntries(type, tab)
-            : await utils.fetchTableEntries(type, tab, query));
+        res.status(200).json(await utils.fetchTableEntries(type, tab, query));
+    }
+    catch (err) {
+        const { name, message } = err;
+        console.error(name, message);
+        res.status(500).json({ title: name, status: 500, body: message });
+    }
+};
     }
     catch (err) {
         const { name, message } = err;

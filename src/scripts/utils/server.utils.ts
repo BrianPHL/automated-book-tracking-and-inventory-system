@@ -17,7 +17,6 @@ export const executeDatabaseQuery = async (query: string, argument?: string | st
 
             return rows
 
-
         } else { pool.query(query, argument, (results) => { callback(results) }) }
 
     } catch (err) {
@@ -748,203 +747,9 @@ export const fetchOverviewData = async (type: string, tab: string): Promise<stri
 
 }
 
-export const fetchTableData = async (type: string, tab: string, query?: string): Promise<string[]> => {
-
-    let fetchedTableData: string[] = []
-
-    const Personnel: { [ key: string ]: Function } = {
-
-        Dashboard: (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                !query
-                ? fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT 
-                        id, title, status, borrower, borrower_number, 
-                        date_borrowed, date_due, date_publicized, 
-                        date_added
-                    FROM 
-                        books
-                    `
-                )
-                : fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT 
-                        id, title, status, borrower, borrower_number, 
-                        date_borrowed, date_due, date_publicized, 
-                        date_added
-                    FROM 
-                        books
-                    WHERE
-                        LOWER(title) LIKE LOWER('%${ query }%') 
-                        OR LOWER(status) LIKE LOWER('%${ query }%')
-                        OR LOWER(borrower) LIKE LOWER('%${ query }%')
-                        OR LOWER(borrower_number) LIKE LOWER('%${ query }%')
-                        OR LOWER(date_borrowed) LIKE LOWER('%${ query }%')
-                        OR LOWER(date_due) LIKE LOWER('%${ query }%')
-                        OR LOWER(date_publicized) LIKE LOWER('%${ query }%')
-                        OR LOWER(date_added) LIKE LOWER('%${ query }%')
-                    `
-                )
-    
-                resolve()
-    
-            })
-
-        },
-        Inventory: (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                !query
-                ? fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT
-                        id, title, status, author, genre, 
-                        date_publicized, date_added 
-                    FROM
-                        books
-                    `
-                )
-                : fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT
-                        id, title, status, author, genre, 
-                        date_publicized, date_added 
-                    FROM
-                        books
-                    WHERE
-                        LOWER(title) LIKE LOWER('%${ query }%')
-                        OR LOWER(status) LIKE LOWER('%${ query }%')
-                        OR LOWER(author) LIKE LOWER('%${ query }%')
-                        OR LOWER(genre) LIKE LOWER('%${ query }%')
-                        OR LOWER(date_publicized) LIKE LOWER('%${ query }%')
-                        OR LOWER(date_added) LIKE LOWER('%${ query }%')
-                    `
-                )
-    
-                resolve()
-    
-            })
-
-        },
-        Students: (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                !query
-                ? fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT
-                        id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
-                        status, borrowed_book, phone_number, email
-                    FROM
-                        students
-                    `
-                )
-                : fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT
-                        id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
-                        status, borrowed_book, phone_number, email
-                    FROM
-                        students
-                    WHERE
-                        LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER('%${ query }%')
-                        OR LOWER(student_number) LIKE LOWER('%${ query }%')
-                        OR LOWER(status) LIKE LOWER('%${ query }%')
-                        OR LOWER(borrowed_book) LIKE LOWER('%${ query }%')
-                        OR LOWER(phone_number) LIKE LOWER('%${ query }%')
-                        OR LOWER(email) LIKE LOWER('%${ query }%')
-                    `
-                )
-    
-                resolve()
-    
-            })
-
-        },
-        Users: (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                !query
-                ? fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT
-                        id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
-                    FROM
-                        personnel
-                    `
-                )
-                : fetchedTableData = await executeDatabaseQuery(
-                    `
-                    SELECT
-                        id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
-                    FROM
-                        personnel
-                    WHERE
-                        LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER('%${ query }%')
-                        OR LOWER(last_name) LIKE LOWER('%${ query }%')
-                        OR LOWER(username) LIKE LOWER('%${ query }%')
-                        OR LOWER(role) LIKE LOWER('%${ query }%')
-                    `
-                )
-    
-                resolve()
-    
-            })
-
-        }
-
-    }
-
-    const Student: { Dashboard: Function } = {
-
-        Dashboard: (): Promise<void> => {
-
-            return new Promise(async (resolve) => {
-
-                // TODO: idjot.
-                resolve()
-
-            })
-
-        }
-
-    }
-
-    try {
-
-        switch (tab) {
-
-            case 'dashboard': 
-                type === 'personnel' 
-                ? await Personnel.Dashboard() 
-                : await Student.Dashboard(); 
-                break;
-            case 'inventory': await Personnel.Inventory(); break;
-            case 'students': await Personnel.Students(); break;
-            case 'users': await Personnel.Users(); break;
-
-        }
-
-        return fetchedTableData
-
-    } catch (err) {
-
-        console.error(err.name, err.message)
-        throw err
-
-    }
-
-}
-
 export const fetchTableEntries = async (type: string, tab: string, query?: string): Promise<string[]> => {
 
-    let fetchedTableEntries: string[] = []
+    let entriesData: string[] = []
 
     const Personnel: { [ key: string ]: Function } = {
 
@@ -952,9 +757,41 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
             return new Promise(async (resolve) => {
 
-                const fetchedTableData = await fetchTableData('personnel', 'dashboard', query)
+                const fetchedData = await executeDatabaseQuery(
 
-                for (const data of Object.values(fetchedTableData)) {
+                    !query
+                    ? 
+                        `
+                            SELECT 
+                                id, title, status, borrower, borrower_number, 
+                                date_borrowed, date_due, date_publicized, 
+                                date_added
+                            FROM 
+                                books
+                        `
+                    
+                    :
+                        `
+                            SELECT 
+                                id, title, status, borrower, borrower_number, 
+                                date_borrowed, date_due, date_publicized, 
+                                date_added
+                            FROM 
+                                books
+                            WHERE
+                                LOWER(title) LIKE LOWER('%${ query }%') 
+                                OR LOWER(status) LIKE LOWER('%${ query }%')
+                                OR LOWER(borrower) LIKE LOWER('%${ query }%')
+                                OR LOWER(borrower_number) LIKE LOWER('%${ query }%')
+                                OR LOWER(date_borrowed) LIKE LOWER('%${ query }%')
+                                OR LOWER(date_due) LIKE LOWER('%${ query }%')
+                                OR LOWER(date_publicized) LIKE LOWER('%${ query }%')
+                                OR LOWER(date_added) LIKE LOWER('%${ query }%')
+                        `
+
+                )
+
+                for (const data of Object.values(fetchedData)) {
 
                     const entry =
                     `
@@ -1034,7 +871,7 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                         </div>
                     `
 
-                    fetchedTableEntries.push(entry)
+                    entriesData.push(entry)
                 
                 }
 
@@ -1048,9 +885,36 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
             return new Promise(async (resolve) => {
 
-                const fetchedTableData = await fetchTableData('personnel', 'inventory', query)
+                const fetchedData = await executeDatabaseQuery(
 
-                for (const data of Object.values(fetchedTableData)) {
+                    !query
+                    ?
+                        `
+                            SELECT
+                                id, title, status, author, genre, 
+                                date_publicized, date_added 
+                            FROM
+                                books
+                        `
+                    :
+                        `
+                            SELECT
+                                id, title, status, author, genre, 
+                                date_publicized, date_added 
+                            FROM
+                                books
+                            WHERE
+                                LOWER(title) LIKE LOWER('%${ query }%')
+                                OR LOWER(status) LIKE LOWER('%${ query }%')
+                                OR LOWER(author) LIKE LOWER('%${ query }%')
+                                OR LOWER(genre) LIKE LOWER('%${ query }%')
+                                OR LOWER(date_publicized) LIKE LOWER('%${ query }%')
+                                OR LOWER(date_added) LIKE LOWER('%${ query }%')
+                        `
+
+                )
+
+                for (const data of Object.values(fetchedData)) {
 
                     const entry =
                     `
@@ -1107,7 +971,7 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                         </div>
                     `
                         
-                    fetchedTableEntries.push(entry)
+                    entriesData.push(entry)
                         
                 }
 
@@ -1121,9 +985,36 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
             return new Promise(async (resolve) => {
 
-                const fetchedTableData = await fetchTableData('personnel', 'students', query)
+                const fetchedData = await executeDatabaseQuery(
 
-                for (const data of Object.values(fetchedTableData)) {
+                    !query
+                    ?
+                        `
+                            SELECT
+                                id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
+                                status, borrowed_book, phone_number, email
+                            FROM
+                                students
+                        `
+                    :
+                        `
+                            SELECT
+                                id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
+                                status, borrowed_book, phone_number, email
+                            FROM
+                                students
+                            WHERE
+                                LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER('%${ query }%')
+                                OR LOWER(student_number) LIKE LOWER('%${ query }%')
+                                OR LOWER(status) LIKE LOWER('%${ query }%')
+                                OR LOWER(borrowed_book) LIKE LOWER('%${ query }%')
+                                OR LOWER(phone_number) LIKE LOWER('%${ query }%')
+                                OR LOWER(email) LIKE LOWER('%${ query }%')
+                        `
+
+                )
+
+                for (const data of Object.values(fetchedData)) {
                 
                     const entry =
                     `
@@ -1185,7 +1076,7 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                     </div>
                     `
                         
-                    fetchedTableEntries.push(entry)
+                    entriesData.push(entry)
                         
                 }
 
@@ -1199,9 +1090,32 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
             return new Promise(async (resolve) => {
 
-                const fetchedTableData = await fetchTableData('personnel', 'users', query)
+                const fetchedData = await executeDatabaseQuery(
 
-                for (const data of Object.values(fetchedTableData)) {
+                    !query
+                    ?
+                        `
+                            SELECT
+                                id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
+                            FROM
+                                personnel  
+                        `
+                    :
+                        `
+                            SELECT
+                                id, CONCAT(first_name, ' ', last_name) AS full_name, username, role
+                            FROM
+                                personnel
+                            WHERE
+                                LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER('%${ query }%')
+                                OR LOWER(last_name) LIKE LOWER('%${ query }%')
+                                OR LOWER(username) LIKE LOWER('%${ query }%')
+                                OR LOWER(role) LIKE LOWER('%${ query }%')
+                        `
+
+                )
+
+                for (const data of Object.values(fetchedData)) {
 
                     const entry =
                     `
@@ -1252,7 +1166,7 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
                     </div>
                     `
         
-                    fetchedTableEntries.push(entry)
+                    entriesData.push(entry)
         
                 }
 
@@ -1293,7 +1207,7 @@ export const fetchTableEntries = async (type: string, tab: string, query?: strin
 
         }
 
-        return fetchedTableEntries
+        return entriesData
 
     } catch (err) {
         
