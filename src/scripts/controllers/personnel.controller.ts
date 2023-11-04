@@ -144,9 +144,20 @@ export const personnelModalData = async (req: Request, res: Response): Promise<v
 
             return new Promise(async (resolve) => {
 
-                const fetchedTableData = await utils.fetchTableData('personnel', 'students', 'vacant')
+                const fetchedData = await utils.executeDatabaseQuery(
+                    `
+                        SELECT
+                            id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
+                            status, borrowed_book, phone_number, email
+                        FROM
+                            students
+                        WHERE
+                            status = ?    
+                        `,
+                    ['Vacant']
+                )
 
-                for (const data of Object.values(fetchedTableData)) {
+                for (const data of Object.values(fetchedData)) {
     
                     const entry =
                     `
@@ -198,9 +209,20 @@ export const personnelModalData = async (req: Request, res: Response): Promise<v
 
             return new Promise(async (resolve) => {
 
-                const fetchedTableData = await utils.fetchTableData('personnel', 'inventory', 'available')
+                const fetchedData = await utils.executeDatabaseQuery(
+                    `
+                        SELECT
+                            id, title, status, author, genre, 
+                            date_publicized, date_added 
+                        FROM
+                            books
+                        WHERE
+                            status = ?    
+                        `,
+                    ['Available']
+                )
 
-                for (const data of Object.values(fetchedTableData)) {
+                for (const data of Object.values(fetchedData)) {
 
                     const entry =
                     `

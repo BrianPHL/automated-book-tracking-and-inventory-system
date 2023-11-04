@@ -93,21 +93,22 @@ export const personnelTableEntries = async (req, res) => {
         res.status(500).json({ title: name, status: 500, body: message });
     }
 };
-    }
-    catch (err) {
-        const { name, message } = err;
-        console.error(name, message);
-        res.status(500).json({ title: name, status: 500, body: message });
-    }
-};
 export const personnelModalData = async (req, res) => {
     let fetchedModalData = [];
     const type = req.params.tab;
     try {
         const Students = async () => {
             return new Promise(async (resolve) => {
-                const fetchedTableData = await utils.fetchTableData('personnel', 'students', 'vacant');
-                for (const data of Object.values(fetchedTableData)) {
+                const fetchedData = await utils.executeDatabaseQuery(`
+                        SELECT
+                            id, CONCAT(first_name, ' ', last_name) AS full_name, student_number, 
+                            status, borrowed_book, phone_number, email
+                        FROM
+                            students
+                        WHERE
+                            status = ?    
+                        `, ['Vacant']);
+                for (const data of Object.values(fetchedData)) {
                     const entry = `
                         <div class="entry" data-selected="false">
                             <div class="preview">
@@ -149,8 +150,16 @@ export const personnelModalData = async (req, res) => {
         };
         const Inventory = async () => {
             return new Promise(async (resolve) => {
-                const fetchedTableData = await utils.fetchTableData('personnel', 'inventory', 'available');
-                for (const data of Object.values(fetchedTableData)) {
+                const fetchedData = await utils.executeDatabaseQuery(`
+                        SELECT
+                            id, title, status, author, genre, 
+                            date_publicized, date_added 
+                        FROM
+                            books
+                        WHERE
+                            status = ?    
+                        `, ['Available']);
+                for (const data of Object.values(fetchedData)) {
                     const entry = `
                         <div class="entry" data-selected="false">
                             <div class="preview">
