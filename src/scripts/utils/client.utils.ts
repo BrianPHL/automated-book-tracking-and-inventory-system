@@ -197,105 +197,112 @@ export const getDaysBetween = (firstDate: string, secondDate: string,): string =
 
 }
 
-export const setDashboardData = async (type: string, tab: string = "dashboard") => {
+export const setAccountData = async (type: string): Promise<void> => {
 
-    const loaders: { overview: NodeListOf<HTMLDivElement>, table: HTMLDivElement } = {
-        overview: document.querySelectorAll('.overview > div > .loader'),
-        table: document.querySelector(`.table[data-tab="${ tab }"] > .content > .loader`)
-    }
-    const setAccountData = async (): Promise<void> => {
+    return new Promise(async (resolve) => {
 
-        return new Promise(async (resolve) => {
-
-            const accountResponse: Response = await fetch(
-                `
-                    /${ type }/account/fetch
-                `, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            const accountData: JSON = await accountResponse.json()
-            const header: HTMLElement = document.querySelector('header > .heading')
-            const headerInfoName: HTMLElement = header.querySelector('.info > h2 > .name')
-            const headerInfoRole: HTMLElement = header.querySelector('.info > h3 > .role')
-            
-            headerInfoName.textContent = accountData['firstName']
-            headerInfoRole.textContent = accountData['role']
-
-            resolve()
-
+        const accountResponse: Response = await fetch(
+            `
+                /${ type }/account/fetch
+            `, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         })
+        const accountData: JSON = await accountResponse.json()
+        const header: HTMLElement = document.querySelector('header > .heading')
+        const headerInfoName: HTMLElement = header.querySelector('.info > h2 > .name')
+        const headerInfoRole: HTMLElement = header.querySelector('.info > h3 > .role')
+        
+        headerInfoName.textContent = accountData['firstName']
+        headerInfoRole.textContent = accountData['role']
 
-    }
-    const setOverviewData = async (): Promise<void> => {
+        resolve()
 
-        return new Promise(async (resolve) => {
+    })
 
-            let response: Response
-            let data: JSON
+}
 
-            const overviews: NodeListOf<HTMLDivElement> = document.querySelectorAll('.overview > div > .data')
+export const setOverviewData = async (type: string, tab: string): Promise<void> => {
+    
+    return new Promise(async (resolve) => {
 
-            response = await fetch(
-                `
-                    /${ type }/table/${ tab }/overview/fetch
-                `, {
+        let response: Response
+        let data: JSON
+
+        const overviews: NodeListOf<HTMLDivElement> = document.querySelectorAll('.overview > div > .data')
+        const loaders: NodeListOf<HTMLDivElement> = document.querySelectorAll('.overview > div > .loader')
+
+        loaders.forEach((loader: HTMLDivElement) => { loader.style.display = 'flex' })
+
+        response = await fetch(
+            `
+                /${ type }/table/${ tab }/overview/fetch
+            `, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        data = await response.json()
+
+        for (let i = 0; i < overviews.length; i++) {
+
+            overviews[i].innerHTML = data[i]
+            loaders[i].style.display = 'none'
+
+        }
+        
+        resolve()
+
+    })
+    
+}
+
+export const setTableData = async (type: string, tab: string): Promise<void> => {
+
+    return new Promise(async (resolve) => {
+
+        let response: Response
+        let data: Object
+
+        const loader: HTMLDivElement = document.querySelector(`.table[data-tab="${ tab }"] > .content > .loader`)
+        const table: HTMLDivElement = document.querySelector(`.table[data-tab="${ tab }"]`)
+        const entries: HTMLDivElement = table.querySelector('.data > .entries')
+
+        loader.style.display = 'flex'
+
+        response = await fetch(
+            `
+                /${ type }/table/${ tab }/entries/fetch
+            `, 
+            {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
-            })
-            data = await response.json()
-
-            for (let i = 0; i < overviews.length; i++) {
-
-                overviews[i].innerHTML = data[i]
-                loaders.overview[i].style.display = 'none'
-
             }
-            
-            resolve()
+        )
+        data = await response.json()
+        
+        entries.innerHTML = ''
+        
+        Object.values(data).forEach(entry => { entries.innerHTML += entry })
+        
+        loader.style.display = 'none'
+      
+        resolve()
 
-        })
+    })
+}
 
-    }
-    const setTableData = async (): Promise<void> => {
-
-        return new Promise(async (resolve) => {
-
-            let response: Response
-            let data: Object
-
-            const table: HTMLDivElement = document.querySelector(`.table[data-tab="${ tab }"]`)
-            const entries: HTMLDivElement = table.querySelector('.data > .entries')
-
-            response = await fetch(
-                `
-                    /${ type }/table/${ tab }/entries/fetch
-                `, 
-                {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            )
-            data = await response.json()
-            
-            entries.innerHTML = ''
-            
-            Object.values(data).forEach(entry => { entries.innerHTML += entry })
-            
-            loaders.table.style.display = 'none'
-          
-            resolve()
-
-        })
-
-    }
+export const setDashboardData = async (type: string, tab: string = "dashboard") => {
 
     try {
 
-        loaders.overview.forEach((loader: HTMLDivElement) => { loader.style.display = 'flex' })
-        loaders.table.style.display = 'flex'
-
-        Promise.all([setAccountData(), setOverviewData(), setTableData()])
+        Promise.all
+        (
+            [
+                setAccountData(type), 
+                setOverviewData(type, tab), 
+                setTableData(type, tab)
+            ]
+        )
 
     } catch (err) {
                 

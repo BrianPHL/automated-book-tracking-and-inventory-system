@@ -123,70 +123,72 @@ export const getDaysBetween = (firstDate, secondDate) => {
         ? `${dueDateDiff} ${dueDateDiff === 1 ? 'day' : 'days'} past due`
         : `${borrowDateDiff} ${borrowDateDiff === 1 ? 'day' : 'days'} remaining`;
 };
+export const setAccountData = async (type) => {
+    return new Promise(async (resolve) => {
+        const accountResponse = await fetch(`
+                /${type}/account/fetch
+            `, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const accountData = await accountResponse.json();
+        const header = document.querySelector('header > .heading');
+        const headerInfoName = header.querySelector('.info > h2 > .name');
+        const headerInfoRole = header.querySelector('.info > h3 > .role');
+        headerInfoName.textContent = accountData['firstName'];
+        headerInfoRole.textContent = accountData['role'];
+        resolve();
+    });
+};
+export const setOverviewData = async (type, tab) => {
+    return new Promise(async (resolve) => {
+        let response;
+        let data;
+        const overviews = document.querySelectorAll('.overview > div > .data');
+        const loaders = document.querySelectorAll('.overview > div > .loader');
+        loaders.forEach((loader) => { loader.style.display = 'flex'; });
+        response = await fetch(`
+                /${type}/table/${tab}/overview/fetch
+            `, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        data = await response.json();
+        for (let i = 0; i < overviews.length; i++) {
+            overviews[i].innerHTML = data[i];
+            loaders[i].style.display = 'none';
+        }
+        resolve();
+    });
+};
+export const setTableData = async (type, tab) => {
+    return new Promise(async (resolve) => {
+        let response;
+        let data;
+        const loader = document.querySelector(`.table[data-tab="${tab}"] > .content > .loader`);
+        const table = document.querySelector(`.table[data-tab="${tab}"]`);
+        const entries = table.querySelector('.data > .entries');
+        loader.style.display = 'flex';
+        response = await fetch(`
+                /${type}/table/${tab}/entries/fetch
+            `, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        data = await response.json();
+        entries.innerHTML = '';
+        Object.values(data).forEach(entry => { entries.innerHTML += entry; });
+        loader.style.display = 'none';
+        resolve();
+    });
+};
 export const setDashboardData = async (type, tab = "dashboard") => {
-    const loaders = {
-        overview: document.querySelectorAll('.overview > div > .loader'),
-        table: document.querySelector(`.table[data-tab="${tab}"] > .content > .loader`)
-    };
-    const setAccountData = async () => {
-        return new Promise(async (resolve) => {
-            const accountResponse = await fetch(`
-                    /${type}/account/fetch
-                `, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            const accountData = await accountResponse.json();
-            const header = document.querySelector('header > .heading');
-            const headerInfoName = header.querySelector('.info > h2 > .name');
-            const headerInfoRole = header.querySelector('.info > h3 > .role');
-            headerInfoName.textContent = accountData['firstName'];
-            headerInfoRole.textContent = accountData['role'];
-            resolve();
-        });
-    };
-    const setOverviewData = async () => {
-        return new Promise(async (resolve) => {
-            let response;
-            let data;
-            const overviews = document.querySelectorAll('.overview > div > .data');
-            response = await fetch(`
-                    /${type}/table/${tab}/overview/fetch
-                `, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            data = await response.json();
-            for (let i = 0; i < overviews.length; i++) {
-                overviews[i].innerHTML = data[i];
-                loaders.overview[i].style.display = 'none';
-            }
-            resolve();
-        });
-    };
-    const setTableData = async () => {
-        return new Promise(async (resolve) => {
-            let response;
-            let data;
-            const table = document.querySelector(`.table[data-tab="${tab}"]`);
-            const entries = table.querySelector('.data > .entries');
-            response = await fetch(`
-                    /${type}/table/${tab}/entries/fetch
-                `, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            data = await response.json();
-            entries.innerHTML = '';
-            Object.values(data).forEach(entry => { entries.innerHTML += entry; });
-            loaders.table.style.display = 'none';
-            resolve();
-        });
-    };
     try {
-        loaders.overview.forEach((loader) => { loader.style.display = 'flex'; });
-        loaders.table.style.display = 'flex';
-        Promise.all([setAccountData(), setOverviewData(), setTableData()]);
+        Promise.all([
+            setAccountData(type),
+            setOverviewData(type, tab),
+            setTableData(type, tab)
+        ]);
     }
     catch (err) {
         const errorData = await errorPrompt({
